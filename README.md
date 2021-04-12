@@ -26,4 +26,3 @@ monorepo. See each `package.json` file to learn what scripts are available.
 ## License
 
 Licensed under the [MIT License](./LICENSE).
-
