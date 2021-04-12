@@ -1,3 +1,8 @@
+
+# Created by https://www.toptal.com/developers/gitignore/api/yarn,react,node
+# Edit at https://www.toptal.com/developers/gitignore?templates=yarn,react,node
+
+### Node ###
 # Logs
 logs
 *.log
@@ -22,30 +27,9 @@ lib-cov
 coverage
 *.lcov
 
-# nyc test coverage
-.nyc_output
-
-# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
-.grunt
-
-# Bower dependency directory (https://bower.io/)
-bower_components
-
-# node-waf configuration
-.lock-wscript
-
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
-
 # Dependency directories
 node_modules/
 jspm_packages/
-
-# TypeScript v1 declaration files
-typings/
-
-# TypeScript cache
-*.tsbuildinfo
 
 # Optional npm cache directory
 .npm
@@ -53,11 +37,8 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+# Optional stylelint cache
+.stylelintcache
 
 # Optional REPL history
 .node_repl_history
@@ -71,34 +52,32 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env*.local
 
-# parcel-bundler cache (https://parceljs.org/)
-.cache
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
 
-# Next.js build output
-.next
+### react ###
+.DS_*
+**/*.backup.*
+**/*.back.*
 
-# Nuxt.js build / generate output
-.nuxt
-dist
+node_modules
 
-# Gatsby files
-.cache/
-# Comment in the public line in if your project uses Gatsby and *not* Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
+### yarn ###
+# https://yarnpkg.com/advanced/qa#which-files-should-be-gitignored
 
-# vuepress build output
-.vuepress/dist
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
 
-# Serverless directories
-.serverless/
+# if you are NOT using Zero-installs, then:
+# comment the following lines
+!.yarn/cache
 
-# FuseBox cache
-.fusebox/
+# and uncomment the following lines
+# .pnp.*
 
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
+# End of https://www.toptal.com/developers/gitignore/api/yarn,react,node
