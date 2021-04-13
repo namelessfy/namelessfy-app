@@ -1,10 +1,10 @@
-# Apollofy Music Project API
+# Namelessfy Music Project API
 
-Server App for the Apollofy music project.
+Server App for the Namelessfy music project.
 
 ## Repo
 
-- [apollofy-music-project](https://github.com/assembler-school/apollofy-music-project.git)
+- [apollofy-music-project](https://github.com/namelessfy/namelessfy-app)
 
 ## Getting Started
 

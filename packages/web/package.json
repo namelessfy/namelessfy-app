@@ -20,13 +20,29 @@
   },
   "contributors": [
     {
-      "name": "Dani Lucaci",
-      "email": "danilucaci@gmail.com",
-      "url": "https://www.danilucaci.com/"
+      "name": "Jan Puig",
+      "email": "janpuigcapella@gmail.com",
+      "github": "https://github.com/janpc"
     },
     {
-      "name": "Joan Carrion",
-      "email": "joancarrion14@gmail.com"
+      "name": "Víctor Greco Tortajada",
+      "email": "victorgreco263@gmail.com",
+      "github": "https://github.com/VictorGreco"
+    },
+    {
+      "name": "Yogesh Yadav",
+      "email": "raoyogesh78@yahoo.in",
+      "github": "https://github.com/soyyogi"
+    },
+    {
+      "name": "Froilán Olesti Casas",
+      "email": "frolesti_9@hotmail.com",
+      "github": "https://github.com/frolesti"
+    },
+    {
+      "name": "Estefanía Cordeiro Brión",
+      "email": "estefania.cbrion@gmail.com",
+      "github": "https://github.com/estefaniacordeiro"
     }
   ],
   "license": "MIT",

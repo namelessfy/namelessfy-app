@@ -1,10 +1,10 @@
-# Apollofy Web App
+# Namelessfy Web App
 
-Client App for the Apollofy project.
+Client App for the Namelessfy project.
 
 ## Repo
 
-- [apollofy-music-project](https://github.com/assembler-school/apollofy-music-project.git)
+- [apollofy-music-project](https://github.com/namelessfy/namelessfy-app)
 
 ## Getting Started
 
