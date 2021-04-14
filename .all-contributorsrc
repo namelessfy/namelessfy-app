@@ -33,11 +33,22 @@
         "data",
         "design"
       ]
+    },
+    {
+      "login": "estefaniacordeiro",
+      "name": "estefaniacordeiro",
+      "avatar_url": "https://avatars.githubusercontent.com/u/47196546?v=4",
+      "profile": "https://github.com/estefaniacordeiro",
+      "contributions": [
+        "infra",
+        "test",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
-  "projectName": "Apollofy",
-  "projectOwner": "assembler-school",
+  "projectName": "namelessfy-app",
+  "projectOwner": "namelessfy",
   "repoType": "github",
   "repoHost": "https://github.com",
   "skipCi": true
