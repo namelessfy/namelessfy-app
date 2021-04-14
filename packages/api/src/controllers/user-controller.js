@@ -47,16 +47,21 @@ async function edit(req, res) {
   const { email } = req.user;
   const updateFields = Object.keys(req.body);
   const allowedUpdates = ["firstName", "lastName", "email"];
-  const isValidUpdate = updateFields.every(property => allowedUpdates.includes(property));
+  const isValidUpdate = updateFields.every((property) =>
+    allowedUpdates.includes(property),
+  );
 
-  if(!isValidUpdate) {
+  if (!isValidUpdate) {
     res.status(400).send({
-      error: "Invalid update request"
-    })
+      error: "Invalid update request",
+    });
   }
 
   try {
-    const response = await UserRepo.findOneAndUpdate({ email: email }, req.body);
+    const response = await UserRepo.findOneAndUpdate(
+      { email: email },
+      req.body,
+    );
 
     if (response.error) {
       return res.status(400).send({

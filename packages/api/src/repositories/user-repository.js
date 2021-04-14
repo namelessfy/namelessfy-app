@@ -11,7 +11,9 @@ class UserRepository {
   }
 
   async findOneAndUpdate(query, data) {
-    const response = await normalizeDBQuery(db.User.findOneAndUpdate(query, data));
+    const response = await normalizeDBQuery(
+      db.User.findOneAndUpdate(query, data),
+    );
 
     if (response.error) {
       return response;
