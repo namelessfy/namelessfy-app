@@ -43,7 +43,29 @@ async function signOut(req, res) {
   });
 }
 
+async function me(req, res) {
+  const { email } = req.user;
+
+  try {
+    const response = await UserRepo.findOne({ email: email });
+
+    if (response.error) {
+      return res.status(400).send({
+        data: null,
+        error: response.error,
+      });
+    }
+
+    if (response.data) {
+      return res.status(200).send(response.data);
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 module.exports = {
   signUp: signUp,
   signOut: signOut,
+  me: me,
 };
