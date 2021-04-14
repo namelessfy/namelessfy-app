@@ -78,8 +78,30 @@ async function edit(req, res) {
   }
 }
 
+async function remove(req, res) {
+  const { email } = req.user;
+
+  try {
+    const response = await UserRepo.findOneAndDelete({ email: email });
+
+    if (response.error) {
+      return res.status(400).send({
+        data: null,
+        error: response.error,
+      });
+    }
+
+    res.status(200).send({
+      data: "Delete user successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
 module.exports = {
   signUp: signUp,
   signOut: signOut,
   edit: edit,
+  delete: remove,
 };

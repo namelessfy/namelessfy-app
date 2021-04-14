@@ -21,6 +21,10 @@ class UserRepository {
       return normalizeDBQuery(db.User.findOne(query, "-__v"));
     }
   }
+
+  findOneAndDelete(query) {
+    return normalizeDBQuery(db.User.findOneAndDelete(query));
+  }
 }
 
 module.exports = new UserRepository();
