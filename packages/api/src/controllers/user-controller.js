@@ -15,7 +15,7 @@ async function signUp(req, res, next) {
 
     if (response.data) {
       return res.status(200).send({
-        data: "OK",
+        data: response.data,
         error: null,
       });
     }
@@ -26,7 +26,10 @@ async function signUp(req, res, next) {
     });
 
     res.status(201).send({
-      data: "OK",
+      data: {
+        _id: uid,
+        email: email,
+      },
       error: null,
     });
   } catch (error) {

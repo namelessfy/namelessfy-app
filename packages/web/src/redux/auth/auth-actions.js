@@ -60,11 +60,13 @@ export function syncSignIn() {
       Authorization: `Bearer ${token}`,
     });
 
+    const data = response.data.data;
+
     if (response.errorMessage) {
       return dispatch(signUpError(response.errorMessage));
     }
 
-    return dispatch(signUpSuccess(response.data));
+    return dispatch(signUpSuccess(data));
   };
 }
 
