@@ -10,4 +10,10 @@ connect().then(() => {
   app.listen(config.app.port, () => {
     console.log(`Server listening on ${config.app.port}`);
   });
+}).catch(error => {
+  console.log({
+    error: error.message,
+    detail: "Unabled to connect to MongoDB",
+  });
 });
+
