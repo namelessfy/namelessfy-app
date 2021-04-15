@@ -9,43 +9,35 @@ function Home() {
   const { currentUser, signUpError } = useSelector(authSelector);
   const dispatch = useDispatch();
 
-  const [userName, setUserName] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthday, setBirthday] = useState("");
-  const [porfileImage, setPorfileImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
+
+  const formData = new FormData();
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    const formData = new FormData();
+    
     formData.append("email", currentUser.email);
-    formData.append("userName", userName);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
-    formData.append("birthday", birthday);
-    formData.append("porfileImage", porfileImage);
 
     dispatch(editUser(formData));
   }
 
   function handleSetUserName(e) {
-    setUserName(e.target.value);
+    formData.append("userName", e.target.value);
   }
 
   function handleSetFirstName(e) {
-    setFirstName(e.target.value);
+    formData.append("firstName", e.target.value);
   }
 
   function handleSetLastName(e) {
-    setLastName(e.target.value);
+    formData.append("lastName", e.target.value);
   }
   function handleSetBirthday(e) {
-    setBirthday(e.target.value);
+    formData.append("birthday", e.target.value);
   }
   function handleSetPorfileImage(e) {
-    setPorfileImage(e.target.files[0]);
+    formData.append("porfileImage", e.target.files[0]);
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
   }
 

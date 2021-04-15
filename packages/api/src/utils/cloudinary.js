@@ -7,16 +7,18 @@ cloudinary.config({
 });
 
 async function uploadToCloudinary(image) {
-  return new Promise(
-    (resolve, reject) => {
-      cloudinary.v2.uploader.upload(image, { folder: "porfileImages", width: 500}, (err, url) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.v2.uploader.upload(
+      image,
+      { folder: "porfileImages", width: 500 },
+      (err, url) => {
         if (err) {
           return reject(err);
         }
         return resolve(url);
-      });
-    },
-  );
+      },
+    );
+  });
 }
 
 module.exports = {
