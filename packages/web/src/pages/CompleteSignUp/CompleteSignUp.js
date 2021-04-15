@@ -6,8 +6,9 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 
 function Home() {
   const { currentUser, signUpError } = useSelector(authSelector);
+  const dispatch = useDispatch();
 
-  const [email, setEmail] = useState(currentUser.email);
+  const [userName, setUserName] = useState(currentUser.firstName);
   const [firstName, setFirstName] = useState(currentUser.firstName);
   const [lastName, setLastName] = useState(currentUser.lastName);
   const [birthday, setBirthday] = useState(currentUser.birthday);
@@ -17,10 +18,19 @@ function Home() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("email", currentUser.email);
+    formData.append("userName", userName);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("birthday", birthday);
+    formData.append("porfileImage", porfileImage);
+
+
   }
 
-  function handleSetEmail(e) {
-    setEmail(e.target.value);
+  function handleSetUserName(e) {
+    setUserName(e.target.value);
   }
 
   function handleSetFirstName(e) {
@@ -52,16 +62,26 @@ function Home() {
               }
             />
           </div>
+          <label htmlFor="porfileImage" className="form-label">
+            Porfile Image
+          </label>
+          <input
+            type="file"
+            id="porfileImage"
+            className="form-input"
+            accept="image/png, image/jpeg"
+            onChange={handleSetPorfileImage}
+          />
           <form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
-              Email
+              User Name
             </label>
             <input
               type="text"
-              id="email"
+              id="userName"
               className="form-input"
-              value={email}
-              onChange={handleSetEmail}
+              value={userName}
+              onChange={handleSetUserName}
             />
             <label htmlFor="firstName" className="form-label">
               First Name
@@ -92,16 +112,6 @@ function Home() {
               className="form-input"
               value={birthday}
               onChange={handleSetBirthday}
-            />
-            <label htmlFor="porfileImage" className="form-label">
-              Porfile Image
-            </label>
-            <input
-              type="file"
-              id="porfileImage"
-              className="form-input"
-              accept="image/png, image/jpeg"
-              onChange={handleSetPorfileImage}
             />
             <button className="btn btn-primary w-full" type="submit">
               Sign Up
