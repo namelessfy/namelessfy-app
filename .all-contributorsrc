@@ -6,39 +6,21 @@
   "commit": false,
   "contributors": [
     {
-      "login": "danilucaci",
-      "name": "Dani Lucaci",
-      "avatar_url": "https://avatars.githubusercontent.com/u/19062818?v=4",
-      "profile": "http://www.danilucaci.com",
-      "contributions": [
-        "code",
-        "test",
-        "content",
-        "doc",
-        "ideas",
-        "maintenance",
-        "mentoring",
-        "projectManagement",
-        "tool"
-      ]
-    },
-    {
-      "login": "JCarri14",
-      "name": "Joan Carrión Anaya",
-      "avatar_url": "https://avatars.githubusercontent.com/u/43220742?v=4",
-      "profile": "https://www.linkedin.com/in/joan-carri%C3%B3n-anaya-a074851a0/",
-      "contributions": [
-        "code",
-        "content",
-        "data",
-        "design"
-      ]
-    },
-    {
       "login": "estefaniacordeiro",
       "name": "estefaniacordeiro",
       "avatar_url": "https://avatars.githubusercontent.com/u/47196546?v=4",
       "profile": "https://github.com/estefaniacordeiro",
+      "contributions": [
+        "infra",
+        "test",
+        "code"
+      ]
+    },
+    {
+      "login": "soyyogi",
+      "name": "Yogi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49646001?v=4",
+      "profile": "https://github.com/soyyogi",
       "contributions": [
         "infra",
         "test",
