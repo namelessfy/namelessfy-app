@@ -24,6 +24,14 @@ const UserSchema = Schema(
         message: (props) => `The email ${props.value} is not valid`,
       },
     },
+    birthday: {
+      type: Date,
+      trim: true,
+    },
+    porfileImage: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
