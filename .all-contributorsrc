@@ -44,6 +44,17 @@
         "test",
         "code"
       ]
+    },
+    {
+      "login": "soyyogi",
+      "name": "Yogi",
+      "avatar_url": "https://avatars.githubusercontent.com/u/49646001?v=4",
+      "profile": "https://github.com/soyyogi",
+      "contributions": [
+        "infra",
+        "test",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
