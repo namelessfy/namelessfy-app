@@ -9,6 +9,8 @@ export const AuthInitialState = {
   isSendingPasswordReset: false,
   passwordResetError: null,
   passwordResetSent: false,
+  isEditingUser: false,
+  editUserError: null,
   currentUser: {
     email: null,
   },
@@ -100,6 +102,28 @@ const AuthReducer = (state = AuthInitialState, action) => {
         isSendingPasswordReset: false,
         passwordResetError: null,
         passwordResetSent: false,
+      };
+    }
+    case AuthTypes.EDIT_USER_REQUEST: {
+      return {
+        ...state,
+        isEditingUser: true,
+        editUserError: null,
+      };
+    }
+    case AuthTypes.EDIT_USER_ERROR: {
+      return {
+        ...state,
+        isEditingUser: false,
+        editUserError: action.payload,
+      };
+    }
+    case AuthTypes.EDIT_USER_SUCCESS: {
+      return {
+        ...state,
+        isEditingUser: false,
+        editUserError: null,
+        currentUser: action.payload,
       };
     }
     default: {

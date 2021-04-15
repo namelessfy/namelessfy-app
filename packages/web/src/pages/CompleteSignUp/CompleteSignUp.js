@@ -1,19 +1,20 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
 
+import { editUser } from "../../redux/auth/auth-actions";
+
 function Home() {
   const { currentUser, signUpError } = useSelector(authSelector);
   const dispatch = useDispatch();
 
-  const [userName, setUserName] = useState(currentUser.firstName);
-  const [firstName, setFirstName] = useState(currentUser.firstName);
-  const [lastName, setLastName] = useState(currentUser.lastName);
-  const [birthday, setBirthday] = useState(currentUser.birthday);
-  const [porfileImage, setPorfileImage] = useState(currentUser.porfileImage);
-  const [previewImage, setPreviewImage] = useState(currentUser.porfileImage);
+  const [userName, setUserName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [porfileImage, setPorfileImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -26,7 +27,7 @@ function Home() {
     formData.append("birthday", birthday);
     formData.append("porfileImage", porfileImage);
 
-
+    dispatch(editUser(formData));
   }
 
   function handleSetUserName(e) {
@@ -54,33 +55,32 @@ function Home() {
         <section className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Complete Sign Up</h1>
           <hr className="my-4" />
-          <div>
-            <img
-              src={
-                previewImage ||
-                "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
-              }
-            />
-          </div>
-          <label htmlFor="porfileImage" className="form-label">
-            Porfile Image
-          </label>
-          <input
-            type="file"
-            id="porfileImage"
-            className="form-input"
-            accept="image/png, image/jpeg"
-            onChange={handleSetPorfileImage}
-          />
           <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="form-label">
+            <div>
+              <img
+                src={
+                  previewImage ||
+                  "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
+                }
+              />
+            </div>
+            <label htmlFor="porfileImage" className="form-label">
+              Porfile Image
+            </label>
+            <input
+              type="file"
+              id="porfileImage"
+              className="form-input"
+              accept="image/png, image/jpeg"
+              onChange={handleSetPorfileImage}
+            />
+            <label htmlFor="userName" className="form-label">
               User Name
             </label>
             <input
               type="text"
               id="userName"
               className="form-input"
-              value={userName}
               onChange={handleSetUserName}
             />
             <label htmlFor="firstName" className="form-label">
@@ -90,7 +90,6 @@ function Home() {
               type="text"
               id="firstName"
               className="form-input"
-              value={firstName}
               onChange={handleSetFirstName}
             />
             <label htmlFor="lastName" className="form-label">
@@ -100,7 +99,6 @@ function Home() {
               type="text"
               id="lastName"
               className="form-input"
-              value={lastName}
               onChange={handleSetLastName}
             />
             <label htmlFor="birthday" className="form-label">
@@ -110,7 +108,6 @@ function Home() {
               type="date"
               id="birthday"
               className="form-input"
-              value={birthday}
               onChange={handleSetBirthday}
             />
             <button className="btn btn-primary w-full" type="submit">
