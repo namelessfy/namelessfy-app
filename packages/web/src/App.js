@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 
 import "./styles/App.scss";
 
+
 import * as ROUTES from "./routes";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
@@ -37,13 +38,13 @@ function App() {
 
   return (
     <div className="App__container">
-      <Switch>
-        <Route path={ROUTES.SIGN_UP} component={SignUp} />
-        <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp}/>
-        <Route path={ROUTES.LOGIN} component={Login} />
-        <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-        <Route path={ROUTES.HOME} component={Home} exact />
-      </Switch>
+        <Switch>
+          <Route path={ROUTES.SIGN_UP} component={SignUp} />
+          <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp} />
+          <Route path={ROUTES.LOGIN} component={Login} />
+          <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
+          <Route path={ROUTES.HOME} component={Home} exact />
+        </Switch>
     </div>
   );
 }

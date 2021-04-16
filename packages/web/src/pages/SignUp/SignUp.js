@@ -2,9 +2,23 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
-import "./SignUp.scss";
+import {
+  Input,
+  Label,
+  Form,
+  Button,
+  Title,
+  Separation,
+  ForgotPassword,
+  Login,
+  Error,
+  NamelessfyLogo
+} from "./styles";
 
-import Header from "../../components/Header";
+import namelessfyLogo from "../../img/namelessfyLogo.svg";
+
+import { Main } from "../../styles/mainStyles";
+
 import * as ROUTES from "../../routes";
 
 import {
@@ -56,61 +70,60 @@ function SignUp() {
 
   return (
     <>
-      <main className="SignUp">
-        <Header />
-        <section className="Login__wrapper">
-          <h1 className="text-2xl font-bold mb-6">SignUp</h1>
-          <hr className="my-4" />
-          <button
-            className="btn btn-primary w-full"
-            type="button"
-            onClick={handleLoginWithGoogle}
-            disabled={isSigningUp}
-          >
-            SignUp with Google
-          </button>
-          <hr className="mt-1 mb-4" />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
+      <Main>
+        <section>
+          <NamelessfyLogo type="svg" src={namelessfyLogo} alt="Namelessfy logo"/>
+          <Title>Sign Up</Title>
+          <Separation />
+          <Form>
+            <Button
+              type="button"
+              onClick={handleLoginWithGoogle}
+              disabled={isSigningUp}
+            >
+              Sign up with Google
+            </Button>
+          </Form>
+          <Separation />
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="email">Email</Label>
+            <Input
               type="text"
               id="email"
-              className="form-input"
               value={email}
               onChange={handleSetEmail}
             />
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
+            <Label htmlFor="password">Password</Label>
+            <Input
               type="password"
               id="password"
-              className="form-input"
               value={password}
               onChange={handleSetPassword}
             />
-            <button
-              className="btn btn-primary w-full"
-              type="submit"
-              disabled={isSigningUp}
-            >
-              Sign Up
-            </button>
-          </form>
-          {signUpError && <section className="mt-4">{signUpError}</section>}
-          <section className="mt-4">
-            <hr className="mt-1 mb-4" />
-            <Link
-              to={ROUTES.RESET_PASSWORD}
-              className="underline text-blue-gray-200 w-full text-center block"
-            >
-              Reset password
-            </Link>
+            <ForgotPassword>
+              {" "}
+              Forgot your password?
+              <div>
+                <Link to={ROUTES.RESET_PASSWORD}>Reset password</Link>
+              </div>
+            </ForgotPassword>
+            <Button type="submit" disabled={isSigningUp}>
+              Sign up
+            </Button>
+            {signUpError && <Error>Error: {signUpError}</Error>}
+          </Form>
+
+          <section>
+            <Separation />
+            <Login>
+              Alredy have an account?
+              <div>
+                <Link to={ROUTES.RESET_PASSWORD}>Log in</Link>
+              </div>
+            </Login>
           </section>
         </section>
-      </main>
+      </Main>
     </>
   );
 }

@@ -15,10 +15,7 @@ async function signUp(req, res, next) {
     }
 
     if (response.data) {
-      return res.status(200).send({
-        data: response.data,
-        error: null,
-      });
+      return res.status(200).send(response.data);
     }
 
     await UserRepo.create({
@@ -48,7 +45,6 @@ async function signOut(req, res) {
 }
 
 async function edit(req, res) {
-  console.log(req.body);
 
   let dataToUpdate = {
     ...req.body,
@@ -94,7 +90,6 @@ async function edit(req, res) {
     }
 
     if (response.data) {
-      console.log(response.data);
       return res.status(200).send(response.data);
     }
   } catch (error) {
