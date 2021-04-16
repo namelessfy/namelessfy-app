@@ -45,7 +45,6 @@ async function signOut(req, res) {
 }
 
 async function edit(req, res) {
-
   let dataToUpdate = {
     ...req.body,
   };
