@@ -180,4 +180,12 @@ const Error = styled.div`
   }
 `;
 
-export { PorfileImage, PorfileInput, Label, Form, CenterContent, Button, Error };
+export {
+  PorfileImage,
+  PorfileInput,
+  Label,
+  Form,
+  CenterContent,
+  Button,
+  Error,
+};

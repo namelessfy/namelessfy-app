@@ -12,7 +12,7 @@ import {
   ForgotPassword,
   Login,
   Error,
-  NamelessfyLogo
+  NamelessfyLogo,
 } from "./styles";
 
 import namelessfyLogo from "../../img/namelessfyLogo.svg";
@@ -72,7 +72,11 @@ function SignUp() {
     <>
       <Main>
         <section>
-          <NamelessfyLogo type="svg" src={namelessfyLogo} alt="Namelessfy logo"/>
+          <NamelessfyLogo
+            type="svg"
+            src={namelessfyLogo}
+            alt="Namelessfy logo"
+          />
           <Title>Sign Up</Title>
           <Separation />
           <Form>

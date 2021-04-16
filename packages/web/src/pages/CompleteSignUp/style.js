@@ -14,5 +14,4 @@ const Separation = styled.hr`
   margin: 0 auto;
 `;
 
-
 export { Title, Separation };

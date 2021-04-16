@@ -8,11 +8,11 @@ import { Title, Separation } from "./style";
 function CompleteSignUP() {
   return (
     <Main>
-        <section>
-          <Title>Complete Sign Up</Title>
-          <Separation />
-          <EditUserForm />
-        </section>
+      <section>
+        <Title>Complete Sign Up</Title>
+        <Separation />
+        <EditUserForm />
+      </section>
     </Main>
   );
 }

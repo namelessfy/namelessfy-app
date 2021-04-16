@@ -148,9 +148,12 @@ export function editUser(formData) {
       return dispatch(editUserError("Error Getting the token"));
     }
 
-    const response = await api.editUser({
-      Authorization: `Bearer ${token}`,
-    }, formData);
+    const response = await api.editUser(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      formData,
+    );
 
     const data = response.data;
 
