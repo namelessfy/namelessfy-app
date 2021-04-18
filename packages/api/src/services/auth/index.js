@@ -7,5 +7,5 @@ module.exports = {
   verifyAuthToken,
   getAuthToken,
   login,
-  signOut
+  signOut,
 };

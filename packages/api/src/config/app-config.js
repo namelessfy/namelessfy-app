@@ -22,7 +22,7 @@ const baseConfig = {
     info,
     error,
     trace,
-    debug
+    debug,
   },
 };
 

@@ -9,5 +9,5 @@ module.exports = {
   info,
   error,
   trace,
-  debug
+  debug,
 };

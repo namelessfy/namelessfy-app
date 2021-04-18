@@ -3,5 +3,5 @@ const logger = require("./logger");
 
 module.exports = {
   auth,
-  logger
+  logger,
 };
