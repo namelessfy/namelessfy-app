@@ -24,11 +24,8 @@ async function signUp(req, res, next) {
     });
 
     res.status(201).send({
-      data: {
-        _id: uid,
-        email: email,
-      },
-      error: null,
+      _id: uid,
+      email: email,
     });
   } catch (error) {
     next(error);

@@ -35,31 +35,33 @@ function EditUserForm() {
   function handleSubmit(e) {
     e.preventDefault();
 
-    formData.append("email", currentUser.email);
     if (porfileImage) {
       formData.append("porfileImage", porfileImage);
     }
+
+    Object.keys(user).forEach((key) => {
+      const notIncluded = ["porfileImage", "_id", "createdAt", "updatedAt"];
+      if (notIncluded.indexOf(key) === -1) {
+        formData.append(key, user[key]);
+      }
+    });
 
     dispatch(editUser(formData));
   }
 
   function handleSetUserName(e) {
     setUser({ ...user, userName: e.target.value });
-    formData.append("userName", e.target.value);
   }
 
   function handleSetFirstName(e) {
     setUser({ ...user, firstName: e.target.value });
-    formData.append("firstName", e.target.value);
   }
 
   function handleSetLastName(e) {
     setUser({ ...user, lastName: e.target.value });
-    formData.append("lastName", e.target.value);
   }
   function handleSetBirthday(e) {
     setUser({ ...user, birthday: e.target.value.slice(0, 10) });
-    formData.append("birthday", e.target.value);
   }
   function handleSetPorfileImage(e) {
     setPorfileImage(e.target.files[0]);

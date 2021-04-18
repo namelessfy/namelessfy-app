@@ -142,6 +142,7 @@ export const resetAuthState = () => ({
 
 export function editUser(formData) {
   return async function editUserThunk(dispatch) {
+    dispatch(editUserRequest());
     const token = await auth.getCurrentUserToken();
 
     if (!token) {
@@ -155,13 +156,11 @@ export function editUser(formData) {
       formData,
     );
 
-    const data = response.data;
-
     if (response.errorMessage) {
       return dispatch(editUserError(response.errorMessage));
     }
 
-    return dispatch(editUserSuccess(data));
+    return dispatch(editUserSuccess(response.data));
   };
 }
 
