@@ -1,10 +1,10 @@
-# Apollofy Music Project API
+# Namelessfy Music Project API
 
-Server App for the Apollofy music project.
+Server App for the Namelessfy music project.
 
 ## Repo
 
-- [apollofy-music-project](https://github.com/assembler-school/apollofy-music-project.git)
+- [namelessfy-music-project](https://github.com/namelessfy/namelessfy-app.git)
 
 ## Getting Started
 
@@ -22,8 +22,7 @@ The `api` package will be run by default in the following url:
 - `packages/api/src/controllers`: the controllers used in the Routes of the app
 - `packages/api/src/db`: the logic to connect to the database
 - `packages/api/src/models`: the mongoose models used in the app
-- `packages/api/src/repositories`: the repositories that perform the DB
-  operations
+- `packages/api/src/repositories`: the repositories that perform the DB operations
 - `packages/api/src/routes`: the routers used in the app
 - `packages/api/src/services`: the services used in the app, auth, logging, etc
 - `packages/api/src/utils`: helper functions
@@ -48,9 +47,9 @@ that start with `FB_` are needed for the Firebase Admin config.
 
 ```bash
 # .env
-MONGO_DB_URL_PRODUCTION=mongodb://localhost/apollofy
-MONGO_DB_URL_DEVELOPMENT=mongodb://localhost/apollofy
-MONGO_DB_URL_TEST=mongodb://localhost/apollofy
+MONGO_DB_URL_PRODUCTION=mongodb://localhost/Namelessfy
+MONGO_DB_URL_DEVELOPMENT=mongodb://localhost/Namelessfy
+MONGO_DB_URL_TEST=mongodb://localhost/Namelessfy
 PORT=4000
 FB_CERT_TYPE=...
 FB_CERT_PROJECT_ID=...

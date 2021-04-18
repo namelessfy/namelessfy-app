@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const { logger } = require("../services");
+const { warn, info, error, trace, debug } = require("../services");
 
 const {
   NODE_ENV = "development",
@@ -18,11 +18,11 @@ const baseConfig = {
     url: process.env.CLIENT_URL || "http://localhost:3000",
   },
   logger: {
-    warn: logger.warn,
-    info: logger.info,
-    error: logger.error,
-    trace: logger.trace,
-    debug: logger.debug,
+    warn,
+    info,
+    error,
+    trace,
+    debug
   },
 };
 

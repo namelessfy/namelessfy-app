@@ -12,5 +12,5 @@ function connect() {
 }
 
 module.exports = {
-  connect: connect,
+  connect
 };

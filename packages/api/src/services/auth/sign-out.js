@@ -13,5 +13,5 @@ function signOut(req = {}) {
 }
 
 module.exports = {
-  signOut: signOut,
+  signOut
 };

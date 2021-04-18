@@ -17,13 +17,13 @@ function login(req = {}, userClaims = {}) {
   }
 
   req.user = {
-    email: email,
-    uid: uid,
+    email,
+    uid
   };
 
   req.signOut = signOut;
 }
 
 module.exports = {
-  login: login,
+  login
 };

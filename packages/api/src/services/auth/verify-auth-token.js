@@ -5,5 +5,5 @@ function verifyAuthToken(token) {
 }
 
 module.exports = {
-  verifyAuthToken: verifyAuthToken,
+  verifyAuthToken
 };
