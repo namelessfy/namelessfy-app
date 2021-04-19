@@ -17,9 +17,19 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function editUser(headers, body) {
+    return request({
+      url: "/user/edit",
+      requestMethod: "PATCH",
+      headers: headers,
+      body: body,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
+    editUser: editUser,
   };
 }
 

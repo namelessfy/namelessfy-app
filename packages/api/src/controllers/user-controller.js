@@ -1,4 +1,5 @@
 const { UserRepo } = require("../repositories");
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
@@ -14,10 +15,7 @@ async function signUp(req, res, next) {
     }
 
     if (response.data) {
-      return res.status(200).send({
-        data: "OK",
-        error: null,
-      });
+      return res.status(200).send(response.data);
     }
 
     await UserRepo.create({
@@ -26,8 +24,8 @@ async function signUp(req, res, next) {
     });
 
     res.status(201).send({
-      data: "OK",
-      error: null,
+      _id: uid,
+      email: email,
     });
   } catch (error) {
     next(error);
@@ -44,9 +42,28 @@ async function signOut(req, res) {
 }
 
 async function edit(req, res) {
+  let dataToUpdate = {
+    ...req.body,
+  };
+
+  delete dataToUpdate._id;
+
+  if (req.file) {
+    const result = await uploadImageToCloudinary(req.file.path, req.body._id);
+    dataToUpdate.porfileImage = result.url;
+  }
+
   const { email } = req.user;
-  const updateFields = Object.keys(req.body);
-  const allowedUpdates = ["firstName", "lastName", "email"];
+  const updateFields = Object.keys(dataToUpdate);
+
+  const allowedUpdates = [
+    "firstName",
+    "lastName",
+    "email",
+    "userName",
+    "birthday",
+    "porfileImage",
+  ];
   const isValidUpdate = updateFields.every((property) =>
     allowedUpdates.includes(property),
   );
@@ -60,7 +77,7 @@ async function edit(req, res) {
   try {
     const response = await UserRepo.findOneAndUpdate(
       { email: email },
-      req.body,
+      dataToUpdate,
     );
 
     if (response.error) {
