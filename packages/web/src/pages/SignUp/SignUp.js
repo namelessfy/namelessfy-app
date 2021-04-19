@@ -122,7 +122,7 @@ function SignUp() {
             <Login>
               Alredy have an account?
               <div>
-                <Link to={ROUTES.RESET_PASSWORD}>Log in</Link>
+                <Link to={ROUTES.LOGIN}>Log in</Link>
               </div>
             </Login>
           </section>

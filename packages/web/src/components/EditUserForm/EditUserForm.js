@@ -30,7 +30,7 @@ function EditUserForm() {
     } else {
       setUser(currentUser);
     }
-  }, []);
+  }, [currentUser]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -40,7 +40,7 @@ function EditUserForm() {
     }
 
     Object.keys(user).forEach((key) => {
-      const notIncluded = ["porfileImage", "_id", "createdAt", "updatedAt"];
+      const notIncluded = ["porfileImage", "createdAt", "updatedAt"];
       if (notIncluded.indexOf(key) === -1) {
         formData.append(key, user[key]);
       }

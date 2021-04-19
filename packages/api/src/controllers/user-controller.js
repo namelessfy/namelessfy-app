@@ -1,5 +1,5 @@
 const { UserRepo } = require("../repositories");
-const { uploadToCloudinary } = require("../utils/cloudinary");
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
@@ -46,8 +46,10 @@ async function edit(req, res) {
     ...req.body,
   };
 
+  delete dataToUpdate._id;
+
   if (req.file) {
-    const result = await uploadToCloudinary(req.file.path);
+    const result = await uploadImageToCloudinary(req.file.path, req.body._id);
     dataToUpdate.porfileImage = result.url;
   }
 

@@ -1,6 +1,10 @@
 require("dotenv").config();
 
 var cloudinary = require("cloudinary");
+const fs = require("fs");
+const { promisify } = require("util");
+
+const unlinkAsync = promisify(fs.unlink);
 
 const {
   CLOUDINARY_CLOUD_NAME,
@@ -14,13 +18,18 @@ cloudinary.config({
   api_secret: CLOUDINARY_API_SECRET,
 });
 
-async function uploadToCloudinary(image) {
+async function uploadImageToCloudinary(image, id) {
   return new Promise((resolve, reject) => {
     cloudinary.v2.uploader.upload(
       image,
-      { folder: "porfileImages", width: 500 },
+      { upload_preset: "porfileImages", public_id: id, width: 500 },
       (err, url) => {
         if (err) {
+          return reject(err);
+        }
+        try {
+          unlinkAsync(image);
+        } catch (err) {
           return reject(err);
         }
         return resolve(url);
@@ -30,5 +39,5 @@ async function uploadToCloudinary(image) {
 }
 
 module.exports = {
-  uploadToCloudinary: uploadToCloudinary,
+  uploadImageToCloudinary: uploadImageToCloudinary,
 };
