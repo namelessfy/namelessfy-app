@@ -10,6 +10,9 @@ import {
   resetAuthState,
 } from "../../redux/auth/auth-actions";
 import { authSelector } from "../../redux/auth/auth-selectors";
+import { Form, Input, LoginButton } from "../Login/LoginStyled";
+import { ResetButton } from "./ResetStyled";
+import { Wrapper } from "../styledComponentsConfig/config";
 
 function buttonText(loading, sent) {
   if (loading) {
@@ -51,32 +54,32 @@ function ResetPassword() {
     <>
       <main className="ResetPassword">
         <Header />
-        <section className="Login__wrapper">
+        <Wrapper className="Login__wrapper">
           <h1 className="text-2xl font-bold mb-6">Password Reset</h1>
           <hr className="my-4" />
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
               Email
             </label>
-            <input
+            <Input
               type="text"
               id="email"
               className="form-input"
               value={email}
               onChange={handleSetEmail}
             />
-            <button
+            <ResetButton
               type="submit"
               className="btn btn-primary w-full"
               disabled={isSendingPasswordReset || passwordResetSent}
             >
               {buttonText(isSendingPasswordReset, passwordResetSent)}
-            </button>
-          </form>
+            </ResetButton>
+          </Form>
           {passwordResetError && (
             <section className="mt-4">{passwordResetError}</section>
           )}
-        </section>
+        </Wrapper>
       </main>
     </>
   );
