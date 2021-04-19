@@ -2,7 +2,6 @@ const { Router } = require("express");
 var multer = require("multer");
 var upload = multer({ dest: "uploads/" });
 
-
 const { authMiddleware } = require("../middlewares");
 const { userController } = require("../controllers");
 
