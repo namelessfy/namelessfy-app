@@ -18,7 +18,6 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 
 import { Formik, Form, MyTextInput } from "../../utils/utils";
 
-
 function Login() {
   const dispatch = useDispatch();
   const { isSigningUp, signUpError, isAuthenticated } = useSelector(
@@ -117,8 +116,8 @@ function Login() {
                 .password("Incorrect password")
                 .required("Required"),
             })}
-            onSubmit={async ( values, { setSubmitting }) => {
-              await new Promise(r => setTimeout(r, 500));
+            onSubmit={async (values, { setSubmitting }) => {
+              await new Promise((r) => setTimeout(r, 500));
               setSubmitting(false);
             }}
           >
