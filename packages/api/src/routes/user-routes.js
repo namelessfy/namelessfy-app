@@ -1,4 +1,6 @@
-const Router = require("express").Router;
+const { Router } = require("express");
+var multer = require("multer");
+var upload = multer({ dest: "uploads/" });
 
 const { authMiddleware, validationUserMiddleware } = require("../middlewares");
 const { userController } = require("../controllers");
@@ -11,10 +13,11 @@ userRouter.patch(
   "/user/edit",
   authMiddleware,
   validationUserMiddleware,
+  upload.single("porfileImage"),
   userController.edit,
 );
 userRouter.delete("/user/delete", authMiddleware, userController.delete);
 
 module.exports = {
-  userRouter: userRouter,
+  userRouter,
 };

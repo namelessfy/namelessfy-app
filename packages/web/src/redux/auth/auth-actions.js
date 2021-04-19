@@ -127,8 +127,9 @@ export const sendPasswordResetEmailRequest = () => ({
   type: AuthTypes.SEND_PASSWORD_RESET_EMAIL_REQUEST,
 });
 
-export const sendPasswordResetEmailError = () => ({
+export const sendPasswordResetEmailError = (message) => ({
   type: AuthTypes.SEND_PASSWORD_RESET_EMAIL_ERROR,
+  payload: message,
 });
 
 export const sendPasswordResetEmailSuccess = () => ({
@@ -137,4 +138,42 @@ export const sendPasswordResetEmailSuccess = () => ({
 
 export const resetAuthState = () => ({
   type: AuthTypes.RESET_AUTH_STATE,
+});
+
+export function editUser(formData) {
+  return async function editUserThunk(dispatch) {
+    dispatch(editUserRequest());
+    const token = await auth.getCurrentUserToken();
+
+    if (!token) {
+      return dispatch(editUserError("Error Getting the token"));
+    }
+
+    const response = await api.editUser(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      formData,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(editUserError(response.errorMessage));
+    }
+
+    return dispatch(editUserSuccess(response.data));
+  };
+}
+
+export const editUserRequest = () => ({
+  type: AuthTypes.EDIT_USER_REQUEST,
+});
+
+export const editUserError = (message) => ({
+  type: AuthTypes.EDIT_USER_ERROR,
+  payload: message,
+});
+
+export const editUserSuccess = (user) => ({
+  type: AuthTypes.EDIT_USER_SUCCESS,
+  payload: user,
 });

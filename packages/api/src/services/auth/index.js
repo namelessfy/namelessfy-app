@@ -4,8 +4,8 @@ const { login } = require("./login");
 const { signOut } = require("./sign-out");
 
 module.exports = {
-  verifyAuthToken: verifyAuthToken,
-  getAuthToken: getAuthToken,
-  login: login,
-  signOut: signOut,
+  verifyAuthToken,
+  getAuthToken,
+  login,
+  signOut,
 };

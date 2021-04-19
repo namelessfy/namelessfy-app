@@ -6,6 +6,11 @@ const UserSchema = Schema(
   {
     // we use the uid from firebase as the _id
     _id: String,
+    userName: {
+      type: String,
+      trim: true,
+      unique: true,
+    },
     firstName: {
       type: String,
       trim: true,
@@ -25,6 +30,14 @@ const UserSchema = Schema(
         validator: (value) => isEmail(value),
         message: (props) => `The email ${props.value} is not valid`,
       },
+    },
+    birthday: {
+      type: Date,
+      trim: true,
+    },
+    porfileImage: {
+      type: String,
+      trim: true,
     },
   },
   {
