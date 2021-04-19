@@ -1,11 +1,80 @@
 import styled, { keyframes } from "styled-components";
-import * as colors from "../../styles/colors";
+import * as colors from "./colors";
+import addPhotoIcon from "../img/add_a_photo_black_24dp.svg";
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: min(80%, 600px);
   margin: 2em auto;
+`;
+
+const PorfileImage = styled.div`
+  display: inline-block;
+  position: relative;
+  border-radius: 50%;
+  padding: min(40%, 150px);
+  margin: 1em 0;
+  align-self: center;
+  background-image: url(${(props) =>
+    props.src ||
+    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
+  background-size: cover;
+  background-position: center;
+  box-shadow: 2px 2px 5px #0008;
+  cursor: pointer;
+  transition: box-shadow 0.1s ease-in-out;
+
+  &::before {
+    content: "";
+    background: url("${addPhotoIcon}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 2;
+    position: absolute;
+    display: block;
+    height: min(30%, 50px);
+    width: min(30%, 50px);
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    fill: white;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &::after {
+    content: "";
+    z-index: 1;
+    background: radial-gradient(
+      circle,
+      rgba(0, 0, 0, 0.6) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+  }
+
+  &:hover,
+  &:focus {
+    box-shadow: 0px 0px 0 2px ${colors.WHITE};
+  }
+
+  @media (min-width: 1025px) {
+    &::before {
+      opacity: 0.5;
+    }
+
+    &:hover,
+    &:focus {
+      &::before {
+        opacity: 1;
+      }
+    }
+  }
 `;
 
 const Input = styled.input`
@@ -126,7 +195,7 @@ const ForgotPassword = styled.span`
   }
 `;
 
-const Login = styled.div`
+const RedirectMessage = styled.div`
   margin: 2rem auto;
   width: fit-content;
   max-width: 80%;
@@ -193,15 +262,24 @@ const NamelessfyLogo = styled.div`
   }
 `;
 
+const CenterContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
 export {
+  Button,
+  CenterContent,
+  Error,
+  ForgotPassword,
+  Form,
   Input,
   Label,
-  Form,
-  Button,
-  Title,
-  Separation,
-  ForgotPassword,
-  Login,
-  Error,
+  RedirectMessage,
   NamelessfyLogo,
+  PorfileImage,
+  Separation,
+  Title,
 };
