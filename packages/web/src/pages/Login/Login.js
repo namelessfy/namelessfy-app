@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import * as Yup from "yup";
 
 import "./Login.scss";
 
@@ -14,6 +15,9 @@ import {
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
+
+import { Formik, Form, MyTextInput } from "../../utils/utils";
+
 
 function Login() {
   const dispatch = useDispatch();
@@ -70,7 +74,7 @@ function Login() {
             Login with Google
           </button>
           <hr className="mt-1 mb-4" />
-          <form onSubmit={handleSubmit}>
+          {/* <form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
               Email
             </label>
@@ -98,7 +102,43 @@ function Login() {
             >
               Login
             </button>
-          </form>
+          </form> */}
+
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={Yup.object({
+              email: Yup.string()
+                .email("Invalid email addresss`")
+                .required("Required"),
+              password: Yup.string()
+                .password("Incorrect password")
+                .required("Required"),
+            })}
+            onSubmit={async ( values, { setSubmitting }) => {
+              await new Promise(r => setTimeout(r, 500));
+              setSubmitting(false);
+            }}
+          >
+            <Form>
+              <MyTextInput
+                label="Email Address"
+                name="email"
+                type="email"
+                /* placeholder="jane@formik.com" */
+              />
+              <MyTextInput
+                label="Password"
+                name="password"
+                type="password"
+                /* placeholder="*******" */
+              />
+              <button type="submit">Login</button>
+            </Form>
+          </Formik>
+
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
             <hr className="mt-1 mb-4" />

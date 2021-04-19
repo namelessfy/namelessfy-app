@@ -67,6 +67,7 @@
     "dotenv": "^8.2.0",
     "firebase": "^8.3.1",
     "focus-visible": "^5.2.0",
+    "formik": "^2.2.6",
     "msw": "^0.26.2",
     "node-sass": "^5.0.0",
     "normalizr": "^3.6.1",
@@ -87,7 +88,8 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@svgr/webpack": "^5.5.0",
