@@ -9,10 +9,12 @@ const UserSchema = Schema(
     firstName: {
       type: String,
       trim: true,
+      default: '',
     },
     lastName: {
       type: String,
       trim: true,
+      default: '',
     },
     email: {
       type: String,
