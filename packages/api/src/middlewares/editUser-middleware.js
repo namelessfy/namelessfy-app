@@ -4,14 +4,11 @@ const editUserValidationSchema = Joi.object({
   userName: Joi.string().alphanum().min(3).max(15).required(),
   firstName: Joi.string().alphanum().min(3).max(15).required(),
   lastName: Joi.string().alphanum().min(3).max(15).required(),
-  birthday: Joi.number().integer().min(1900).max(2013).required(),
+  birthday: Joi.string().required(),
 });
 
 async function validateUserMiddleware(req, res, next) {
-  console.log(req.body);
   const { userName, firstName, lastName, birthday } = req.body;
-  console.log(userName);
-  /* console.log(req.body); */
 
   try {
     const { error } = editUserValidationSchema.validate({
@@ -24,7 +21,7 @@ async function validateUserMiddleware(req, res, next) {
     if (error) {
       res.status(401).send({
         error: error,
-        data: req.body,
+        data: null,
       });
       console.log(`edit user middleware: ${error}`);
     } else {

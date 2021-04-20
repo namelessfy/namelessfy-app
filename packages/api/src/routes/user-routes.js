@@ -12,8 +12,8 @@ userRouter.post("/sign-out", authMiddleware, userController.signOut);
 userRouter.patch(
   "/user/edit",
   authMiddleware,
-  validateUserMiddleware,
   upload.single("porfileImage"),
+  validateUserMiddleware,
   userController.edit,
 );
 userRouter.delete("/user/delete", authMiddleware, userController.delete);

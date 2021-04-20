@@ -3,17 +3,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 
 import {
+  Button,
+  Error,
+  Form,
   Input,
   Label,
-  Form,
-  Button,
-  Title,
-  Separation,
-  ForgotPassword,
-  Login,
-  Error,
   NamelessfyLogo,
-} from "./styles";
+  RedirectMessage,
+  Separation,
+  Title,
+} from "../../styles/formStyles";
 
 import namelessfyLogo from "../../img/namelessfyLogo.svg";
 
@@ -104,13 +103,6 @@ function SignUp() {
               value={password}
               onChange={handleSetPassword}
             />
-            <ForgotPassword>
-              {" "}
-              Forgot your password?
-              <div>
-                <Link to={ROUTES.RESET_PASSWORD}>Reset password</Link>
-              </div>
-            </ForgotPassword>
             <Button type="submit" disabled={isSigningUp}>
               Sign up
             </Button>
@@ -119,12 +111,12 @@ function SignUp() {
 
           <section>
             <Separation />
-            <Login>
+            <RedirectMessage>
               Alredy have an account?
               <div>
                 <Link to={ROUTES.LOGIN}>Log in</Link>
               </div>
-            </Login>
+            </RedirectMessage>
           </section>
         </section>
       </Main>

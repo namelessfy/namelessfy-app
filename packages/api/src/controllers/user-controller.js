@@ -18,16 +18,21 @@ async function signUp(req, res, next) {
       return res.status(200).send(response.data);
     }
 
+    const position = email.indexOf("@");
+    const randomNumber = Math.floor(Math.random() * 100);
+
+    const userName = email.slice(0, position) + randomNumber;
+
     await UserRepo.create({
       _id: uid,
       email: email,
-      username: uid,
+      userName: userName,
     });
 
     res.status(201).send({
       _id: uid,
       email: email,
-      username: uid,
+      userName: userName,
     });
   } catch (error) {
     next(error);
