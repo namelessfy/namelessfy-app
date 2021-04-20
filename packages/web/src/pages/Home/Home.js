@@ -9,6 +9,9 @@ import * as ROUTES from "../../routes";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 
+import { Main } from "../../styles/mainStyles";
+import Navbar from "../../components/Navbar/Navbar";
+
 function Home() {
   const { isAuthenticated, currentUser } = useSelector(authSelector);
 
@@ -17,7 +20,8 @@ function Home() {
   }
 
   return (
-    <main className="p-4">
+    <Main className="p-4">
+      <Navbar />
       <Header />
       <section className="p-4">
         {isAuthenticated ? (
@@ -26,7 +30,7 @@ function Home() {
           <h1 className="text-xl">Hello World</h1>
         )}
       </section>
-    </main>
+    </Main>
   );
 }
 
