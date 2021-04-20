@@ -59,6 +59,7 @@ function EditUserForm() {
 
   function handleSetLastName(e) {
     setUser({ ...user, lastName: e.target.value });
+    console.log(user);
   }
   function handleSetBirthday(e) {
     setUser({ ...user, birthday: e.target.value.slice(0, 10) });

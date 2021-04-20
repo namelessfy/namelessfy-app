@@ -144,7 +144,6 @@ export function editUser(formData) {
   return async function editUserThunk(dispatch) {
     dispatch(editUserRequest());
     const token = await auth.getCurrentUserToken();
-
     if (!token) {
       return dispatch(editUserError("Error Getting the token"));
     }
@@ -159,7 +158,7 @@ export function editUser(formData) {
     if (response.errorMessage) {
       return dispatch(editUserError(response.errorMessage));
     }
-
+    console.log(response.data);
     return dispatch(editUserSuccess(response.data));
   };
 }
