@@ -158,7 +158,6 @@ export function editUser(formData) {
     if (response.errorMessage) {
       return dispatch(editUserError(response.errorMessage));
     }
-    console.log(response.data);
     return dispatch(editUserSuccess(response.data));
   };
 }
