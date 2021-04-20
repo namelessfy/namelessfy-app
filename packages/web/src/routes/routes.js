@@ -3,3 +3,4 @@ export const SIGN_UP = "/sign-up";
 export const LOGIN = "/login";
 export const RESET_PASSWORD = "/reset-password";
 export const COMPLETE_SIGNUP = "/complete-signUp";
+export const UPLOAD_SONG = "/upload-song";
