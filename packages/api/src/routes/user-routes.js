@@ -2,7 +2,7 @@ const { Router } = require("express");
 var multer = require("multer");
 var upload = multer({ dest: "uploads/" });
 
-const { authMiddleware, validationUserMiddleware } = require("../middlewares");
+const { authMiddleware, validateUserMiddleware } = require("../middlewares");
 const { userController } = require("../controllers");
 
 const userRouter = Router();
@@ -12,7 +12,7 @@ userRouter.post("/sign-out", authMiddleware, userController.signOut);
 userRouter.patch(
   "/user/edit",
   authMiddleware,
-  validationUserMiddleware,
+  validateUserMiddleware,
   upload.single("porfileImage"),
   userController.edit,
 );

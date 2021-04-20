@@ -22,8 +22,6 @@ function EditUserForm() {
   const [porfileImage, setPorfileImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
 
-  const formData = new FormData();
-
   useEffect(() => {
     if (currentUser.birthday) {
       setUser({ ...currentUser, birthday: currentUser.birthday.slice(0, 10) });
@@ -35,12 +33,16 @@ function EditUserForm() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    const formData = new FormData();
+
     if (porfileImage) {
       formData.append("porfileImage", porfileImage);
     }
 
+    /* console.log(user); */
+
     Object.keys(user).forEach((key) => {
-      const notIncluded = ["porfileImage", "createdAt", "updatedAt"];
+      const notIncluded = ["porfileImage", "createdAt", "updatedAt", "_id"];
       if (notIncluded.indexOf(key) === -1) {
         formData.append(key, user[key]);
       }

@@ -7,6 +7,7 @@ async function authMiddleware(req, res, next) {
 
     auth.login(req, userClaims);
     console.log(bearerToken);
+    console.log(req.body);
 
     next();
   } catch (error) {
@@ -16,6 +17,7 @@ async function authMiddleware(req, res, next) {
       data: null,
       error: "Unauthorized",
     });
+    console.log(`edit user middleware: ${error}`);
   }
 }
 

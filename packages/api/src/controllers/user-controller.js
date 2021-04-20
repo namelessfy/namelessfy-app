@@ -21,11 +21,13 @@ async function signUp(req, res, next) {
     await UserRepo.create({
       _id: uid,
       email: email,
+      username: uid,
     });
 
     res.status(201).send({
       _id: uid,
       email: email,
+      username: uid,
     });
   } catch (error) {
     next(error);

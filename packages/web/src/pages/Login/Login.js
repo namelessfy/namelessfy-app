@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
-import * as Yup from "yup";
+/* import * as Yup from "yup"; */
 
 import "./Login.scss";
 
@@ -16,7 +16,7 @@ import {
 
 import { authSelector } from "../../redux/auth/auth-selectors";
 
-import { Formik, Form, MyTextInput } from "../../utils/utils";
+/* import { Formik, Form, MyTextInput } from "../../utils/utils"; */
 
 function Login() {
   const dispatch = useDispatch();
@@ -73,7 +73,7 @@ function Login() {
             Login with Google
           </button>
           <hr className="mt-1 mb-4" />
-          {/* <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <label htmlFor="email" className="form-label">
               Email
             </label>
@@ -101,9 +101,9 @@ function Login() {
             >
               Login
             </button>
-          </form> */}
+          </form>
 
-          <Formik
+          {/* <Formik
             initialValues={{
               email: "",
               password: "",
@@ -126,17 +126,17 @@ function Login() {
                 label="Email Address"
                 name="email"
                 type="email"
-                /* placeholder="jane@formik.com" */
+                placeholder="jane@formik.com"
               />
               <MyTextInput
                 label="Password"
                 name="password"
                 type="password"
-                /* placeholder="*******" */
+                placeholder="*******"
               />
               <button type="submit">Login</button>
             </Form>
-          </Formik>
+          </Formik> */}
 
           {signUpError && <section className="mt-4">{signUpError}</section>}
           <section className="mt-4">
