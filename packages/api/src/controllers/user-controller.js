@@ -24,13 +24,13 @@ async function signUp(req, res, next) {
     const userName = email.slice(0, position) + randomNumber;
 
     await UserRepo.create({
-      _id: uid,
+      firebase_id: uid,
       email: email,
       userName: userName,
     });
 
     res.status(201).send({
-      _id: uid,
+      firebase_id: uid,
       email: email,
       userName: userName,
     });
@@ -52,8 +52,9 @@ async function edit(req, res) {
   let dataToUpdate = {
     ...req.body,
   };
-
   delete dataToUpdate._id;
+  delete dataToUpdate.firebase_id;
+  // console.log(dataToUpdate);
 
   if (req.file) {
     const result = await uploadImageToCloudinary(req.file.path, req.body._id);
