@@ -23,7 +23,7 @@ function Home() {
         {isAuthenticated ? (
           <h1 className="text-xl">Hello {currentUser.email}</h1>
         ) : (
-          <h1 className="text-xl">Hello World</h1>
+          <h1 className="text-xl">You are currently not logged in</h1>
         )}
       </section>
     </main>

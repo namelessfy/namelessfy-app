@@ -11,7 +11,7 @@ userRouter.post("/sign-up", authMiddleware, userController.signUp);
 userRouter.post("/sign-out", authMiddleware, userController.signOut);
 userRouter.patch(
   "/user/edit",
-  authMiddleware,
+  // authMiddleware,
   upload.single("porfileImage"),
   userController.edit,
 );
