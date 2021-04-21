@@ -4,10 +4,12 @@ import { Redirect } from "react-router-dom";
 
 import "./Home.scss";
 import Header from "../../components/Header";
+import MusicPlayer from "../../components/MusicPlayer";
 import * as ROUTES from "../../routes";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
+import { Main } from "../../styles/mainStyles";
 
 function Home() {
   const { isAuthenticated, currentUser } = useSelector(authSelector);
@@ -17,8 +19,9 @@ function Home() {
   }
 
   return (
-    <main className="p-4">
+    <Main>
       <Header />
+      <MusicPlayer />
       <section className="p-4">
         {isAuthenticated ? (
           <h1 className="text-xl">Hello {currentUser.email}</h1>
@@ -26,7 +29,7 @@ function Home() {
           <h1 className="text-xl">Hello World</h1>
         )}
       </section>
-    </main>
+    </Main>
   );
 }
 
