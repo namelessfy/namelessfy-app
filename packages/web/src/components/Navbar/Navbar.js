@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import * as ROUTES from "../../routes";
 
 import SeacrhModal from "../SearchModal";
+import Menu from "../Menu";
 
 import {
   NavbarContainer,
@@ -24,18 +25,16 @@ function Navbar() {
     query: "(max-device-width: 650px)",
   });
 
-  const [isShowingSeacrhModal, setIsShowingSeacrhModal] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const handelSearchClick = () => {
-    setIsShowingSeacrhModal(true);
-  };
-
-  const handelHideSearch = () => {
-    setIsShowingSeacrhModal(false);
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
     <>
+      {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
       {isDesktop && (
         <NavbarContainer>
           <ul>
@@ -43,20 +42,20 @@ function Navbar() {
               <NamelessfyLogo />
             </Link>
             <SearchBar placeholder="Search..." />
-            <MenuLogo />
+            <MenuLogo onClick={() => setIsMenuOpen(true)} />
           </ul>
         </NavbarContainer>
       )}
       {isMobile && (
         <>
-          {isShowingSeacrhModal && <SeacrhModal hideModal={handelHideSearch} />}
+          {isSearchOpen && <SeacrhModal close={() => setIsSearchOpen(false)} />}
           <NavbarMobile>
             <div>
               <Link to={ROUTES.HOME}>
                 <Icon name="home" />
               </Link>
-              <Icon name="search" onClick={handelSearchClick} />
-              <Icon name="menu" />
+              <Icon name="search" onClick={() => setIsSearchOpen(true)} />
+              <Icon name="menu" onClick={toggleMenu} />
             </div>
           </NavbarMobile>
         </>

@@ -3,19 +3,21 @@ import PropTypes from "prop-types";
 
 import { Background, Modal } from "./style";
 
-function SeacrhModal({ hideModal }) {
+function SeacrhModal({ close }) {
   return (
-    <Background onClick={hideModal}>
-      {" "}
+    <>
+      <Background onClick={close} />
       <Modal>
         <h2>Search:</h2>
         <input placeholder="Search..." />
+        <button type="button">Go!</button>
       </Modal>
-    </Background>
+    </>
   );
 }
+
 SeacrhModal.propTypes = {
-  hideModal: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
 };
 
 export default SeacrhModal;

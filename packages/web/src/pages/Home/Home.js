@@ -21,8 +21,7 @@ function Home() {
 
   return (
     <Main className="p-4">
-      <Navbar />
-      <Header />
+      {isAuthenticated && <Navbar />}
       <section className="p-4">
         {isAuthenticated ? (
           <h1 className="text-xl">Hello {currentUser.email}</h1>

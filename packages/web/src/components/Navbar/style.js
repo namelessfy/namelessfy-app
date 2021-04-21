@@ -82,6 +82,8 @@ const SearchBar = styled.input`
   }
 `;
 
+const iconWidth = 30; // px
+
 const NavbarMobile = styled.div`
   color: ${colors.WHITE};
   background-color: ${colors.MAIN};
@@ -104,7 +106,7 @@ const NavbarMobile = styled.div`
       width: calc(100% / 3);
       top: calc(50% - 25px);
       left: calc(50% - 25px);
-      height: 35px;
+      height: ${iconWidth}px;
     }
     & > a > button {
       margin-left: calc(50% - 17.5px);
@@ -122,8 +124,8 @@ const Icon = styled.button`
   background-position: center;
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
-  min-width: 35px;
-  min-height: 35px;
+  min-width: ${iconWidth}px;
+  min-height: ${iconWidth}px;
 
   &:hover,
   &:focus {
