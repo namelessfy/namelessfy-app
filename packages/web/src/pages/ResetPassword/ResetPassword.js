@@ -1,9 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-import "./ResetPassword.scss";
+import * as ROUTES from "../../routes";
 
-import Header from "../../components/Header";
+import {
+  Button,
+  Error,
+  Form,
+  Input,
+  Label,
+  NamelessfyLogo,
+  RedirectMessage,
+  Separation,
+  Title,
+} from "../../styles/formStyles";
+
+import { Main } from "../../styles/mainStyles";
+
+import namelessfyLogo from "../../img/namelessfyLogo.svg";
 
 import {
   sendPasswordResetEmail,
@@ -49,35 +64,48 @@ function ResetPassword() {
 
   return (
     <>
-      <main className="ResetPassword">
-        <Header />
-        <section className="Login__wrapper">
-          <h1 className="text-2xl font-bold mb-6">Password Reset</h1>
-          <hr className="my-4" />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="email" className="form-label">
-              Email
-            </label>
-            <input
+      <Main>
+        <section>
+          <NamelessfyLogo
+            type="svg"
+            src={namelessfyLogo}
+            alt="Namelessfy logo"
+          />
+          <Title>Password Reset</Title>
+          <Separation />
+          <Form onSubmit={handleSubmit}>
+            <Label htmlFor="email">Email</Label>
+            <Input
               type="text"
               id="email"
-              className="form-input"
               value={email}
               onChange={handleSetEmail}
             />
-            <button
+            <Button
               type="submit"
-              className="btn btn-primary w-full"
               disabled={isSendingPasswordReset || passwordResetSent}
             >
               {buttonText(isSendingPasswordReset, passwordResetSent)}
-            </button>
-          </form>
+            </Button>
+          </Form>
           {passwordResetError && (
-            <section className="mt-4">{passwordResetError}</section>
+            <Error className="mt-4">{passwordResetError}</Error>
           )}
+          <Separation />
+          <RedirectMessage>
+            First time here?
+            <div>
+              <Link to={ROUTES.SIGN_UP}>Sign up</Link>
+            </div>
+          </RedirectMessage>
+          <RedirectMessage>
+            Alredy have an account?
+            <div>
+              <Link to={ROUTES.LOGIN}>Log in</Link>
+            </div>
+          </RedirectMessage>
         </section>
-      </main>
+      </Main>
     </>
   );
 }

@@ -6,13 +6,13 @@ import { editUser } from "../../redux/auth/auth-actions";
 
 import {
   PorfileImage,
-  PorfileInput,
+  Input,
   Label,
   Form,
   CenterContent,
   Button,
   Error,
-} from "./styles";
+} from "../../styles/formStyles";
 
 function EditUserForm() {
   const { currentUser, editUserError } = useSelector(authSelector);
@@ -83,7 +83,7 @@ function EditUserForm() {
           </CenterContent>
         </label>
 
-        <PorfileInput
+        <Input
           type="file"
           id="porfileImage"
           className="form-input"
@@ -92,7 +92,7 @@ function EditUserForm() {
           display="none"
         />
         <Label htmlFor="userName">User Name</Label>
-        <PorfileInput
+        <Input
           type="text"
           id="userName"
           className="form-input"
@@ -100,7 +100,7 @@ function EditUserForm() {
           value={user.userName}
         />
         <Label htmlFor="firstName">First Name</Label>
-        <PorfileInput
+        <Input
           type="text"
           id="firstName"
           className="form-input"
@@ -108,7 +108,7 @@ function EditUserForm() {
           value={user.firstName}
         />
         <Label htmlFor="lastName">Last Name</Label>
-        <PorfileInput
+        <Input
           type="text"
           id="lastName"
           className="form-input"
@@ -116,7 +116,7 @@ function EditUserForm() {
           value={user.lastName}
         />
         <Label htmlFor="birthday">Birthday</Label>
-        <PorfileInput
+        <Input
           type="date"
           id="birthday"
           className="form-input"
