@@ -20,23 +20,35 @@ const icons = {
   list,
 };
 const modalWidth = {
-  xBig: 500,
+  xBig: 450,
   big: 440,
   medium: 380,
   small: 320,
   xSmall: 250,
 };
 const iconSizes = {
-  xLarge: 32,
-  large: 30,
-  normal: 28,
-  small: 26,
-  xSmall: 24,
+  s: {
+    large: 30,
+    normal: 24,
+    small: 20,
+    xSmall: 16,
+  },
+  m: {
+    large: 36,
+    normal: 30,
+    small: 24,
+    xSmall: 20,
+  },
+  l: {
+    large: 48,
+    normal: 36,
+    small: 30,
+    xSmall: 24,
+  },
 };
-
 const SongPalyerCard = styled.section`
   width: ${modalWidth.xBig}px;
-  height: 700px;
+  height: fit-content;
   background-color: ${colors.MAIN};
   position: absolute;
   top: calc(50vh - 350px);
@@ -44,6 +56,7 @@ const SongPalyerCard = styled.section`
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  box-shadow: 2px 2px 10px #0008;
 
   @media (max-width: 560px) {
     width: ${modalWidth.big}px;
@@ -93,8 +106,8 @@ const Thumbnail = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 32px;
-  height: 32px;
+  width: ${({ size }) => iconSizes.l[size]}px;
+  height: ${({ size }) => iconSizes.l[size]}px;
   background: url(${({ name }) => icons[name]});
   background-size: contain;
   background-repeat: no-repeat;
@@ -105,6 +118,16 @@ const Icon = styled.div`
   &:focus {
     outline: none;
     opacity: 0.8;
+  }
+
+  @media (max-width: 480px) {
+    width: ${({ size }) => iconSizes.m[size]}px;
+    height: ${({ size }) => iconSizes.m[size]}px;
+  }
+
+  @media (max-width: 320px) {
+    width: ${({ size }) => iconSizes.s[size]}px;
+    height: ${({ size }) => iconSizes.s[size]}px;
   }
 `;
 
@@ -119,10 +142,19 @@ const SongInfo = styled.div`
 const SongTitle = styled.h2`
   font-size: larger;
   cursor: pointer;
+  margin-bottom: 0;
   & > a:hover,
   & > a:focus {
     outline: none;
     text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    font-size: large;
+  }
+
+  @media (max-width: 320px) {
+    font-size: medium;
   }
 `;
 
@@ -130,6 +162,15 @@ const Artists = styled.div`
   & > a {
     color: ${colors.LIGHT};
     cursor: pointer;
+    margin-top: 0.5em;
+
+    @media (max-width: 480px) {
+      font-size: medium;
+    }
+
+    @media (max-width: 320px) {
+      font-size: small;
+    }
 
     &:hover,
     &:focus {
@@ -152,6 +193,50 @@ const Buttons = styled.div`
   margin: 1rem auto;
 `;
 
+const Slider = styled.input`
+  width: 80%;
+  margin: 1rem auto 2rem;
+  appearance: none;
+  height: 6px;
+  background: ${colors.LIGHT};
+  outline: none;
+  box-shadow: inset 1px 1px 4px 0px #000;
+  border-radius: 5px;
+  &:hover,
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: ${colors.NEUTRAL};
+    cursor: pointer;
+    box-shadow: 2px 2px 10px #0008;
+    border-radius: 50%;
+    transition: all 0.2s;
+
+    &:hover,
+    &:focus {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &::-moz-range-thumb {
+  }
+`;
+
+const Timer = styled.span`
+  margin: 1rem auto 0;
+  font-size: medium;
+
+  @media (max-width: 320px) {
+    font-size: small;
+  }
+`;
+
 export {
   SongPalyerCard,
   Thumbnail,
@@ -160,4 +245,6 @@ export {
   SongInfo,
   SongTitle,
   Artists,
+  Slider,
+  Timer,
 };

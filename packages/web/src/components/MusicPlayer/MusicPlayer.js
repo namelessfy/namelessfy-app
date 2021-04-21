@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import {
   SongPalyerCard,
@@ -8,11 +8,13 @@ import {
   SongInfo,
   SongTitle,
   Artists,
+  Slider,
+  Timer,
 } from "./style";
 
 function MusicPlayer() {
-  const actualSong = {
-    title: "Go solo",
+  const currentSong = {
+    title: "Go Solo",
     url:
       "https://res.cloudinary.com/namelessfy/video/upload/v1619002291/tracks/Zwette_feat._Tom_Rosenthal_-_Go_Solo_Official_Lyric_Video_vf7kpp.mp3",
     thumbnail:
@@ -34,22 +36,34 @@ function MusicPlayer() {
     ],
   };
 
-  const [isLiked, setisLiked] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
+
+  const [currentTime, setCurrentTime] = useState(0);
+
+  const handelSliderChange = useCallback((e) => {
+    setCurrentTime((e.target.value / 1000) * currentSong.duration);
+  }, []);
 
   function toggleLike() {
-    setisLiked(!isLiked);
+    setIsLiked(!isLiked);
+  }
+
+  function convertTimeToString(time) {
+    const min = Math.floor(time / 60);
+    const sec = Math.floor(time % 60);
+    return `${min < 10 ? `0${min}` : min}:${sec < 10 ? `0${sec}` : sec}`;
   }
 
   return (
     <SongPalyerCard>
-      <Thumbnail src={actualSong.thumbnail} />
+      <Thumbnail src={currentSong.thumbnail} />
       <SongInfo>
         <div>
           <SongTitle>
-            <a>{actualSong.title}</a>
+            <a>{currentSong.title}</a>
           </SongTitle>
           <Artists>
-            {actualSong.artistId.map((artist, index) => {
+            {currentSong.artistId.map((artist, index) => {
               return <a key={artist.name}> {artist.userName}</a>;
             })}
           </Artists>
@@ -57,15 +71,27 @@ function MusicPlayer() {
         <Icon
           name={isLiked ? "heartFull" : "heartEmpty"}
           onClick={toggleLike}
+          size="small"
         />
       </SongInfo>
       <Buttons>
-        <Icon name="random" />
-        <Icon name="previous" />
-        <Icon name="play" />
-        <Icon name="next" />
-        <Icon name="list" />
+        <Icon name="random" size="small" />
+        <Icon name="previous" size="normal" />
+        <Icon name="play" size="large" />
+        <Icon name="next" size="normal" />
+        <Icon name="list" size="small" />
       </Buttons>
+      <Timer>
+        {convertTimeToString(currentTime)} /{" "}
+        {convertTimeToString(currentSong.duration)}
+      </Timer>
+      <Slider
+        type="range"
+        min="0"
+        max="1000"
+        value={(currentTime * 1000) / currentSong.duration}
+        onChange={handelSliderChange}
+      />
     </SongPalyerCard>
   );
 }
