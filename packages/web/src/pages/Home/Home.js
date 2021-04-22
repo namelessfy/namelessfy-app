@@ -11,6 +11,9 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 import { Main } from "../../styles/mainStyles";
 
+import { Main } from "../../styles/mainStyles";
+import Navbar from "../../components/Navbar/Navbar";
+
 function Home() {
   const { isAuthenticated, currentUser } = useSelector(authSelector);
 
@@ -20,7 +23,7 @@ function Home() {
 
   return (
     <Main>
-      <Header />
+      {isAuthenticated && <Navbar />}
       <MusicPlayer />
       <section className="p-4">
         {isAuthenticated ? (
