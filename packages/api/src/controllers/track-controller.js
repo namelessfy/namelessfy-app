@@ -45,7 +45,7 @@ async function createTrack(req, res, next) {
   }
 }
 
-async function getTracks(req, res, next) {
+async function getTracks(req, res) {
   const {
     user: { uid },
   } = req;
@@ -67,7 +67,7 @@ async function getTracks(req, res, next) {
     if (tracks.error) {
       return res.status(500).send({
         data: null,
-        error: response.error,
+        error: tracks.error,
       });
     }
 
