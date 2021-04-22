@@ -45,6 +45,46 @@ async function createTrack(req, res, next) {
   }
 }
 
+async function getTracks(req, res, next) {
+  const {
+    user: { uid },
+  } = req;
+
+  try {
+    const user = await UserRepo.findOne({
+      firebase_id: uid,
+    });
+
+    if (user.error) {
+      res.status(500).send({
+        data: null,
+        error: user.error,
+      });
+    }
+
+    const tracks = await TrackRepo.getAll({ authorId: user.data._id });
+
+    if (tracks.error) {
+      return res.status(500).send({
+        data: null,
+        error: response.error,
+      });
+    }
+
+    if (tracks.data) {
+      return res.status(200).send({
+        data: tracks.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
-  createTrack: createTrack,
+  createTrack,
+  getTracks,
 };
