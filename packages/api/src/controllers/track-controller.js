@@ -124,8 +124,33 @@ async function addFavoriteTrack(req, res) {
   }
 }
 
+async function getFavoriteTracks(req, res) {
+  try {
+    const tracks = await TrackRepo.getAll({ likedBy: req.params.userId });
+
+    if (tracks.error) {
+      return res.status(500).send({
+        data: null,
+        error: tracks.error,
+      });
+    }
+
+    if (tracks.data) {
+      return res.status(200).send({
+        data: tracks.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   createTrack,
   getTracks,
   addFavoriteTrack,
+  getFavoriteTracks,
 };

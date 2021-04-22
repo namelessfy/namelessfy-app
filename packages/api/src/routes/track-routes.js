@@ -12,6 +12,11 @@ trackRouter.post(
   authMiddleware,
   trackController.addFavoriteTrack,
 );
+trackRouter.get(
+  "/tracks/favorite/:userId",
+  authMiddleware,
+  trackController.getFavoriteTracks,
+);
 
 module.exports = {
   trackRouter: trackRouter,
