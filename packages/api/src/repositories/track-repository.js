@@ -11,9 +11,7 @@ class TrackRepository {
   }
 
   findOneAndUpdate(query, data) {
-    const response = normalizeDBQuery(
-      db.Track.findByIdAndUpdate(query, { $push: { likedBy: data } }),
-    );
+    const response = normalizeDBQuery(db.Track.findByIdAndUpdate(query, data));
 
     if (response.error) {
       return response;
