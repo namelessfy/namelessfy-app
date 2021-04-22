@@ -104,7 +104,7 @@ async function addFavoriteTrack(req, res) {
 
     const track = await TrackRepo.findOneAndUpdate(
       { _id: id },
-      { $push: { likedBy: user.data._id } },
+      { $addToSet: { likedBy: user.data._id } },
     );
 
     if (track.error) {
