@@ -10,8 +10,10 @@ class TrackRepository {
     return normalizeDBQuery(db.Track.find(query));
   }
 
-  findOneAndUpdate(query, data) {
-    const response = normalizeDBQuery(db.Track.findByIdAndUpdate(query, data));
+  async findOneAndUpdate(query, data) {
+    const response = await normalizeDBQuery(
+      db.Track.findByIdAndUpdate(query, data),
+    );
 
     if (response.error) {
       return response;
