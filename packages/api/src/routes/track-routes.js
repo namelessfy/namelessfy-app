@@ -12,6 +12,11 @@ trackRouter.post(
   authMiddleware,
   trackController.addFavoriteTrack,
 );
+trackRouter.patch(
+  "/tracks/favorite/:id",
+  authMiddleware,
+  trackController.removeFavoriteTrack,
+);
 trackRouter.get(
   "/tracks/favorite/:userId",
   authMiddleware,

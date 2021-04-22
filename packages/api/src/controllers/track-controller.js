@@ -127,6 +127,49 @@ async function addFavoriteTrack(req, res) {
   }
 }
 
+async function removeFavoriteTrack(req, res) {
+  const {
+    user: { uid },
+    params: { id },
+  } = req;
+
+  try {
+    const user = await UserRepo.findOne({
+      firebase_id: uid,
+    });
+
+    if (user.error) {
+      res.status(500).send({
+        data: null,
+        error: user.error,
+      });
+    }
+
+    const track = await TrackRepo.findOneAndUpdate(
+      { _id: id },
+      { $pull: { likedBy: user.data._id } },
+    );
+
+    if (track.error) {
+      return res.status(500).send({
+        data: null,
+        error: track.error,
+      });
+    }
+
+    if (track.data) {
+      return res.status(201).send({
+        data: track.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 async function getFavoriteTracks(req, res) {
   try {
     const tracks = await TrackRepo.getAll({ likedBy: req.params.userId });
@@ -179,6 +222,7 @@ module.exports = {
   createTrack,
   getTracks,
   addFavoriteTrack,
+  removeFavoriteTrack,
   getFavoriteTracks,
   deleteTrack,
 };
