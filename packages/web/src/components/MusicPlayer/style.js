@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import heartFull from "../../img/heart-full.svg";
 import heartEmpty from "../../img/heart-empty.svg";
 import play from "../../img/play.svg";
@@ -48,6 +48,27 @@ const iconSizes = {
     xSmall: 24,
   },
 };
+
+const backgroundIn = keyframes`
+  0% {
+    opacity: 0;
+    top: 90vh;
+    height: 10vh;
+    background-color: #0000;
+  }
+
+  50%{
+    opacity: 1;
+    background-color: #0000;
+  }
+
+  100% {
+    opacity: 1;
+    top: 0;
+    height: 100vh;
+    background-color: #0004;
+  }
+`;
 const Background = styled.section`
   position: absolute;
   display: flex;
@@ -59,6 +80,8 @@ const Background = styled.section`
   top: 0;
   left: 0;
   z-index: 10;
+  animation: ${backgroundIn} 0.5s ease-out;
+  overflow: hidden;
 `;
 
 const SongPalyerCard = styled.section`
@@ -74,22 +97,18 @@ const SongPalyerCard = styled.section`
 
   @media (max-width: 560px) {
     width: ${modalWidth.big}px;
-    left: calc(50vw - ${modalWidth.big / 2}px);
   }
 
   @media (max-width: 480px) {
     width: ${modalWidth.medium}px;
-    left: calc(50vw - ${modalWidth.medium / 2}px);
   }
 
   @media (max-width: 400px) {
     width: ${modalWidth.small}px;
-    left: calc(50vw - ${modalWidth.small / 2}px);
   }
 
   @media (max-width: 320px) {
     width: ${modalWidth.xSmall}px;
-    left: calc(50vw - ${modalWidth.xSmall / 2}px);
   }
 `;
 
@@ -112,6 +131,24 @@ const SongPalyer = styled.section`
   @media (min-width: 1000px) {
     left: calc(50vw - 500px);
   }
+
+  @media (max-width: 750px) {
+    padding: 0 3rem;
+  }
+
+  @media (max-width: 650px) {
+    height: 155px;
+    padding-bottom: 75px;
+  }
+
+  @media (max-width: 650px) {
+    padding: 0 2rem 75px;
+  }
+
+  @media (max-width: 320px) {
+    height: 140px;
+    padding: 0 2rem 75px;
+  } ;
 `;
 
 const Thumbnail = styled.div`
@@ -161,8 +198,10 @@ const Icon = styled.button`
   }
 
   @media (max-width: 320px) {
-    width: ${({ size }) => iconSizes.s[size]}px;
-    height: ${({ size }) => iconSizes.s[size]}px;
+    width: ${({ size, card }) =>
+      card ? iconSizes.s[size] : iconSizes.m[size]}px;
+    height: ${({ size, card }) =>
+      card ? iconSizes.s[size] : iconSizes.m[size]}px;
   }
 `;
 
@@ -187,6 +226,30 @@ const SongInfo = styled.div`
       width: 350px;
       justify-content: left;
       flex-direction: column;
+
+      @media (max-width: 1000px) {
+        min-width: 350px;
+        width: auto;
+      }
+      @media (max-width: 600px) {
+        min-width: 0;
+        width: calc(100% - 200px);
+      }
+
+      @media (max-width: 480px) {
+        min-width: 0;
+        width: calc(100% - 150px);
+      }
+
+      @media (max-width: 420px) {
+        min-width: 0;
+        width: calc(100% - 80px);
+      }
+
+      @media (max-width: 350px) {
+        min-width: 0;
+        width: calc(100% - 50px);
+      }
     `;
   }}
 `;
@@ -298,7 +361,40 @@ const Buttons = styled.div`
       margin: 1rem auto;`;
     }
 
-    return `width: 300px;`;
+    return `
+    width: 300px;
+    @media (max-width: 850px) {
+      width: 240px;
+      &>.songButtonsList{
+        display: none;
+      }
+    };
+    @media (max-width: 700px) {
+      width: 200px;
+      &>.songButtonsRandom{
+        display: none;
+      }
+    };
+
+    @media (max-width: 480px) {
+      width: 150px;
+    };
+
+    @media (max-width: 480px) {
+      width: 80px;
+      &>.songButtonsPrevious{
+        display: none;
+      }
+    };
+
+    @media (max-width: 350px) {
+      width: 50px;
+      &>.songButtonsNext{
+        display: none;
+      }
+    };
+
+    `;
   }}}
 `;
 
@@ -353,8 +449,8 @@ const Timer = styled.span`
         margin: 0;
         font-size: large;
   
-        @media (max-width: 320px) {
-          font-size: medium;
+        @media (max-width: 1000px) {
+          display: none;
         }`;
   }}
 `;
@@ -382,6 +478,10 @@ const LikeBackground = styled.div`
   width: fit-content;
   height: fit-content;
   margin: 0 2rem 0 0;
+
+  @media (max-width: 650px) {
+    display: none;
+  } ;
 `;
 
 export {

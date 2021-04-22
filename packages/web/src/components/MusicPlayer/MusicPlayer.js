@@ -147,11 +147,15 @@ function MusicPlayer() {
             </SongInfo>
 
             <Buttons>
-              <Icon name="random" size="xSmall" />
-              <Icon name="previous" size="small" />
+              <Icon name="random" size="xSmall" className="songButtonsRandom" />
+              <Icon
+                name="previous"
+                size="small"
+                className="songButtonsPrevious"
+              />
               <Icon name="play" size="normal" />
-              <Icon name="next" size="small" />
-              <Icon name="list" size="xSmall" />
+              <Icon name="next" size="small" className="songButtonsNext" />
+              <Icon name="list" size="xSmall" className="songButtonsList" />
             </Buttons>
             <Timer id="songTimer">
               {convertTimeToString(currentTime)} /{" "}

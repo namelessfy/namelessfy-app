@@ -11,7 +11,6 @@ import { authSelector } from "../../redux/auth/auth-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 import { Main } from "../../styles/mainStyles";
 
-import { Main } from "../../styles/mainStyles";
 import Navbar from "../../components/Navbar/Navbar";
 
 function Home() {
