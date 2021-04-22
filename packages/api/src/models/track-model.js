@@ -31,6 +31,7 @@ const TrackSchema = Schema(
     },
     authorId: {
       type: Schema.Types.ObjectId,
+      required: true,
       ref: "user",
     },
     artistId: {
