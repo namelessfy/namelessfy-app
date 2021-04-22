@@ -45,6 +45,35 @@ async function createTrack(req, res, next) {
   }
 }
 
+async function editTrackInfo(req, res) {
+  const {
+    body: data,
+    params: { id },
+  } = req;
+
+  try {
+    const track = await TrackRepo.findOneAndUpdate({ _id: id }, data);
+
+    if (track.error) {
+      return res.status(500).send({
+        data: null,
+        error: track.error,
+      });
+    }
+
+    if (track.data) {
+      return res.status(200).send({
+        data: track.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 async function getTracks(req, res) {
   const {
     user: { uid },
@@ -220,6 +249,7 @@ async function deleteTrack(req, res) {
 
 module.exports = {
   createTrack,
+  editTrackInfo,
   getTracks,
   addFavoriteTrack,
   removeFavoriteTrack,
