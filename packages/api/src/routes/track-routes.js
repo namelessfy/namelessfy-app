@@ -17,6 +17,7 @@ trackRouter.get(
   authMiddleware,
   trackController.getFavoriteTracks,
 );
+trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
 
 module.exports = {
   trackRouter: trackRouter,

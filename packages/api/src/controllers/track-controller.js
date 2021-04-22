@@ -148,9 +148,34 @@ async function getFavoriteTracks(req, res) {
   }
 }
 
+async function deleteTrack(req, res) {
+  try {
+    const track = await TrackRepo.findOneAndDelete({ _id: req.params.id });
+
+    if (track.error) {
+      return res.status(400).send({
+        data: null,
+        error: track.error,
+      });
+    }
+
+    if (track.data) {
+      return res.status(200).send({
+        data: track.data,
+        message: "Successfully deleted the song!",
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   createTrack,
   getTracks,
   addFavoriteTrack,
   getFavoriteTracks,
+  deleteTrack,
 };
