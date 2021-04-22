@@ -24,7 +24,7 @@ async function createTrack(req, res, next) {
       thumbnail: thumbnail ? thumbnail : null,
       duration: duration ? duration : 0,
       genre: genre ? genre : null,
-      authorId: user._id,
+      authorId: user.data._id,
     });
 
     if (response.error) {
