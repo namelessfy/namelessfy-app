@@ -1,4 +1,10 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+import {
+  setNextSong,
+  setPreviousSong,
+} from "../../redux/musicPlayer/player-actions";
 
 import {
   SongPalyerCard,
@@ -17,32 +23,31 @@ import {
 } from "./style";
 
 function MusicPlayer() {
-  const currentSong = {
-    title: "Go Solo",
-    url:
-      "https://res.cloudinary.com/namelessfy/video/upload/v1619002291/tracks/Zwette_feat._Tom_Rosenthal_-_Go_Solo_Official_Lyric_Video_vf7kpp.mp3",
-    thumbnail:
-      "https://res.cloudinary.com/namelessfy/image/upload/v1619002680/thumbnail/81IROWku2ML._SS500__un7y47.jpg",
-    duration: 191,
-    rating: 9.1,
-    genre: "Chill House",
-    authorId: "",
-    artistId: [{ userName: "Zwette" }, { userName: "Tom Rosenthal" }],
-    likedBy: [
-      { userName: "janpc" },
-      { userName: "Tom Rosenthal" },
-      { userName: "Zwette" },
-      { userName: "Tom Rosenthal" },
-      { userName: "Zwette" },
-      { userName: "Tom Rosenthal" },
-      { userName: "Zwette" },
-      { userName: "Tom Rosenthal" },
-    ],
-  };
-
+  const dispatch = useDispatch();
+  const { currentSong } = useSelector(playerSelector);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isCard, setIsCard] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [song, setSong] = useState(null);
+
+  useEffect(() => {
+    if (song) {
+      song.pause();
+    }
+    setSong(new Audio(currentSong.url));
+  }, [currentSong]);
+
+  useEffect(() => {
+    if (song) {
+      song.onended = function end() {
+        console.log("audio ended");
+      };
+      if (isPlaying) {
+        song.onloadeddata = play();
+      }
+    }
+  }, [song]);
 
   const handelSliderChange = useCallback(
     (e) => {
@@ -77,6 +82,32 @@ function MusicPlayer() {
     }
   }
 
+  function play() {
+    song.play();
+    setIsPlaying(true);
+  }
+
+  function pause() {
+    song.pause();
+    setIsPlaying(false);
+  }
+
+  function nextSong() {
+    dispatch(setNextSong());
+  }
+
+  function previousSong() {
+    dispatch(setPreviousSong());
+  }
+
+  function togglePlay() {
+    if (isPlaying) {
+      pause();
+    } else {
+      play();
+    }
+  }
+
   return (
     <>
       {isCard ? (
@@ -106,9 +137,13 @@ function MusicPlayer() {
               </SongInfo>
               <Buttons card>
                 <Icon name="random" size="small" />
-                <Icon name="previous" size="normal" />
-                <Icon name="play" size="large" />
-                <Icon name="next" size="normal" />
+                <Icon name="previous" size="normal" onClick={previousSong} />
+                <Icon
+                  name={isPlaying ? "pause" : "play"}
+                  size="large"
+                  onClick={togglePlay}
+                />
+                <Icon name="next" size="normal" onClick={nextSong} />
                 <Icon name="list" size="small" />
               </Buttons>
               <Timer card>
@@ -152,9 +187,19 @@ function MusicPlayer() {
                 name="previous"
                 size="small"
                 className="songButtonsPrevious"
+                onClick={previousSong}
               />
-              <Icon name="play" size="normal" />
-              <Icon name="next" size="small" className="songButtonsNext" />
+              <Icon
+                name={isPlaying ? "pause" : "play"}
+                size="normal"
+                onClick={togglePlay}
+              />
+              <Icon
+                name="next"
+                size="small"
+                className="songButtonsNext"
+                onClick={nextSong}
+              />
               <Icon name="list" size="xSmall" className="songButtonsList" />
             </Buttons>
             <Timer id="songTimer">
