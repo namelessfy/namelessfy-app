@@ -17,7 +17,6 @@ const UserName = styled.div`
   h4 {
     font-size: 12px;
     color: ${colors.NEUTRAL};
-    margin-top: -10px;
   }
 `;
 

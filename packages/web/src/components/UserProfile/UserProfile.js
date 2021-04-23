@@ -12,11 +12,13 @@ import {
   ButtonContainer,
 } from "./styles";
 import { Main } from "../../styles/mainStyles";
-import { CenterContent, PorfileImage } from "../EditUserForm/styles";
+import { CenterContent } from "../EditUserForm/styles";
 import { authSelector } from "../../redux/auth/auth-selectors";
 
 function UserProfile() {
   const { currentUser } = useSelector(authSelector);
+
+  console.log(currentUser);
 
   return (
     <div>
@@ -31,13 +33,13 @@ function UserProfile() {
             />
           </CenterContent>
           <UserName>
-            <h1>{currentUser.username}</h1>
-            <h4>{currentUser.firstName}</h4>
+            <h1>{currentUser.email}</h1>
+            <h4>{currentUser.fullName || "Froilán Olesti Casas"}</h4>
           </UserName>
           <Statistics>
             <div>
-              <p>3.141.596 Followers</p>
-              <p>4 Following</p>
+              <p>{currentUser.followers || "3.141.596 Followers" }</p>
+              <p>{currentUser.followers || "4 Following" }</p>
             </div>
             <ViewButton>Switch View</ViewButton>
           </Statistics>
