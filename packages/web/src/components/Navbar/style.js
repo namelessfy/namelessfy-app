@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import * as colors from "../../styles/colors";
 
 import menuIcon from "../../img/menu.svg";

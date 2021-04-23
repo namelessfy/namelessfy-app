@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import "./Home.scss";
-import Header from "../../components/Header";
 import MusicPlayer from "../../components/MusicPlayer";
 import * as ROUTES from "../../routes";
 

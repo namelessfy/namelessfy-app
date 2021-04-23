@@ -6,6 +6,7 @@ import pause from "../../img/pause.svg";
 import next from "../../img/next.svg";
 import previous from "../../img/previous.svg";
 import random from "../../img/random.svg";
+import randomClicked from "../../img/randomClicked.svg";
 import list from "../../img/list.svg";
 import close from "../../img/close.svg";
 import * as colors from "../../styles/colors";
@@ -20,6 +21,7 @@ const icons = {
   random,
   list,
   close,
+  randomClicked,
 };
 const modalWidth = {
   xBig: 450,

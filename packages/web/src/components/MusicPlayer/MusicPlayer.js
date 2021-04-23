@@ -1,10 +1,5 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import {
-  setNextSong,
-  setPreviousSong,
-} from "../../redux/musicPlayer/player-actions";
+import React, { useState } from "react";
+import usePlayer from "../../hooks/usePlayer";
 
 import {
   SongPalyerCard,
@@ -23,42 +18,21 @@ import {
 } from "./style";
 
 function MusicPlayer() {
-  const dispatch = useDispatch();
-  const { currentSong } = useSelector(playerSelector);
-  const [isLiked, setIsLiked] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [isCard, setIsCard] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [song, setSong] = useState(null);
+  const {
+    currentSong,
+    isLiked,
+    currentTime,
+    isPlaying,
+    handelSliderChange,
+    toggleLike,
+    togglePlay,
+    previousSong,
+    nextSong,
+    toggleShuffle,
+    isShuffle,
+  } = usePlayer();
 
-  useEffect(() => {
-    if (song) {
-      song.pause();
-    }
-    setSong(new Audio(currentSong.url));
-  }, [currentSong]);
-
-  useEffect(() => {
-    if (song) {
-      song.onended = function end() {
-        console.log("audio ended");
-      };
-      if (isPlaying) {
-        song.onloadeddata = play();
-      }
-    }
-  }, [song]);
-
-  const handelSliderChange = useCallback(
-    (e) => {
-      setCurrentTime((e.target.value / 1000) * currentSong.duration);
-    },
-    [currentSong.duration],
-  );
-
-  function toggleLike() {
-    setIsLiked(!isLiked);
-  }
+  const [isCard, setIsCard] = useState(false);
 
   function convertTimeToString(time) {
     const min = Math.floor(time / 60);
@@ -79,32 +53,6 @@ function MusicPlayer() {
       e.target.id === "songTimer"
     ) {
       setIsCard(true);
-    }
-  }
-
-  function play() {
-    song.play();
-    setIsPlaying(true);
-  }
-
-  function pause() {
-    song.pause();
-    setIsPlaying(false);
-  }
-
-  function nextSong() {
-    dispatch(setNextSong());
-  }
-
-  function previousSong() {
-    dispatch(setPreviousSong());
-  }
-
-  function togglePlay() {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
     }
   }
 
@@ -136,7 +84,11 @@ function MusicPlayer() {
                 />
               </SongInfo>
               <Buttons card>
-                <Icon name="random" size="small" />
+                <Icon
+                  name={isShuffle ? "randomClicked" : "random"}
+                  size="small"
+                  onClick={toggleShuffle}
+                />
                 <Icon name="previous" size="normal" onClick={previousSong} />
                 <Icon
                   name={isPlaying ? "pause" : "play"}
@@ -182,7 +134,12 @@ function MusicPlayer() {
             </SongInfo>
 
             <Buttons>
-              <Icon name="random" size="xSmall" className="songButtonsRandom" />
+              <Icon
+                name={isShuffle ? "randomClicked" : "random"}
+                size="xSmall"
+                className="songButtonsRandom"
+                onClick={toggleShuffle}
+              />
               <Icon
                 name="previous"
                 size="small"

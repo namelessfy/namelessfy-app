@@ -13,9 +13,15 @@ function SeacrhModal({ show, close }) {
   function handleSignOut() {
     dispatch(signOut());
   }
+
+  function handleBackClick(e) {
+    if (e.target.id === "back") {
+      close();
+    }
+  }
   return (
     <>
-      <Back isShowing={show} onClick={close}>
+      <Back isShowing={show} onClick={handleBackClick} id="back">
         <Background isShowing={show}>
           <h2>Menu:</h2>
           <Button type="button" onClick={close}>

@@ -14,3 +14,7 @@ export const setNextSong = () => ({
 export const setPreviousSong = () => ({
   type: PlayerTypes.PREVIOUS_SONG,
 });
+
+export const setShuffle = () => ({
+  type: PlayerTypes.SET_SHUFFLE,
+});
