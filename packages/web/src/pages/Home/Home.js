@@ -18,9 +18,12 @@ function Home() {
   if (isAuthenticated && !hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
   }
+  if (!isAuthenticated) {
+    return <Redirect to={ROUTES.LOGIN} />;
+  }
 
   return (
-    <Main className="p-4">
+    <Main>
       {isAuthenticated && <Navbar />}
       <section className="p-4">
         {isAuthenticated ? (
