@@ -4,6 +4,7 @@ import { playerSelector } from "../redux/musicPlayer/player-selectors";
 import {
   setNextSong,
   setPreviousSong,
+  setQueueAndCurrentSong,
   setShuffle,
 } from "../redux/musicPlayer/player-actions";
 
@@ -86,8 +87,11 @@ export default function usePlayer() {
   }
 
   function toggleShuffle() {
-    console.log("shuffle");
     dispatch(setShuffle());
+  }
+  function setSongAndQueue(track, queue) {
+    dispatch(setQueueAndCurrentSong(track, queue));
+    play();
   }
 
   return {
@@ -102,5 +106,7 @@ export default function usePlayer() {
     toggleLike,
     toggleShuffle,
     isShuffle,
+    setSongAndQueue,
+    play,
   };
 }

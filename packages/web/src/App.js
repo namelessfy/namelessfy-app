@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import "./styles/App.scss";
+import "./styles/App.css";
 
 import * as ROUTES from "./routes";
 import Home from "./pages/Home";
