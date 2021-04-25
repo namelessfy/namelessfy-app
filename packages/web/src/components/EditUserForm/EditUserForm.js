@@ -50,20 +50,25 @@ function EditUserForm() {
   }
 
   function handleSetUserName(e) {
+    e.preventDefault();
     setUser({ ...user, userName: e.target.value });
   }
 
   function handleSetFirstName(e) {
+    e.preventDefault();
     setUser({ ...user, firstName: e.target.value });
   }
 
   function handleSetLastName(e) {
+    e.preventDefault();
     setUser({ ...user, lastName: e.target.value });
   }
   function handleSetBirthday(e) {
+    e.preventDefault();
     setUser({ ...user, birthday: e.target.value.slice(0, 10) });
   }
   function handleSetPorfileImage(e) {
+    e.preventDefault();
     setPorfileImage(e.target.files[0]);
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
   }

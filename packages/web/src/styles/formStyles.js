@@ -130,6 +130,7 @@ const Button = styled.button`
   transition: width 0.2s ease-in-out;
   font-family: Poppins, sans-serif;
   width: min(100%, 250px);
+  outline: none;
 
   &::after {
     content: "";
@@ -148,6 +149,7 @@ const Button = styled.button`
   &:hover,
   &:focus {
     width: 270px;
+    outline: none;
     &::after {
       opacity: 1;
     }

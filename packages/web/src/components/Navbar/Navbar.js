@@ -32,13 +32,18 @@ function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeAll = () => {
+    setIsMenuOpen(false);
+    setIsSearchOpen(false);
+  };
+
   return (
     <>
       {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
       {isDesktop && (
         <NavbarContainer>
           <ul>
-            <Link to={ROUTES.HOME}>
+            <Link to={ROUTES.HOME} onClick={closeAll}>
               <NamelessfyLogo />
             </Link>
             <SearchBar placeholder="Search..." />
@@ -51,7 +56,7 @@ function Navbar() {
           {isSearchOpen && <SeacrhModal close={() => setIsSearchOpen(false)} />}
           <NavbarMobile>
             <div>
-              <Link to={ROUTES.HOME}>
+              <Link to={ROUTES.HOME} onClick={closeAll}>
                 <Icon name="home" />
               </Link>
               <Icon name="search" onClick={() => setIsSearchOpen(true)} />
