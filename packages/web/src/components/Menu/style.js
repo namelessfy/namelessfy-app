@@ -40,7 +40,7 @@ const Background = styled.section`
       ? `
       opacity: 1;
       width: 100vw;
-      z-index: 2;
+      z-index: 3;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out;
   `
       : `opacity: 0; width: 10vw; 

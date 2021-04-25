@@ -18,6 +18,9 @@ function Home() {
   if (isAuthenticated && !hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
   }
+  if (!isAuthenticated) {
+    return <Redirect to={ROUTES.LOGIN} />;
+  }
 
   return (
     <Main>
