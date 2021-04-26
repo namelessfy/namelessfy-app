@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "react-responsive";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  setQueueAndCurrentSong,
+  setAutoPlay,
+} from "../../redux/musicPlayer/player-actions";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 import Song from "../Song";
 
@@ -12,11 +19,12 @@ import {
   Container,
 } from "./style";
 import { Icon } from "../../styles/mainStyles";
-import usePlayer from "../../hooks/usePlayer";
 import { startListByIndex } from "../../utils/playerUtils";
 
 function PlaylistPreview({ songs, title }) {
-  const { setSongAndQueue, currentSong } = usePlayer();
+  const dispatch = useDispatch();
+  const { currentSong } = useSelector(playerSelector);
+
   const [page, setPage] = useState(1);
   const [shownSongs, setShownSongs] = useState([]);
   const [songsPerPage, setSongsPerPage] = useState(5);
@@ -58,7 +66,8 @@ function PlaylistPreview({ songs, title }) {
   function handlePlaySong(index) {
     const song = songs[index];
     const list = startListByIndex(index, [...songs, currentSong]);
-    setSongAndQueue(song, list);
+    dispatch(setAutoPlay(true));
+    dispatch(setQueueAndCurrentSong(song, list));
   }
 
   return (

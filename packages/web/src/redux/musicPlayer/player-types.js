@@ -1,4 +1,5 @@
 export const SET_CURRENT_SONG = "SET_CURRENT_SONG";
+export const SET_AUTOPLAY = "SET_AUTOPLAY";
 export const NEXT_SONG = "NEXT_SONG";
 export const PREVIOUS_SONG = "PREVIOUS_SONG";
 

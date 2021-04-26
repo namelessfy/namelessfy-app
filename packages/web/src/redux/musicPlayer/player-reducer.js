@@ -2,6 +2,7 @@ import { shuffle, startListByIndex } from "../../utils/playerUtils";
 import * as PlayerTypes from "./player-types";
 
 export const PlayerInitialState = {
+  autoPlay: false,
   isShuffle: false,
   queue: [
     {
@@ -177,6 +178,12 @@ export const PlayerInitialState = {
 
 const PlayerReducer = (state = PlayerInitialState, action) => {
   switch (action.type) {
+    case PlayerTypes.SET_AUTOPLAY: {
+      return {
+        ...state,
+        autoPlay: action.payload,
+      };
+    }
     case PlayerTypes.SET_CURRENT_SONG: {
       return {
         ...state,

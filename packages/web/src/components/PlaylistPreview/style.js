@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import * as colors from "../../styles/colors";
 
 const Container = styled.section`
   width: 1000px;

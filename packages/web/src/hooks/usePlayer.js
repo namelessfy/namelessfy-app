@@ -4,13 +4,13 @@ import { playerSelector } from "../redux/musicPlayer/player-selectors";
 import {
   setNextSong,
   setPreviousSong,
-  setQueueAndCurrentSong,
   setShuffle,
+  setAutoPlay,
 } from "../redux/musicPlayer/player-actions";
 
 export default function usePlayer() {
   const dispatch = useDispatch();
-  const { currentSong, isShuffle } = useSelector(playerSelector);
+  const { currentSong, isShuffle, autoPlay } = useSelector(playerSelector);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -38,8 +38,9 @@ export default function usePlayer() {
         nextSong();
       };
       song.addEventListener("timeupdate", handleTimeChange);
-      if (isPlaying) {
+      if (isPlaying || autoPlay) {
         song.onloadeddata = play();
+        dispatch(setAutoPlay(false));
       }
     }
   }, [song]);
@@ -89,10 +90,6 @@ export default function usePlayer() {
   function toggleShuffle() {
     dispatch(setShuffle());
   }
-  function setSongAndQueue(track, queue) {
-    dispatch(setQueueAndCurrentSong(track, queue));
-    play();
-  }
 
   return {
     currentSong,
@@ -106,7 +103,6 @@ export default function usePlayer() {
     toggleLike,
     toggleShuffle,
     isShuffle,
-    setSongAndQueue,
     play,
   };
 }

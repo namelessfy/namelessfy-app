@@ -7,6 +7,10 @@ import * as PlayerTypes from "./player-types";
   - toggle shuffle
 
 */
+export const setAutoPlay = (autoPlay) => ({
+  type: PlayerTypes.SET_AUTOPLAY,
+  payload: autoPlay,
+});
 export const setNextSong = () => ({
   type: PlayerTypes.NEXT_SONG,
 });
