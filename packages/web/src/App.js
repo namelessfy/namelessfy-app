@@ -13,6 +13,7 @@ import ResetPassword from "./pages/ResetPassword";
 import UploadSong from "./pages/UploadSong";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import MusicPlayer from "./components/MusicPlayer";
 
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
@@ -40,6 +41,7 @@ function App() {
 
   return (
     <div className="App__container">
+      <MusicPlayer />
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
