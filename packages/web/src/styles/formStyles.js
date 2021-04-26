@@ -77,6 +77,14 @@ const PorfileImage = styled.div`
   }
 `;
 
+const CoverImage = styled(PorfileImage)`
+  border-radius: 10px;
+
+  &::after {
+    border-radius: 10px;
+  }
+`;
+
 const Input = styled.input`
   width: 100%;
   border-radius: 10px;
@@ -130,6 +138,7 @@ const Button = styled.button`
   transition: width 0.2s ease-in-out;
   font-family: Poppins, sans-serif;
   width: min(100%, 250px);
+  outline: none;
 
   &::after {
     content: "";
@@ -149,6 +158,7 @@ const Button = styled.button`
   &:focus {
     outline: none;
     width: 270px;
+    outline: none;
     &::after {
       opacity: 1;
     }
@@ -163,6 +173,14 @@ const Button = styled.button`
       }
     }
   }
+
+  ${({ lastItem }) =>
+    lastItem
+      ? `
+    margin-bottom: 100px;
+    @media (max-width: 650px) {
+      margin-bottom: 150px;};`
+      : ``}
 `;
 
 const Title = styled.h1`
@@ -276,6 +294,73 @@ const CenterContent = styled.div`
   align-items: center;
 `;
 
+const AddInput = styled.div`
+  width: 100%;
+  height: fit-content;
+  border-radius: 10px;
+  padding-left: 1em;
+  box-shadow: inset 2px 2px 10px #000000;
+  background: ${colors.WHITE};
+  border: 2px solid ${colors.DARK};
+
+  &:hover {
+    border: 2px solid ${colors.WHITE};
+  }
+  &:focus {
+    border: 2px solid ${colors.DARK};
+  }
+
+  & input {
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    width: calc(100% - 150px);
+    height: 100%;
+    font-family: Poppins, sans-serif;
+    font-weight: 400;
+    color: ${colors.DARK};
+
+    @media (max-width: 360px) {
+      width: calc(100% - 100px);
+    }
+
+    &:hover {
+      --tw-ring-shadow: none;
+      outline: none;
+    }
+    &:focus {
+      --tw-ring-shadow: none;
+      outline: none;
+    }
+  }
+
+  & button {
+    margin: 0;
+    width: 150px;
+    padding: 0.3rem;
+
+    &:hover {
+      outline: none;
+      width: 150px;
+    }
+    &:focus {
+      outline: none;
+      width: 150px;
+    }
+
+    @media (max-width: 360px) {
+      width: 100px;
+
+      &:hover {
+        width: 100px;
+      }
+      &:focus {
+        width: 100px;
+      }
+    }
+  }
+`;
+
 export {
   Button,
   CenterContent,
@@ -290,4 +375,6 @@ export {
   PorfileImage,
   Separation,
   Title,
+  CoverImage,
+  AddInput,
 };

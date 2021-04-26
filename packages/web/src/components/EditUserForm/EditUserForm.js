@@ -116,24 +116,6 @@ function EditUserForm() {
               valid={touched.porfileImage && !errors.porfileImage}
               error={errors.porfileImage && touched.porfileImage && "error"}
             />
-            {errors.porfileImage && touched.porfileImage && (
-              <ErrorInput>{errors.porfileImage}</ErrorInput>
-            )}
-
-            <Label htmlFor="userName">Username</Label>
-            <Input
-              type="text"
-              id="userName"
-              name="userName"
-              value={values.userName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              valid={touched.userName && !errors.userName}
-              error={errors.userName && touched.userName && "error"}
-            />
-            {errors.userName && touched.userName && (
-              <ErrorInput>{errors.userName}</ErrorInput>
-            )}
 
             <Label htmlFor="firstName">First name</Label>
             <Input

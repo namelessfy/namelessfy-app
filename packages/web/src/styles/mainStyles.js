@@ -14,6 +14,8 @@ const Main = styled.main`
   height: 100vh;
   overflow: auto;
   font-family: ${fonts.MAIN}, sans-serif;
+  margin: 0;
+  padding: 0;
 
   ::-webkit-scrollbar {
     width: 2px;
