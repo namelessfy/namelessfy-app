@@ -3,13 +3,21 @@ import * as colors from "../../styles/colors";
 import playIcon from "../../img/play.svg";
 
 const calculateContainerWidht = "calc(calc(1000px - 8rem) / 5)";
+const calculateContainerWidht5SongsResponsive = "calc(calc(100vw - 12rem) / 5)";
+const calculateContainerWidht4SongsResponsiveBig =
+  "calc(calc(100vw - 8.5rem) / 4)";
+const calculateContainerWidht4SongsResponsiveNormal =
+  "calc(calc(100vw - 7rem) / 4)";
+const calculateContainerWidht4SongsResponsiveSmall =
+  "calc(calc(100vw - 3.5rem) / 4)";
+const calculateContainerWidht3SongsResponsive = "calc(calc(100vw - 3rem) / 3)";
 
 const SongCover = styled.button`
   display: inline-block;
   position: relative;
   border-radius: 10px;
-  width: ${calculateContainerWidht};
-  height: ${calculateContainerWidht};
+  width: ${calculateContainerWidht5SongsResponsive};
+  height: ${calculateContainerWidht5SongsResponsive};
   margin: 1em 0;
   align-self: center;
   background-image: url(${(props) => props.src});
@@ -60,7 +68,9 @@ const SongCover = styled.button`
     box-shadow: 0px 0px 0 2px ${colors.WHITE};
   }
 
-  @media (min-width: 1025px) {
+  @media (min-width: 1000px) {
+    width: ${calculateContainerWidht};
+    height: ${calculateContainerWidht};
     &:hover {
       &::before,
       &::after {
@@ -75,6 +85,23 @@ const SongCover = styled.button`
       }
     }
   }
+
+  @media (max-width: 800px) {
+    width: ${calculateContainerWidht4SongsResponsiveBig};
+    height: ${calculateContainerWidht4SongsResponsiveBig};
+  }
+  @media (max-width: 620px) {
+    width: ${calculateContainerWidht4SongsResponsiveNormal};
+    height: ${calculateContainerWidht4SongsResponsiveNormal};
+  }
+  @media (max-width: 500px) {
+    width: ${calculateContainerWidht4SongsResponsiveSmall};
+    height: ${calculateContainerWidht4SongsResponsiveSmall};
+  }
+  @media (max-width: 350px) {
+    width: ${calculateContainerWidht3SongsResponsive};
+    height: ${calculateContainerWidht3SongsResponsive};
+  }
 `;
 
 const SongTitle = styled.h3`
@@ -86,11 +113,11 @@ const SongTitle = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
 
-  @media (max-width: 480px) {
+  @media (max-width: 620px) {
     font-size: medium;
   }
 
-  @media (max-width: 320px) {
+  @media (max-width: 500px) {
     font-size: small;
   }
 
@@ -115,11 +142,11 @@ const SongArtists = styled.div`
     cursor: pointer;
     margin-top: 0.5em;
 
-    @media (max-width: 480px) {
+    @media (max-width: 620px) {
       font-size: medium;
     }
 
-    @media (max-width: 320px) {
+    @media (max-width: 500px) {
       font-size: small;
     }
 
@@ -138,6 +165,21 @@ const SongArtists = styled.div`
 
 const SongContainer = styled.div`
   width: ${calculateContainerWidht};
+  @media (max-width: 1000px) {
+    width: ${calculateContainerWidht5SongsResponsive};
+  }
+  @media (max-width: 800px) {
+    width: ${calculateContainerWidht4SongsResponsiveBig};
+  }
+  @media (max-width: 620px) {
+    width: ${calculateContainerWidht4SongsResponsiveNormal};
+  }
+  @media (max-width: 500px) {
+    width: ${calculateContainerWidht4SongsResponsiveSmall};
+  }
+  @media (max-width: 350px) {
+    width: ${calculateContainerWidht3SongsResponsive};
+  }
 `;
 
 export { SongCover, SongTitle, SongArtists, SongContainer };

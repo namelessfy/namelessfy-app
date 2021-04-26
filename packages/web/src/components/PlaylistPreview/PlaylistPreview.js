@@ -4,18 +4,24 @@ import { useMediaQuery } from "react-responsive";
 
 import Song from "../Song";
 
-import { Container, Title, TitleContainer, Buttons } from "./style";
+import {
+  SongsContainer,
+  Title,
+  TitleContainer,
+  Buttons,
+  Container,
+} from "./style";
 import { Icon } from "../../styles/mainStyles";
 import usePlayer from "../../hooks/usePlayer";
 import { startListByIndex } from "../../utils/playerUtils";
 
 function PlaylistPreview({ songs, title }) {
-  const { setSongAndQueue, currentSong, play } = usePlayer();
+  const { setSongAndQueue, currentSong } = usePlayer();
   const [page, setPage] = useState(1);
   const [shownSongs, setShownSongs] = useState([]);
   const [songsPerPage, setSongsPerPage] = useState(5);
 
-  const isBigScreen = useMediaQuery({ minWidth: 1000 });
+  const isBigScreen = useMediaQuery({ minWidth: 800 });
 
   useEffect(() => {
     if (isBigScreen) {
@@ -56,16 +62,17 @@ function PlaylistPreview({ songs, title }) {
   }
 
   return (
-    <>
+    <Container>
       <TitleContainer>
         <Title>{title}</Title>
         <Buttons>
           <Icon name="previous" onClick={handlePreviousPage} size="xSmall" />
+          {page}/{Math.floor(songs.length / songsPerPage) + 1}
           <Icon name="next" onClick={handleNextPage} size="xSmall" />
         </Buttons>
       </TitleContainer>
       <hr />
-      <Container>
+      <SongsContainer>
         {shownSongs.map((song, index) => (
           <Song
             key={song._id}
@@ -75,8 +82,8 @@ function PlaylistPreview({ songs, title }) {
             }}
           />
         ))}
-      </Container>
-    </>
+      </SongsContainer>
+    </Container>
   );
 }
 
