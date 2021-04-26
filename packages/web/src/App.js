@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./styles/App.css";
 
@@ -17,9 +17,11 @@ import MusicPlayer from "./components/MusicPlayer";
 
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
+import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(authSelector);
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
@@ -41,7 +43,7 @@ function App() {
 
   return (
     <div className="App__container">
-      <MusicPlayer />
+      {isAuthenticated && <MusicPlayer />}
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
