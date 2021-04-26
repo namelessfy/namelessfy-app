@@ -6762,7 +6762,7 @@ form-data@~2.3.2:
 
 formik@^2.2.6:
   version "2.2.6"
-  resolved "https://registry.npmjs.org/formik/-/formik-2.2.6.tgz"
+  resolved "https://registry.yarnpkg.com/formik/-/formik-2.2.6.tgz#378a4bafe4b95caf6acf6db01f81f3fe5147559d"
   integrity sha512-Kxk2zQRafy56zhLmrzcbryUpMBvT0tal5IvcifK5+4YNGelKsnrODFJ0sZQRMQboblWNym4lAW3bt+tf2vApSA==
   dependencies:
     deepmerge "^2.1.1"
@@ -15425,7 +15425,7 @@ yocto-queue@^0.1.0:
 
 yup@^0.32.9:
   version "0.32.9"
-  resolved "https://registry.npmjs.org/yup/-/yup-0.32.9.tgz"
+  resolved "https://registry.yarnpkg.com/yup/-/yup-0.32.9.tgz#9367bec6b1b0e39211ecbca598702e106019d872"
   integrity sha512-Ci1qN+i2H0XpY7syDQ0k5zKQ/DoxO0LzPg8PAR/X4Mpj6DqaeCoIYEEjDJwhArh3Fa7GWbQQVDZKeXYlSH4JMg==
   dependencies:
     "@babel/runtime" "^7.10.5"
