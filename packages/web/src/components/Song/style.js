@@ -106,7 +106,6 @@ const SongCover = styled.button`
 
 const SongTitle = styled.h3`
   font-size: 18px;
-  padding: 0 0.5rem;
   margin: -0.5rem 0 0;
   cursor: pointer;
   white-space: nowrap;
@@ -132,7 +131,6 @@ const SongArtists = styled.div`
   font-size: 16px;
   font-weight: 200;
   width: 100%;
-  padding: 0 0.5rem;
   margin: -0.2rem 0 0;
   white-space: nowrap;
   overflow: hidden;
@@ -182,4 +180,31 @@ const SongContainer = styled.div`
   }
 `;
 
-export { SongCover, SongTitle, SongArtists, SongContainer };
+const BottomContainer = styled.div`
+  width: 100%;
+  padding: 0 0.2rem;
+  margin-left: 0.2rem;
+  display: flex;
+  align-items: start;
+  @media (max-width: 620px) {
+    & #dialogueButton {
+      display: none;
+    }
+  }
+`;
+
+const InfoContainer = styled.div`
+  width: calc(100% - 20px);
+  @media (max-width: 620px) {
+    width: 100%;
+  }
+`;
+
+export {
+  SongCover,
+  SongTitle,
+  SongArtists,
+  SongContainer,
+  BottomContainer,
+  InfoContainer,
+};
