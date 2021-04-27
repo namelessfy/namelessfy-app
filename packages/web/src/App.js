@@ -21,6 +21,7 @@ import UploadSong from "./pages/UploadSong";
 
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
+import EditUser from "./pages/EditUser/EditUser";
 
 function App() {
   const StyledApp = styled.div``;
@@ -51,26 +52,26 @@ function App() {
     };
   }, [dispatch]);
 
-  return (
-    <div className="App__container">
-      <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-        <GlobalStyles />
-        <StyledApp>
-          <button type="button" onClick={() => ThemeToggler()}>
-            Change Theme
-          </button>
-          <Switch>
-            <Route path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp} />
-            <Route path={ROUTES.LOGIN} component={Login} />
-            <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-            <Route path={ROUTES.HOME} component={Home} exact />
-            <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
-          </Switch>
-        </StyledApp>
-      </ThemeProvider>
-    </div>
-  );
+  // return (
+  //   <div className="App__container">
+  //     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+  //       <GlobalStyles />
+  //       <StyledApp>
+  //         <button type="button" onClick={() => ThemeToggler()}>
+  //           Change Theme
+  //         </button>
+  //         <Switch>
+  //           <Route path={ROUTES.SIGN_UP} component={SignUp} />
+  //           <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp} />
+  //           <Route path={ROUTES.LOGIN} component={Login} />
+  //           <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
+  //           <Route path={ROUTES.HOME} component={Home} exact />
+  //           <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
+  //         </Switch>
+  //       </StyledApp>
+  //     </ThemeProvider>
+  //   </div>
+  // );
 
   return (
     <div className="App__container">
@@ -82,6 +83,7 @@ function App() {
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <Route path={ROUTES.HOME} component={Home} exact />
         <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
+        <Route path={ROUTES.EDIT_USER} component={EditUser} exact />
       </Switch>
     </div>
   );

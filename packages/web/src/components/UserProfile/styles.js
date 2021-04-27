@@ -39,12 +39,14 @@ const ViewButton = styled.button`
   width: auto;
 `;
 
-const ProfileNav = styled.div`
-  display: flex;
-  flex-direction: row, wrap;
-  justify-content: space-evenly;
-  margin: 20px;
+const EditButton = styled.button` 
+  margin-top: 10px;
+  margin-left: 80%;
+  padding: 5px;
+  border: 1px solid white;
+  border-radius: 5px;
 `;
+
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -62,10 +64,46 @@ const AddSongButton = styled.button`
   max-width: 200px;
 `;
 
-const MediaContainer = styled.div`
-  border: 1px solid white;
+const NavContainer = styled.div`
   display: flex;
-  flex-direction: row wrap;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  max-width: 80%;
+  margin: 25px auto;
+  margin-top: 20px;
+  button {
+    padding: 5px 10px;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    &:hover {
+      background: #2E3530;
+    };
+
+    &:focus{
+      background: linear-gradient(to bottom right, black, gray);
+    };
+    
+  }
+`;
+
+const MediaContainer = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-around;
+  max-width: 80%;
+  margin: 0 auto;
+  div {
+
+  };
+`;
+
+const Media = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  width: 100%;
+  height: 200px;
+  border: 1px solid white;
+  justify-content: space-around;
 `;
 
 const ProfileImageDefault = styled.div`
@@ -75,23 +113,25 @@ const ProfileImageDefault = styled.div`
   padding: min(40%, 150px);
   margin: 1em 0;
   align-self: center;
-  background-image: url(${(props) =>
-    props.src ||
-    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
   background-size: cover;
   background-position: center;
   box-shadow: 2px 2px 5px #0008;
   transition: box-shadow 0.1s ease-in-out;
+  background-image: url(${(props) =>
+    props.src ||
+    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
 `;
 
 export {
   UserName,
   Statistics,
   ViewButton,
-  ProfileNav,
   AddSongButton,
-  MediaContainer,
+  NavContainer,
   ProfileImageDefault,
   ProfileContainer,
   ButtonContainer,
+  EditButton,
+  Media,
+  MediaContainer,
 };
