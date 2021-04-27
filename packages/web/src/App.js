@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route } from "react-router-dom";
+
+import React, { useEffect } from "react";
+import { Switch, Route, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./styles/App.css";
@@ -22,14 +23,7 @@ import EditUser from "./pages/EditUser/EditUser";
 import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
-  const StyledApp = styled.div``;
-
-  const [theme, setTheme] = useState("light");
-
-  const ThemeToggler = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
-
+  const location = useLocation();
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector(authSelector);
 
@@ -53,7 +47,9 @@ function App() {
 
   return (
     <div className="App__container">
-      {isAuthenticated && <MusicPlayer />}
+      {isAuthenticated && location.pathname !== ROUTES.COMPLETE_SIGNUP && (
+        <MusicPlayer />
+      )}
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />

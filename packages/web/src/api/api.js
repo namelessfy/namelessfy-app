@@ -35,11 +35,38 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getFavorites(headers, id = "me") {
+    return request({
+      url: `/tracks/favorite/${id}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function likeSong(headers, trackId) {
+    return request({
+      url: `/tracks/favorite/${trackId}`,
+      requestMethod: "POST",
+      headers: headers,
+    });
+  }
+
+  function dislikeSong(headers, trackId) {
+    return request({
+      url: `/tracks/favorite/${trackId}`,
+      requestMethod: "PATCH",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
     editUser: editUser,
     createTrack: createTrack,
+    getFavorites: getFavorites,
+    likeSong: likeSong,
+    dislikeSong: dislikeSong,
   };
 }
 

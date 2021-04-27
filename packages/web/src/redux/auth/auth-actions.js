@@ -1,6 +1,7 @@
 import * as AuthTypes from "./auth-types";
 import api from "../../api";
 import * as auth from "../../services/auth";
+import { setUser } from "../user/user-actions";
 
 export const resetStoreAndLogOut = () => ({
   type: AuthTypes.RESET_STORE_AND_LOG_OUT,
@@ -64,6 +65,7 @@ export function syncSignIn() {
       return dispatch(signUpError(response.errorMessage));
     }
 
+    dispatch(setUser(response.data));
     return dispatch(signUpSuccess(response.data));
   };
 }
@@ -95,8 +97,9 @@ export function signOut() {
       return dispatch(signOutError(response.errorMessage));
     }
 
-    auth.signOut();
+    dispatch(setUser({ email: null }));
 
+    auth.signOut();
     return dispatch(signOutSuccess());
   };
 }
@@ -138,40 +141,4 @@ export const sendPasswordResetEmailSuccess = () => ({
 
 export const resetAuthState = () => ({
   type: AuthTypes.RESET_AUTH_STATE,
-});
-
-export function editUser(formData) {
-  return async function editUserThunk(dispatch) {
-    dispatch(editUserRequest());
-    const token = await auth.getCurrentUserToken();
-    if (!token) {
-      return dispatch(editUserError("Error Getting the token"));
-    }
-
-    const response = await api.editUser(
-      {
-        Authorization: `Bearer ${token}`,
-      },
-      formData,
-    );
-
-    if (response.errorMessage) {
-      return dispatch(editUserError(response.errorMessage));
-    }
-    return dispatch(editUserSuccess(response.data));
-  };
-}
-
-export const editUserRequest = () => ({
-  type: AuthTypes.EDIT_USER_REQUEST,
-});
-
-export const editUserError = (message) => ({
-  type: AuthTypes.EDIT_USER_ERROR,
-  payload: message,
-});
-
-export const editUserSuccess = (user) => ({
-  type: AuthTypes.EDIT_USER_SUCCESS,
-  payload: user,
 });
