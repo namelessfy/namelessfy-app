@@ -1,4 +1,8 @@
 import * as UserTypes from "./user-types";
+import {
+  removeFromLikedSongs,
+  addToLikedSongs,
+} from "../../utils/favoritesUtils";
 
 export const UserInitialState = {
   isEditingUser: false,
@@ -69,7 +73,7 @@ const UserReducer = (state = UserInitialState, action) => {
       return {
         ...state,
         isSettingLike: false,
-        favorites: [...state.favorites, action.payload],
+        favorites: addToLikedSongs(action.payload, [...state.favorites]),
       };
     }
     case UserTypes.LIKE_ERROR: {
@@ -86,9 +90,9 @@ const UserReducer = (state = UserInitialState, action) => {
       };
     }
     case UserTypes.DISLIKE_SUCCESS: {
-      const newFav = [...state.favorites].filter(
-        (song) => song._id !== action.payload._id,
-      );
+      const newFav = removeFromLikedSongs(action.payload._id, [
+        ...state.favorites,
+      ]);
 
       return {
         ...state,

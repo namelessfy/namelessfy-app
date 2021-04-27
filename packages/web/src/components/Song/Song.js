@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import DialogueBox from "../DialogueBox";
 
@@ -15,9 +15,12 @@ import {
 
 import { Icon } from "../../styles/mainStyles";
 import { dislikeSong, likeSong } from "../../redux/user/user-actions";
+import { isLiked } from "../../utils/favoritesUtils";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
+  const { favorites } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -27,11 +30,14 @@ function Song({ songInfo, handleClick }) {
     setIsShowingDialogue(true);
   }
 
+  const likeFunction = isLiked(songInfo._id, favorites)
+    ? { Dislike: () => dispatch(dislikeSong(songInfo._id)) }
+    : { Like: () => dispatch(likeSong(songInfo._id)) };
+
   const dialogueButtons = {
     Play: handleClick,
     "Song information": () => console.log("Show song information"),
-    Like: () => dispatch(likeSong(songInfo._id)),
-    Dislike: () => dispatch(dislikeSong(songInfo._id)),
+    ...likeFunction,
     "Add to playlis": () => console.log("Add to playlis"),
     Edit: () => console.log("edit"),
   };
