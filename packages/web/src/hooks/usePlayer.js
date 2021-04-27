@@ -52,7 +52,7 @@ export default function usePlayer() {
 
   useEffect(() => {
     setIsLiked(isThisSongLiked(currentSong._id, favorites));
-  }, [favorites]);
+  }, [favorites, currentSong]);
 
   function handelSliderChange(e) {
     e.preventDefault();

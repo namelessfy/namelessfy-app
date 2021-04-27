@@ -150,3 +150,37 @@ export const dislikeSongSuccess = (song) => ({
   type: UserTypes.DISLIKE_SUCCESS,
   payload: song,
 });
+
+export const getMySongs = () => {
+  return async function getMySongsThunk(dispatch) {
+    dispatch(getMySongsRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getMySongsError("Error Getting the token"));
+    }
+
+    const response = await api.getSongs({
+      Authorization: `Bearer ${token}`,
+    });
+
+    if (response.errorMessage) {
+      return dispatch(getMySongsError(response.errorMessage));
+    }
+
+    return dispatch(getMySongsSuccess(response.data.data));
+  };
+};
+
+export const getMySongsRequest = () => ({
+  type: UserTypes.GET_MYSONGS_REQUEST,
+});
+
+export const getMySongsError = (error) => ({
+  type: UserTypes.GET_MYSONGS_ERROR,
+  payload: error,
+});
+
+export const getMySongsSuccess = (mySongs) => ({
+  type: UserTypes.GET_MYSONGS_SUCCESS,
+  payload: mySongs,
+});

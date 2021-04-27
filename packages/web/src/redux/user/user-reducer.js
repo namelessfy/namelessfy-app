@@ -17,6 +17,9 @@ export const UserInitialState = {
   likeError: null,
   isSettingDislike: false,
   dislikeError: null,
+  mySongs: null,
+  isGettingMySongs: false,
+  getMySongsError: null,
 };
 
 const UserReducer = (state = UserInitialState, action) => {
@@ -110,7 +113,27 @@ const UserReducer = (state = UserInitialState, action) => {
     case UserTypes.DISLIKE_REQUEST: {
       return {
         ...state,
-        isSettinDislike: true,
+        isSettingDislike: true,
+      };
+    }
+    case UserTypes.GET_MYSONGS_SUCCESS: {
+      return {
+        ...state,
+        isGettingMySongs: false,
+        mySongs: [...action.payload],
+      };
+    }
+    case UserTypes.GET_MYSONGS_ERROR: {
+      return {
+        ...state,
+        isGettingMySongs: false,
+        getMySongsError: action.payload,
+      };
+    }
+    case UserTypes.GET_MYSONGS_REQUEST: {
+      return {
+        ...state,
+        isGettingMySongs: true,
       };
     }
     default: {

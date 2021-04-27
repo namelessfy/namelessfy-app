@@ -59,6 +59,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getMySongs(headers) {
+    return request({
+      url: `/tracks`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -67,6 +75,7 @@ function makeApi(request = makeRequest()) {
     getFavorites: getFavorites,
     likeSong: likeSong,
     dislikeSong: dislikeSong,
+    getSongs: getMySongs,
   };
 }
 
