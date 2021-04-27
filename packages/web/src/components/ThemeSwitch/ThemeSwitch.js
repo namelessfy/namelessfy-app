@@ -14,15 +14,14 @@ function SwitchTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
-  return (""
-    // <ThemeProvider theme={theme === light ? lightTheme : darkTheme}>
-    //   <GlobalStyles />
-    //   <StyledApp>
-    //     Hello World
-    //     <button onClick={() => ThemeToggler()}>Change Theme</button>
-    //   </StyledApp>
-    // </ThemeProvider>
-  );
+  return "";
+  // <ThemeProvider theme={theme === light ? lightTheme : darkTheme}>
+  //   <GlobalStyles />
+  //   <StyledApp>
+  //     Hello World
+  //     <button onClick={() => ThemeToggler()}>Change Theme</button>
+  //   </StyledApp>
+  // </ThemeProvider>
 }
 
 export default SwitchTheme;
