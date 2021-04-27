@@ -87,14 +87,14 @@ function SignUp() {
                 .required("Email is a required"),
               password: Yup.string()
                 .required("Password is required")
-                .min(6, 'Password must contain at least 6 characters')
-              })}
-              onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  console.log(values);
-                  setSubmitting(false);
-                  handleLoginWithEmailAndPassword(values.email, values.password)
-                }, 500);
+                .min(6, "Password must contain at least 6 characters"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                console.log(values);
+                setSubmitting(false);
+                handleLoginWithEmailAndPassword(values.email, values.password);
+              }, 500);
             }}
           >
             {({
@@ -107,10 +107,12 @@ function SignUp() {
             }) => {
               return (
                 <>
-                  <Form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleSubmit();
-                  }}>
+                  <Form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit();
+                    }}
+                  >
                     <Label htmlFor="email">Email</Label>
                     <Input
                       type="email"
@@ -141,9 +143,7 @@ function SignUp() {
                       <ErrorInput>{errors.password}</ErrorInput>
                     )}
 
-                    <Button type="submit">
-                      Sign up
-                    </Button>
+                    <Button type="submit">Sign up</Button>
                     {signUpError && <Error>Error: {signUpError}</Error>}
                   </Form>
                 </>

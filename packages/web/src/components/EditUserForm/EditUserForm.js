@@ -22,7 +22,7 @@ function EditUserForm() {
   const dispatch = useDispatch();
 
   const [user, setUser] = useState({});
-  const [ previewImage ] = useState("");
+  const [previewImage] = useState("");
 
   const formData = new FormData();
 
@@ -34,8 +34,13 @@ function EditUserForm() {
     }
   }, [currentUser]);
 
-  function handleEditInfoUser(porfileImage, userName, firstName, lastName, birthday) {
-
+  function handleEditInfoUser(
+    porfileImage,
+    userName,
+    firstName,
+    lastName,
+    birthday,
+  ) {
     if (porfileImage) {
       formData.append("porfileImage", porfileImage);
     }
@@ -88,7 +93,13 @@ function EditUserForm() {
         setTimeout(() => {
           console.log(values);
           setSubmitting(false);
-          handleEditInfoUser(values.porfileImage,values.userName, values.firstName, values.lastName, values.birthday)
+          handleEditInfoUser(
+            values.porfileImage,
+            values.userName,
+            values.firstName,
+            values.lastName,
+            values.birthday,
+          );
         }, 500);
       }}
     >
