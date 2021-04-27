@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { lightTheme, darkTheme, GlobalStyles } from "./style.js";
 import styled from "styled-components";
+import { lightTheme, darkTheme, GlobalStyles } from "./style";
 
 const StyledApp = styled.div`
   color: ${(props) => props.theme.fontColor};
@@ -14,14 +14,14 @@ function SwitchTheme() {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
-  return (
-    <ThemeProvider theme={theme === light ? lightTheme : darkTheme}>
-      <GlobalStyles />
-      <StyledApp>
-        Hello World
-        <button onClick={() => ThemeToggler()}>Change Theme</button>
-      </StyledApp>
-    </ThemeProvider>
+  return (""
+    // <ThemeProvider theme={theme === light ? lightTheme : darkTheme}>
+    //   <GlobalStyles />
+    //   <StyledApp>
+    //     Hello World
+    //     <button onClick={() => ThemeToggler()}>Change Theme</button>
+    //   </StyledApp>
+    // </ThemeProvider>
   );
 }
 
