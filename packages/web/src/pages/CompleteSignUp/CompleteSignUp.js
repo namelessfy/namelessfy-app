@@ -9,13 +9,13 @@ import { Title, Separation } from "./style";
 
 import * as ROUTES from "../../routes";
 
-import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 
 function CompleteSignUP() {
-  const { isAuthenticated, currentUser } = useSelector(authSelector);
+  const { currentUser } = useSelector(userSelector);
 
-  if (isAuthenticated && hasUserAllInfo(currentUser)) {
+  if (hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.HOME} />;
   }
   return (

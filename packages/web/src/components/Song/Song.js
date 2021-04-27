@@ -43,7 +43,10 @@ function Song({ songInfo, handleClick }) {
         />
       )}
       <SongCover
-        src={songInfo.thumbnail}
+        src={
+          songInfo.thumbnail ||
+          "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
+        }
         onClick={handleClick}
         onContextMenu={showDialogueBox}
       />
