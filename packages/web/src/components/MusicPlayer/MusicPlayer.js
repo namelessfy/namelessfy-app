@@ -4,7 +4,6 @@ import usePlayer from "../../hooks/usePlayer";
 import {
   SongPalyerCard,
   Thumbnail,
-  Icon,
   Buttons,
   SongInfo,
   SongTitle,
@@ -16,6 +15,8 @@ import {
   SongPalyer,
   LikeBackground,
 } from "./style";
+
+import { Icon } from "../../styles/mainStyles";
 
 function MusicPlayer() {
   const {

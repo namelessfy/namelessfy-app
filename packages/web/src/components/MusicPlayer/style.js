@@ -1,54 +1,14 @@
 import styled, { keyframes } from "styled-components";
-import heartFull from "../../img/heart-full.svg";
-import heartEmpty from "../../img/heart-empty.svg";
-import play from "../../img/play.svg";
-import pause from "../../img/pause.svg";
-import next from "../../img/next.svg";
-import previous from "../../img/previous.svg";
-import random from "../../img/random.svg";
-import randomClicked from "../../img/randomClicked.svg";
-import list from "../../img/list.svg";
 import close from "../../img/close.svg";
 import * as colors from "../../styles/colors";
+import { MAIN as mainFont } from "../../styles/fonts";
 
-const icons = {
-  play,
-  pause,
-  heartEmpty,
-  heartFull,
-  next,
-  previous,
-  random,
-  list,
-  close,
-  randomClicked,
-};
 const modalWidth = {
   xBig: 450,
   big: 440,
   medium: 380,
   small: 320,
   xSmall: 250,
-};
-const iconSizes = {
-  s: {
-    large: 30,
-    normal: 24,
-    small: 20,
-    xSmall: 16,
-  },
-  m: {
-    large: 36,
-    normal: 30,
-    small: 24,
-    xSmall: 20,
-  },
-  l: {
-    large: 48,
-    normal: 36,
-    small: 30,
-    xSmall: 24,
-  },
 };
 
 const backgroundIn = keyframes`
@@ -84,6 +44,8 @@ const Background = styled.section`
   z-index: 10;
   animation: ${backgroundIn} 0.5s ease-out;
   overflow: hidden;
+  color: ${colors.WHITE};
+  font-family: ${mainFont};
 `;
 
 const SongPalyerCard = styled.section`
@@ -129,6 +91,8 @@ const SongPalyer = styled.section`
   bottom: 0;
   left: 0;
   padding: 0 5rem;
+  color: ${colors.WHITE};
+  font-family: ${mainFont};
 
   @media (min-width: 1000px) {
     left: calc(50vw - 500px);
@@ -176,34 +140,6 @@ const Thumbnail = styled.div`
 
   @media (max-width: 320px) {
     height: ${modalWidth.xSmall}px;
-  }
-`;
-
-const Icon = styled.button`
-  width: ${({ size }) => iconSizes.l[size]}px;
-  height: ${({ size }) => iconSizes.l[size]}px;
-  background: url(${({ name }) => icons[name]});
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  cursor: pointer;
-  transition: opacity 0.2s ease-in-out;
-  &:hover,
-  &:focus {
-    outline: none;
-    opacity: 0.8;
-  }
-
-  @media (max-width: 480px) {
-    width: ${({ size }) => iconSizes.m[size]}px;
-    height: ${({ size }) => iconSizes.m[size]}px;
-  }
-
-  @media (max-width: 320px) {
-    width: ${({ size, card }) =>
-      card ? iconSizes.s[size] : iconSizes.m[size]}px;
-    height: ${({ size, card }) =>
-      card ? iconSizes.s[size] : iconSizes.m[size]}px;
   }
 `;
 
@@ -450,6 +386,8 @@ const Timer = styled.span`
     return `
         margin: 0;
         font-size: large;
+        width: 110px;
+        text-align: right;
   
         @media (max-width: 1000px) {
           display: none;
@@ -460,7 +398,8 @@ const Timer = styled.span`
 const Close = styled.button`
   width: 24px;
   height: 24px;
-  background: url(${icons.close});
+  background: url(${close}),
+    radial-gradient(circle, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 90%);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -469,6 +408,8 @@ const Close = styled.button`
   position: absolute;
   right: 1rem;
   top: 1rem;
+  border-radius: 50%;
+
   &:hover,
   &:focus {
     outline: none;
@@ -489,7 +430,6 @@ const LikeBackground = styled.div`
 export {
   SongPalyerCard,
   Thumbnail,
-  Icon,
   Buttons,
   SongInfo,
   SongTitle,

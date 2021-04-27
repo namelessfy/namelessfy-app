@@ -1,38 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import "./Home.scss";
 import MusicPlayer from "../../components/MusicPlayer";
+import Navbar from "../../components/Navbar";
+import PlaylistPreview from "../../components/PlaylistPreview";
+
 import * as ROUTES from "../../routes";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
-import { Main } from "../../styles/mainStyles";
 
-import Navbar from "../../components/Navbar/Navbar";
+import { Main } from "../../styles/mainStyles";
+import { Container } from "./style";
 
 function Home() {
-  const { isAuthenticated, currentUser } = useSelector(authSelector);
+  const { currentUser } = useSelector(authSelector);
+  const { isShuffle, queue, shuffleQueue, preQueue } = useSelector(
+    playerSelector,
+  );
+  const [fullQueue, setFullQueue] = useState([]);
 
-  if (isAuthenticated && !hasUserAllInfo(currentUser)) {
+  useEffect(() => {
+    if (isShuffle) {
+      setFullQueue([...preQueue, ...shuffleQueue]);
+    } else {
+      setFullQueue([...preQueue, ...queue]);
+    }
+  }, [preQueue, isShuffle, queue, shuffleQueue]);
+
+  if (!hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
-  }
-  if (!isAuthenticated) {
-    return <Redirect to={ROUTES.LOGIN} />;
   }
 
   return (
     <Main>
-      {isAuthenticated && <Navbar />}
-      <MusicPlayer />
-      <section className="p-4">
-        {isAuthenticated ? (
-          <h1 className="text-xl">Hello {currentUser.email}</h1>
-        ) : (
-          <h1 className="text-xl">Hello World</h1>
-        )}
-      </section>
+      <Navbar />
+      <Container>
+        <PlaylistPreview title="Queue" songs={fullQueue} />
+      </Container>
     </Main>
   );
 }
