@@ -42,3 +42,37 @@ export const setUser = (user) => ({
   type: UserTypes.SET_USER,
   payload: user,
 });
+
+export const getFavorites = () => {
+  return async function getFavoritesThunk(dispatch) {
+    dispatch(getFavoritesRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getFavoritesError("Error Getting the token"));
+    }
+
+    const response = await api.getFavorites({
+      Authorization: `Bearer ${token}`,
+    });
+
+    if (response.errorMessage) {
+      return dispatch(getFavoritesError(response.errorMessage));
+    }
+
+    return dispatch(getFavoritesSuccess(response.data.data));
+  };
+};
+
+export const getFavoritesRequest = () => ({
+  type: UserTypes.SET_FAVORITES_REQUEST,
+});
+
+export const getFavoritesError = (error) => ({
+  type: UserTypes.SET_FAVORITES_ERROR,
+  payload: error,
+});
+
+export const getFavoritesSuccess = (favorites) => ({
+  type: UserTypes.SET_FAVORITES_SUCCESS,
+  payload: favorites,
+});

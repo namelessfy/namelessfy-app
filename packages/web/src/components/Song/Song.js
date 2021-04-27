@@ -27,7 +27,7 @@ function Song({ songInfo, handleClick }) {
   const dialogueButtons = {
     Play: handleClick,
     "Song information": () => console.log("Show song information"),
-    Like: () => console.log("play"),
+    Like: () => console.log("like"),
     "Add to playlis": () => console.log("Add to playlis"),
     Edit: () => console.log("edit"),
   };

@@ -1,14 +1,17 @@
 import * as UserTypes from "./user-types";
 
-export const AuthInitialState = {
+export const UserInitialState = {
   isEditingUser: false,
   editUserError: null,
   currentUser: {
     email: null,
   },
+  favorites: [],
+  setFavoritesError: null,
+  isGettingFavorites: false,
 };
 
-const AuthReducer = (state = AuthInitialState, action) => {
+const UserReducer = (state = UserInitialState, action) => {
   switch (action.type) {
     case UserTypes.EDIT_USER_REQUEST: {
       return {
@@ -38,10 +41,30 @@ const AuthReducer = (state = AuthInitialState, action) => {
         currentUser: action.payload,
       };
     }
+    case UserTypes.SET_FAVORITES_SUCCESS: {
+      return {
+        ...state,
+        isGettingFavorites: false,
+        favorites: action.payload,
+      };
+    }
+    case UserTypes.SET_FAVORITES_ERROR: {
+      return {
+        ...state,
+        isGettingFavorites: false,
+        setFavoritesError: action.payload,
+      };
+    }
+    case UserTypes.SET_FAVORITES_REQUEST: {
+      return {
+        ...state,
+        isGettingFavorites: true,
+      };
+    }
     default: {
       return state;
     }
   }
 };
 
-export default AuthReducer;
+export default UserReducer;

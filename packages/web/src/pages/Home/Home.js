@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import MusicPlayer from "../../components/MusicPlayer";
 import Navbar from "../../components/Navbar";
 import PlaylistPreview from "../../components/PlaylistPreview";
 
@@ -11,32 +10,28 @@ import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
-import * as auth from "../../services/auth";
 
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
+import { getFavorites } from "../../redux/user/user-actions";
 
 function Home() {
-  const { currentUser } = useSelector(userSelector);
+  const dispatch = useDispatch();
+  const { currentUser, favorites } = useSelector(userSelector);
   const { isShuffle, queue, shuffleQueue, preQueue } = useSelector(
     playerSelector,
   );
   const [fullQueue, setFullQueue] = useState([]);
-  const [likedSongs, setLikedSongs] = useState([]);
+  const [hasAllInfo, setHasAllInfo] = useState(false);
   useEffect(() => {
-    let token;
-    (async () => {
-      token = await auth.getCurrentUserToken();
+    if (hasAllInfo) {
+      dispatch(getFavorites());
+    }
+  }, [hasAllInfo]);
 
-      fetch("http://localhost:4000/tracks/favorite/608202acaa0133516851ab13", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then(({ data }) => setLikedSongs(data));
-    })();
-  }, []);
+  useEffect(() => {
+    setHasAllInfo(hasUserAllInfo(currentUser));
+  }, [currentUser]);
 
   useEffect(() => {
     if (isShuffle) {
@@ -46,8 +41,7 @@ function Home() {
     }
   }, [preQueue, isShuffle, queue, shuffleQueue]);
 
-  console.log(currentUser);
-  if (!currentUser || !hasUserAllInfo(currentUser)) {
+  if (!hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
   }
 
@@ -56,8 +50,8 @@ function Home() {
       <Navbar />
       <Container>
         <PlaylistPreview title="Queue" songs={fullQueue} />
-        {likedSongs?.length > 0 && (
-          <PlaylistPreview title="Liked Songs" songs={likedSongs} />
+        {favorites.length > 0 && (
+          <PlaylistPreview title="Liked Songs" songs={favorites} />
         )}
       </Container>
     </Main>
