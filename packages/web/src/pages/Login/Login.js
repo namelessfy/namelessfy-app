@@ -26,6 +26,7 @@ import namelessfyLogo from "../../img/namelessfyLogo.svg";
 import {
   resetAuthState,
   signUpWithGoogleRequest,
+  signUpWithEmailRequest,
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
@@ -43,6 +44,10 @@ function Login() {
   function handleLoginWithGoogle(e) {
     e.preventDefault();
     dispatch(signUpWithGoogleRequest());
+  }
+
+  function handleLoginWithEmailAndPassword(email, password) {
+    dispatch(signUpWithEmailRequest(email, password));
   }
 
   if (isAuthenticated) {
@@ -86,8 +91,8 @@ function Login() {
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                console.log(values);
                 setSubmitting(false);
+                handleLoginWithEmailAndPassword(values.email, values.password);
               }, 500);
             }}
           >
@@ -102,7 +107,6 @@ function Login() {
             }) => {
               return (
                 <>
-                  {JSON.stringify(errors, null, 2)}
                   <Form
                     onSubmit={() => {
                       handleSubmit();
@@ -154,10 +158,12 @@ function Login() {
               );
             }}
           </Formik>
-
+          <Separation />
           <RedirectMessage>
-            <hr />
-            <Link to={ROUTES.RESET_PASSWORD}>Reset password</Link>
+            First time here?
+            <div>
+              <Link to={ROUTES.SIGN_UP}>Sign up</Link>
+            </div>
           </RedirectMessage>
         </section>
       </Main>
