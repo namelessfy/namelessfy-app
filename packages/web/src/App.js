@@ -23,17 +23,14 @@ import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
 
 function App() {
-  const StyledApp = styled.div`
-    
-  `;
-  
+  const StyledApp = styled.div``;
+
   const [theme, setTheme] = useState("light");
-  
+
   const ThemeToggler = () => {
     theme === "light" ? setTheme("dark") : setTheme("light");
   };
 
-  
   const dispatch = useDispatch();
 
   useEffect(() => {

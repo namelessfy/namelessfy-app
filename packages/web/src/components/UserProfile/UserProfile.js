@@ -38,8 +38,8 @@ function UserProfile() {
           </UserName>
           <Statistics>
             <div>
-              <p>{currentUser.followers || "3.141.596 Followers" }</p>
-              <p>{currentUser.followers || "4 Following" }</p>
+              <p>{currentUser.followers || "3.141.596 Followers"}</p>
+              <p>{currentUser.followers || "4 Following"}</p>
             </div>
             <ViewButton>Switch View</ViewButton>
           </Statistics>
