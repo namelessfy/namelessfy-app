@@ -386,7 +386,7 @@ const Timer = styled.span`
     return `
         margin: 0;
         font-size: large;
-        width: 110px;
+        width: 120px;
         text-align: right;
   
         @media (max-width: 1000px) {

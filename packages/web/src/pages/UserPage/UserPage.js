@@ -6,7 +6,7 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 function UserPage() {
   return (
     <Main>
-        <UserProfile />
+      <UserProfile />
     </Main>
   );
 }

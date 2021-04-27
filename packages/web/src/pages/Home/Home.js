@@ -13,16 +13,30 @@ import { hasUserAllInfo } from "../../utils/utils";
 
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
-import { getFavorites } from "../../redux/user/user-actions";
+import { getFavorites, getMySongs } from "../../redux/user/user-actions";
 
 function Home() {
   const dispatch = useDispatch();
-  const { currentUser, favorites } = useSelector(userSelector);
+  const { currentUser, favorites, mySongs } = useSelector(userSelector);
   const { isShuffle, queue, shuffleQueue, preQueue } = useSelector(
     playerSelector,
   );
   const [fullQueue, setFullQueue] = useState([]);
   const [hasAllInfo, setHasAllInfo] = useState(false);
+  const [hasMySongs, setHasMySongs] = useState(false);
+
+  useEffect(() => {
+    if (hasAllInfo && !hasMySongs) {
+      dispatch(getMySongs());
+    }
+  }, [hasAllInfo, hasMySongs]);
+
+  useEffect(() => {
+    if (mySongs) {
+      setHasMySongs(true);
+    }
+  }, [mySongs]);
+
   useEffect(() => {
     if (hasAllInfo) {
       dispatch(getFavorites());
@@ -49,9 +63,12 @@ function Home() {
     <Main>
       <Navbar />
       <Container>
-        <PlaylistPreview title="Queue" songs={fullQueue} />
-        {favorites.length > 0 && (
+        {/* <PlaylistPreview title="Queue" songs={fullQueue} /> */}
+        {favorites?.length > 0 && (
           <PlaylistPreview title="Liked Songs" songs={favorites} />
+        )}
+        {mySongs?.length > 0 && (
+          <PlaylistPreview title="My Songs" songs={mySongs} />
         )}
       </Container>
     </Main>
