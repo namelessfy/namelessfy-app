@@ -37,7 +37,6 @@ function Home() {
   return (
     <Main>
       <Navbar />
-      <MusicPlayer />
       <Container>
         <PlaylistPreview title="Queue" songs={fullQueue} />
       </Container>

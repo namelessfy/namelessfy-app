@@ -1,6 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import close from "../../img/close.svg";
 import * as colors from "../../styles/colors";
+import { MAIN as mainFont } from "../../styles/fonts";
 
 const modalWidth = {
   xBig: 450,
@@ -43,6 +44,8 @@ const Background = styled.section`
   z-index: 10;
   animation: ${backgroundIn} 0.5s ease-out;
   overflow: hidden;
+  color: ${colors.WHITE};
+  font-family: ${mainFont};
 `;
 
 const SongPalyerCard = styled.section`
@@ -88,6 +91,8 @@ const SongPalyer = styled.section`
   bottom: 0;
   left: 0;
   padding: 0 5rem;
+  color: ${colors.WHITE};
+  font-family: ${mainFont};
 
   @media (min-width: 1000px) {
     left: calc(50vw - 500px);
@@ -381,6 +386,8 @@ const Timer = styled.span`
     return `
         margin: 0;
         font-size: large;
+        width: 110px;
+        text-align: right;
   
         @media (max-width: 1000px) {
           display: none;
