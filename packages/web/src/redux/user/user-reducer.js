@@ -9,6 +9,10 @@ export const UserInitialState = {
   favorites: [],
   setFavoritesError: null,
   isGettingFavorites: false,
+  isSettinLike: false,
+  likeError: null,
+  isSettingDislike: false,
+  dislikeError: null,
 };
 
 const UserReducer = (state = UserInitialState, action) => {
@@ -59,6 +63,50 @@ const UserReducer = (state = UserInitialState, action) => {
       return {
         ...state,
         isGettingFavorites: true,
+      };
+    }
+    case UserTypes.LIKE_SUCCESS: {
+      return {
+        ...state,
+        isSettingLike: false,
+        favorites: [...state.favorites, action.payload],
+      };
+    }
+    case UserTypes.LIKE_ERROR: {
+      return {
+        ...state,
+        isSettingLike: false,
+        likeError: action.payload,
+      };
+    }
+    case UserTypes.LIKE_REQUEST: {
+      return {
+        ...state,
+        isSettinLike: true,
+      };
+    }
+    case UserTypes.DISLIKE_SUCCESS: {
+      const newFav = [...state.favorites].filter(
+        (song) => song._id !== action.payload._id,
+      );
+
+      return {
+        ...state,
+        isSettingDislike: false,
+        favorites: newFav,
+      };
+    }
+    case UserTypes.DISLIKE_ERROR: {
+      return {
+        ...state,
+        isSettingDislike: false,
+        dislikeError: action.payload,
+      };
+    }
+    case UserTypes.DISLIKE_REQUEST: {
+      return {
+        ...state,
+        isSettinDislike: true,
       };
     }
     default: {

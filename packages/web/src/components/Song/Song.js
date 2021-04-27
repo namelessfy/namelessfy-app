@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 
 import DialogueBox from "../DialogueBox";
 
@@ -13,8 +14,10 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
+import { dislikeSong, likeSong } from "../../redux/user/user-actions";
 
 function Song({ songInfo, handleClick }) {
+  const dispatch = useDispatch();
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -27,7 +30,8 @@ function Song({ songInfo, handleClick }) {
   const dialogueButtons = {
     Play: handleClick,
     "Song information": () => console.log("Show song information"),
-    Like: () => console.log("like"),
+    Like: () => dispatch(likeSong(songInfo._id)),
+    Dislike: () => dispatch(dislikeSong(songInfo._id)),
     "Add to playlis": () => console.log("Add to playlis"),
     Edit: () => console.log("edit"),
   };

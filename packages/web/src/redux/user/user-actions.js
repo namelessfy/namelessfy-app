@@ -76,3 +76,77 @@ export const getFavoritesSuccess = (favorites) => ({
   type: UserTypes.SET_FAVORITES_SUCCESS,
   payload: favorites,
 });
+
+export const likeSong = (trackId) => {
+  return async function likeSongThunk(dispatch) {
+    dispatch(likeSongRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(likeSongError("Error Getting the token"));
+    }
+
+    const response = await api.likeSong(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      trackId,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(likeSongError(response.errorMessage));
+    }
+
+    return dispatch(likeSongSuccess(response.data.data));
+  };
+};
+
+export const likeSongRequest = () => ({
+  type: UserTypes.LIKE_REQUEST,
+});
+
+export const likeSongError = (error) => ({
+  type: UserTypes.LIKE_ERROR,
+  payload: error,
+});
+
+export const likeSongSuccess = (song) => ({
+  type: UserTypes.LIKE_SUCCESS,
+  payload: song,
+});
+
+export const dislikeSong = (trackId) => {
+  return async function dislikeSongThunk(dispatch) {
+    dispatch(dislikeSongRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(dislikeSongError("Error Getting the token"));
+    }
+
+    const response = await api.dislikeSong(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      trackId,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(dislikeSongError(response.errorMessage));
+    }
+
+    return dispatch(dislikeSongSuccess(response.data.data));
+  };
+};
+
+export const dislikeSongRequest = () => ({
+  type: UserTypes.DISLIKE_REQUEST,
+});
+
+export const dislikeSongError = (error) => ({
+  type: UserTypes.DISLIKE_ERROR,
+  payload: error,
+});
+
+export const dislikeSongSuccess = (song) => ({
+  type: UserTypes.DISLIKE_SUCCESS,
+  payload: song,
+});
