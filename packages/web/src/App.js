@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import styled, { ThemeProvider } from "styled-components";
+import { useDispatch, useSelector } from "react-redux";
 
-import "./styles/App.scss";
-import {
-  lightTheme,
-  darkTheme,
-  GlobalStyles,
-} from "./components/ThemeSwitch/style";
+import "./styles/App.css";
 
 import * as ROUTES from "./routes";
 import Home from "./pages/Home";
@@ -19,9 +13,13 @@ import ResetPassword from "./pages/ResetPassword";
 import UserPage from "./pages/UserPage";
 import UploadSong from "./pages/UploadSong";
 
+import ProtectedRoute from "./components/ProtectedRoute";
+import MusicPlayer from "./components/MusicPlayer";
+
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
+import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
   const StyledApp = styled.div``;
@@ -33,6 +31,7 @@ function App() {
   };
 
   const dispatch = useDispatch();
+  const { isAuthenticated } = useSelector(authSelector);
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
@@ -52,38 +51,22 @@ function App() {
     };
   }, [dispatch]);
 
-  // return (
-  //   <div className="App__container">
-  //     <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-  //       <GlobalStyles />
-  //       <StyledApp>
-  //         <button type="button" onClick={() => ThemeToggler()}>
-  //           Change Theme
-  //         </button>
-  //         <Switch>
-  //           <Route path={ROUTES.SIGN_UP} component={SignUp} />
-  //           <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp} />
-  //           <Route path={ROUTES.LOGIN} component={Login} />
-  //           <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-  //           <Route path={ROUTES.HOME} component={Home} exact />
-  //           <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
-  //         </Switch>
-  //       </StyledApp>
-  //     </ThemeProvider>
-  //   </div>
-  // );
-
   return (
     <div className="App__container">
+      {isAuthenticated && <MusicPlayer />}
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
-        <Route path={ROUTES.COMPLETE_SIGNUP} component={CompleteSignUp} />
-        <Route path={ROUTES.LOGIN} component={Login} />
-        <Route path={ROUTES.UPLOAD_SONG} component={UploadSong} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
         <Route path={ROUTES.HOME} component={Home} exact />
         <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
         <Route path={ROUTES.EDIT_USER} component={EditUser} exact />
+        <Route path={ROUTES.LOGIN} component={Login} />
+        <ProtectedRoute
+          path={ROUTES.COMPLETE_SIGNUP}
+          component={CompleteSignUp}
+        />
+        <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
+        <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>
   );

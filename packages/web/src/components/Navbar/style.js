@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import * as colors from "../../styles/colors";
 
 import menuIcon from "../../img/menu.svg";
@@ -16,7 +16,7 @@ const icons = {
 const NavbarContainer = styled.div`
   color: ${colors.WHITE};
   width: min(85%, 1000px);
-  margin: 1rem auto 0;
+  margin: 1.5rem auto 0;
 
   & ul {
     display: flex;
@@ -30,10 +30,8 @@ const MenuLogo = styled.div`
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  height: 50px;
-  width: 50px;
-  top: calc(50% - 25px);
-  left: calc(50% - 25px);
+  height: 42px;
+  width: 42px;
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
 
@@ -50,9 +48,7 @@ const NamelessfyLogo = styled.button`
   background-size: contain;
   background-position: center;
   height: 40px;
-  width: 60px;
-  top: calc(50% - 25px);
-  left: calc(50% - 25px);
+  width: 55px;
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
 

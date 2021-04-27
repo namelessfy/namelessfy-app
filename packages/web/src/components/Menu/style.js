@@ -1,5 +1,27 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import * as colors from "../../styles/colors";
+
+const Back = styled.section`
+  @media (min-width: 650px) {
+    position: absolute;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    background-color: #0004;
+    ${({ isShowing }) =>
+      isShowing
+        ? `
+      opacity: 1;
+      width: 100vw;
+      z-index: 2;
+      transition: all 0.5s ease-in-out, z-index 0s ease-in-out;
+  `
+        : `opacity: 0; 
+      width: 10vw; 
+      z-index: -1; 
+      transition: all 0.5s ease-in-out, z-index 0s ease-in-out 0.5s;`}
+  }
+`;
 
 const Background = styled.section`
   position: absolute;
@@ -18,7 +40,7 @@ const Background = styled.section`
       ? `
       opacity: 1;
       width: 100vw;
-      z-index: 2;
+      z-index: 3;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out;
   `
       : `opacity: 0; width: 10vw; 
@@ -39,4 +61,4 @@ const Background = styled.section`
   }
 `;
 
-export { Background };
+export { Background, Back };
