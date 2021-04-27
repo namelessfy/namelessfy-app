@@ -13,6 +13,7 @@ import random from "../img/random.svg";
 import randomClicked from "../img/randomClicked.svg";
 import list from "../img/list.svg";
 import close from "../img/close.svg";
+import ellipsis from "../img/ellipsis.svg";
 
 const icons = {
   play,
@@ -25,6 +26,7 @@ const icons = {
   list,
   close,
   randomClicked,
+  ellipsis,
 };
 
 const iconSizes = {
