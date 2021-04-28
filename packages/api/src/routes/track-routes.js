@@ -26,5 +26,5 @@ trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
 trackRouter.patch("/tracks/:id", authMiddleware, trackController.editTrackInfo);
 
 module.exports = {
-  trackRouter: trackRouter,
+  trackRouter,
 };

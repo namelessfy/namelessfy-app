@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = require("mongoose");
 
-const TrackSchema = Schema(
+const PlaylistSchema = Schema(
   {
     title: {
       type: String,
@@ -21,15 +21,12 @@ const TrackSchema = Schema(
       type: Number,
       required: false,
     },
-    rating: {
-      type: Number,
-      required: false,
-    },
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "user",
     },
+
     genre: {
       type: [
         {
@@ -39,20 +36,11 @@ const TrackSchema = Schema(
       required: true,
       default: [],
     },
-    artistId: {
+    tracks: {
       type: [
         {
           type: Schema.Types.ObjectId,
-          ref: "user",
-        },
-      ],
-      default: [],
-    },
-    playlists: {
-      type: [
-        {
-          type: Schema.Types.ObjectId,
-          ref: "playlist",
+          ref: "track",
         },
       ],
       default: [],
@@ -72,6 +60,6 @@ const TrackSchema = Schema(
   },
 );
 
-const Track = mongoose.model("track", TrackSchema);
+const Playlist = mongoose.model("playlist", PlaylistSchema);
 
-module.exports = Track;
+module.exports = Playlist;
