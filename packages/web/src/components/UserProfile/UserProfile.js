@@ -15,12 +15,11 @@ import {
 
 import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
-import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 import UserNavBar from "./UserNavBar";
 
 function UserProfile() {
-  const { currentUser } = useSelector(authSelector);
-  console.log(currentUser);
+  const { currentUser } = useSelector(userSelector);
   const tab = " ";
 
   return (
@@ -33,19 +32,19 @@ function UserProfile() {
           </EditButton>
           <ProfileImageDefault
             src={
-              currentUser.porfileImage ||
+              currentUser?.porfileImage ||
               "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
             }
           />
         </CenterContent>
         <UserName>
-          <h1>{currentUser.userName}</h1>
-          <h4>{currentUser.firstName + tab + currentUser.lastName}</h4>
+          <h1>{currentUser?.userName}</h1>
+          <h4>{currentUser?.firstName + tab + currentUser?.lastName}</h4>
         </UserName>
         <Statistics>
           <div>
-            <p>{currentUser.followers || "3.141.596 Followers"}</p>
-            <p>{currentUser.followers || "4 Following"}</p>
+            <p>{currentUser?.followers || "3.141.596 Followers"}</p>
+            <p>{currentUser?.followers || "4 Following"}</p>
           </div>
           <ViewButton>Switch View</ViewButton>
         </Statistics>
