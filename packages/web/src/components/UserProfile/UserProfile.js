@@ -11,7 +11,6 @@ import {
   ProfileContainer,
   ButtonContainer,
   EditButton,
-
 } from "./styles";
 
 import NavBar from "../Navbar";
@@ -41,9 +40,7 @@ function UserProfile() {
         </CenterContent>
         <UserName>
           <h1>{currentUser.userName}</h1>
-          <h4>
-            {currentUser.firstName + tab + currentUser.lastName}
-          </h4>
+          <h4>{currentUser.firstName + tab + currentUser.lastName}</h4>
         </UserName>
         <Statistics>
           <div>
