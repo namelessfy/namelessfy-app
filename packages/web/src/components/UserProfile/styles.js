@@ -39,14 +39,13 @@ const ViewButton = styled.button`
   width: auto;
 `;
 
-const EditButton = styled.button` 
+const EditButton = styled.button`
   margin-top: 10px;
   margin-left: 80%;
   padding: 5px;
   border: 1px solid white;
   border-radius: 5px;
 `;
-
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -76,13 +75,12 @@ const NavContainer = styled.div`
     letter-spacing: 1px;
     border-radius: 5px;
     &:hover {
-      background: #2E3530;
-    };
+      background: #2e3530;
+    }
 
-    &:focus{
+    &:focus {
       background: linear-gradient(to bottom right, black, gray);
-    };
-    
+    }
   }
 `;
 
@@ -93,8 +91,7 @@ const MediaContainer = styled.div`
   max-width: 80%;
   margin: 0 auto;
   div {
-
-  };
+  }
 `;
 
 const Media = styled.div`
