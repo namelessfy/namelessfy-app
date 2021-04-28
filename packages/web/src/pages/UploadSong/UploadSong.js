@@ -6,7 +6,7 @@ import Navbar from "../../components/Navbar";
 
 import { uploadSong } from "../../redux/uploader/uploader-actions";
 import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
-import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   Button,
@@ -29,7 +29,7 @@ function UploadSong() {
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
     uploaderSelector,
   );
-  const { currentUser } = useSelector(authSelector);
+  const { currentUser } = useSelector(userSelector);
 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState();

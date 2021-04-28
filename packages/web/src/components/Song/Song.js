@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 import DialogueBox from "../DialogueBox";
 
@@ -13,8 +14,13 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
+import { dislikeSong, likeSong } from "../../redux/user/user-actions";
+import { isLiked } from "../../utils/favoritesUtils";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function Song({ songInfo, handleClick }) {
+  const dispatch = useDispatch();
+  const { favorites } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -24,10 +30,14 @@ function Song({ songInfo, handleClick }) {
     setIsShowingDialogue(true);
   }
 
+  const likeFunction = isLiked(songInfo._id, favorites)
+    ? { Dislike: () => dispatch(dislikeSong(songInfo._id)) }
+    : { Like: () => dispatch(likeSong(songInfo._id)) };
+
   const dialogueButtons = {
     Play: handleClick,
     "Song information": () => console.log("Show song information"),
-    Like: () => console.log("play"),
+    ...likeFunction,
     "Add to playlis": () => console.log("Add to playlis"),
     Edit: () => console.log("edit"),
   };
@@ -43,7 +53,10 @@ function Song({ songInfo, handleClick }) {
         />
       )}
       <SongCover
-        src={songInfo.thumbnail}
+        src={
+          songInfo.thumbnail ||
+          "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
+        }
         onClick={handleClick}
         onContextMenu={showDialogueBox}
       />

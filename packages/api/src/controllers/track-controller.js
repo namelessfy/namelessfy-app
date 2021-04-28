@@ -200,6 +200,16 @@ async function removeFavoriteTrack(req, res) {
 }
 
 async function getFavoriteTracks(req, res) {
+  const { uid } = req.user;
+
+  if (req.params.userId === "me") {
+    const user = await UserRepo.findOne({
+      firebase_id: uid,
+    });
+    console.log(user);
+    req.params.userId = user.data._id;
+  }
+
   try {
     const tracks = await TrackRepo.getAll({ likedBy: req.params.userId });
 
