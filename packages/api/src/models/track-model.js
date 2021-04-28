@@ -33,7 +33,7 @@ const TrackSchema = Schema(
     genre: {
       type: [
         {
-          type: String
+          type: String,
         },
       ],
       required: true,

@@ -6,7 +6,12 @@ const cors = require("cors");
 
 const { config } = require("./config");
 const { errorMiddleware } = require("./middlewares");
-const { userRouter, healthRouter, trackRouter, playlistRouter } = require("./routes");
+const {
+  userRouter,
+  healthRouter,
+  trackRouter,
+  playlistRouter,
+} = require("./routes");
 
 const app = express();
 

@@ -2,10 +2,18 @@ const { UserRepo, TrackRepo } = require("../repositories");
 
 async function createTrack(req, res, next) {
   const {
-    body: { title, url = null, thumbnail = null, duration = 0, genre = [], artistId=[], playlists=[], likedBy=[] },
+    body: {
+      title,
+      url = null,
+      thumbnail = null,
+      duration = 0,
+      genre = [],
+      artistId = [],
+      playlists = [],
+      likedBy = [],
+    },
     user: { uid },
   } = req;
-
 
   try {
     if (!title && !url) {
@@ -28,7 +36,7 @@ async function createTrack(req, res, next) {
       authorId: user.data._id,
       artistId,
       playlists,
-      likedBy
+      likedBy,
     });
 
     if (response.error) {
@@ -98,7 +106,9 @@ async function getTracks(req, res) {
       });
     }
 
-    const tracks = await TrackRepo.getAll({ [aid ? artistId : authorId]: user.data._id });
+    const tracks = await TrackRepo.getAll({
+      [aid ? artistId : authorId]: user.data._id,
+    });
 
     if (tracks.error) {
       return res.status(500).send({
