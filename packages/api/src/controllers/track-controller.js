@@ -2,9 +2,10 @@ const { UserRepo, TrackRepo } = require("../repositories");
 
 async function createTrack(req, res, next) {
   const {
-    body: { title, url, thumbnail, genre, duration = 0 },
+    body: { title, url = null, thumbnail = null, duration = 0, genre = [], artistId=[], playlists=[], likedBy=[] },
     user: { uid },
   } = req;
+
 
   try {
     if (!title && !url) {
@@ -19,12 +20,15 @@ async function createTrack(req, res, next) {
     });
 
     const response = await TrackRepo.create({
-      title: title,
-      url: url ? url : null,
-      thumbnail: thumbnail ? thumbnail : null,
-      duration: duration ? duration : 0,
-      genre: genre ? genre : null,
+      title,
+      url,
+      thumbnail,
+      duration,
+      genre,
       authorId: user.data._id,
+      artistId,
+      playlists,
+      likedBy
     });
 
     if (response.error) {
@@ -77,11 +81,14 @@ async function editTrackInfo(req, res) {
 async function getTracks(req, res) {
   const {
     user: { uid },
+    author: { aid },
   } = req;
 
   try {
+    const userId = aid || uid;
+
     const user = await UserRepo.findOne({
-      firebase_id: uid,
+      firebase_id: userId,
     });
 
     if (user.error) {
@@ -91,7 +98,7 @@ async function getTracks(req, res) {
       });
     }
 
-    const tracks = await TrackRepo.getAll({ authorId: user.data._id });
+    const tracks = await TrackRepo.getAll({ [aid ? artistId : authorId]: user.data._id });
 
     if (tracks.error) {
       return res.status(500).send({

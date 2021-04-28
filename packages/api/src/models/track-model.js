@@ -25,14 +25,19 @@ const TrackSchema = Schema(
       type: Number,
       required: false,
     },
-    genre: {
-      type: Schema.Types.ObjectId,
-      ref: "genre",
-    },
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,
       ref: "user",
+    },
+    genre: {
+      type: [
+        {
+          type: String
+        },
+      ],
+      required: true,
+      default: [],
     },
     artistId: {
       type: [
