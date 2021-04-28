@@ -47,9 +47,6 @@ function App() {
 
   return (
     <div className="App__container">
-      {isAuthenticated && location.pathname !== ROUTES.COMPLETE_SIGNUP && (
-        <MusicPlayer />
-      )}
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
