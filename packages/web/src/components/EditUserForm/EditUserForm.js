@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { authSelector } from "../../redux/auth/auth-selectors";
-import { editUser } from "../../redux/auth/auth-actions";
+import { userSelector } from "../../redux/user/user-selectors";
+import { editUser } from "../../redux/user/user-actions";
 
 import {
   PorfileImage,
@@ -15,7 +15,7 @@ import {
 } from "../../styles/formStyles";
 
 function EditUserForm() {
-  const { currentUser, editUserError } = useSelector(authSelector);
+  const { currentUser, editUserError } = useSelector(userSelector);
   const dispatch = useDispatch();
 
   const [user, setUser] = useState({});

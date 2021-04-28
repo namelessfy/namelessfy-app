@@ -35,7 +35,11 @@ const Statistics = styled.div`
   }
 `;
 
-const ProfileButton = styled.button`
+const ViewButton = styled.button`
+  width: auto;
+`;
+
+const EditButton = styled.button`
   margin-top: 10px;
   margin-left: 80%;
   padding: 5px;
@@ -46,16 +50,8 @@ const ProfileButton = styled.button`
     height: 40px;
     width: auto;
     transition: .3s ease-in-out;
-
-    &:hover {
-      transform: scale(1.1);  
-    }
-
-    &:focus {
-      color: linear-gradient(to bottom, gray, white);
-    }
-  }
-`;
+  };
+  `
 
 const ButtonContainer = styled.div`
   display: flex;

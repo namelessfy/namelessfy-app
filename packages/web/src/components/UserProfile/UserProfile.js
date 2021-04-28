@@ -10,7 +10,7 @@ import {
   ProfileImageDefault,
   ProfileContainer,
   ButtonContainer,
-  ProfileButton
+  ProfileButton,
 } from "./styles";
 
 import NavBar from "../Navbar";
