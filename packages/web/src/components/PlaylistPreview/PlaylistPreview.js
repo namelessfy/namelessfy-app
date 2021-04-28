@@ -7,9 +7,6 @@ import {
   setQueueAndCurrentSong,
   setAutoPlay,
 } from "../../redux/musicPlayer/player-actions";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-
-import { isSongInList } from "../../utils/favoritesUtils";
 
 import Song from "../Song";
 

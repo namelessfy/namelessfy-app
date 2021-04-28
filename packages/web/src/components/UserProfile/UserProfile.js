@@ -1,15 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import {
   UserName,
-  AddSongButton,
   Statistics,
   ViewButton,
   ProfileImageDefault,
   ProfileContainer,
-  ButtonContainer,
   EditButton,
 } from "./styles";
 
@@ -17,10 +15,16 @@ import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
 import { userSelector } from "../../redux/user/user-selectors";
 import UserNavBar from "./UserNavBar";
+import { Icon } from "../../styles/mainStyles";
 
 function UserProfile() {
-  const { currentUser } = useSelector(userSelector);
+  const { currentUser, mySongs } = useSelector(userSelector);
+  const [isGrid, setIsGrid] = useState(true);
   const tab = " ";
+
+  function toggleGrid() {
+    setIsGrid(!isGrid);
+  }
 
   return (
     <div>
@@ -28,7 +32,10 @@ function UserProfile() {
       <ProfileContainer>
         <CenterContent>
           <EditButton>
-            <Link to="/edit-user"> Edit User</Link>
+            <Link to="/edit-user">
+              {" "}
+              <Icon name="edit" size="normal" />
+            </Link>
           </EditButton>
           <ProfileImageDefault
             src={
@@ -46,12 +53,12 @@ function UserProfile() {
             <p>{currentUser?.followers || "3.141.596 Followers"}</p>
             <p>{currentUser?.followers || "4 Following"}</p>
           </div>
-          <ViewButton>Switch View</ViewButton>
+          <ViewButton onClick={toggleGrid}>
+            <Icon name={isGrid ? "toggleOn" : "toggleOff"} size="normal" />
+            <Icon name={isGrid ? "grid" : "list"} size="normal" />
+          </ViewButton>
         </Statistics>
-        <ButtonContainer>
-          <AddSongButton>Add Song</AddSongButton>
-        </ButtonContainer>
-        <UserNavBar />
+        <UserNavBar songs={mySongs} />
       </ProfileContainer>
     </div>
   );

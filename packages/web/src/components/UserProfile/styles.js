@@ -15,42 +15,73 @@ const UserName = styled.div`
     letter-spacing: 5px;
   }
   h4 {
-    font-size: 12px;
+    font-size: 18px;
     color: ${colors.NEUTRAL};
   }
 `;
 
 const ProfileContainer = styled.div`
-  width: 80%;
+  width: min(100vw, 1000px);
   margin: auto;
   font-family: Poppins, sans-serif;
 `;
 const Statistics = styled.div`
+  max-width: 250px;
+  margin: 2rem auto;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   * {
     text-align: left;
-    font-size: 15px;
+    font-size: 16px;
+  }
+  @media (max-width: 290px) {
+    flex-direction: column;
+    justify-content: center;
+    * {
+      text-align: center;
+      font-size: 18px;
+  }
+    }
   }
 `;
 
 const ViewButton = styled.button`
-  width: auto;
+  width: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media (max-width: 480px) {
+    width: 70px;
+  }
+
+  @media (max-width: 290px) {
+    margin: 1rem auto;
+  }
 `;
 
 const EditButton = styled.button`
-  margin-top: 10px;
-  margin-left: 80%;
+  margin-top: 25px;
+  margin-left: calc(50% + min(20%, 75px));
   padding: 5px;
-  border: 1px solid white;
-  border-radius: 5px;
+
+  &:hover,
+  &:focus {
+    outline: none;
+  }
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row wrap;
   justify-content: center;
+  width: 100%;
+  & >button{
+    margin-top: 1rem;
+  }
+  }
 `;
 const AddSongButton = styled.button`
   background-color: ${colors.NEUTRAL};
@@ -67,20 +98,23 @@ const NavContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
-  max-width: 80%;
+  width: 100%;
   margin: 25px auto;
   margin-top: 20px;
-  button {
-    padding: 5px 10px;
-    letter-spacing: 1px;
-    border-radius: 5px;
-    &:hover {
-      background: #2e3530;
-    }
 
-    &:focus {
-      background: linear-gradient(to bottom right, black, gray);
-    }
+  & > button + button {
+    border-left: 2px solid ${colors.WHITE};
+  }
+`;
+
+const NavButton = styled.button`
+  ${({ selected }) => `color: ${selected ? colors.LIGHT : colors.WHITE};`}
+  width: calc(100% / 3);
+  letter-spacing: 1px;
+  &:hover,
+  &:focus {
+    outline: none;
+    text-decoration: underline;
   }
 `;
 
@@ -88,10 +122,67 @@ const MediaContainer = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-around;
-  max-width: 80%;
+  width: 100%;
   margin: 0 auto;
-  div {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 10rem;
+  padding: 0 1rem;
+
+  & > div{
+    margin-bottom: 1.5rem;
   }
+
+  & > div + div {
+    margin-left: 1.5rem;
+  }
+
+  & >div:nth-child(5n + 1){
+    margin-left: 0rem;
+  }
+  @media (max-width: 800px) {
+    padding: 0 2rem;
+    width: fit-content;
+    & >div:nth-child(5n + 1){
+      margin-left: 1.5rem;
+    }
+    & >div:nth-child(4n + 1){
+      margin-left: 0rem;
+    }
+  }
+  @media (max-width: 620px) {
+    & > div + div {
+      margin-left: 1rem;
+    }
+    & >div:nth-child(5n + 1){
+      margin-left: 1rem;
+    }
+    & >div:nth-child(4n + 1){
+      margin-left: 0rem;
+    }
+
+  }
+  @media (max-width: 500px) {
+    padding: 0 1rem;
+    & > div + div {
+      margin-left: 0.5rem;
+    }
+    & >div:nth-child(5n + 1){
+      margin-left: 0.5rem;
+    }
+    & >div:nth-child(4n + 1){
+      margin-left: 0rem;
+    }
+  }
+  @media (max-width: 350px) {
+    & >div:nth-child(4n + 1){
+      margin-left: 0.5rem;
+    }
+    & >div:nth-child(3n + 1){
+      margin-left: 0rem;
+    }
 `;
 
 const Media = styled.div`
@@ -131,4 +222,5 @@ export {
   EditButton,
   Media,
   MediaContainer,
+  NavButton,
 };
