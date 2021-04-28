@@ -89,11 +89,10 @@ async function editTrackInfo(req, res) {
 async function getTracks(req, res) {
   const {
     user: { uid },
-    author: { aid },
   } = req;
 
   try {
-    const userId = aid || uid;
+    const userId = uid;
 
     const user = await UserRepo.findOne({
       firebase_id: userId,
@@ -107,7 +106,7 @@ async function getTracks(req, res) {
     }
 
     const tracks = await TrackRepo.getAll({
-      [aid ? "artistId" : "authorId"]: user.data._id,
+      authorId: user.data._id,
     });
 
     if (tracks.error) {
