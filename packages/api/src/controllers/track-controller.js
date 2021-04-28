@@ -107,7 +107,7 @@ async function getTracks(req, res) {
     }
 
     const tracks = await TrackRepo.getAll({
-      [aid ? 'artistId' : 'authorId']: user.data._id,
+      [aid ? "artistId" : "authorId"]: user.data._id,
     });
 
     if (tracks.error) {
