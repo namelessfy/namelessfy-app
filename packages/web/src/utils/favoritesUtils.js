@@ -1,6 +1,6 @@
 export function isLiked(id, likedSongs) {
   const index = likedSongs.findIndex((song) => song._id === id);
-  console.log(index !== -1);
+  /* console.log(index !== -1); */
   return index !== -1;
 }
 
@@ -16,4 +16,11 @@ export function addToLikedSongs(song, likedSongs) {
     return [...likedSongs, song];
   }
   return likedSongs;
+}
+
+export function updateEditSong(song, mySongs) {
+  const songsList = mySongs;
+  const index = mySongs.findIndex((s) => s._id === song._id);
+  songsList[index] = song;
+  return [...songsList];
 }

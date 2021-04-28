@@ -12,6 +12,7 @@ import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import UserPage from "./pages/UserPage";
 import UploadSong from "./pages/UploadSong";
+import EditSong from "./pages/EditSong";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import MusicPlayer from "./components/MusicPlayer";
@@ -61,6 +62,7 @@ function App() {
           component={CompleteSignUp}
         />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
+        <ProtectedRoute path={ROUTES.EDIT_SONG} component={EditSong} />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

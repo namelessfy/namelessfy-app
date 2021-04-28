@@ -38,7 +38,7 @@ function Song({ songInfo, handleClick }) {
     Play: handleClick,
     "Song information": () => console.log("Show song information"),
     ...likeFunction,
-    "Add to playlis": () => console.log("Add to playlis"),
+    "Add to playlist": () => console.log("Add to playlist"),
     Edit: () => console.log("edit"),
   };
 
