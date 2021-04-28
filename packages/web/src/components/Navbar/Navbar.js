@@ -16,6 +16,8 @@ import {
   Icon,
 } from "./style";
 
+import { AddInput, Button } from "../../styles/formStyles";
+
 function Navbar() {
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 650px)",
