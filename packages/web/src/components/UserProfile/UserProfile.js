@@ -1,26 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { HiUserCircle } from "react-icons/hi";
+import { HiViewList } from "react-icons/hi";
 
 import {
   UserName,
-  AddSongButton,
   Statistics,
-  ViewButton,
   ProfileImageDefault,
   ProfileContainer,
   ButtonContainer,
-  EditButton,
+  ProfileButton
 } from "./styles";
 
 import NavBar from "../Navbar";
-import { CenterContent } from "../../styles/formStyles";
+import { Button, CenterContent } from "../../styles/formStyles";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import UserNavBar from "./UserNavBar";
 
 function UserProfile() {
   const { currentUser } = useSelector(authSelector);
-  console.log(currentUser);
   const tab = " ";
 
   return (
@@ -28,9 +27,12 @@ function UserProfile() {
       <NavBar />
       <ProfileContainer>
         <CenterContent>
-          <EditButton>
-            <Link to="/edit-user"> Edit User</Link>
-          </EditButton>
+          <ProfileButton>
+            <Link to="/edit-user">
+              {" "}
+              <HiUserCircle />{" "}
+            </Link>
+          </ProfileButton>
           <ProfileImageDefault
             src={
               currentUser.porfileImage ||
@@ -47,10 +49,12 @@ function UserProfile() {
             <p>{currentUser.followers || "3.141.596 Followers"}</p>
             <p>{currentUser.followers || "4 Following"}</p>
           </div>
-          <ViewButton>Switch View</ViewButton>
+          <ProfileButton>
+            <HiViewList />
+          </ProfileButton>
         </Statistics>
         <ButtonContainer>
-          <AddSongButton>Add Song</AddSongButton>
+          <Button>Add Song</Button>
         </ButtonContainer>
         <UserNavBar />
       </ProfileContainer>

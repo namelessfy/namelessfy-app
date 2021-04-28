@@ -35,16 +35,26 @@ const Statistics = styled.div`
   }
 `;
 
-const ViewButton = styled.button`
-  width: auto;
-`;
-
-const EditButton = styled.button`
+const ProfileButton = styled.button`
   margin-top: 10px;
   margin-left: 80%;
   padding: 5px;
-  border: 1px solid white;
-  border-radius: 5px;
+  * {
+    display: block;
+    position: relative;
+    right: 80px;
+    height: 40px;
+    width: auto;
+    transition: .3s ease-in-out;
+
+    &:hover {
+      transform: scale(1.1);  
+    }
+
+    &:focus {
+      color: linear-gradient(to bottom, gray, white);
+    }
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -122,13 +132,12 @@ const ProfileImageDefault = styled.div`
 export {
   UserName,
   Statistics,
-  ViewButton,
   AddSongButton,
   NavContainer,
   ProfileImageDefault,
   ProfileContainer,
   ButtonContainer,
-  EditButton,
   Media,
   MediaContainer,
+  ProfileButton,
 };

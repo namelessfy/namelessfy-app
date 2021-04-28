@@ -7,21 +7,15 @@ function UserNavBar() {
   const switchToSongs = () => {
     const s = "songs";
     setView(s);
-
-    console.log(view);
   };
   const switchToAlbums = () => {
     const a = "albums";
     setView(a);
-
-    console.log(view);
   };
 
   const switchToPlaylists = () => {
     const p = "playlists";
     setView(p);
-
-    console.log(view);
   };
 
   return (

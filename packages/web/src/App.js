@@ -22,14 +22,6 @@ import EditUser from "./pages/EditUser/EditUser";
 import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
-  const StyledApp = styled.div``;
-
-  const [theme, setTheme] = useState("light");
-
-  const ThemeToggler = () => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  };
-
   const dispatch = useDispatch();
   const { isAuthenticated } = useSelector(authSelector);
 
