@@ -16,7 +16,6 @@ async function createPlaylists(req, res, next) {
       thumbnail = null,
       publicAccessible = true,
       tracks = [],
-      likedBy = [],
     },
     user: { uid },
   } = req;
@@ -27,12 +26,6 @@ async function createPlaylists(req, res, next) {
         data: null,
         error: "Missing Fields (title, url)",
       });
-    }
-
-    if (tracks.length > 0) {
-      duration = tracks.reduce(
-        (accumulator, current) => accumulator + current.duration,
-      );
     }
 
     const user = await UserRepo.findOne({ firebase_id: uid });
@@ -47,7 +40,6 @@ async function createPlaylists(req, res, next) {
     const response = await PlaylistRepo.create({
       title,
       thumbnail,
-      duration,
       type,
       publicAccessible,
       authorId: user.data._id,

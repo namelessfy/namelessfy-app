@@ -1,4 +1,4 @@
-const { TrackRepo } = require("../repositories");
+const { UserRepo, TrackRepo } = require("../repositories");
 const {
   getAllById,
   editInfo,
