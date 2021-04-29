@@ -1,14 +1,20 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
+const {
+  getAllById,
+  editInfo,
+  addFavorite,
+  removeFavorite,
+  getFavorite,
+  deleteById,
+} = require("./abstract-controller");
 
-async function createTrack(req, res, next) {
+async function createPlaylists(req, res, next) {
   let {
     body: {
       title,
-      url = null,
+      type,
       thumbnail = null,
-      duration = 0,
-      genre = [],
-      artistId = [],
+      publicAccessible = true,
       tracks = [],
       likedBy = [],
     },
@@ -16,7 +22,7 @@ async function createTrack(req, res, next) {
   } = req;
 
   try {
-    if (!title && !url) {
+    if (!title) {
       res.status(400).send({
         data: null,
         error: "Missing Fields (title, url)",
@@ -29,20 +35,23 @@ async function createTrack(req, res, next) {
       );
     }
 
-    const user = await UserRepo.findOne({
-      firebase_id: uid,
-    });
+    const user = await UserRepo.findOne({ firebase_id: uid });
+
+    if (user.error) {
+      res.status(400).send({
+        data: null,
+        error: user.error,
+      });
+    }
 
     const response = await PlaylistRepo.create({
       title,
-      url,
       thumbnail,
       duration,
-      genre,
-      authorId: user?.data?._id,
-      artistId,
+      type,
+      publicAccessible,
+      authorId: user.data._id,
       tracks,
-      likedBy,
     });
 
     if (response.error) {
@@ -64,47 +73,35 @@ async function createTrack(req, res, next) {
 }
 
 async function getPlaylists(req, res) {
-  const {
-    user: { uid },
-  } = req;
+  return await getAllById(req, res, PlaylistRepo);
+}
 
-  //const uid = "4nCMnnoZsNPDm53RsCAFklBJtGZ2";
+async function editPlaylistInfo(req, res) {
+  return await editInfo(req, res, PlaylistRepo);
+}
 
-  try {
-    const user = await UserRepo.findOne({
-      firebase_id: uid,
-    });
+async function addFavoritePlaylist(req, res) {
+  return await addFavorite(req, res, PlaylistRepo);
+}
 
-    if (user.error) {
-      res.status(500).send({
-        data: null,
-        error: user.error,
-      });
-    }
+async function removeFavoritePlaylist(req, res) {
+  return await removeFavorite(req, res, PlaylistRepo);
+}
 
-    const playlists = await PlaylistRepo.getAll({ authorId: user.data._id });
+async function getFavoritePlaylist(req, res) {
+  return await getFavorite(req, res, PlaylistRepo);
+}
 
-    if (playlists.error) {
-      return res.status(500).send({
-        data: null,
-        error: playlists.error,
-      });
-    }
-
-    if (playlists.data) {
-      return res.status(200).send({
-        data: playlists.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
+async function deletePlaylist(req, res) {
+  return await deleteById(req, res, PlaylistRepo);
 }
 
 module.exports = {
   getPlaylists,
-  createTrack,
+  createPlaylists,
+  addFavoritePlaylist,
+  removeFavoritePlaylist,
+  getFavoritePlaylist,
+  deletePlaylist,
+  editPlaylistInfo,
 };
