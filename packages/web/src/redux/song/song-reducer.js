@@ -8,6 +8,7 @@ import {
 export const SongInitialState = {
   isEditingSong: false,
   editSongError: null,
+  editingSuccess: false,
   favorites: [],
   setFavoritesError: null,
   isGettingFavorites: false,
@@ -29,6 +30,7 @@ const SongReducer = (state = SongInitialState, action) => {
       return {
         ...state,
         isEditingSong: false,
+        editingSuccess: true,
         mySongs: updateEditSong(action.payload, [...state.mySongs]),
       };
     }
@@ -43,6 +45,14 @@ const SongReducer = (state = SongInitialState, action) => {
       return {
         ...state,
         isEditingSong: true,
+      };
+    }
+    case SongTypes.EDIT_SONG_RESET: {
+      return {
+        ...state,
+        isEditingSong: false,
+        editingSuccess: false,
+        editSongError: null,
       };
     }
     case SongTypes.SET_FAVORITES_SUCCESS: {

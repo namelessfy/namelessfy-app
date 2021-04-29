@@ -4,7 +4,7 @@ import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
 import { getFileUrl } from "../../services/cloudinary";
 
-export function editSong(formData) {
+export function editSong(formData, id) {
   return async function editSongThunk(dispatch) {
     dispatch(editSongRequest());
 
@@ -20,6 +20,7 @@ export function editSong(formData) {
           Authorization: `Bearer ${userToken}`,
         },
         formData,
+        id,
       );
 
       if (editSongRes.errorMessage) {
@@ -45,6 +46,10 @@ export const editSongError = (message) => ({
 export const editSongSuccess = (song) => ({
   type: SongTypes.EDIT_SONG_SUCCESS,
   payload: song,
+});
+
+export const editSongReset = () => ({
+  type: SongTypes.EDIT_SONG_RESET,
 });
 
 export const getFavorites = () => {

@@ -67,9 +67,9 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function editTrack(headers, body) {
+  function editTrack(headers, body, id) {
     return request({
-      url: `/tracks/${body.id}`,
+      url: `/tracks/${id}`,
       requestMethod: "PATCH",
       headers: headers,
       body: body,

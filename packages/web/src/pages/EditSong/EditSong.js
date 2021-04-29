@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
-import { editSong } from "../../redux/song/song-actions";
+import { editSong, editSongReset } from "../../redux/song/song-actions";
+
+import * as ROUTES from "../../routes";
 
 import Navbar from "../../components/Navbar";
 
@@ -26,8 +28,9 @@ import { Main } from "../../styles/mainStyles";
 import { getSongFromList } from "../../utils/favoritesUtils";
 
 function EditSong() {
+  const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { mySongs, isEditingSong, editSongError } = useSelector(songSelector);
+  const { mySongs, isEditingSong, editSongError, editingSuccess } = useSelector(songSelector);
 
   const dispatch = useDispatch();
 
@@ -47,8 +50,16 @@ function EditSong() {
       setTitle(song.title);
       setSongImage(song.songImage);
       setPreviewImage(song.songImage);
+      setArtists(song.artistId);
     }
   }, [id]);
+
+  useEffect(() => {
+    if (editingSuccess) {
+      history.push(ROUTES.USER_PAGE);
+      dispatch(editSongReset());
+    }
+  }, [editingSuccess]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -56,14 +67,14 @@ function EditSong() {
     const formData = new FormData();
 
     formData.append("title", title);
-    formData.append("artist", artists);
-    formData.append("style", styles);
+    formData.append("artistId", JSON.stringify(artists));
+    formData.append("genre", JSON.stringify(styles));
 
     if (songImage) {
       formData.append("songImage", songImage);
     }
 
-    dispatch(editSong(formData));
+    dispatch(editSong(formData, id));
   }
 
   function handleSetTitle(e) {
@@ -85,7 +96,7 @@ function EditSong() {
   function addArtist(e) {
     e.preventDefault();
     if (newArtist !== "" && artists.indexOf(newArtist) === -1) {
-      setArtists([...artists, newArtist]);
+      setArtists([...artists, {_id:null, userName:newArtist}]);
       setNewArtist("");
     }
   }
@@ -163,8 +174,8 @@ function EditSong() {
         <div>
           <TagList>
             {artists.map((art, index) => (
-              <Tag key={art}>
-                {art}
+              <Tag key={art.userName}>
+                {art.userName}
                 <CloseButton onClick={() => deleteArtist(index)} />
               </Tag>
             ))}
@@ -200,7 +211,7 @@ function EditSong() {
       </Form>
       <CenterContent>
         {isEditingSong && <Error>Editing song...</Error>}
-        {!editSongError && <Error>Changed successfully!</Error>}
+        {editingSuccess && <Error>Changed successfully!</Error>}
         {editSongError && <Error>Editing error!</Error>}
         <Button type="submit" form="mainForm" disabled={isEditingSong} lastItem>
           Save
