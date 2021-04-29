@@ -18,6 +18,4 @@ userRouter.patch(
 );
 userRouter.delete("/user/delete", authMiddleware, userController.delete);
 
-module.exports = {
-  userRouter,
-};
+module.exports = { userRouter };

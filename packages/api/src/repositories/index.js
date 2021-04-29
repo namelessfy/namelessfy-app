@@ -1,7 +1,9 @@
 const UserRepository = require("./user-repository");
-const TrackRepository = require("./track-repository");
+
+const AbstractRepository = require("./AbstractRepository");
 
 module.exports = {
   UserRepo: UserRepository,
-  TrackRepo: TrackRepository,
+  TrackRepo: new AbstractRepository("Track"),
+  PlaylistRepo: new AbstractRepository("Playlist"),
 };
