@@ -15,7 +15,7 @@ async function getAllById(req, res, Repository) {
       });
     }
 
-    const repo = await Repository.getAll({ authorId: user.data._id });
+    const repo = await Repository.getAll({ authorId: user.data?._id });
 
     if (repo.error) {
       return res.status(500).send({
