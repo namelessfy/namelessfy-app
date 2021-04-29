@@ -1,6 +1,10 @@
 export function isLiked(id, likedSongs) {
   const index = likedSongs.findIndex((song) => song._id === id);
-  console.log(index !== -1);
+  return index !== -1;
+}
+
+export function isSongInList(id, List) {
+  const index = List.findIndex((song) => song._id === id);
   return index !== -1;
 }
 

@@ -1,53 +1,82 @@
 import React, { useState } from "react";
-import { Media, MediaContainer, NavContainer } from "./styles";
+import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 
-function UserNavBar() {
+import { Media, NavButton, NavContainer } from "./styles";
+
+import UserList from "./UserList";
+import * as ROUTES from "../../routes";
+
+function UserNavBar({ songs }) {
   const [view, setView] = useState("songs");
+  const history = useHistory();
 
   const switchToSongs = () => {
     const s = "songs";
     setView(s);
-
-    console.log(view);
   };
   const switchToAlbums = () => {
     const a = "albums";
     setView(a);
-
-    console.log(view);
   };
 
   const switchToPlaylists = () => {
     const p = "playlists";
     setView(p);
+  };
 
-    console.log(view);
+  const buttonAddSong = {
+    name: "Add Song",
+    function: () => {
+      history.push(ROUTES.UPLOAD_SONG);
+    },
+  };
+
+  const songsContent = {
+    type: "songs",
+    elements: songs,
   };
 
   return (
     <div>
       <NavContainer>
-        <button type="button" onClick={switchToSongs}>
+        <NavButton
+          type="button"
+          onClick={switchToSongs}
+          selected={view === "songs"}
+        >
           {" "}
           Songs{" "}
-        </button>
-        <button type="button" onClick={switchToAlbums}>
+        </NavButton>
+        <NavButton
+          type="button"
+          onClick={switchToAlbums}
+          selected={view === "albums"}
+        >
           {" "}
           Albums{" "}
-        </button>
-        <button type="button" onClick={switchToPlaylists}>
+        </NavButton>
+        <NavButton
+          type="button"
+          onClick={switchToPlaylists}
+          selected={view === "playlists"}
+        >
           {" "}
           Playlists{" "}
-        </button>
+        </NavButton>
       </NavContainer>
 
-      <MediaContainer>
-        {view === "songs" && <Media>Songs</Media>}
-        {view === "albums" && <Media>Albums</Media>}
-        {view === "playlists" && <Media>Playlists</Media>}
-      </MediaContainer>
+      {view === "songs" && (
+        <UserList button={buttonAddSong} content={songsContent} />
+      )}
+      {view === "albums" && <Media>Albums</Media>}
+      {view === "playlists" && <Media>Playlists</Media>}
     </div>
   );
 }
+
+UserNavBar.propTypes = {
+  songs: PropTypes.array.isRequired,
+};
 
 export default UserNavBar;

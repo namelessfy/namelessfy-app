@@ -27,7 +27,7 @@ export default function usePlayer() {
         pause();
       }
     };
-  }, []);
+  }, [isPlaying]);
 
   useEffect(() => {
     if (song) {
@@ -78,6 +78,7 @@ export default function usePlayer() {
   }
 
   function pause() {
+    console.log("pause");
     song.pause();
     setIsPlaying(false);
   }
@@ -117,5 +118,6 @@ export default function usePlayer() {
     toggleShuffle,
     isShuffle,
     play,
+    pause,
   };
 }

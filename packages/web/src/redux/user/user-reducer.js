@@ -136,6 +136,26 @@ const UserReducer = (state = UserInitialState, action) => {
         isGettingMySongs: true,
       };
     }
+    case UserTypes.RESET_USER: {
+      return {
+        ...state,
+        isEditingUser: false,
+        editUserError: null,
+        currentUser: {
+          email: null,
+        },
+        favorites: [],
+        setFavoritesError: null,
+        isGettingFavorites: false,
+        isSettinLike: false,
+        likeError: null,
+        isSettingDislike: false,
+        dislikeError: null,
+        mySongs: null,
+        isGettingMySongs: false,
+        getMySongsError: null,
+      };
+    }
     default: {
       return state;
     }

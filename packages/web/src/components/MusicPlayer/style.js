@@ -87,7 +87,7 @@ const SongPalyer = styled.section`
   justify-content: space-between;
   box-shadow: 2px 2px 10px #0008;
   z-index: 4;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   padding: 0 5rem;

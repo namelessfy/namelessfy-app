@@ -184,3 +184,7 @@ export const getMySongsSuccess = (mySongs) => ({
   type: UserTypes.GET_MYSONGS_SUCCESS,
   payload: mySongs,
 });
+
+export const resetUser = () => ({
+  type: UserTypes.RESET_USER,
+});
