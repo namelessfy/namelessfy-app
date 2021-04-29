@@ -3,6 +3,7 @@ import {
   removeFromLikedSongs,
   addToLikedSongs,
   updateEditSong,
+  removeFromMySongs,
 } from "../../utils/favoritesUtils";
 
 export const SongInitialState = {
@@ -22,6 +23,9 @@ export const SongInitialState = {
   isUploadingSong: false,
   uploadSongSuccess: false,
   uploadSongError: null,
+  isdeletingSong: false,
+  deletingSuccess: false,
+  deleteSongError: null,
 };
 
 const SongReducer = (state = SongInitialState, action) => {
@@ -53,6 +57,38 @@ const SongReducer = (state = SongInitialState, action) => {
         isEditingSong: false,
         editingSuccess: false,
         editSongError: null,
+      };
+    }
+    case SongTypes.DELETE_SONG_SUCCESS: {
+      return {
+        ...state,
+        isdeletingSong: false,
+        deletingSuccess: true,
+        mySongs: removeFromMySongs(action.payload._id, [...state.mySongs]),
+        favorites: removeFromLikedSongs(action.payload._id, [
+          ...state.favorites,
+        ]),
+      };
+    }
+    case SongTypes.DELETE_SONG_ERROR: {
+      return {
+        ...state,
+        isdeletingSong: false,
+        deleteSongError: action.payload,
+      };
+    }
+    case SongTypes.DELETE_SONG_REQUEST: {
+      return {
+        ...state,
+        isdeletingSong: true,
+      };
+    }
+    case SongTypes.DELETE_SONG_RESET: {
+      return {
+        ...state,
+        isdeletingSong: false,
+        deletingSuccess: false,
+        deleteSongError: null,
       };
     }
     case SongTypes.SET_FAVORITES_SUCCESS: {

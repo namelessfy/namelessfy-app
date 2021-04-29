@@ -4,7 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
-import { editSong, editSongReset } from "../../redux/song/song-actions";
+import {
+  editSong,
+  editSongReset,
+  deleteSong,
+} from "../../redux/song/song-actions";
 
 import * as ROUTES from "../../routes";
 
@@ -12,6 +16,7 @@ import Navbar from "../../components/Navbar";
 
 import {
   Button,
+  DeleteButton,
   Error,
   Form,
   Input,
@@ -30,7 +35,9 @@ import { getSongFromList } from "../../utils/favoritesUtils";
 function EditSong() {
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { mySongs, isEditingSong, editSongError, editingSuccess } = useSelector(songSelector);
+  const { mySongs, isEditingSong, editSongError, editingSuccess } = useSelector(
+    songSelector,
+  );
 
   const dispatch = useDispatch();
 
@@ -56,8 +63,8 @@ function EditSong() {
 
   useEffect(() => {
     if (editingSuccess) {
-      history.push(ROUTES.USER_PAGE);
       dispatch(editSongReset());
+      history.push(ROUTES.USER_PAGE);
     }
   }, [editingSuccess]);
 
@@ -96,7 +103,7 @@ function EditSong() {
   function addArtist(e) {
     e.preventDefault();
     if (newArtist !== "" && artists.indexOf(newArtist) === -1) {
-      setArtists([...artists, {_id:null, userName:newArtist}]);
+      setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
   }
@@ -124,6 +131,10 @@ function EditSong() {
     const removed = [...styles];
     removed.splice(index, 1);
     setStyles(removed);
+  }
+
+  function handleDelete() {
+    dispatch(deleteSong(id));
   }
 
   return (
@@ -213,9 +224,19 @@ function EditSong() {
         {isEditingSong && <Error>Editing song...</Error>}
         {editingSuccess && <Error>Changed successfully!</Error>}
         {editSongError && <Error>Editing error!</Error>}
-        <Button type="submit" form="mainForm" disabled={isEditingSong} lastItem>
+        <Button type="submit" form="mainForm">
           Save
         </Button>
+        <Form id="deleteBtn" onSubmit={handleDelete}>
+          <DeleteButton
+            type="submit"
+            form="deleteBtn"
+            disabled={isEditingSong}
+            lastItem
+          >
+            Delete
+          </DeleteButton>
+        </Form>
       </CenterContent>
     </Main>
   );

@@ -183,6 +183,10 @@ const Button = styled.button`
       : ``}
 `;
 
+const DeleteButton = styled(Button)`
+  background-color: ${colors.DELETE};
+`;
+
 const Title = styled.h1`
   width: min(90%, 700px);
   font-size: 32px;
@@ -364,6 +368,7 @@ const AddInput = styled.div`
 export {
   Button,
   CenterContent,
+  DeleteButton,
   Error,
   ErrorInput,
   ForgotPassword,

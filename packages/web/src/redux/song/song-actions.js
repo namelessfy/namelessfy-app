@@ -52,6 +52,54 @@ export const editSongReset = () => ({
   type: SongTypes.EDIT_SONG_RESET,
 });
 
+export function deleteSong(id) {
+  return async function deleteSongThunk(dispatch) {
+    dispatch(deleteSongRequest());
+
+    try {
+      const userToken = await auth.getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(deleteSongError("User token null!"));
+      }
+
+      const deleteSongRes = await api.deleteTrack(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        id,
+      );
+
+      if (deleteSongRes.errorMessage) {
+        return dispatch(deleteSongError(deleteSongRes.errorMessage));
+      }
+
+      dispatch(deleteSongSuccess(deleteSongRes.data.data));
+      return dispatch(deleteSongReset());
+    } catch (err) {
+      return dispatch(deleteSongError(err.message));
+    }
+  };
+}
+
+export const deleteSongRequest = () => ({
+  type: SongTypes.EDIT_SONG_REQUEST,
+});
+
+export const deleteSongError = (message) => ({
+  type: SongTypes.EDIT_SONG_ERROR,
+  payload: message,
+});
+
+export const deleteSongSuccess = (song) => ({
+  type: SongTypes.EDIT_SONG_SUCCESS,
+  payload: song,
+});
+
+export const deleteSongReset = () => ({
+  type: SongTypes.EDIT_SONG_RESET,
+});
+
 export const getFavorites = () => {
   return async function getFavoritesThunk(dispatch) {
     dispatch(getFavoritesRequest());
