@@ -5,8 +5,8 @@ const { authMiddleware } = require("../middlewares");
 
 const trackRouter = Router();
 
-trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
 trackRouter.get("/tracks", authMiddleware, trackController.getTracks);
+trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
 trackRouter.post(
   "/tracks/favorite/:id",
   authMiddleware,

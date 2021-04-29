@@ -6,7 +6,6 @@ async function authMiddleware(req, res, next) {
     const userClaims = await auth.verifyAuthToken(bearerToken);
 
     auth.login(req, userClaims);
-    // console.log(bearerToken);
 
     next();
   } catch (error) {

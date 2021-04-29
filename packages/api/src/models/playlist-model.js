@@ -5,36 +5,27 @@ const PlaylistSchema = Schema(
   {
     title: {
       type: String,
-      required: [true, "Track title required"],
+      required: [true, "Playlist title is required"],
       trim: true,
     },
-    url: {
+    type: {
       type: String,
-      required: false,
+      enum: ["Playlist", "Album"],
+      required: true,
     },
     thumbnail: {
       type: String,
       trim: true,
       required: false,
     },
-    duration: {
-      type: Number,
+    publicAccessible: {
+      type: Boolean,
       required: false,
+      default: false,
     },
-    authorId: {
+    author: {
       type: Schema.Types.ObjectId,
-      required: true,
       ref: "user",
-    },
-
-    genre: {
-      type: [
-        {
-          type: String,
-        },
-      ],
-      required: true,
-      default: [],
     },
     tracks: {
       type: [

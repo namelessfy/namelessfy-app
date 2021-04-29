@@ -5,6 +5,7 @@ function errorMiddleware(err, req, res, next) {
   config.logger.error(err);
 
   if (req.headersSent) {
+    //TODO: review if we can remove the comment bellow.
     // When you add a custom error handler,
     // you must delegate to the default Express error handler,
     // when the headers have already been sent to the client:

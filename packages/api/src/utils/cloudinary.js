@@ -18,11 +18,11 @@ cloudinary.config({
   api_secret: CLOUDINARY_API_SECRET,
 });
 
-async function uploadImageToCloudinary(image, id) {
+async function uploadImageToCloudinary(image, id, upload_preset) {
   return new Promise((resolve, reject) => {
     cloudinary.v2.uploader.upload(
       image,
-      { upload_preset: "porfileImages", public_id: id, width: 500 },
+      { upload_preset, public_id: id, width: 500 },
       (err, url) => {
         if (err) {
           return reject(err);
@@ -39,5 +39,5 @@ async function uploadImageToCloudinary(image, id) {
 }
 
 module.exports = {
-  uploadImageToCloudinary: uploadImageToCloudinary,
+  uploadImageToCloudinary,
 };
