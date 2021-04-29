@@ -7,3 +7,4 @@ export const USER_PAGE = "/user-page";
 export const EDIT_USER = "/edit-user";
 export const UPLOAD_SONG = "/upload-song";
 export const EDIT_SONG = "/edit-song";
+export const PLAYLIST = "/playlist";

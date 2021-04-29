@@ -9,7 +9,6 @@ import * as ROUTES from "../../routes";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 
 import { Main } from "../../styles/mainStyles";
@@ -20,10 +19,6 @@ function Home() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
   const { favorites, mySongs } = useSelector(songSelector);
-  const { isShuffle, queue, shuffleQueue, preQueue } = useSelector(
-    playerSelector,
-  );
-  const [fullQueue, setFullQueue] = useState([]);
   const [hasAllInfo, setHasAllInfo] = useState(false);
   const [hasMySongs, setHasMySongs] = useState(false);
 
@@ -49,14 +44,6 @@ function Home() {
     setHasAllInfo(hasUserAllInfo(currentUser));
   }, [currentUser]);
 
-  useEffect(() => {
-    if (isShuffle) {
-      setFullQueue([...preQueue, ...shuffleQueue]);
-    } else {
-      setFullQueue([...preQueue, ...queue]);
-    }
-  }, [preQueue, isShuffle, queue, shuffleQueue]);
-
   if (!hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
   }
@@ -65,7 +52,6 @@ function Home() {
     <Main>
       <Navbar />
       <Container>
-        {/* <PlaylistPreview title="Queue" songs={fullQueue} /> */}
         {favorites?.length > 0 && (
           <PlaylistPreview title="Liked Songs" songs={favorites} />
         )}

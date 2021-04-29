@@ -10,6 +10,7 @@ playlistRouter.get(
   authMiddleware,
   playlistController.getPlaylists,
 );
+
 playlistRouter.post(
   "/playlist",
   authMiddleware,

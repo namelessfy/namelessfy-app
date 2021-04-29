@@ -42,3 +42,7 @@ export const setUser = (user) => ({
   type: UserTypes.SET_USER,
   payload: user,
 });
+
+export const resetUser = () => ({
+  type: UserTypes.RESET_USER,
+});
