@@ -14,11 +14,13 @@ import {
 import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
 import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
 function UserProfile() {
-  const { currentUser, mySongs } = useSelector(userSelector);
+  const { currentUser } = useSelector(userSelector);
+  const { mySongs } = useSelector(songSelector);
   const [isGrid, setIsGrid] = useState(true);
   const tab = " ";
 

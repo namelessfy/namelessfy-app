@@ -8,15 +8,17 @@ import PlaylistPreview from "../../components/PlaylistPreview";
 import * as ROUTES from "../../routes";
 
 import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
 
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
-import { getFavorites, getMySongs } from "../../redux/user/user-actions";
+import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 
 function Home() {
   const dispatch = useDispatch();
-  const { currentUser, favorites, mySongs } = useSelector(userSelector);
+  const { currentUser } = useSelector(userSelector);
+  const { favorites, mySongs } = useSelector(songSelector);
   const [hasAllInfo, setHasAllInfo] = useState(false);
   const [hasMySongs, setHasMySongs] = useState(false);
 

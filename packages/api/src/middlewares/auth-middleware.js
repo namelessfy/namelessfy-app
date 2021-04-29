@@ -15,6 +15,7 @@ async function authMiddleware(req, res, next) {
       data: null,
       error: "Unauthorized",
     });
+    console.log(`edit user middleware: ${error}`);
   }
 }
 

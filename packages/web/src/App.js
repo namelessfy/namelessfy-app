@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Switch, Route, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Switch, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import "./styles/App.css";
 
@@ -12,20 +12,17 @@ import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
 import UserPage from "./pages/UserPage";
 import UploadSong from "./pages/UploadSong";
+import EditSong from "./pages/EditSong";
 import Playlist from "./pages/Playlist";
 
 import ProtectedRoute from "./components/ProtectedRoute";
-import MusicPlayer from "./components/MusicPlayer";
 
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
-import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
-  const location = useLocation();
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(authSelector);
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
@@ -50,7 +47,6 @@ function App() {
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-
         <Route path={ROUTES.LOGIN} component={Login} />
         <ProtectedRoute
           path={ROUTES.COMPLETE_SIGNUP}
@@ -60,6 +56,7 @@ function App() {
         <ProtectedRoute path={ROUTES.USER_PAGE} component={UserPage} />
         <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
+        <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

@@ -13,14 +13,17 @@ const UserSchema = Schema(
       type: String,
       trim: true,
       unique: true,
+      default: "",
     },
     firstName: {
       type: String,
       trim: true,
+      default: "",
     },
     lastName: {
       type: String,
       trim: true,
+      default: "",
     },
     email: {
       type: String,
@@ -35,10 +38,12 @@ const UserSchema = Schema(
     birthday: {
       type: Date,
       trim: true,
+      default: "",
     },
     porfileImage: {
       type: String,
       trim: true,
+      default: "",
     },
   },
   {

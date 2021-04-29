@@ -7,15 +7,15 @@ import {
   setShuffle,
   setAutoPlay,
 } from "../redux/musicPlayer/player-actions";
-import { userSelector } from "../redux/user/user-selectors";
+import { songSelector } from "../redux/song/song-selectors";
 
 import { isLiked as isThisSongLiked } from "../utils/favoritesUtils";
-import { dislikeSong, likeSong } from "../redux/user/user-actions";
+import { dislikeSong, likeSong } from "../redux/song/song-actions";
 
 export default function usePlayer() {
   const dispatch = useDispatch();
   const { currentSong, isShuffle, autoPlay } = useSelector(playerSelector);
-  const { favorites } = useSelector(userSelector);
+  const { favorites } = useSelector(songSelector);
   const [isLiked, setIsLiked] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -51,7 +51,9 @@ export default function usePlayer() {
   }, [song]);
 
   useEffect(() => {
-    setIsLiked(isThisSongLiked(currentSong._id, favorites));
+    if (favorites) {
+      setIsLiked(isThisSongLiked(currentSong._id, favorites));
+    }
   }, [favorites, currentSong]);
 
   function handelSliderChange(e) {
