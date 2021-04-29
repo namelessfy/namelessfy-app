@@ -42,8 +42,14 @@ const TrackSchema = Schema(
     artistId: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "user",
+          userName: {
+            type: String,
+            trim: true,
+          },
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
         },
       ],
       default: [],

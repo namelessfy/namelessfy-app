@@ -53,16 +53,15 @@ function App() {
       <Switch>
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
         <Route path={ROUTES.RESET_PASSWORD} component={ResetPassword} />
-        <Route path={ROUTES.HOME} component={Home} exact />
-        <Route path={ROUTES.USER_PAGE} component={UserPage} exact />
-        <Route path={ROUTES.EDIT_USER} component={EditUser} exact />
         <Route path={ROUTES.LOGIN} component={Login} />
         <ProtectedRoute
           path={ROUTES.COMPLETE_SIGNUP}
           component={CompleteSignUp}
         />
+        <ProtectedRoute path={ROUTES.USER_PAGE} component={UserPage} />
+        <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
-        <ProtectedRoute path={ROUTES.EDIT_SONG} component={EditSong} />
+        <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

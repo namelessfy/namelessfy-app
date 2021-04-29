@@ -26,7 +26,7 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function createTrack({ body, headers = {} }) {
+  function createTrack(body, headers) {
     return request({
       url: "/tracks",
       requestMethod: "POST",

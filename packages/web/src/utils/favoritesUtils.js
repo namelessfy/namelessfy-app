@@ -24,3 +24,11 @@ export function updateEditSong(song, mySongs) {
   songsList[index] = song;
   return [...songsList];
 }
+
+export function getSongFromList(id, list) {
+  const index = list.findIndex((s) => s._id === id);
+  if (index === -1) {
+    return null;
+  }
+  return list[index];
+}

@@ -15,11 +15,11 @@ import {
 
 import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
-import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 import UserNavBar from "./UserNavBar";
 
 function UserProfile() {
-  const { currentUser } = useSelector(authSelector);
+  const { currentUser } = useSelector(userSelector);
   console.log(currentUser);
   const tab = " ";
 

@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Dropzone from "../../components/Dropzone";
 import Navbar from "../../components/Navbar";
 
-import { uploadSong } from "../../redux/uploader/uploader-actions";
-import { uploaderSelector } from "../../redux/uploader/uploader-selectors";
+import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
+
+import * as ROUTES from "../../routes";
 
 import {
   Button,
@@ -25,27 +28,48 @@ import { Tag, TagList, CloseButton } from "./style";
 import { Main } from "../../styles/mainStyles";
 
 function UploadSong() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
-    uploaderSelector,
+    songSelector,
   );
   const { currentUser } = useSelector(userSelector);
 
   const [title, setTitle] = useState("");
   const [file, setFile] = useState();
   const [newArtist, setNewArtist] = useState("");
-  const [artists, setArtists] = useState([currentUser.userName]);
+  const [artists, setArtists] = useState([
+    { _id: currentUser._id, userName: currentUser.userName },
+  ]);
+  const [songImage, setSongImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [newStyle, setNewStyle] = useState("");
   const [styles, setStyles] = useState([]);
 
+  useEffect(() => {
+    if (uploadSongSuccess) {
+      history.push(ROUTES.USER_PAGE);
+      dispatch(uploadSongReset());
+    }
+  }, [uploadSongSuccess]);
+
   function handleSubmit(e) {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("artistId", JSON.stringify(artists));
+    formData.append("genre", JSON.stringify(styles));
+
+    if (songImage) {
+      formData.append("songImage", songImage);
+    }
 
     dispatch(
       uploadSong({
         track: file,
-        title: title,
+        formData: formData,
       }),
     );
 
@@ -68,6 +92,7 @@ function UploadSong() {
 
   function handleSetCoverImage(e) {
     setPreviewImage(URL.createObjectURL(e.target.files[0]));
+    setSongImage(e.target.files[0]);
   }
 
   function handleNewArtist(e) {
@@ -78,9 +103,10 @@ function UploadSong() {
   function addArtist(e) {
     e.preventDefault();
     if (newArtist !== "" && artists.indexOf(newArtist) === -1) {
-      setArtists([...artists, newArtist]);
+      setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
+    console.log(artists);
   }
 
   function deleteArtist(index) {
@@ -162,8 +188,8 @@ function UploadSong() {
         <div>
           <TagList>
             {artists.map((art, index) => (
-              <Tag key={art}>
-                {art}
+              <Tag key={art.userName}>
+                {art.userName}
                 <CloseButton onClick={() => deleteArtist(index)} />
               </Tag>
             ))}

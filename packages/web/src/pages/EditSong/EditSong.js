@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { userSelector } from "../../redux/user/user-selectors";
@@ -22,25 +23,37 @@ import {
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
 
 import { Main } from "../../styles/mainStyles";
+import { getSongFromList } from "../../utils/favoritesUtils";
 
 function EditSong() {
-  const { currentUser, mySongs } = useSelector(userSelector);
-  const { isEditingSong, editSongError } = useSelector(songSelector);
+  const { currentUser } = useSelector(userSelector);
+  const { mySongs, isEditingSong, editSongError } = useSelector(songSelector);
 
   const dispatch = useDispatch();
 
   const [title, setTitle] = useState("");
   const [newArtist, setNewArtist] = useState("");
-  const [artists, setArtists] = useState([currentUser.userName]);
+  const [artists, setArtists] = useState([]);
   const [songImage, setSongImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [newStyle, setNewStyle] = useState("");
   const [styles, setStyles] = useState([]);
 
-  const formData = new FormData();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      const song = getSongFromList(id, mySongs);
+      setTitle(song.title);
+      setSongImage(song.songImage);
+      setPreviewImage(song.songImage);
+    }
+  }, [id]);
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const formData = new FormData();
 
     formData.append("title", title);
     formData.append("artist", artists);
@@ -186,10 +199,9 @@ function EditSong() {
         </div>
       </Form>
       <CenterContent>
-        {/* {isEditingSong && <Error>Editing song...</Error>}
-            {!editSongError && <Error>Changed successfully!</Error>}
-            {editSongError && <Error>Editing error!</Error>} */}
-        {editSongError && <Error>Error: {editSongError}</Error>}
+        {isEditingSong && <Error>Editing song...</Error>}
+        {!editSongError && <Error>Changed successfully!</Error>}
+        {editSongError && <Error>Editing error!</Error>}
         <Button type="submit" form="mainForm" disabled={isEditingSong} lastItem>
           Save
         </Button>

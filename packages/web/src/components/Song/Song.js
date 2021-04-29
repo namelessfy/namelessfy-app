@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
+import { useHistory } from "react-router-dom";
+
+import * as ROUTES from "../../routes";
+
 import DialogueBox from "../DialogueBox";
 
 import {
@@ -14,13 +18,14 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
-import { dislikeSong, likeSong } from "../../redux/user/user-actions";
+import { dislikeSong, likeSong } from "../../redux/song/song-actions";
 import { isLiked } from "../../utils/favoritesUtils";
-import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
-  const { favorites } = useSelector(userSelector);
+  const history = useHistory();
+  const { favorites } = useSelector(songSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -39,7 +44,7 @@ function Song({ songInfo, handleClick }) {
     "Song information": () => console.log("Show song information"),
     ...likeFunction,
     "Add to playlist": () => console.log("Add to playlist"),
-    Edit: () => console.log("edit"),
+    Edit: () => history.push(`${ROUTES.EDIT_SONG}/${songInfo._id}`),
   };
 
   return (
