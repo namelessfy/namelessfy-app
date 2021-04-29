@@ -10,28 +10,36 @@ playlistRouter.get(
   authMiddleware,
   playlistController.getPlaylists,
 );
-/* playlistRouter.post("/playlist", playlistController.createPlaylists); */
 
-// trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
-// trackRouter.get("/tracks", trackController.getTracks);
-// trackRouter.post(
-//   "/tracks/favorite/:id",
-//   authMiddleware,
-//   trackController.addFavoriteTrack,
-// );
-// trackRouter.patch(
-//   "/tracks/favorite/:id",
-//   authMiddleware,
-//   trackController.removeFavoriteTrack,
-// );
-// trackRouter.get(
-//   "/tracks/favorite/:userId",
-//   authMiddleware,
-//   trackController.getFavoriteTracks,
-// );
-// trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
-// trackRouter.patch("/tracks/:id", authMiddleware, trackController.editTrackInfo);
+playlistRouter.post(
+  "/playlist",
+  authMiddleware,
+  playlistController.createPlaylists,
+);
+playlistRouter.post(
+  "/playlist/favorite/:id",
+  authMiddleware,
+  playlistController.addFavoritePlaylist,
+);
+playlistRouter.patch(
+  "/playlist/favorite/:id",
+  authMiddleware,
+  playlistController.removeFavoritePlaylist,
+);
+playlistRouter.patch(
+  "/playlist/favorite/:userId",
+  authMiddleware,
+  playlistController.getFavoritePlaylist,
+);
+playlistRouter.delete(
+  "/playlist/:id",
+  authMiddleware,
+  playlistController.deletePlaylist,
+);
+playlistRouter.patch(
+  "/playlist/:id",
+  authMiddleware,
+  playlistController.editPlaylistInfo,
+);
 
-module.exports = {
-  playlistRouter,
-};
+module.exports = { playlistRouter };
