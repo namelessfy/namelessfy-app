@@ -61,8 +61,6 @@ async function edit(req, res) {
     dataToUpdate.porfileImage = result.url;
   }
 
-  console.log(req.user);
-  console.log(req.body);
   const { email } = req.user;
   const updateFields = Object.keys(dataToUpdate);
 

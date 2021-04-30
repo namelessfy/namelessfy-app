@@ -100,7 +100,7 @@ const NavContainer = styled.div`
   justify-content: space-around;
   width: 100%;
   margin: 25px auto;
-  margin-top: 20px;
+  margin-top: 4rem;
 
   & > button + button {
     border-left: 2px solid ${colors.WHITE};
@@ -130,10 +130,6 @@ const MediaContainer = styled.div`
   justify-content: flex-start;
   margin-bottom: 10rem;
   padding: 0 1rem;
-
-  & > div{
-    margin-bottom: 1.5rem;
-  }
 
   & > div + div {
     margin-left: 1.5rem;
@@ -198,7 +194,7 @@ const ProfileImageDefault = styled.div`
   display: inline-block;
   position: relative;
   border-radius: 50%;
-  padding: min(40%, 150px);
+  padding: min(30%, 150px);
   margin: 1em 0;
   align-self: center;
   background-size: cover;

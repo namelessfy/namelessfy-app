@@ -89,11 +89,11 @@ async function editTrackInfo(req, res) {
 async function getTracks(req, res) {
   const {
     user: { uid },
-    author: { aid },
+    /* author: { aid }, */
   } = req;
 
   try {
-    const userId = aid || uid;
+    const userId = /* aid || */ uid;
 
     const user = await UserRepo.findOne({
       firebase_id: userId,
