@@ -7,27 +7,7 @@ const {
   deleteById,
 } = require("./abstract-controller");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
-
-async function getArtists(array) {
-  let artists = [];
-  await Promise.all(
-    array.map(async ({ userName }) => {
-      try {
-        let user = await UserRepo.findOne({ userName });
-        if (user.error) {
-          throw new Error(user.error);
-        }
-        artists.push({
-          _id: user.data._id,
-          userName,
-        });
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    }),
-  );
-  return artists;
-}
+const { getArtists } = require("../utils/utils");
 
 async function createTrack(req, res, next) {
   let {
@@ -174,8 +154,6 @@ async function editTrackInfo(req, res) {
 }
 
 async function getTracks(req, res) {
-  console.log("==GET TRAKS===");
-
   return await getAllById(req, res, TrackRepo);
 }
 

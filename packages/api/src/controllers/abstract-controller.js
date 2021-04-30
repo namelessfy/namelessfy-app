@@ -1,23 +1,18 @@
 const { UserRepo } = require("../repositories");
-const { orderFavoriteSongs } = require("../utils/utils");
+const { orderFavoriteSongs, orderSongs } = require("../utils/utils");
 
 async function getAllById(req, res, Repository) {
-  const {
-    user: { uid },
-  } = req;
+  const { uid } = req.user;
 
-  try {
+  if (req.params.userId === "me") {
     const user = await UserRepo.findOne({ firebase_id: uid });
 
-    if (user.error) {
-      res.status(500).send({
-        data: null,
-        error: user.error,
-      });
-    }
+    req.params.userId = user.data._id;
+  }
 
+  try {
     const repo = await Repository.getAll({
-      "artistId._id": user.data._id,
+      "artistId._id": req.params.userId,
     });
 
     if (repo.error) {
@@ -28,6 +23,7 @@ async function getAllById(req, res, Repository) {
     }
 
     if (repo.data) {
+      repo.data.sort(orderSongs);
       return res.status(200).send({
         data: repo.data,
         error: null,

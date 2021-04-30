@@ -280,10 +280,6 @@ export function uploadSong({ track, formData }) {
       formData.append("url", url);
       formData.append("duration", duration);
 
-      console.log(duration);
-
-      console.log([...formData.entries()]);
-
       const songRes = await api.createTrack(formData, {
         Authorization: `Bearer ${userToken}`,
       });

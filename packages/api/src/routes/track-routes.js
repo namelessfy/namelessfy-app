@@ -21,7 +21,7 @@ trackRouter.patch(
   trackController.editTrackInfo,
 );
 
-trackRouter.get("/tracks", authMiddleware, trackController.getTracks);
+trackRouter.get("/tracks/:userId", authMiddleware, trackController.getTracks);
 
 trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
 
