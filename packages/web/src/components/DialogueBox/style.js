@@ -24,7 +24,7 @@ const Container = styled.div`
   position: absolute;
   background-color: ${colors.NEUTRAL};
   z-index: 6;
-  border-radius: 10px;
+  border-radius: 0 10px 10px;
   box-shadow: 2px 2px 10px #0008;
   display: flex;
   flex-direction: column;
@@ -32,15 +32,21 @@ const Container = styled.div`
 
   ${({ x }) => {
     if (window.innerWidth - width < x) {
-      return `left: ${x - width}px;`;
+      return `left: ${x - width}px;
+              border-radius: 10px 0 10px 10px;`;
     }
 
     return `left: ${x}px;`;
   }}
 
-  ${({ y, numberOfButtons }) => {
+  ${({ x, y, numberOfButtons }) => {
     if (window.innerHeight - numberOfButtons * buttonHeight < y) {
-      return `top: ${y - numberOfButtons * buttonHeight}px;`;
+      if (window.innerWidth - width < x) {
+        return `top: ${y - numberOfButtons * buttonHeight}px;
+              border-radius: 10px 10px 0 10px;`;
+      }
+      return `top: ${y - numberOfButtons * buttonHeight}px;
+              border-radius: 10px 10px 10px 0;`;
     }
 
     return `top: ${y}px;`;

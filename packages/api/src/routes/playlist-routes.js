@@ -5,33 +5,40 @@ const { authMiddleware } = require("../middlewares");
 
 const playlistRouter = Router();
 
-playlistRouter.get(
-  "/playlist",
-  authMiddleware,
-  playlistController.getPlaylists,
-);
-//playlistRouter.post("/playlist", playlistController.createPlaylists);
+// playlistRouter.get(
+//   "/playlist",
+//   authMiddleware,
+//   playlistController.getPlaylists,
+// );
+// playlistRouter.post(
+//   "/playlist",
+//   authMiddleware,
+//   playlistController.createPlaylists,
+// );
+// playlistRouter.post(
+//   "/playlist/favorite/:id",
+//   authMiddleware,
+//   playlistController.addFavoritePlaylist,
+// );
+// playlistRouter.patch(
+//   "/playlist/favorite/:id",
+//   authMiddleware,
+//   playlistController.removeFavoritePlaylist,
+// );
+// playlistRouter.patch(
+//   "/playlist/favorite/:userId",
+//   authMiddleware,
+//   playlistController.getFavoritePlaylist,
+// );
+// playlistRouter.delete(
+//   "/playlist/:id",
+//   authMiddleware,
+//   playlistController.deletePlaylist,
+// );
+// playlistRouter.patch(
+//   "/playlist/:id",
+//   authMiddleware,
+//   playlistController.editPlaylistInfo,
+// );
 
-// trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
-// trackRouter.get("/tracks", trackController.getTracks);
-// trackRouter.post(
-//   "/tracks/favorite/:id",
-//   authMiddleware,
-//   trackController.addFavoriteTrack,
-// );
-// trackRouter.patch(
-//   "/tracks/favorite/:id",
-//   authMiddleware,
-//   trackController.removeFavoriteTrack,
-// );
-// trackRouter.get(
-//   "/tracks/favorite/:userId",
-//   authMiddleware,
-//   trackController.getFavoriteTracks,
-// );
-// trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
-// trackRouter.patch("/tracks/:id", authMiddleware, trackController.editTrackInfo);
-
-module.exports = {
-  playlistRouter,
-};
+module.exports = { playlistRouter };

@@ -18,7 +18,7 @@ const SongCover = styled.button`
   border-radius: 10px;
   width: ${calculateContainerWidht5SongsResponsive};
   height: ${calculateContainerWidht5SongsResponsive};
-  margin: 1em 0;
+  margin-bottom: 1em;
   align-self: center;
   background-image: url(${(props) => props.src});
   background-size: cover;
@@ -105,7 +105,7 @@ const SongCover = styled.button`
 `;
 
 const SongTitle = styled.h3`
-  font-size: 18px;
+  font-size: 16px;
   margin: -0.5rem 0 0;
   cursor: pointer;
   white-space: nowrap;
@@ -163,6 +163,9 @@ const SongArtists = styled.div`
 
 const SongContainer = styled.div`
   width: ${calculateContainerWidht};
+  padding-bottom: 1rem;
+  margin-top: 1rem;
+
   @media (max-width: 1000px) {
     width: ${calculateContainerWidht5SongsResponsive};
   }

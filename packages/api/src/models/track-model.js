@@ -17,6 +17,10 @@ const TrackSchema = Schema(
       trim: true,
       required: false,
     },
+    cloudinaryThumbnailId: {
+      type: String,
+      required: false,
+    },
     duration: {
       type: Number,
       required: false,
@@ -42,8 +46,14 @@ const TrackSchema = Schema(
     artistId: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "user",
+          userName: {
+            type: String,
+            trim: true,
+          },
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
         },
       ],
       default: [],

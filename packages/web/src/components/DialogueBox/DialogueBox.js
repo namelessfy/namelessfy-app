@@ -19,7 +19,7 @@ function DialogueBox({ x, y, buttons, hideDialogue }) {
 DialogueBox.propTypes = {
   x: PropTypes.number.isRequired,
   y: PropTypes.number.isRequired,
-  buttons: PropTypes.array.isRequired,
+  buttons: PropTypes.object.isRequired,
   hideDialogue: PropTypes.func.isRequired,
 };
 

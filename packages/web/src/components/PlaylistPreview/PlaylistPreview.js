@@ -7,7 +7,6 @@ import {
   setQueueAndCurrentSong,
   setAutoPlay,
 } from "../../redux/musicPlayer/player-actions";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 import Song from "../Song";
 
@@ -23,7 +22,6 @@ import { startListByIndex } from "../../utils/playerUtils";
 
 function PlaylistPreview({ songs, title }) {
   const dispatch = useDispatch();
-  const { currentSong } = useSelector(playerSelector);
 
   const [page, setPage] = useState(1);
   const [shownSongs, setShownSongs] = useState([]);
@@ -65,7 +63,9 @@ function PlaylistPreview({ songs, title }) {
 
   function handlePlaySong(index) {
     const song = songs[index];
-    const list = startListByIndex(index, [...songs, currentSong]);
+
+    const list = startListByIndex(index, [...songs]);
+
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list));
   }
