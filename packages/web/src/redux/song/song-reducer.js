@@ -208,6 +208,30 @@ const SongReducer = (state = SongInitialState, action) => {
         uploadSongError: null,
       };
     }
+    case SongTypes.SONG_RESET: {
+      return {
+        ...state,
+        isEditingSong: false,
+        editSongError: null,
+        editingSuccess: false,
+        favorites: [],
+        setFavoritesError: null,
+        isGettingFavorites: false,
+        isSettinLike: false,
+        likeError: null,
+        isSettingDislike: false,
+        dislikeError: null,
+        mySongs: null,
+        isGettingMySongs: false,
+        getMySongsError: null,
+        isUploadingSong: false,
+        uploadSongSuccess: false,
+        uploadSongError: null,
+        isdeletingSong: false,
+        deletingSuccess: false,
+        deleteSongError: null,
+      };
+    }
     default: {
       return state;
     }

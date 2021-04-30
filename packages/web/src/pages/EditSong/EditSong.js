@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
 import {
   editSong,
   editSongReset,
   deleteSong,
+  deleteSongReset,
 } from "../../redux/song/song-actions";
 
 import * as ROUTES from "../../routes";
@@ -34,10 +34,13 @@ import { getSongFromList } from "../../utils/favoritesUtils";
 
 function EditSong() {
   const history = useHistory();
-  const { currentUser } = useSelector(userSelector);
-  const { mySongs, isEditingSong, editSongError, editingSuccess } = useSelector(
-    songSelector,
-  );
+  const {
+    mySongs,
+    isEditingSong,
+    editSongError,
+    editingSuccess,
+    deletingSuccess,
+  } = useSelector(songSelector);
 
   const dispatch = useDispatch();
 
@@ -45,6 +48,7 @@ function EditSong() {
   const [newArtist, setNewArtist] = useState("");
   const [artists, setArtists] = useState([]);
   const [songImage, setSongImage] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [newStyle, setNewStyle] = useState("");
   const [styles, setStyles] = useState([]);
@@ -55,8 +59,8 @@ function EditSong() {
     if (id) {
       const song = getSongFromList(id, mySongs);
       setTitle(song.title);
-      setSongImage(song.songImage);
-      setPreviewImage(song.songImage);
+      setThumbnail(song.thumbnail);
+      setPreviewImage(song.thumbnail);
       setArtists(song.artistId);
     }
   }, [id]);
@@ -68,6 +72,13 @@ function EditSong() {
     }
   }, [editingSuccess]);
 
+  useEffect(() => {
+    if (deletingSuccess) {
+      dispatch(deleteSongReset());
+      history.push(ROUTES.USER_PAGE);
+    }
+  }, [deletingSuccess]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -76,6 +87,7 @@ function EditSong() {
     formData.append("title", title);
     formData.append("artistId", JSON.stringify(artists));
     formData.append("genre", JSON.stringify(styles));
+    formData.append("thumbnail", thumbnail);
 
     if (songImage) {
       formData.append("songImage", songImage);
@@ -133,7 +145,8 @@ function EditSong() {
     setStyles(removed);
   }
 
-  function handleDelete() {
+  function handleDelete(e) {
+    e.preventDefault();
     dispatch(deleteSong(id));
   }
 
@@ -143,7 +156,7 @@ function EditSong() {
       <Title>Edit Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
-        <label htmlFor="coverImage">
+        <label htmlFor="songImage">
           <CenterContent>
             <CoverImage
               src={

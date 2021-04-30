@@ -18,14 +18,20 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
-import { dislikeSong, likeSong } from "../../redux/song/song-actions";
-import { isLiked } from "../../utils/favoritesUtils";
+import {
+  dislikeSong,
+  likeSong,
+  deleteSong,
+} from "../../redux/song/song-actions";
+import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { favorites } = useSelector(songSelector);
+  const { currentUser } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -39,12 +45,18 @@ function Song({ songInfo, handleClick }) {
     ? { Dislike: () => dispatch(dislikeSong(songInfo._id)) }
     : { Like: () => dispatch(likeSong(songInfo._id)) };
 
+  const ownerFunction = isIdInList(currentUser._id, songInfo.artistId)
+    ? {
+        Edit: () => history.push(`${ROUTES.EDIT_SONG}/${songInfo._id}`),
+        Delete: () => dispatch(deleteSong(songInfo._id)),
+      }
+    : "";
+
   const dialogueButtons = {
     Play: handleClick,
-    "Song information": () => console.log("Show song information"),
     ...likeFunction,
     "Add to playlist": () => console.log("Add to playlist"),
-    Edit: () => history.push(`${ROUTES.EDIT_SONG}/${songInfo._id}`),
+    ...ownerFunction,
   };
 
   return (

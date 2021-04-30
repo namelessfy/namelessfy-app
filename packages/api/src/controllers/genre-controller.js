@@ -1,4 +1,3 @@
-
 const { GenreRepo } = require("../repositories");
 const { getByName, getById, fetchAll } = require("./abstract-controller");
 async function createGenre(req, res, next) {

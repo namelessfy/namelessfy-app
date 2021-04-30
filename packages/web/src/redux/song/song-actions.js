@@ -83,21 +83,21 @@ export function deleteSong(id) {
 }
 
 export const deleteSongRequest = () => ({
-  type: SongTypes.EDIT_SONG_REQUEST,
+  type: SongTypes.DELETE_SONG_REQUEST,
 });
 
 export const deleteSongError = (message) => ({
-  type: SongTypes.EDIT_SONG_ERROR,
+  type: SongTypes.DELETE_SONG_ERROR,
   payload: message,
 });
 
 export const deleteSongSuccess = (song) => ({
-  type: SongTypes.EDIT_SONG_SUCCESS,
+  type: SongTypes.DELETE_SONG_SUCCESS,
   payload: song,
 });
 
 export const deleteSongReset = () => ({
-  type: SongTypes.EDIT_SONG_RESET,
+  type: SongTypes.DELETE_SONG_RESET,
 });
 
 export const getFavorites = () => {
@@ -301,4 +301,8 @@ export function uploadSong({ track, formData }) {
 
 export const uploadSongReset = () => ({
   type: SongTypes.UPLOAD_SONG_RESET,
+});
+
+export const songReset = () => ({
+  type: SongTypes.SONG_RESET,
 });
