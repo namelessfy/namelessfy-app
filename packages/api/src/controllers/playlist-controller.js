@@ -8,6 +8,8 @@ const {
   deleteById,
 } = require("./abstract-controller");
 
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
+
 async function createPlaylists(req, res, next) {
   let {
     body: {
@@ -24,7 +26,7 @@ async function createPlaylists(req, res, next) {
     if (!title) {
       res.status(400).send({
         data: null,
-        error: "Missing Fields (title, url)",
+        error: "Missing Field (title)",
       });
     }
 
@@ -37,9 +39,28 @@ async function createPlaylists(req, res, next) {
       });
     }
 
+    if (req.file) {
+      const result = await uploadImageToCloudinary(
+        req.file.path,
+        null,
+        "playlistImages",
+      );
+
+      if (result.error) {
+        return res.status(500).send({
+          data: null,
+          error: "Failed upload image to cloudinary",
+        });
+      }
+
+      thumbnail = result.url;
+      var cloudinaryThumbnailId = result.public_id;
+    }
+
     const response = await PlaylistRepo.create({
       title,
       thumbnail,
+      cloudinaryThumbnailId,
       type,
       publicAccessible,
       authorId: user.data._id,
@@ -47,6 +68,7 @@ async function createPlaylists(req, res, next) {
     });
 
     if (response.error) {
+      console.log(response.error);
       return res.status(500).send({
         data: null,
         error: response.error,

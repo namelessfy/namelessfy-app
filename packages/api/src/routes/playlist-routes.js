@@ -1,7 +1,9 @@
 const Router = require("express").Router;
+var multer = require("multer");
+var upload = multer({ dest: "uploads/" });
 
-// const { playlistController } = require("../controllers");
-// const { authMiddleware } = require("../middlewares");
+const { playlistController } = require("../controllers");
+const { authMiddleware } = require("../middlewares");
 
 const playlistRouter = Router();
 
@@ -10,11 +12,12 @@ const playlistRouter = Router();
 //   authMiddleware,
 //   playlistController.getPlaylists,
 // );
-// playlistRouter.post(
-//   "/playlist",
-//   authMiddleware,
-//   playlistController.createPlaylists,
-// );
+playlistRouter.post(
+  "/playlist",
+  authMiddleware,
+  upload.single("playlistImage"),
+  playlistController.createPlaylists,
+);
 // playlistRouter.post(
 //   "/playlist/favorite/:id",
 //   authMiddleware,
