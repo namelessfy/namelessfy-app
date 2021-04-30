@@ -10,7 +10,7 @@ playlistRouter.get(
   authMiddleware,
   playlistController.getPlaylists,
 );
-playlistRouter.post("/playlist", playlistController.createPlaylists);
+//playlistRouter.post("/playlist", playlistController.createPlaylists);
 
 // trackRouter.post("/tracks", authMiddleware, trackController.createTrack);
 // trackRouter.get("/tracks", trackController.getTracks);
