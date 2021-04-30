@@ -3,8 +3,8 @@ export function isLiked(id, likedSongs) {
   return index !== -1;
 }
 
-export function isSongInList(id, List) {
-  const index = List.findIndex((song) => song._id === id);
+export function isIdInList(id, List) {
+  const index = List.findIndex((element) => element._id === id);
   return index !== -1;
 }
 
@@ -19,7 +19,7 @@ export function removeFromLikedSongs(id, likedSongs) {
 export function addToLikedSongs(song, likedSongs) {
   const index = likedSongs.findIndex((s) => s._id === song._id);
   if (index === -1) {
-    return [...likedSongs, song];
+    return [song, ...likedSongs];
   }
   return likedSongs;
 }
@@ -41,6 +41,8 @@ export function getSongFromList(id, list) {
 
 export function removeFromMySongs(id, mySongs) {
   const index = mySongs.findIndex((song) => song._id === id);
+  console.log(mySongs);
   mySongs.splice(index, 1);
+  console.log(mySongs);
   return [...mySongs];
 }

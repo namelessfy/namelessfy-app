@@ -6,32 +6,11 @@ const {
   getFavorite,
   deleteById,
 } = require("./abstract-controller");
-
-async function getArtists(array) {
-  let artists = [];
-  await Promise.all(
-    array.map(async (artist) => {
-      try {
-        let user = await UserRepo.findOne({
-          userName: artist.userName,
-        });
-        if (user.error) {
-          throw new Error(user.error);
-        }
-        artists.push({
-          _id: user.data._id,
-          userName: artist.userName,
-        });
-      } catch (error) {
-        console.log(error.message); // need to change it
-      }
-    }),
-  );
-  return artists;
-}
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
+const { getArtists } = require("../utils/utils");
 
 async function createTrack(req, res, next) {
-  const {
+  let {
     body: {
       title,
       url,
@@ -59,10 +38,29 @@ async function createTrack(req, res, next) {
 
     const artists = await getArtists(JSON.parse(artistId));
 
+    if (req.file) {
+      const result = await uploadImageToCloudinary(
+        req.file.path,
+        null,
+        "trackImages",
+      );
+
+      if (result.error) {
+        return res.status(500).send({
+          data: null,
+          error: "Failed upload image to cloudinary",
+        });
+      }
+
+      thumbnail = result.url;
+      var cloudinaryThumbnailId = result.public_id;
+    }
+
     const response = await TrackRepo.create({
       title,
       url,
       thumbnail,
+      cloudinaryThumbnailId,
       duration,
       genre,
       authorId: user.data._id,
@@ -90,12 +88,39 @@ async function createTrack(req, res, next) {
 }
 
 async function editTrackInfo(req, res) {
-  const {
-    body: { title, thumbnail = null, genre = [], artistId = [] },
+  let {
+    body: {
+      title,
+      thumbnail = null,
+      genre = [],
+      artistId = [],
+      cloudinaryThumbnailId = null,
+    },
     params: { id },
   } = req;
 
   try {
+    if (req.file) {
+      const result = await uploadImageToCloudinary(
+        req.file.path,
+        cloudinaryThumbnailId,
+        "trackImages",
+      );
+
+      if (result.error) {
+        return res.status(500).send({
+          data: null,
+          error: "Failed upload image to cloudinary",
+        });
+      }
+
+      thumbnail = result.url;
+
+      if (!cloudinaryThumbnailId) {
+        cloudinaryThumbnailId = result.public_id;
+      }
+    }
+
     const artists = await getArtists(JSON.parse(artistId));
     const track = await TrackRepo.findOneAndUpdate(
       { _id: id },
@@ -104,6 +129,7 @@ async function editTrackInfo(req, res) {
         genre,
         artistId: artists,
         thumbnail,
+        cloudinaryThumbnailId,
       },
     );
 

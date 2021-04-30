@@ -7,8 +7,6 @@ const { authMiddleware } = require("../middlewares");
 
 const trackRouter = Router();
 
-// my songs endpoints
-
 trackRouter.post(
   "/tracks",
   authMiddleware,
@@ -23,11 +21,9 @@ trackRouter.patch(
   trackController.editTrackInfo,
 );
 
-trackRouter.get("/tracks", authMiddleware, trackController.getTracks);
+trackRouter.get("/tracks/:userId", authMiddleware, trackController.getTracks);
 
 trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
-
-// favorite songs endpoints
 
 trackRouter.post(
   "/tracks/favorite/:id",

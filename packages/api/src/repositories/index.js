@@ -6,4 +6,5 @@ module.exports = {
   UserRepo: UserRepository,
   TrackRepo: new AbstractRepository("Track"),
   PlaylistRepo: new AbstractRepository("Playlist"),
+  GenreRepo: new AbstractRepository("Genre"),
 };

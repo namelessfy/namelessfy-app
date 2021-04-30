@@ -17,6 +17,10 @@ const TrackSchema = Schema(
       trim: true,
       required: false,
     },
+    cloudinaryThumbnailId: {
+      type: String,
+      required: false,
+    },
     duration: {
       type: Number,
       required: false,
@@ -66,8 +70,13 @@ const TrackSchema = Schema(
     likedBy: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "user",
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
+          time: {
+            type: Date,
+          },
         },
       ],
       default: [],
