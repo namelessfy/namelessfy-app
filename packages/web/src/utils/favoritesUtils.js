@@ -19,7 +19,7 @@ export function removeFromLikedSongs(id, likedSongs) {
 export function addToLikedSongs(song, likedSongs) {
   const index = likedSongs.findIndex((s) => s._id === song._id);
   if (index === -1) {
-    return [...likedSongs, song];
+    return [song, ...likedSongs];
   }
   return likedSongs;
 }

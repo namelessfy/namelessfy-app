@@ -1,4 +1,5 @@
 const { UserRepo } = require("../repositories");
+const { orderFavoriteSongs } = require("../utils/utils");
 
 async function getAllById(req, res, Repository) {
   const {
@@ -18,12 +19,6 @@ async function getAllById(req, res, Repository) {
     const repo = await Repository.getAll({
       "artistId._id": user.data._id,
     });
-
-    console.log(user.data._id);
-
-    console.log("==PRE REPO LOG===");
-
-    console.log(repo);
 
     if (repo.error) {
       return res.status(500).send({
@@ -168,7 +163,14 @@ async function addFavorite(req, res, Repository) {
 
     const repo = await Repository.findOneAndUpdate(
       { _id: id },
-      { $addToSet: { likedBy: user.data._id } },
+      {
+        $addToSet: {
+          likedBy: {
+            _id: user.data._id,
+            time: new Date(),
+          },
+        },
+      },
     );
 
     if (repo.error) {
@@ -209,7 +211,13 @@ async function removeFavorite(req, res, Repository) {
 
     const repo = await Repository.findOneAndUpdate(
       { _id: id },
-      { $pull: { likedBy: user.data._id } },
+      {
+        $pull: {
+          likedBy: {
+            _id: user.data._id,
+          },
+        },
+      },
     );
 
     if (repo.error) {
@@ -242,7 +250,7 @@ async function getFavorite(req, res, Repository) {
   }
 
   try {
-    const repo = await Repository.getAll({ likedBy: req.params.userId });
+    const repo = await Repository.getAll({ "likedBy._id": req.params.userId });
 
     if (repo.error) {
       return res.status(500).send({
@@ -252,6 +260,7 @@ async function getFavorite(req, res, Repository) {
     }
 
     if (repo.data) {
+      repo.data.sort((a, b) => orderFavoriteSongs(a, b, req.params.userId));
       return res.status(200).send({
         data: repo.data,
         error: null,
