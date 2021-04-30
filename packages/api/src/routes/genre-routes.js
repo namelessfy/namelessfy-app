@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 
-const { genreController } = require("../controllers");
-const { authMiddleware } = require("../middlewares");
+// const { genreController } = require("../controllers");
+// const { authMiddleware } = require("../middlewares");
 
 const genreRouter = Router();
 

@@ -1,3 +1,4 @@
+
 const { GenreRepo } = require("../repositories");
 const { getByName, getById, fetchAll } = require("./abstract-controller");
 async function createGenre(req, res, next) {
@@ -20,7 +21,7 @@ async function createGenre(req, res, next) {
     if (response.error) {
       return res.status(400).send({
         data: null,
-        error: user.error,
+        error: response.error,
       });
     }
 

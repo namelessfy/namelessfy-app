@@ -16,7 +16,7 @@ async function getAllById(req, res, Repository) {
     }
 
     const repo = await Repository.getAll({
-      "artistId._id": ObjectId(user._id),
+      "artistId._id": user._id,
     });
 
     console.log(user._id);

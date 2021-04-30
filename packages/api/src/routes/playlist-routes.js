@@ -1,7 +1,7 @@
 const Router = require("express").Router;
 
-const { playlistController } = require("../controllers");
-const { authMiddleware } = require("../middlewares");
+// const { playlistController } = require("../controllers");
+// const { authMiddleware } = require("../middlewares");
 
 const playlistRouter = Router();
 

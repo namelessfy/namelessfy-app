@@ -22,10 +22,7 @@ async function getArtists(array) {
           userName,
         });
       } catch (error) {
-        res.status(500).send({
-          data: null,
-          error: error.message,
-        });
+        throw new Error(error.message);
       }
     }),
   );
@@ -76,7 +73,7 @@ async function createTrack(req, res, next) {
       }
 
       thumbnail = result.url;
-      cloudinaryThumbnailId = result.public_id;
+      var cloudinaryThumbnailId = result.public_id;
     }
 
     const response = await TrackRepo.create({
