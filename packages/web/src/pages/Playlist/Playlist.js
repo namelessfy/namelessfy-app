@@ -15,6 +15,7 @@ import {
 import { Main, Icon } from "../../styles/mainStyles";
 
 import { userSelector } from "../../redux/user/user-selectors";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import {
   setAutoPlay,
   setQueueAndCurrentSong,
@@ -24,6 +25,7 @@ import { CenterContent } from "../../styles/formStyles";
 
 function UploadSong() {
   const dispatch = useDispatch();
+  const { queue } = useSelector(playerSelector);
   const { mySongs } = useSelector(userSelector);
   const [isGrid, setIsGrid] = useState(true);
 
@@ -63,7 +65,7 @@ function UploadSong() {
       </TitleContainer>
       <Separation />
       <SongsContainer>
-        {mySongs?.map((song, index) => (
+        {queue?.map((song, index) => (
           <Song
             key={song._id}
             songInfo={song}

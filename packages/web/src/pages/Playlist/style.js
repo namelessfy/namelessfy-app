@@ -21,6 +21,11 @@ const SongsContainer = styled.div`
   & >div:nth-child(5n + 1){
     margin-left: 0rem;
   }
+
+  @media (max-width: 1000px) {
+    padding: 0 2.75rem;
+    width: fit-content;
+  }
   @media (max-width: 800px) {
     padding: 0 2rem;
     width: fit-content;

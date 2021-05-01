@@ -16,8 +16,8 @@ const SongCover = styled.button`
   display: inline-block;
   position: relative;
   border-radius: 10px;
-  width: ${calculateContainerWidht5SongsResponsive};
-  height: ${calculateContainerWidht5SongsResponsive};
+  width: calc(${calculateContainerWidht5SongsResponsive} - 2px);
+  height: calc(${calculateContainerWidht5SongsResponsive} - 2px);
   margin-bottom: 1em;
   align-self: center;
   background-image: url(${(props) => props.src});
