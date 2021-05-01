@@ -26,7 +26,7 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function createTrack({ body, headers = {} }) {
+  function createTrack(body, headers) {
     return request({
       url: "/tracks",
       requestMethod: "POST",
@@ -59,10 +59,27 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function getMySongs(headers) {
+  function getSongs(headers, id = "me") {
     return request({
-      url: `/tracks`,
+      url: `/tracks/${id}`,
       requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function editTrack(headers, body, id) {
+    return request({
+      url: `/tracks/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: body,
+    });
+  }
+
+  function deleteSong(headers, id) {
+    return request({
+      url: `/tracks/${id}`,
+      requestMethod: "DELETE",
       headers: headers,
     });
   }
@@ -75,7 +92,9 @@ function makeApi(request = makeRequest()) {
     getFavorites: getFavorites,
     likeSong: likeSong,
     dislikeSong: dislikeSong,
-    getSongs: getMySongs,
+    getSongs: getSongs,
+    editTrack: editTrack,
+    deleteTrack: deleteSong,
   };
 }
 

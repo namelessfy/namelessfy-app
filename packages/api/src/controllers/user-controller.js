@@ -54,10 +54,13 @@ async function edit(req, res) {
   };
   delete dataToUpdate._id;
   delete dataToUpdate.firebase_id;
-  // console.log(dataToUpdate);
 
   if (req.file) {
-    const result = await uploadImageToCloudinary(req.file.path, req.body._id);
+    const result = await uploadImageToCloudinary(
+      req.file.path,
+      req.body._id,
+      "porfileImages",
+    );
     dataToUpdate.porfileImage = result.url;
   }
 
@@ -125,8 +128,8 @@ async function remove(req, res) {
 }
 
 module.exports = {
-  signUp: signUp,
-  signOut: signOut,
-  edit: edit,
+  signUp,
+  signOut,
+  edit,
   delete: remove,
 };

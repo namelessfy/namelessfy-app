@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 
-import Dropzone from "../../components/Dropzone";
-import Navbar from "../../components/Navbar";
-
-import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
 import { songSelector } from "../../redux/song/song-selectors";
-import { userSelector } from "../../redux/user/user-selectors";
+import {
+  editSong,
+  editSongReset,
+  deleteSong,
+  deleteSongReset,
+} from "../../redux/song/song-actions";
 
 import * as ROUTES from "../../routes";
 
+import Navbar from "../../components/Navbar";
+
 import {
   Button,
+  DeleteButton,
   Error,
   Form,
   Input,
@@ -23,35 +27,57 @@ import {
   CenterContent,
   AddInput,
 } from "../../styles/formStyles";
-import { Tag, TagList, CloseButton } from "./style";
+import { Tag, TagList, CloseButton } from "../UploadSong/style";
 
 import { Main } from "../../styles/mainStyles";
+import { getSongFromList } from "../../utils/favoritesUtils";
 
-function UploadSong() {
+function EditSong() {
   const history = useHistory();
+  const {
+    mySongs,
+    isEditingSong,
+    editSongError,
+    editingSuccess,
+    deletingSuccess,
+  } = useSelector(songSelector);
+
   const dispatch = useDispatch();
-  const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
-    songSelector,
-  );
-  const { currentUser } = useSelector(userSelector);
 
   const [title, setTitle] = useState("");
-  const [file, setFile] = useState();
   const [newArtist, setNewArtist] = useState("");
-  const [artists, setArtists] = useState([
-    { _id: currentUser._id, userName: currentUser.userName },
-  ]);
+  const [artists, setArtists] = useState([]);
   const [songImage, setSongImage] = useState(null);
+  const [thumbnail, setThumbnail] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
   const [newStyle, setNewStyle] = useState("");
   const [styles, setStyles] = useState([]);
 
+  const { id } = useParams();
+
   useEffect(() => {
-    if (uploadSongSuccess) {
-      history.push(ROUTES.USER_PAGE);
-      dispatch(uploadSongReset());
+    if (id) {
+      const song = getSongFromList(id, mySongs);
+      setTitle(song.title);
+      setThumbnail(song.thumbnail);
+      setPreviewImage(song.thumbnail);
+      setArtists(song.artistId);
     }
-  }, [uploadSongSuccess]);
+  }, [id]);
+
+  useEffect(() => {
+    if (editingSuccess) {
+      dispatch(editSongReset());
+      history.push(ROUTES.USER_PAGE);
+    }
+  }, [editingSuccess]);
+
+  useEffect(() => {
+    if (deletingSuccess) {
+      dispatch(deleteSongReset());
+      history.push(ROUTES.USER_PAGE);
+    }
+  }, [deletingSuccess]);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -61,21 +87,13 @@ function UploadSong() {
     formData.append("title", title);
     formData.append("artistId", JSON.stringify(artists));
     formData.append("genre", JSON.stringify(styles));
+    formData.append("thumbnail", thumbnail);
 
     if (songImage) {
       formData.append("songImage", songImage);
     }
 
-    dispatch(
-      uploadSong({
-        track: file,
-        formData: formData,
-      }),
-    );
-
-    // eslint-disable-next-line spaced-comment
-    /*setTitle("");
-    setFile();*/
+    dispatch(editSong(formData, id));
   }
 
   function handleSetTitle(e) {
@@ -83,16 +101,10 @@ function UploadSong() {
     setTitle(e.target.value);
   }
 
-  function handleSetFile(uploadFile) {
-    if (title === "") {
-      setTitle(uploadFile.name);
-    }
-    setFile(uploadFile);
-  }
-
-  function handleSetCoverImage(e) {
-    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+  function handleSetSongImage(e) {
+    e.preventDefault();
     setSongImage(e.target.files[0]);
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
   }
 
   function handleNewArtist(e) {
@@ -106,7 +118,6 @@ function UploadSong() {
       setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
-    console.log(artists);
   }
 
   function deleteArtist(index) {
@@ -134,13 +145,18 @@ function UploadSong() {
     setStyles(removed);
   }
 
+  function handleDelete(e) {
+    e.preventDefault();
+    dispatch(deleteSong(id));
+  }
+
   return (
     <Main>
       <Navbar />
-      <Title>Upload Song</Title>
+      <Title>Edit Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
-        <label htmlFor="coverImage">
+        <label htmlFor="songImage">
           <CenterContent>
             <CoverImage
               src={
@@ -153,20 +169,14 @@ function UploadSong() {
 
         <Input
           type="file"
-          id="coverImage"
+          id="songImage"
           className="form-input"
           accept="image/png, image/jpeg"
-          onChange={handleSetCoverImage}
+          onChange={handleSetSongImage}
           display="none"
         />
-        <Label>Title</Label>
-        <Input type="text" id="title" value={title} onChange={handleSetTitle} />
-        <Dropzone
-          onFileSelected={(files) => {
-            // eslint-disable-next-line no-console
-            handleSetFile(files[0]);
-          }}
-        />
+        <Label htmlFor="title">Title</Label>
+        <Input type="text" id="title" onChange={handleSetTitle} value={title} />
       </Form>
 
       <Separation />
@@ -215,7 +225,7 @@ function UploadSong() {
         <div>
           <TagList>
             {styles.map((sty, index) => (
-              <Tag key={sty.path}>
+              <Tag key={sty}>
                 {sty}
                 <CloseButton onClick={() => deleteStyle(index)} />
               </Tag>
@@ -224,20 +234,25 @@ function UploadSong() {
         </div>
       </Form>
       <CenterContent>
-        {isUploadingSong && <Error>Uploading song...</Error>}
-        {uploadSongSuccess && file && <Error>Upload successful!</Error>}
-        {uploadSongError && <Error>Upload error!</Error>}
-        <Button
-          type="submit"
-          form="mainForm"
-          disabled={isUploadingSong}
-          lastItem
-        >
-          Upload
+        {isEditingSong && <Error>Editing song...</Error>}
+        {editingSuccess && <Error>Changed successfully!</Error>}
+        {editSongError && <Error>Editing error!</Error>}
+        <Button type="submit" form="mainForm">
+          Save
         </Button>
+        <Form id="deleteBtn" onSubmit={handleDelete}>
+          <DeleteButton
+            type="submit"
+            form="deleteBtn"
+            disabled={isEditingSong}
+            lastItem
+          >
+            Delete
+          </DeleteButton>
+        </Form>
       </CenterContent>
     </Main>
   );
 }
 
-export default UploadSong;
+export default EditSong;

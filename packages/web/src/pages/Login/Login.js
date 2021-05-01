@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 import * as ROUTES from "../../routes";
 import {
   Button,
   Error,
+  ErrorInput,
   ForgotPassword,
   Form,
   Input,
@@ -22,8 +25,8 @@ import namelessfyLogo from "../../img/namelessfyLogo.svg";
 
 import {
   resetAuthState,
-  signInWithEmailRequest,
   signUpWithGoogleRequest,
+  signUpWithEmailRequest,
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
@@ -34,9 +37,6 @@ function Login() {
     authSelector,
   );
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   useEffect(() => {
     dispatch(resetAuthState());
   }, [dispatch]);
@@ -46,21 +46,8 @@ function Login() {
     dispatch(signUpWithGoogleRequest());
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    dispatch(signInWithEmailRequest(email, password));
-
-    setEmail("");
-    setPassword("");
-  }
-
-  function handleSetEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleSetPassword(e) {
-    setPassword(e.target.value);
+  function handleLoginWithEmailAndPassword(email, password) {
+    dispatch(signUpWithEmailRequest(email, password));
   }
 
   if (isAuthenticated) {
@@ -88,33 +75,89 @@ function Login() {
             </Button>
           </Form>
           <Separation />
-          <Form onSubmit={handleSubmit}>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleSetEmail}
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handleSetPassword}
-            />
-            <ForgotPassword>
-              {" "}
-              Forgot your password?
-              <div>
-                <Link to={ROUTES.RESET_PASSWORD}>Reset password</Link>
-              </div>
-            </ForgotPassword>
-            <Button type="submit" disabled={isSigningUp}>
-              Login
-            </Button>
-          </Form>
-          {signUpError && <Error>{signUpError}</Error>}
+
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string()
+                .email("Invalid email addresss")
+                .required("Email is required"),
+              password: Yup.string()
+                .required("Password is required")
+                .min(6, "Password must contain at least 6 characters"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                setSubmitting(false);
+                handleLoginWithEmailAndPassword(values.email, values.password);
+              }, 500);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              isSubmitting,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+            }) => {
+              return (
+                <>
+                  <Form
+                    onSubmit={() => {
+                      handleSubmit();
+                      isSubmitting(false);
+                    }}
+                  >
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      valid={touched.email && !errors.email}
+                      error={errors.email && touched.email && "error"}
+                    />
+                    {errors.email && touched.email && (
+                      <ErrorInput>{errors.email}</ErrorInput>
+                    )}
+
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      valid={touched.password && !errors.password}
+                      error={errors.password && touched.password && "error"}
+                    />
+                    <ForgotPassword>
+                      {" "}
+                      Forgot your password?
+                      <div>
+                        <Link to={ROUTES.RESET_PASSWORD}>Reset password</Link>
+                      </div>
+                    </ForgotPassword>
+                    {errors.password && touched.password && (
+                      <ErrorInput>{errors.password}</ErrorInput>
+                    )}
+                    <Button type="submit">
+                      {isSubmitting ? `Submiting...` : `Login`}
+                    </Button>
+                    {signUpError && <Error>Error: {signUpError}</Error>}
+                  </Form>
+                </>
+              );
+            }}
+          </Formik>
           <Separation />
           <RedirectMessage>
             First time here?

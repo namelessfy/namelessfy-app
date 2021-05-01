@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 import {
   Button,
   Error,
+  ErrorInput,
   Form,
   Input,
   Label,
@@ -22,8 +25,8 @@ import * as ROUTES from "../../routes";
 
 import {
   resetAuthState,
-  signUpWithEmailRequest,
   signUpWithGoogleRequest,
+  signUpWithEmailRequest,
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
@@ -34,9 +37,6 @@ function SignUp() {
     authSelector,
   );
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   useEffect(() => {
     dispatch(resetAuthState());
   }, [dispatch]);
@@ -46,21 +46,8 @@ function SignUp() {
     dispatch(signUpWithGoogleRequest());
   }
 
-  function handleSubmit(e) {
-    e.preventDefault();
-
+  function handleLoginWithEmailAndPassword(email, password) {
     dispatch(signUpWithEmailRequest(email, password));
-
-    setEmail("");
-    setPassword("");
-  }
-
-  function handleSetEmail(e) {
-    setEmail(e.target.value);
-  }
-
-  function handleSetPassword(e) {
-    setPassword(e.target.value);
   }
 
   if (isAuthenticated) {
@@ -88,31 +75,86 @@ function SignUp() {
             </Button>
           </Form>
           <Separation />
-          <Form onSubmit={handleSubmit}>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              type="text"
-              id="email"
-              value={email}
-              onChange={handleSetEmail}
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handleSetPassword}
-            />
-            <Button type="submit" disabled={isSigningUp}>
-              Sign up
-            </Button>
-            {signUpError && <Error>Error: {signUpError}</Error>}
-          </Form>
+
+          <Formik
+            initialValues={{
+              email: "",
+              password: "",
+            }}
+            validationSchema={Yup.object().shape({
+              email: Yup.string()
+                .email("Invalid email addresss")
+                .required("Email is a required"),
+              password: Yup.string()
+                .required("Password is required")
+                .min(6, "Password must contain at least 6 characters"),
+            })}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                console.log(values);
+                setSubmitting(false);
+                handleLoginWithEmailAndPassword(values.email, values.password);
+              }, 500);
+            }}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+            }) => {
+              return (
+                <>
+                  <Form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSubmit();
+                    }}
+                  >
+                    <Label htmlFor="email">Email</Label>
+                    <Input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      valid={touched.email && !errors.email}
+                      error={errors.email && touched.email && "error"}
+                    />
+                    {errors.email && touched.email && (
+                      <ErrorInput>{errors.email}</ErrorInput>
+                    )}
+
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      type="password"
+                      id="password"
+                      name="password"
+                      value={values.password}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      valid={touched.password && !errors.password}
+                      error={errors.password && touched.password && "error"}
+                    />
+                    {errors.password && touched.password && (
+                      <ErrorInput>{errors.password}</ErrorInput>
+                    )}
+
+                    <Button type="submit">Sign up</Button>
+                    {signUpError && <Error>Error: {signUpError}</Error>}
+                  </Form>
+                </>
+              );
+            }}
+          </Formik>
 
           <section>
             <Separation />
             <RedirectMessage>
-              Alredy have an account?
+              Already have an account?
               <div>
                 <Link to={ROUTES.LOGIN}>Log in</Link>
               </div>
