@@ -18,6 +18,10 @@ const PlaylistSchema = Schema(
       trim: true,
       required: false,
     },
+    cloudinaryThumbnailId: {
+      type: String,
+      required: false,
+    },
     publicAccessible: {
       type: Boolean,
       required: false,

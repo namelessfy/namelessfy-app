@@ -1,5 +1,6 @@
 const { GenreRepo } = require("../repositories");
-const { getByName, getById, fetchAll } = require("./abstract-controller");
+const { getByName, fetchAll } = require("./abstract-controller");
+
 async function createGenre(req, res, next) {
   const {
     body: { name },
@@ -13,9 +14,16 @@ async function createGenre(req, res, next) {
       });
     }
 
-    const response = await GenreRepo.create({
-      name: name,
-    });
+    const isDuplicatedGenre = await GenreRepo.getAll({ name });
+
+    if (isDuplicatedGenre.data) {
+      return res.status(409).send({
+        data: null,
+        error: "Genre already exists",
+      });
+    }
+
+    const response = await GenreRepo.create({ name });
 
     if (response.error) {
       return res.status(400).send({
@@ -35,21 +43,39 @@ async function createGenre(req, res, next) {
   }
 }
 
-async function fetchAllGenres(req, res) {
+async function getGenres(req, res) {
+  if (req.body.name) {
+    return getByName(req, res, GenreRepo);
+  }
+
   return fetchAll(req, res, GenreRepo);
 }
 
-async function fetchGenreByName(req, res) {
-  return getByName(req, res, GenreRepo);
-}
+async function updateGenreByName(req, res) {
+  const {
+    body: data,
+    params: { name },
+  } = req;
 
-async function fetchGenreById(req, res) {
-  return getById(req, res, GenreRepo);
+  const genre = await Repository.findOneAndUpdate({ name }, data);
+
+  if (genre.data) {
+    return res.status(200).send({
+      data: genre.data,
+      error: null,
+    });
+  }
+
+  if (genre.error) {
+    return res.status(503).send({
+      data: null,
+      error: genre.error,
+    });
+  }
 }
 
 module.exports = {
   createGenre,
-  fetchAllGenres,
-  fetchGenreById,
-  fetchGenreByName,
+  getGenres,
+  updateGenreByName,
 };
