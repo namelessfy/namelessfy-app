@@ -63,7 +63,7 @@ function Home() {
     <Main>
       <Navbar />
       <Container>
-        {/* <PlaylistPreview title="Queue" songs={fullQueue} /> */}
+        <PlaylistPreview title="Queue" songs={fullQueue} />
         {favorites?.length > 0 && (
           <PlaylistPreview title="Liked Songs" songs={favorites} />
         )}

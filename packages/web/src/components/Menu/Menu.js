@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import { signOut } from "../../redux/auth/auth-actions";
-import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   Background,
@@ -19,11 +19,11 @@ import {
   FullName,
   MediaContainer,
 } from "./style";
-import { Button } from "../../styles/formStyles";
+import { Button, CenterContent } from "../../styles/formStyles";
 
 function SeacrhModal({ show, close }) {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(authSelector);
+  const User = useSelector(userSelector);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -36,7 +36,7 @@ function SeacrhModal({ show, close }) {
   }
 
   const tab = " ";
-  const fullname = currentUser.firstName + tab + currentUser.lastName;
+  const fullname = User.currentUser.firstName + tab + User.currentUser.lastName;
   return (
     <>
       <Back isShowing={show} onClick={handleBackClick} id="back">
@@ -44,41 +44,47 @@ function SeacrhModal({ show, close }) {
           <CloseContainer>
             <AiOutlineCloseCircle type="button" id="back" onClick={close} />
           </CloseContainer>
-          <RowDiv>
-            <Link to="/user-page">
-              <MenuImage
-                src={
-                  currentUser.porfileImage ||
-                  "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
-                }
-              />
-            </Link>
-            <Link to="/user-page">
-              <ColumnDiv>
-                <UserNameMenu>{currentUser.userName}</UserNameMenu>
-                <FullName>{fullname}</FullName>
-              </ColumnDiv>
-            </Link>
-          </RowDiv>
+          <CenterContent>
+            <RowDiv>
+              <Link to="/user-page">
+                <MenuImage
+                  src={
+                    User.currentUser.porfileImage ||
+                    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
+                  }
+                />
+              </Link>
+              <Link to="/user-page">
+                <ColumnDiv>
+                  <UserNameMenu>{User.currentUser.userName}</UserNameMenu>
+                  <FullName>{fullname}</FullName>
+                </ColumnDiv>
+              </Link>
+            </RowDiv>
 
-          <MediaContainer>
-            <ColumnDiv>
-              <h1>Liked Songs</h1>
-              <RowDiv />
-            </ColumnDiv>
-            <ColumnDiv>
-              <h1>Liked Albums</h1>
-            </ColumnDiv>
-            <ColumnDiv>
-              <h1>Your Albums</h1>
-            </ColumnDiv>
-            <ColumnDiv>
-              <h1>Your Playlists</h1>
-            </ColumnDiv>{" "}
-            <Button type="button" onClick={handleSignOut}>
-              Sign Out
-            </Button>
-          </MediaContainer>
+            <MediaContainer>
+              <ColumnDiv>
+                <h1>Liked Songs</h1>
+                <hr />
+                <RowDiv />
+              </ColumnDiv>
+              <ColumnDiv>
+                <h1>Liked Albums</h1>
+                <hr />
+              </ColumnDiv>
+              <ColumnDiv>
+                <h1>Your Albums</h1>
+                <hr />
+              </ColumnDiv>
+              <ColumnDiv>
+                <h1>Your Playlists</h1>
+                <hr />
+              </ColumnDiv>{" "}
+              <Button type="button" onClick={handleSignOut} lastItem>
+                Sign Out
+              </Button>
+            </MediaContainer>
+          </CenterContent>
         </Background>
       </Back>
     </>

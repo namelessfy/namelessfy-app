@@ -110,9 +110,10 @@ const MenuImage = styled.div`
   margin-bottom: 0px;
   filter: drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.25));
   border-radius: 100px;
-  background-image: url(${(props) =>
-    props.src ||
-    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
+  background-position: center;
+  background-size: cover;
+  background-image: url(${(props) =>props.src || "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
+
 `;
 
 const UserNameMenu = styled.div`
@@ -123,6 +124,7 @@ const UserNameMenu = styled.div`
 const FullName = styled.div`
   font-size: 15px;
   font-weight: bold;
+  color: ${colors.SMOOTH};
 `;
 
 export {

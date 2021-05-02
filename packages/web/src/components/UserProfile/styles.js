@@ -35,10 +35,6 @@ const Statistics = styled.div`
   }
 `;
 
-// const ViewButton = styled.button`
-//   width: auto;
-// `;
-
 const ProfileButton = styled.button`
   margin-top: 10px;
   margin-left: 80%;
@@ -51,6 +47,10 @@ const ProfileButton = styled.button`
     width: auto;
     transition: 0.3s ease-in-out;
   }
+`;
+
+const ViewButton = styled.button`
+  width: auto;
 `;
 
 const ButtonContainer = styled.div`
