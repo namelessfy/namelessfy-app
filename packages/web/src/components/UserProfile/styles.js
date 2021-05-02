@@ -35,11 +35,11 @@ const Statistics = styled.div`
   }
 `;
 
-const ViewButton = styled.button`
-  width: auto;
-`;
+// const ViewButton = styled.button`
+//   width: auto;
+// `;
 
-const EditButton = styled.button`
+const ProfileButton = styled.button`
   margin-top: 10px;
   margin-left: 80%;
   padding: 5px;
@@ -49,15 +49,16 @@ const EditButton = styled.button`
     right: 80px;
     height: 40px;
     width: auto;
-    transition: .3s ease-in-out;
-  };
-  `
+    transition: 0.3s ease-in-out;
+  }
+`;
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row wrap;
   justify-content: center;
 `;
+
 const AddSongButton = styled.button`
   background-color: ${colors.NEUTRAL};
   color: ${colors.WHITE};
