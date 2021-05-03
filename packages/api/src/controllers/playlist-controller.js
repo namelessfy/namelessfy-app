@@ -1,4 +1,5 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
 const {
   getAllById,
   addFavorite,
@@ -112,6 +113,7 @@ async function editPlaylistInfo(req, res) {
       thumbnail = null,
       publicAccessible = true,
       tracks = [],
+      cloudinaryThumbnailId = null,
     },
     params: { id },
   } = req;
@@ -136,6 +138,15 @@ async function editPlaylistInfo(req, res) {
       if (!cloudinaryThumbnailId) {
         cloudinaryThumbnailId = result.public_id;
       }
+    }
+
+    const user = await UserRepo.findOne({ firebase_id: id });
+
+    if (user.error) {
+      res.status(400).send({
+        data: null,
+        error: user.error,
+      });
     }
 
     const playlist = await PlaylistRepo.findOneAndUpdate(
