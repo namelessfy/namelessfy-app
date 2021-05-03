@@ -4,7 +4,6 @@ const { isEmail } = require("validator");
 
 const UserSchema = Schema(
   {
-    // we use the uid from firebase as the _id
     firebase_id: {
       type: String,
       required: [true, "Firebase id not specified!"],
@@ -13,14 +12,17 @@ const UserSchema = Schema(
       type: String,
       trim: true,
       unique: true,
+      default: "",
     },
     firstName: {
       type: String,
       trim: true,
+      default: "",
     },
     lastName: {
       type: String,
       trim: true,
+      default: "",
     },
     email: {
       type: String,
@@ -35,10 +37,12 @@ const UserSchema = Schema(
     birthday: {
       type: Date,
       trim: true,
+      default: "",
     },
     porfileImage: {
       type: String,
       trim: true,
+      default: "",
     },
   },
   {

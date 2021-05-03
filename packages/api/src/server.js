@@ -11,6 +11,7 @@ const {
   healthRouter,
   trackRouter,
   playlistRouter,
+  genreRouter,
 } = require("./routes");
 
 const app = express();
@@ -23,7 +24,8 @@ app.use(cors({ origin: config.client.url }));
 app.use(userRouter);
 app.use(healthRouter);
 app.use(trackRouter);
-// app.use(playlistRouter);
+app.use(playlistRouter);
+app.use(genreRouter);
 
 app.use(errorMiddleware);
 

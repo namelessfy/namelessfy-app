@@ -156,6 +156,7 @@ const Button = styled.button`
 
   &:hover,
   &:focus {
+    outline: none;
     width: 270px;
     outline: none;
     &::after {
@@ -180,6 +181,10 @@ const Button = styled.button`
     @media (max-width: 650px) {
       margin-bottom: 150px;};`
       : ``}
+`;
+
+const DeleteButton = styled(Button)`
+  background-color: ${colors.DELETE};
 `;
 
 const Title = styled.h1`
@@ -258,6 +263,12 @@ const Error = styled.div`
   @media (min-width: 1024px) {
     font-size: 16px;
   }
+`;
+const ErrorInput = styled.div`
+  font-size: 12px;
+  margin-left: 0.5em;
+  color: ${colors.LIGHT};
+  animation: ${errorAnimation} 2s linear;
 `;
 
 const NamelessfyLogo = styled.div`
@@ -358,7 +369,9 @@ const AddInput = styled.div`
 export {
   Button,
   CenterContent,
+  DeleteButton,
   Error,
+  ErrorInput,
   ForgotPassword,
   Form,
   Input,

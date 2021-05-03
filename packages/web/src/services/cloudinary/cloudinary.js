@@ -10,7 +10,6 @@ export const getFileUrl = ({ file, onUploadProgress }) => {
   formData.append("upload_preset", songUploadPreset);
   formData.append("file", file);
   formData.append("resource_type", "video");
-  formData.append("public_id", file.name);
   formData.append("tags", "browser_upload");
 
   const config = {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { HiUserCircle } from "react-icons/hi";
@@ -9,54 +9,59 @@ import {
   Statistics,
   ProfileImageDefault,
   ProfileContainer,
-  ButtonContainer,
-  ProfileButton,
+  EditButton,
 } from "./styles";
 
 import NavBar from "../Navbar";
-import { Button, CenterContent } from "../../styles/formStyles";
+import { CenterContent } from "../../styles/formStyles";
 import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 import UserNavBar from "./UserNavBar";
+import { Icon } from "../../styles/mainStyles";
 
 function UserProfile() {
   const { currentUser } = useSelector(userSelector);
+  const { mySongs } = useSelector(songSelector);
+  const [isGrid, setIsGrid] = useState(true);
   const tab = " ";
+
+  function toggleGrid() {
+    setIsGrid(!isGrid);
+  }
 
   return (
     <div>
       <NavBar />
       <ProfileContainer>
         <CenterContent>
-          <ProfileButton>
+          <EditButton>
             <Link to="/edit-user">
               {" "}
-              <HiUserCircle />{" "}
+              <Icon name="edit" size="normal" />
             </Link>
-          </ProfileButton>
+          </EditButton>
           <ProfileImageDefault
             src={
-              currentUser.porfileImage ||
+              currentUser?.porfileImage ||
               "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
             }
           />
         </CenterContent>
         <UserName>
-          <h1>{currentUser.userName}</h1>
-          <h4>{currentUser.firstName + tab + currentUser.lastName}</h4>
+          <h1>{currentUser?.userName}</h1>
+          <h4>{currentUser?.firstName + tab + currentUser?.lastName}</h4>
         </UserName>
         <Statistics>
           <div>
-            <p>{currentUser.followers || "3.141.596 Followers"}</p>
-            <p>{currentUser.followers || "4 Following"}</p>
+            <p>{currentUser?.followers || "3.141.596 Followers"}</p>
+            <p>{currentUser?.followers || "4 Following"}</p>
           </div>
-          <ProfileButton>
-            <HiViewList />
-          </ProfileButton>
+          <ViewButton onClick={toggleGrid}>
+            <Icon name={isGrid ? "toggleOn" : "toggleOff"} size="normal" />
+            <Icon name={isGrid ? "grid" : "list"} size="normal" />
+          </ViewButton>
         </Statistics>
-        <ButtonContainer>
-          <Button>Add Song</Button>
-        </ButtonContainer>
-        <UserNavBar />
+        <UserNavBar songs={mySongs} />
       </ProfileContainer>
     </div>
   );

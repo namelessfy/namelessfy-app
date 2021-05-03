@@ -14,6 +14,10 @@ import randomClicked from "../img/randomClicked.svg";
 import list from "../img/list.svg";
 import close from "../img/close.svg";
 import ellipsis from "../img/ellipsis.svg";
+import edit from "../img/edit.svg";
+import toggleOn from "../img/toggle-on.svg";
+import toggleOff from "../img/toggle-off.svg";
+import grid from "../img/grid.svg";
 
 const icons = {
   play,
@@ -27,6 +31,10 @@ const icons = {
   close,
   randomClicked,
   ellipsis,
+  edit,
+  toggleOn,
+  toggleOff,
+  grid,
 };
 
 const iconSizes = {
