@@ -112,8 +112,9 @@ const MenuImage = styled.div`
   border-radius: 100px;
   background-position: center;
   background-size: cover;
-  background-image: url(${(props) =>props.src || "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
-
+  background-image: url(${(props) =>
+    props.src ||
+    "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"});
 `;
 
 const UserNameMenu = styled.div`

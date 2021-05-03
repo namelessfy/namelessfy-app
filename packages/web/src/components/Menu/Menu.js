@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,6 +7,10 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 
 import { signOut } from "../../redux/auth/auth-actions";
 import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
+import { hasUserAllInfo } from "../../utils/utils";
+
+import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 
 import {
   Background,
@@ -21,9 +25,36 @@ import {
 } from "./style";
 import { Button, CenterContent } from "../../styles/formStyles";
 
-function SeacrhModal({ show, close }) {
+import PlaylistPreview from "../PlaylistPreview";
+
+function Menu({ show, close }) {
   const dispatch = useDispatch();
   const User = useSelector(userSelector);
+  const { favorites, mySongs } = useSelector(songSelector);
+  const [hasAllInfo, setHasAllInfo] = useState(false);
+  const [hasMySongs, setHasMySongs] = useState(false);
+
+  useEffect(() => {
+    if (hasAllInfo && !hasMySongs) {
+      dispatch(getMySongs());
+    }
+  }, [hasAllInfo, hasMySongs]);
+
+  useEffect(() => {
+    if (mySongs) {
+      setHasMySongs(true);
+    }
+  }, [mySongs]);
+
+  useEffect(() => {
+    if (hasAllInfo) {
+      dispatch(getFavorites());
+    }
+  }, [hasAllInfo]);
+
+  useEffect(() => {
+    setHasAllInfo(hasUserAllInfo(User.currentUser));
+  }, [User.currentUser]);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -65,20 +96,26 @@ function SeacrhModal({ show, close }) {
             <MediaContainer>
               <ColumnDiv>
                 <h1>Liked Songs</h1>
-                <hr />
+                {favorites?.length > 0 && (
+                  <PlaylistPreview title="Liked Songs" songs={favorites} />
+                )}
                 <RowDiv />
               </ColumnDiv>
               <ColumnDiv>
                 <h1>Liked Albums</h1>
-                <hr />
+                {/* <PlaylistPreview title="Albums">ALbums</PlaylistPreview>
               </ColumnDiv>
               <ColumnDiv>
                 <h1>Your Albums</h1>
-                <hr />
+                <PlaylistPreview title="Your Albums">
+                  Your Albums
+                </PlaylistPreview>
               </ColumnDiv>
               <ColumnDiv>
                 <h1>Your Playlists</h1>
-                <hr />
+                <PlaylistPreview title="Your Playlists">
+                  Ypur Playlists
+                </PlaylistPreview> */}
               </ColumnDiv>{" "}
               <Button type="button" onClick={handleSignOut} lastItem>
                 Sign Out
@@ -91,9 +128,9 @@ function SeacrhModal({ show, close }) {
   );
 }
 
-SeacrhModal.propTypes = {
+Menu.propTypes = {
   show: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
 };
 
-export default SeacrhModal;
+export default Menu;

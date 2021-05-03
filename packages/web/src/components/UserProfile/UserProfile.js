@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { HiUserCircle } from "react-icons/hi";
-import { HiViewList } from "react-icons/hi";
 
 import {
   UserName,
@@ -10,6 +8,7 @@ import {
   ProfileImageDefault,
   ProfileContainer,
   EditButton,
+  ViewButton,
 } from "./styles";
 
 import NavBar from "../Navbar";

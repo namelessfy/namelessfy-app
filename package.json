@@ -38,6 +38,7 @@
     "lint-staged": "^10.5.3"
   },
   "dependencies": {
+    "formik": "^2.2.6",
     "react-router": "^5.2.0",
     "styled-components": "^5.2.3"
   }

@@ -118,9 +118,7 @@ function EditUserForm() {
             <CenterContent>
               <PorfileImage
                 src={
-                  previewImage ||
-                  user.porfileImage ||
-                  "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
+                  previewImage || user.porfileImage || "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
                 }
               />
             </CenterContent>
@@ -193,7 +191,7 @@ function EditUserForm() {
           {errors.birthday && touched.birthday && (
             <ErrorInput> {errors.birthday} </ErrorInput>
           )}
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} lastItem>
             Save
           </Button>
           {editUserError && <Error> Error: {editUserError} </Error>}

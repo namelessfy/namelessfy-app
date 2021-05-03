@@ -1,9 +1,9 @@
-// const Router = require("express").Router;
+const Router = require("express").Router;
 
-// const { playlistController } = require("../controllers");
-// const { authMiddleware } = require("../middlewares");
+const { playlistController } = require("../controllers");
+const { authMiddleware } = require("../middlewares");
 
-// const playlistRouter = Router();
+const playlistRouter = Router();
 
 // playlistRouter.get(
 //   "/playlist",
