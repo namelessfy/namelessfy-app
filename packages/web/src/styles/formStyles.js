@@ -118,39 +118,6 @@ const Input = styled.input`
   }
 `;
 
-const Textarea = styled.textarea`
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: inset 2px 2px 10px #000000;
-  background: ${colors.WHITE};
-  font-family: Poppins, sans-serif;
-  font-weight: 400;
-  padding-left: 1em;
-  color: ${colors.DARK};
-  border: 2px solid ${colors.DARK};
-
-  &:hover {
-    --tw-ring-shadow: none;
-    outline: none;
-    border: 2px solid ${colors.WHITE};
-  }
-  &:focus {
-    --tw-ring-shadow: none;
-    outline: none;
-    border: 2px solid ${colors.DARK};
-  }
-
-  ${(props) =>
-    props.display
-      ? `
-    display: ${props.display}`
-      : ``};
-
-  @media (min-width: 1024px) {
-    font-size: 18px;
-  }
-`;
-
 const Label = styled.label`
   margin-left: 0.5em;
   margin-top: 1em;
@@ -407,7 +374,6 @@ export {
   ForgotPassword,
   Form,
   Input,
-  Textarea,
   Label,
   RedirectMessage,
   NamelessfyLogo,

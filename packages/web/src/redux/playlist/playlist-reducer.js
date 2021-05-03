@@ -6,6 +6,9 @@ export const PlaylistInitialState = {
   isCreatingPlaylist: false,
   createPlaylistError: null,
   createPlaylistSuccess: false,
+  isGettingMyPlaylists: false,
+  getPlaylistsError: null,
+  getPlaylistsSuccess: false,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -40,6 +43,50 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isCreatingPlaylist: false,
         createPlaylistSuccess: false,
         createPlaylistError: null,
+      };
+    }
+    case PlaylistTypes.GET_PLAYLISTS_SUCCESS: {
+      return {
+        ...state,
+        isGettingMyPlaylists: false,
+        getPlaylistsSuccess: true,
+        myPlaylists: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_PLAYLISTS_REQUEST: {
+      return {
+        ...state,
+        isGettingMyPlaylists: true,
+        getPlaylistsSuccess: false,
+        getPlaylistsError: null,
+      };
+    }
+    case PlaylistTypes.GET_PLAYLISTS_ERROR: {
+      return {
+        ...state,
+        isGettingMyPlaylists: false,
+        getPlaylistsSuccess: false,
+        getPlaylistsError: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_PLAYLISTS_RESET: {
+      return {
+        ...state,
+        isGettingMyPlaylists: false,
+        getPlaylistsSuccess: false,
+        getPlaylistsError: null,
+      };
+    }
+    case PlaylistTypes.PLAYLIST_RESET: {
+      return {
+        ...state,
+        myPlaylists: [],
+        isCreatingPlaylist: false,
+        createPlaylistError: null,
+        createPlaylistSuccess: false,
+        isGettingMyPlaylists: false,
+        getPlaylistsError: null,
+        getPlaylistsSuccess: false,
       };
     }
     default: {

@@ -93,6 +93,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getAllPlaylists(headers) {
+    return request({
+      url: `/playlist`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -105,6 +113,7 @@ function makeApi(request = makeRequest()) {
     editTrack: editTrack,
     deleteTrack: deleteSong,
     createPlaylist: createPlaylist,
+    getAllPlaylists: getAllPlaylists,
   };
 }
 

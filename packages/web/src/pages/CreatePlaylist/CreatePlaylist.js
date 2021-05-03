@@ -17,7 +17,6 @@ import {
   Error,
   Form,
   Input,
-  Textarea,
   Label,
   Separation,
   Title,
