@@ -1,7 +1,7 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
+const { uploadImageToCloudinary } = require("../utils/cloudinary");
 const {
   getAllById,
-  editInfo,
   addFavorite,
   removeFavorite,
   getFavorite,
@@ -37,12 +37,31 @@ async function createPlaylists(req, res, next) {
       });
     }
 
+    if (req.file) {
+      const result = await uploadImageToCloudinary(
+        req.file.path,
+        null,
+        "playistImages",
+      );
+
+      if (result.error) {
+        return res.status(500).send({
+          data: null,
+          error: "Failed upload image to cloudinary",
+        });
+      }
+
+      thumbnail = result.url;
+      var cloudinaryThumbnailId = result.public_id;
+    }
+
     const response = await PlaylistRepo.create({
       title,
       thumbnail,
+      cloudinaryThumbnailId,
       type,
       publicAccessible,
-      authorId: user.data._id,
+      author: user.data._id,
       tracks,
     });
 
@@ -65,11 +84,102 @@ async function createPlaylists(req, res, next) {
 }
 
 async function getPlaylists(req, res) {
-  return await getAllById(req, res, PlaylistRepo);
+  if (req.user.uid) {
+    return await getAllById(req, res, PlaylistRepo);
+  }
+
+  const allPublicPlaylistsPlaylists = await PlaylistRepo.getAll({
+    publicAccessible: true,
+  });
+
+  if (allPublicPlaylistsPlaylists.data) {
+    return res.status(200).send({
+      data: allPublicPlaylistsPlaylists.data,
+      error: null,
+    });
+  }
+
+  return res.status(503).send({
+    data: null,
+    error: allPublicPlaylistsPlaylists.error,
+  });
 }
 
 async function editPlaylistInfo(req, res) {
-  return await editInfo(req, res, PlaylistRepo);
+  let {
+    body: {
+      title,
+      type,
+      thumbnail = null,
+      publicAccessible = true,
+      tracks = [],
+      cloudinaryThumbnailId = null,
+    },
+    params: { id },
+  } = req;
+
+  try {
+    if (req.file) {
+      const result = await uploadImageToCloudinary(
+        req.file.path,
+        cloudinaryThumbnailId,
+        "playistImages",
+      );
+
+      if (result.error) {
+        return res.status(500).send({
+          data: null,
+          error: "Failed upload image to cloudinary",
+        });
+      }
+
+      thumbnail = result.url;
+
+      if (!cloudinaryThumbnailId) {
+        cloudinaryThumbnailId = result.public_id;
+      }
+    }
+
+    const user = await UserRepo.findOne({ firebase_id: id });
+
+    if (user.error) {
+      res.status(400).send({
+        data: null,
+        error: user.error,
+      });
+    }
+
+    const playlist = await PlaylistRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        title,
+        thumbnail,
+        cloudinaryThumbnailId,
+        type,
+        publicAccessible,
+        author: user.data._id,
+        tracks,
+      },
+    );
+
+    if (playlist.error) {
+      return res.status(500).send({
+        data: null,
+        error: playlist.error,
+      });
+    }
+
+    if (playlist.data) {
+      return res.status(200).send({
+        data: playlist.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
 }
 
 async function addFavoritePlaylist(req, res) {
