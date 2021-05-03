@@ -25,7 +25,8 @@ import {
   CenterContent,
 } from "../../styles/formStyles";
 
-import { Main } from "../../styles/mainStyles";
+import { Main, Icon } from "../../styles/mainStyles";
+import { PrivacityContainer } from "./style";
 
 function CreatePlaylist() {
   const history = useHistory();
@@ -37,9 +38,9 @@ function CreatePlaylist() {
   } = useSelector(playlistSelector);
 
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState();
   const [playlistImage, setPlaylistImage] = useState(null);
   const [previewImage, setPreviewImage] = useState("");
+  const [isPublic, setisPublic] = useState("true");
 
   useEffect(() => {
     if (createPlaylistSuccess) {
@@ -54,7 +55,7 @@ function CreatePlaylist() {
     const formData = new FormData();
 
     formData.append("title", title);
-    formData.append("description", description);
+    formData.append("publicAccessible", isPublic);
     formData.append("type", "Playlist");
 
     if (playlistImage) {
@@ -74,9 +75,9 @@ function CreatePlaylist() {
     setPlaylistImage(e.target.files[0]);
   }
 
-  function handleSetDescription(e) {
+  function handlePrivacityChange(e) {
     e.preventDefault();
-    setDescription(e.target.value);
+    setisPublic(!isPublic);
   }
 
   return (
@@ -106,14 +107,10 @@ function CreatePlaylist() {
         />
         <Label>Title</Label>
         <Input type="text" id="title" value={title} onChange={handleSetTitle} />
-        <Label>Description</Label>
-        <Textarea
-          type="text"
-          id="description"
-          rows={5}
-          value={description}
-          onChange={handleSetDescription}
-        />
+        <PrivacityContainer>
+          <Icon onClick={handlePrivacityChange} name={isPublic ? "toggleOn" : "toggleOff"} size="small" />
+          <span>{isPublic ? "Public" : "Private" }</span>
+        </PrivacityContainer>
       </Form>
       <Separation />
       <CenterContent>

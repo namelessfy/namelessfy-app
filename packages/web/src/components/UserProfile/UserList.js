@@ -32,7 +32,7 @@ function UserList({ button, content }) {
       </ButtonContainer>
       <MediaContainer>
         {content.type === "songs" &&
-          content.elements.map((song, index) => (
+          content.elements?.map((song, index) => (
             <Song
               key={song._id}
               songInfo={song}
