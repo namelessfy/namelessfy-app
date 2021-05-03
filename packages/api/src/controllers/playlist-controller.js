@@ -1,7 +1,6 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
 const {
   getAllById,
-  editInfo,
   addFavorite,
   removeFavorite,
   getFavorite,

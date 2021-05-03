@@ -6,8 +6,7 @@ const { authMiddleware } = require("../middlewares");
 const genreRouter = Router();
 
 genreRouter.get("/genre", authMiddleware, genreController.getGenres);
-genreRouter.post("/genre", authMiddleware, genreController.createGenres);
-
+genreRouter.post("/genre", authMiddleware, genreController.createGenre);
 genreRouter.patch("/genre", authMiddleware, genreController.updateGenreByName);
 
 module.exports = { genreRouter };
