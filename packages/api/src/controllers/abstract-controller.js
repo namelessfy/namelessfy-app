@@ -1,5 +1,5 @@
 const { UserRepo } = require("../repositories");
-const { orderFavoriteSongs, orderSongs } = require("../utils/utils");
+const { orderByLikedBy, orderSongs } = require("../utils/utils");
 
 async function getAllById(req, res, Repository) {
   const { uid } = req.user;
@@ -256,7 +256,7 @@ async function getFavorite(req, res, Repository) {
     }
 
     if (repo.data) {
-      repo.data.sort((a, b) => orderFavoriteSongs(a, b, req.params.userId));
+      repo.data.sort((a, b) => orderByLikedBy(a, b, req.params.userId));
       return res.status(200).send({
         data: repo.data,
         error: null,

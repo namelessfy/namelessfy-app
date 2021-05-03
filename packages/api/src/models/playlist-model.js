@@ -43,8 +43,13 @@ const PlaylistSchema = Schema(
     likedBy: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "user",
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
+          time: {
+            type: Date,
+          },
         },
       ],
       default: [],
