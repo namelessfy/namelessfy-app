@@ -1,7 +1,7 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
+const { orderByLikedBy } = require("../utils/utils");
 const {
-  getAllById,
   addFavorite,
   removeFavorite,
   getFavorite,
@@ -41,7 +41,7 @@ async function createPlaylists(req, res, next) {
       const result = await uploadImageToCloudinary(
         req.file.path,
         null,
-        "playistImages",
+        "playlistImages",
       );
 
       if (result.error) {
@@ -62,6 +62,12 @@ async function createPlaylists(req, res, next) {
       type,
       publicAccessible,
       author: user.data._id,
+      likedBy: [
+        {
+          _id: user.data._id,
+          time: Date,
+        },
+      ],
       tracks,
     });
 
@@ -84,25 +90,51 @@ async function createPlaylists(req, res, next) {
 }
 
 async function getPlaylists(req, res) {
-  if (req.user.uid) {
-    return await getAllById(req, res, PlaylistRepo);
+  const { uid } = req.user;
+  let { userId } = req.params;
+  let query = {
+    "likedBy._id": userId,
+    publicAccessible: true,
+    type: "Playlist",
+  };
+
+  if (userId === "me") {
+    const user = await UserRepo.findOne({ firebase_id: uid });
+
+    userId = user.data._id;
+
+    query = {
+      $or: [
+        {
+          publicAccessible: true,
+          "likedBy._id": userId,
+          type: "Playlist",
+        },
+        {
+          publicAccessible: false,
+          author: userId,
+          type: "Playlist",
+        },
+      ],
+    };
   }
 
-  const allPublicPlaylistsPlaylists = await PlaylistRepo.getAll({
-    publicAccessible: true,
-  });
+  const playlists = PlaylistRepo.getAll(query);
 
-  if (allPublicPlaylistsPlaylists.data) {
-    return res.status(200).send({
-      data: allPublicPlaylistsPlaylists.data,
-      error: null,
+  if (playlists.error) {
+    return res.status(503).send({
+      data: null,
+      error: playlists.error,
     });
   }
 
-  return res.status(503).send({
-    data: null,
-    error: allPublicPlaylistsPlaylists.error,
-  });
+  if (playlists.data) {
+    playlists.data.sort((a, b) => orderByLikedBy(a, b, userId));
+    return res.status(200).send({
+      data: playlists.data,
+      error: null,
+    });
+  }
 }
 
 async function editPlaylistInfo(req, res) {

@@ -1,6 +1,6 @@
 const { UserRepo } = require("../repositories");
 
-function orderFavoriteSongs(a, b, id) {
+function orderByLikedBy(a, b, id) {
   const one = a.likedBy.find((s) => s._id.toString() === id.toString());
   const two = b.likedBy.find((s) => s._id.toString() === id.toString());
 
@@ -46,4 +46,4 @@ async function getArtists(array) {
   return artists;
 }
 
-module.exports = { orderFavoriteSongs, getArtists, orderSongs };
+module.exports = { orderByLikedBy, getArtists, orderSongs };
