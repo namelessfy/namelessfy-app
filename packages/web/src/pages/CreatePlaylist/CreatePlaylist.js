@@ -108,8 +108,12 @@ function CreatePlaylist() {
         <Label>Title</Label>
         <Input type="text" id="title" value={title} onChange={handleSetTitle} />
         <PrivacityContainer>
-          <Icon onClick={handlePrivacityChange} name={isPublic ? "toggleOn" : "toggleOff"} size="small" />
-          <span>{isPublic ? "Public" : "Private" }</span>
+          <Icon
+            onClick={handlePrivacityChange}
+            name={isPublic ? "toggleOn" : "toggleOff"}
+            size="small"
+          />
+          <span>{isPublic ? "Public" : "Private"}</span>
         </PrivacityContainer>
       </Form>
       <Separation />
