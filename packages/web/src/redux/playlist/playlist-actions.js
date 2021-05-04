@@ -93,6 +93,59 @@ export const getPlaylistsReset = () => ({
   type: PlaylistTypes.GET_PLAYLISTS_RESET,
 });
 
+export const setCacheSongId = (id) => ({
+  type: PlaylistTypes.SET_CACHE_SONG_ID,
+  payload: id,
+});
+
+export const addToPlaylistRequest = () => ({
+  type: PlaylistTypes.ADD_TO_PLAYLIST_REQUEST,
+});
+
+export const addToPlaylistError = (message) => ({
+  type: PlaylistTypes.ADD_TO_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const addToPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.ADD_TO_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function addToPlaylist(songId, playlistId) {
+  return async function playlistThunk(dispatch) {
+    dispatch(addToPlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(addToPlaylistError("User token null!"));
+      }
+
+      const playlistRes = await api.addSongToPlaylist(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        songId,
+        playlistId,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(addToPlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(addToPlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(addToPlaylistError(err.message));
+    }
+  };
+}
+
+export const addToPlaylistReset = () => ({
+  type: PlaylistTypes.ADD_TO_PLAYLIST_RESET,
+});
+
 export const playlistReset = () => ({
   type: PlaylistTypes.PLAYLIST_RESET,
 });

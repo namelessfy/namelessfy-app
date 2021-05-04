@@ -43,5 +43,10 @@ playlistRouter.patch(
   authMiddleware,
   playlistController.editPlaylistInfo,
 );
+playlistRouter.patch(
+  "/playlist/:id/add",
+  authMiddleware,
+  playlistController.addSongToPlaylist,
+);
 
 module.exports = { playlistRouter };

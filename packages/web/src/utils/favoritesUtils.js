@@ -41,8 +41,6 @@ export function getSongFromList(id, list) {
 
 export function removeFromMySongs(id, mySongs) {
   const index = mySongs.findIndex((song) => song._id === id);
-  console.log(mySongs);
   mySongs.splice(index, 1);
-  console.log(mySongs);
   return [...mySongs];
 }

@@ -101,6 +101,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function addSongToPlaylist(headers, songId, id) {
+    return request({
+      url: `/playlist/${id}/add`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: { songId },
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -114,6 +123,7 @@ function makeApi(request = makeRequest()) {
     deleteTrack: deleteSong,
     createPlaylist: createPlaylist,
     getAllPlaylists: getAllPlaylists,
+    addSongToPlaylist: addSongToPlaylist,
   };
 }
 

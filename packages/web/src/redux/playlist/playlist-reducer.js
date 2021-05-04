@@ -1,5 +1,5 @@
 import * as PlaylistTypes from "./playlist-types";
-import { updateList } from "../../utils/utils";
+import { updateList, updateListById } from "../../utils/utils";
 
 export const PlaylistInitialState = {
   myPlaylists: null,
@@ -9,6 +9,10 @@ export const PlaylistInitialState = {
   isGettingMyPlaylists: false,
   getPlaylistsError: null,
   getPlaylistsSuccess: false,
+  cacheSongId: null,
+  isAddingToPlaylist: false,
+  addToPlaylistSuccess: false,
+  addToPlaylistError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -77,6 +81,44 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         getPlaylistsError: null,
       };
     }
+    case PlaylistTypes.SET_CACHE_SONG_ID: {
+      return {
+        ...state,
+        cacheSongId: action.payload,
+      };
+    }
+    case PlaylistTypes.ADD_TO_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isAddingToPlaylist: false,
+        addToPlaylistSuccess: true,
+        myPlaylists: updateListById(action.payload, state.myPlaylists),
+      };
+    }
+    case PlaylistTypes.ADD_TO_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isAddingToPlaylist: true,
+        addToPlaylistSuccess: false,
+        addToPlaylistError: null,
+      };
+    }
+    case PlaylistTypes.ADD_TO_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isAddingToPlaylist: false,
+        addToPlaylistSuccess: false,
+        addToPlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.ADD_TO_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isAddingToPlaylist: false,
+        addToPlaylistSuccess: false,
+        addToPlaylistError: null,
+      };
+    }
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -87,6 +129,10 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isGettingMyPlaylists: false,
         getPlaylistsError: null,
         getPlaylistsSuccess: false,
+        cacheSongId: null,
+        isAddingToPlaylist: false,
+        addToPlaylistSuccess: false,
+        addToPlaylistError: null,
       };
     }
     default: {

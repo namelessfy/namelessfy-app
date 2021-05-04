@@ -48,6 +48,14 @@ const ModalButton = styled.button`
     background-color: ${colors.MAIN};
     color: ${colors.WHITE};
   }
+  ${({ newPlaylist }) =>
+    newPlaylist &&
+    `
+    background-color: ${colors.NEUTRAL};
+    font-weight: 400;
+    font-size: large;
+    color: ${colors.WHITE};
+  `};
 `;
 
 const ButtonContainer = styled.div`

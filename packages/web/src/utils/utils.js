@@ -34,4 +34,11 @@ function updateList(item, list) {
   return [...list];
 }
 
-export { hasUserAllInfo, haveUsersSameInfo, updateList };
+function updateListById(item, list) {
+  const newList = [...list];
+  const index = newList.findIndex((element) => element._id === item._id);
+  newList[index] = item;
+  return newList;
+}
+
+export { hasUserAllInfo, haveUsersSameInfo, updateList, updateListById };

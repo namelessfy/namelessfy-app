@@ -7,6 +7,7 @@ import Navbar from "../../components/Navbar";
 import {
   createPlaylist,
   createPlaylistReset,
+  setCacheSongId,
 } from "../../redux/playlist/playlist-actions";
 import { setUserView } from "../../redux/user/user-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
@@ -35,6 +36,7 @@ function CreatePlaylist() {
     isCreatingPlaylist,
     createPlaylistSuccess,
     createPlaylistError,
+    cacheSongId,
   } = useSelector(playlistSelector);
 
   const [title, setTitle] = useState("");
@@ -44,9 +46,10 @@ function CreatePlaylist() {
 
   useEffect(() => {
     if (createPlaylistSuccess) {
+      dispatch(setCacheSongId(null));
       dispatch(setUserView("playlist"));
-      history.push(ROUTES.USER_PAGE);
       dispatch(createPlaylistReset());
+      history.push(ROUTES.USER_PAGE);
     }
   }, [createPlaylistSuccess]);
 
@@ -61,6 +64,10 @@ function CreatePlaylist() {
 
     if (playlistImage) {
       formData.append("playlistImage", playlistImage);
+    }
+
+    if (cacheSongId) {
+      formData.append("tracks", JSON.stringify([cacheSongId]));
     }
 
     dispatch(createPlaylist(formData));
