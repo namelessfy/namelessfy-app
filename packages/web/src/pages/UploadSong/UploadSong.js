@@ -6,6 +6,7 @@ import Dropzone from "../../components/Dropzone";
 import Navbar from "../../components/Navbar";
 
 import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
+import { setUserView } from "../../redux/user/user-actions";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 
@@ -48,6 +49,7 @@ function UploadSong() {
 
   useEffect(() => {
     if (uploadSongSuccess) {
+      dispatch(setUserView("song"));
       history.push(ROUTES.USER_PAGE);
       dispatch(uploadSongReset());
     }

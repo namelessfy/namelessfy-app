@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import PlaylistPreview from "../../components/PlaylistPreview";
+import PlaylistList from "../../components/PlaylistList";
 
 import * as ROUTES from "../../routes";
 
@@ -42,7 +43,7 @@ function Home() {
     if (hasAllInfo && !hasPlaylists) {
       dispatch(getPlaylists());
     }
-  }, [hasAllInfo, hasPlaylists]);
+  }, [hasAllInfo]);
 
   useEffect(() => {
     console.log("My Playlists", myPlaylists);
@@ -74,6 +75,9 @@ function Home() {
         )}
         {mySongs?.length > 0 && (
           <PlaylistPreview title="My Songs" songs={mySongs} />
+        )}
+        {myPlaylists?.length > 0 && (
+          <PlaylistList title="My Playlists" playlists={myPlaylists} />
         )}
       </Container>
     </Main>

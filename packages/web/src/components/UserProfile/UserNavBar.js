@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
@@ -6,23 +7,23 @@ import { Media, NavButton, NavContainer } from "./styles";
 
 import UserList from "./UserList";
 import * as ROUTES from "../../routes";
+import { userSelector } from "../../redux/user/user-selectors";
+import { setUserView } from "../../redux/user/user-actions";
 
-function UserNavBar({ songs }) {
-  const [view, setView] = useState("songs");
+function UserNavBar({ songs, playlists }) {
+  const dispatch = useDispatch();
+  const { initialView } = useSelector(userSelector);
   const history = useHistory();
 
   const switchToSongs = () => {
-    const s = "songs";
-    setView(s);
+    dispatch(setUserView("song"));
   };
   const switchToAlbums = () => {
-    const a = "albums";
-    setView(a);
+    dispatch(setUserView("album"));
   };
 
   const switchToPlaylists = () => {
-    const p = "playlists";
-    setView(p);
+    dispatch(setUserView("playlist"));
   };
 
   const buttonAddSong = {
@@ -32,9 +33,21 @@ function UserNavBar({ songs }) {
     },
   };
 
+  const buttonAddPlayList = {
+    name: "Add Playlist",
+    function: () => {
+      history.push(ROUTES.CREATE_PLAYLIST);
+    },
+  };
+
   const songsContent = {
     type: "songs",
     elements: songs,
+  };
+
+  const playlistContent = {
+    type: "playlist",
+    elements: playlists,
   };
 
   return (
@@ -43,7 +56,7 @@ function UserNavBar({ songs }) {
         <NavButton
           type="button"
           onClick={switchToSongs}
-          selected={view === "songs"}
+          selected={initialView === "song"}
         >
           {" "}
           Songs{" "}
@@ -51,7 +64,7 @@ function UserNavBar({ songs }) {
         <NavButton
           type="button"
           onClick={switchToAlbums}
-          selected={view === "albums"}
+          selected={initialView === "album"}
         >
           {" "}
           Albums{" "}
@@ -59,24 +72,27 @@ function UserNavBar({ songs }) {
         <NavButton
           type="button"
           onClick={switchToPlaylists}
-          selected={view === "playlists"}
+          selected={initialView === "playlist"}
         >
           {" "}
           Playlists{" "}
         </NavButton>
       </NavContainer>
 
-      {view === "songs" && (
+      {initialView === "song" && (
         <UserList button={buttonAddSong} content={songsContent} />
       )}
-      {view === "albums" && <Media>Albums</Media>}
-      {view === "playlists" && <Media>Playlists</Media>}
+      {initialView === "album" && <Media>Albums</Media>}
+      {initialView === "playlist" && (
+        <UserList button={buttonAddPlayList} content={playlistContent} />
+      )}
     </div>
   );
 }
 
 UserNavBar.propTypes = {
   songs: PropTypes.array.isRequired,
+  playlists: PropTypes.array.isRequired,
 };
 
 export default UserNavBar;

@@ -8,7 +8,7 @@ const { authMiddleware } = require("../middlewares");
 const playlistRouter = Router();
 
 playlistRouter.get(
-  "/playlist",
+  "/playlist/:userId",
   authMiddleware,
   playlistController.getPlaylists,
 );

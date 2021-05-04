@@ -43,6 +43,13 @@ export const setUser = (user) => ({
   payload: user,
 });
 
+export function setUserView(view) {
+  return {
+    type: UserTypes.SET_USER_VIEW,
+    payload: view,
+  };
+}
+
 export const resetUser = () => ({
   type: UserTypes.RESET_USER,
 });

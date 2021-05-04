@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
 import Song from "../Song";
+import Playlist from "../Playlist";
 
 import {
   setQueueAndCurrentSong,
@@ -25,6 +26,7 @@ function UserList({ button, content }) {
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list));
   }
+  console.log(content);
   return (
     <div>
       <ButtonContainer>
@@ -39,6 +41,15 @@ function UserList({ button, content }) {
               handleClick={() => {
                 handlePlaySong(index);
               }}
+            />
+          ))}
+
+        {content.type === "playlist" &&
+          content.elements?.map((playlist, index) => (
+            <Playlist
+              key={playlist._id}
+              playlistInfo={playlist}
+              handleClick={() => {}}
             />
           ))}
       </MediaContainer>

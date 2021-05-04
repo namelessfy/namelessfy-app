@@ -93,9 +93,9 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function getAllPlaylists(headers) {
+  function getAllPlaylists(headers, id = "me") {
     return request({
-      url: `/playlist`,
+      url: `/playlist/${id}`,
       requestMethod: "GET",
       headers: headers,
     });

@@ -8,6 +8,7 @@ import {
   createPlaylist,
   createPlaylistReset,
 } from "../../redux/playlist/playlist-actions";
+import { setUserView } from "../../redux/user/user-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
 import * as ROUTES from "../../routes";
@@ -43,6 +44,7 @@ function CreatePlaylist() {
 
   useEffect(() => {
     if (createPlaylistSuccess) {
+      dispatch(setUserView("playlist"));
       history.push(ROUTES.USER_PAGE);
       dispatch(createPlaylistReset());
     }

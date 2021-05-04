@@ -2,7 +2,7 @@ import * as PlaylistTypes from "./playlist-types";
 import { updateList } from "../../utils/utils";
 
 export const PlaylistInitialState = {
-  myPlaylists: [],
+  myPlaylists: null,
   isCreatingPlaylist: false,
   createPlaylistError: null,
   createPlaylistSuccess: false,
@@ -80,7 +80,7 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
-        myPlaylists: [],
+        myPlaylists: null,
         isCreatingPlaylist: false,
         createPlaylistError: null,
         createPlaylistSuccess: false,
