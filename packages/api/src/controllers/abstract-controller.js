@@ -1,5 +1,5 @@
 const { UserRepo } = require("../repositories");
-const { orderByLikedBy, orderSongs } = require("../utils/utils");
+const { orderByLikedBy, orderSongs, handleResponse } = require("../utils/utils");
 
 async function getAllById(req, res, Repository) {
   const { uid } = req.user;
@@ -271,25 +271,12 @@ async function getFavorite(req, res, Repository) {
 
 async function deleteById(req, res, Repository) {
   try {
-    const repo = await Repository.findOneAndDelete({ _id: req.params.id });
+    const response = await Repository.findOneAndDelete({ _id: req.params.id });
 
-    if (repo.error) {
-      return res.status(400).send({
-        data: null,
-        error: repo.error,
-      });
-    }
+    return handleResponse(res, response, 200, 400);
 
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        message: "Successfully deleted item",
-      });
-    }
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    return res.status(500).send({ error: error.message });
   }
 }
 

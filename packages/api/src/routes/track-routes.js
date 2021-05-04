@@ -7,42 +7,24 @@ const { authMiddleware } = require("../middlewares");
 
 const trackRouter = Router();
 
-trackRouter.post(
-  "/tracks",
-  authMiddleware,
-  upload.single("songImage"),
-  trackController.createTrack,
-);
+const {
+	createTrack,
+	getTracks,
+	editTrackInfo,
+	deleteTrack,
+	addFavoriteTrack,
+	removeFavoriteTrack,
+	getFavoriteTracks
+} = trackController;
 
-trackRouter.patch(
-  "/tracks/:id",
-  authMiddleware,
-  upload.single("songImage"),
-  trackController.editTrackInfo,
-);
+trackRouter.post("/tracks", authMiddleware, upload.single("songImage"), createTrack);
 
-trackRouter.get("/tracks/:userId", authMiddleware, trackController.getTracks);
+trackRouter.get("/tracks/:userId", authMiddleware, getTracks);
+trackRouter.patch("/tracks/:id", authMiddleware, upload.single("songImage"), editTrackInfo);
+trackRouter.delete("/tracks/:id", authMiddleware, deleteTrack);
 
-trackRouter.delete("/tracks/:id", authMiddleware, trackController.deleteTrack);
+trackRouter.post("/tracks/favorite/:id", authMiddleware, addFavoriteTrack);
+trackRouter.patch("/tracks/favorite/:id", authMiddleware, removeFavoriteTrack);
+trackRouter.get("/tracks/favorite/:userId", authMiddleware, getFavoriteTracks);
 
-trackRouter.post(
-  "/tracks/favorite/:id",
-  authMiddleware,
-  trackController.addFavoriteTrack,
-);
-
-trackRouter.patch(
-  "/tracks/favorite/:id",
-  authMiddleware,
-  trackController.removeFavoriteTrack,
-);
-
-trackRouter.get(
-  "/tracks/favorite/:userId",
-  authMiddleware,
-  trackController.getFavoriteTracks,
-);
-
-module.exports = {
-  trackRouter,
-};
+module.exports = { trackRouter };

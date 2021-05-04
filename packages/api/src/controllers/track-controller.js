@@ -4,51 +4,49 @@ const {
   addFavorite,
   removeFavorite,
   getFavorite,
-  deleteById,
+  deleteById
 } = require("./abstract-controller");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
-const { getArtists } = require("../utils/utils");
+const { getArtists, handleResponse } = require("../utils/utils");
 
 async function createTrack(req, res, next) {
+  // let {
+  //   body: {
+  //     title,
+  //     url,
+  //     thumbnail = null,
+  //     duration = 0,
+  //     genre = [],
+  //     artistId = [],
+  //     likedBy = []
+  //   },
+  //   user: { uid }
+  // } = req;
+
   let {
-    body: {
-      title,
-      url,
-      thumbnail = null,
-      duration = 0,
-      genre = [],
-      artistId = [],
-      playlists = [],
-      likedBy = [],
-    },
-    user: { uid },
+    body: data,
+    user: { uid }
   } = req;
 
   try {
     if (!title && !url) {
-      res.status(400).send({
+      
+      return res.status(400).send({
         data: null,
         error: "Missing Fields (title, url)",
       });
     }
 
-    const user = await UserRepo.findOne({
-      firebase_id: uid,
-    });
-
-    const artists = await getArtists(JSON.parse(artistId));
+    const user = await UserRepo.findOne({ firebase_id: uid });
+    const artists = await getArtists(JSON.parse(data.artistId));
 
     if (req.file) {
-      const result = await uploadImageToCloudinary(
-        req.file.path,
-        null,
-        "trackImages",
-      );
+      const result = await uploadImageToCloudinary(req.file.path, null, "trackImages");
 
       if (result.error) {
-        return res.status(500).send({
+        return res.status(503).send({
           data: null,
-          error: "Failed upload image to cloudinary",
+          error: "3rd Party Error: Failed to upload image"
         });
       }
 
@@ -56,32 +54,31 @@ async function createTrack(req, res, next) {
       var cloudinaryThumbnailId = result.public_id;
     }
 
-    const response = await TrackRepo.create({
-      title,
-      url,
-      thumbnail,
-      cloudinaryThumbnailId,
-      duration,
-      genre,
+    data = {
+      ...data,
       authorId: user.data._id,
       artistId: artists,
-      playlists,
-      likedBy,
-    });
+      cloudinaryThumbnailId,
+      thumbnail
+    };
 
-    if (response.error) {
-      return res.status(500).send({
-        data: null,
-        error: response.error,
-      });
-    }
+    // const response = await TrackRepo.create({
+    //   title,
+    //   url,
+    //   thumbnail,
+    //   cloudinaryThumbnailId,
+    //   duration,
+    //   genre,
+    //   authorId: user.data._id,
+    //   artistId: artists,
+    //   playlists,
+    //   likedBy
+    // });
 
-    if (response.data) {
-      return res.status(201).send({
-        data: response.data,
-        error: null,
-      });
-    }
+    const response = await TrackRepo.create(data);
+
+    return handleResponse(res, response, 201, 500);
+
   } catch (error) {
     next(error);
   }
@@ -129,27 +126,14 @@ async function editTrackInfo(req, res) {
         genre,
         artistId: artists,
         thumbnail,
-        cloudinaryThumbnailId,
+        cloudinaryThumbnailId
       },
     );
 
-    if (track.error) {
-      return res.status(500).send({
-        data: null,
-        error: track.error,
-      });
-    }
+    return handleResponse(res, track, 200, 500);
 
-    if (track.data) {
-      return res.status(200).send({
-        data: track.data,
-        error: null,
-      });
-    }
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    throw new Error(error.message);
   }
 }
 
@@ -180,5 +164,5 @@ module.exports = {
   addFavoriteTrack,
   removeFavoriteTrack,
   getFavoriteTracks,
-  deleteTrack,
+  deleteTrack
 };
