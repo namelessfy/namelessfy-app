@@ -14,6 +14,10 @@ class AbstractRepository {
     return normalizeDBQuery(db[this.repo].find(query));
   }
 
+  getOne(query) {
+    return normalizeDBQuery(db[this.repo].findOne(query));
+  }
+
   async findOneAndUpdate(query, data) {
     const response = await normalizeDBQuery(
       db[this.repo].findByIdAndUpdate(query, data),

@@ -191,7 +191,7 @@ function EditUserForm() {
           {errors.birthday && touched.birthday && (
             <ErrorInput> {errors.birthday} </ErrorInput>
           )}
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting} lastItem>
             Save
           </Button>
           {editUserError && <Error> Error: {editUserError} </Error>}

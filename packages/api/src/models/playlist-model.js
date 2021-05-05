@@ -18,10 +18,18 @@ const PlaylistSchema = Schema(
       trim: true,
       required: false,
     },
+    cloudinaryThumbnailId: {
+      type: String,
+      required: false,
+    },
     publicAccessible: {
       type: Boolean,
       required: false,
       default: false,
+    },
+    authorName: {
+      type: String,
+      required: true,
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -30,8 +38,13 @@ const PlaylistSchema = Schema(
     tracks: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "track",
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "track",
+          },
+          time: {
+            type: Date,
+          },
         },
       ],
       default: [],
@@ -39,8 +52,13 @@ const PlaylistSchema = Schema(
     likedBy: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "user",
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+          },
+          time: {
+            type: Date,
+          },
         },
       ],
       default: [],

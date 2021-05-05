@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 import * as ROUTES from "../../routes";
 
 import DialogueBox from "../DialogueBox";
+import SelectPlaylistModal from "../SelectPlaylistModal/index";
 
 import {
   SongCover,
@@ -36,6 +37,7 @@ function Song({ songInfo, handleClick }) {
   const { currentUser } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
+  const [isShowingModal, setIsShowingModal] = useState(false);
 
   function showDialogueBox(e) {
     e.preventDefault();
@@ -60,47 +62,55 @@ function Song({ songInfo, handleClick }) {
   const dialogueButtons = {
     ...playFunction,
     ...likeFunction,
-    "Add to playlist": () => console.log("Add to playlist"),
+    "Add to playlist": () => setIsShowingModal(true),
     ...ownerFunction,
   };
 
   return (
-    <SongContainer>
-      {isShowingDialogue && (
-        <DialogueBox
-          x={dialoguePosition.x}
-          y={dialoguePosition.y}
-          buttons={dialogueButtons}
-          hideDialogue={() => setIsShowingDialogue(false)}
+    <>
+      {isShowingModal && (
+        <SelectPlaylistModal
+          songId={songInfo._id}
+          closeModal={() => setIsShowingModal(false)}
         />
       )}
-      <SongCover
-        src={
-          songInfo.thumbnail ||
-          "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
-        }
-        onClick={handleClick}
-        onContextMenu={showDialogueBox}
-      />
-      <BottomContainer>
-        <InfoContainer>
-          <SongTitle onClick={handleClick}>{songInfo.title}</SongTitle>
-          <SongArtists>
-            {songInfo.artistId.map((artist, index) => (
-              <a key={artist._id}>
-                {index > 0 ? ` ${artist.userName}` : artist.userName}
-              </a>
-            ))}
-          </SongArtists>
-        </InfoContainer>
-        <Icon
-          name="ellipsis"
-          size="xSmall"
-          id="dialogueButton"
-          onClick={showDialogueBox}
+      <SongContainer>
+        {isShowingDialogue && (
+          <DialogueBox
+            x={dialoguePosition.x}
+            y={dialoguePosition.y}
+            buttons={dialogueButtons}
+            hideDialogue={() => setIsShowingDialogue(false)}
+          />
+        )}
+        <SongCover
+          src={
+            songInfo.thumbnail ||
+            "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
+          }
+          onClick={handleClick}
+          onContextMenu={showDialogueBox}
         />
-      </BottomContainer>
-    </SongContainer>
+        <BottomContainer>
+          <InfoContainer>
+            <SongTitle onClick={handleClick}>{songInfo.title}</SongTitle>
+            <SongArtists>
+              {songInfo.artistId.map((artist, index) => (
+                <a key={artist._id}>
+                  {index > 0 ? ` ${artist.userName}` : artist.userName}
+                </a>
+              ))}
+            </SongArtists>
+          </InfoContainer>
+          <Icon
+            name="ellipsis"
+            size="xSmall"
+            id="dialogueButton"
+            onClick={showDialogueBox}
+          />
+        </BottomContainer>
+      </SongContainer>
+    </>
   );
 }
 

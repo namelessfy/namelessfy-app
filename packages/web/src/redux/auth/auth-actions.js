@@ -3,6 +3,7 @@ import api from "../../api";
 import * as auth from "../../services/auth";
 import { resetUser, setUser } from "../user/user-actions";
 import { songReset } from "../song/song-actions";
+import { playlistReset } from "../playlist/playlist-actions";
 
 export const resetStoreAndLogOut = () => ({
   type: AuthTypes.RESET_STORE_AND_LOG_OUT,
@@ -100,6 +101,7 @@ export function signOut() {
 
     dispatch(resetUser());
     dispatch(songReset());
+    dispatch(playlistReset());
 
     auth.signOut();
     return dispatch(signOutSuccess());

@@ -296,6 +296,7 @@ const CenterContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 `;
 
 const AddInput = styled.div`
