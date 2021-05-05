@@ -41,7 +41,7 @@ trackRouter.patch(
   authMiddleware,
   removeFromPlaylist,
 );
-trackRouter.get("/tracks/favorite/:userId", authMiddleware, getFavorites);
+trackRouter.get("/tracks/favorite/:id", getFavorites);
 
 trackRouter.delete("/tracks/:id", authMiddleware, deleteTrack);
 

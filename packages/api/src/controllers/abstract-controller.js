@@ -119,21 +119,21 @@ async function getByName(req, res, Repository) {
 async function getFavorite(req, res, Repository, next) {
   try {
     const { uid } = req.user;
+    let { id } = req.params;
+    let firebase_id = id === "me" ? uid : id;
 
-    if (req.params.userId === "me") {
-      const user = await UserRepo.findOne({ firebase_id: uid });
+    const user = await UserRepo.findOne({ firebase_id });
 
-      req.params.userId = user.data._id;
-    }
+    id = user.data._id;
 
-    const repo = await Repository.getAll({ "likedBy._id": req.params.userId });
+    const repo = await Repository.getAll({ "likedBy._id": id });
 
     if (repo.error) {
       return handleResponse(res, repo, null, 500);
     }
 
     if (repo.data) {
-      repo.data.sort((a, b) => orderByLikedBy(a, b, req.params.userId));
+      repo.data.sort((a, b) => orderByLikedBy(a, b, id));
     }
 
     return handleResponse(res, repo, 200, 500);
