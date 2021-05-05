@@ -41,4 +41,19 @@ function updateListById(item, list) {
   return newList;
 }
 
-export { hasUserAllInfo, haveUsersSameInfo, updateList, updateListById };
+function removeFromList(item, list) {
+  const newList = [...list];
+  const index = newList.findIndex((element) => element._id === item._id);
+  if (index !== -1) {
+    newList.splice(index, 1);
+  }
+  return [...newList];
+}
+
+export {
+  hasUserAllInfo,
+  haveUsersSameInfo,
+  updateList,
+  updateListById,
+  removeFromList,
+};

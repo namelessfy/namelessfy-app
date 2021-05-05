@@ -8,6 +8,8 @@ import {
   editPlaylist,
   setPlaylistInfo,
   editPlaylistReset,
+  deletePlaylist,
+  deletePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 import { setUserView } from "../../redux/user/user-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
@@ -16,6 +18,7 @@ import * as ROUTES from "../../routes";
 
 import {
   Button,
+  DeleteButton,
   Error,
   Form,
   Input,
@@ -37,6 +40,8 @@ function EditPlaylist() {
     editPlaylistSuccess,
     editPlaylistError,
     playlistInfo,
+    isDeletingPlaylist,
+    deletePlaylistSuccess,
   } = useSelector(playlistSelector);
 
   const [playlistImage, setPlaylistImage] = useState(
@@ -57,6 +62,13 @@ function EditPlaylist() {
     }
   }, [editPlaylistSuccess]);
 
+  useEffect(() => {
+    if (deletePlaylistSuccess) {
+      dispatch(deletePlaylistReset());
+      history.push(ROUTES.USER_PAGE);
+    }
+  }, [deletePlaylistSuccess]);
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -70,7 +82,6 @@ function EditPlaylist() {
       formData.append("playlistImage", playlistImage);
     }
 
-    console.log(playlistInfo);
     dispatch(editPlaylist(formData, playlistInfo._id));
   }
 
@@ -87,6 +98,11 @@ function EditPlaylist() {
   function handlePrivacityChange(e) {
     e.preventDefault();
     setisPublic(!isPublic);
+  }
+
+  function handleDelete(e) {
+    e.preventDefault();
+    dispatch(deletePlaylist(playlistInfo._id));
   }
 
   return (
@@ -138,6 +154,16 @@ function EditPlaylist() {
         >
           Edit
         </Button>
+        <Form id="deleteBtn" onSubmit={handleDelete}>
+          <DeleteButton
+            type="submit"
+            form="deleteBtn"
+            disabled={isDeletingPlaylist}
+            lastItem
+          >
+            Delete
+          </DeleteButton>
+        </Form>
       </CenterContent>
     </Main>
   );
