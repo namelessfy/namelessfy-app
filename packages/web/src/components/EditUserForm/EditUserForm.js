@@ -118,7 +118,9 @@ function EditUserForm() {
             <CenterContent>
               <PorfileImage
                 src={
-                  previewImage || user.porfileImage || "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
+                  previewImage ||
+                  user.porfileImage ||
+                  "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
                 }
               />
             </CenterContent>

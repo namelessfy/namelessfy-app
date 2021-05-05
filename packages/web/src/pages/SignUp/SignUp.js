@@ -138,7 +138,9 @@ function SignUp() {
                       <ErrorInput>{errors.password}</ErrorInput>
                     )}
 
-                    <Button type="submit" lastItem>Sign up</Button>
+                    <Button type="submit" lastItem>
+                      Sign up
+                    </Button>
                     {signUpError && <Error>Error: {signUpError}</Error>}
                   </Form>
                 </>
