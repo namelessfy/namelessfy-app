@@ -1,7 +1,14 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import PropTypes from "prop-types";
 
 import DialogueBox from "../DialogueBox";
+
+import { setPlaylistInfo } from "../../redux/playlist/playlist-actions";
+import * as ROUTES from "../../routes";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   PlaylistCover,
@@ -14,6 +21,9 @@ import {
 import { Icon } from "../../styles/mainStyles";
 
 function Playlist({ playlistInfo, handleClick }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const { currentUser } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -25,10 +35,16 @@ function Playlist({ playlistInfo, handleClick }) {
 
   const likeFunction = {};
 
-  const ownerFunction = {
-    Edit: () => {},
-    Delete: () => {},
-  };
+  const ownerFunction =
+    currentUser._id === playlistInfo.author
+      ? {
+          Edit: () => {
+            dispatch(setPlaylistInfo(playlistInfo));
+            history.push(ROUTES.EDIT_PLAYLIST);
+          },
+          Delete: () => console.log(playlistInfo),
+        }
+      : "";
 
   const dialogueButtons = {
     Play: handleClick,

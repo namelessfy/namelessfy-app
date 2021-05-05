@@ -9,3 +9,4 @@ export const UPLOAD_SONG = "/upload-song";
 export const EDIT_SONG = "/edit-song";
 export const PLAYLIST = "/playlist";
 export const CREATE_PLAYLIST = "/create-playlist";
+export const EDIT_PLAYLIST = "/edit-playlist";

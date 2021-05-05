@@ -13,6 +13,10 @@ export const PlaylistInitialState = {
   isAddingToPlaylist: false,
   addToPlaylistSuccess: false,
   addToPlaylistError: null,
+  playlistInfo: null,
+  isEditingPlaylist: false,
+  editPlaylistSuccess: false,
+  editPlaylistError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -119,6 +123,47 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         addToPlaylistError: null,
       };
     }
+
+    case PlaylistTypes.EDIT_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isEditingPlaylist: false,
+        editPlaylistSuccess: true,
+        myPlaylists: updateListById(action.payload, [...state.myPlaylists]),
+      };
+    }
+    case PlaylistTypes.EDIT_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isEditingPlaylist: true,
+        editPlaylistSuccess: false,
+        editPlaylistError: null,
+      };
+    }
+    case PlaylistTypes.EDIT_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isEditingPlaylist: false,
+        editPlaylistSuccess: false,
+        editPlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.EDIT_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isEditingPlaylist: false,
+        editPlaylistSuccess: false,
+        editPlaylistError: null,
+      };
+    }
+
+    case PlaylistTypes.SET_PLAYLIST_INFO: {
+      return {
+        ...state,
+        playlistInfo: action.payload,
+      };
+    }
+
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -133,6 +178,10 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isAddingToPlaylist: false,
         addToPlaylistSuccess: false,
         addToPlaylistError: null,
+        playlistInfo: null,
+        isEditingPlaylist: false,
+        editPlaylistSuccess: false,
+        editPlaylistError: null,
       };
     }
     default: {
