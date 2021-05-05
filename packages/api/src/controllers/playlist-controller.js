@@ -1,10 +1,9 @@
-const { UserRepo, PlaylistRepo, TrackRepo } = require("../repositories");
+const { UserRepo, PlaylistRepo } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
 const { orderByLikedBy, handleResponse } = require("../utils/utils");
 const {
   addFavorite,
   removeFavorite,
-  getFavorite,
   deleteById,
 } = require("./abstract-controller");
 
@@ -158,7 +157,7 @@ async function getFavoritePlaylists(req, res, next) {
   }
 }
 
-async function getOnePlaylist(req, res) {
+async function getOnePlaylist(req, res, next) {
   try {
     const { uid } = req.user;
     let { playlistId } = req.params;
