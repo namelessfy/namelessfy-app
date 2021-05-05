@@ -11,9 +11,9 @@ export const createPlaylistError = (message) => ({
   payload: message,
 });
 
-export const createPlaylistSuccess = (songUrl) => ({
+export const createPlaylistSuccess = (playlist) => ({
   type: PlaylistTypes.CREATE_PLAYLIST_SUCCESS,
-  payload: songUrl,
+  payload: playlist,
 });
 
 export function createPlaylist(formData) {
@@ -144,6 +144,59 @@ export function addToPlaylist(songId, playlistId) {
 
 export const addToPlaylistReset = () => ({
   type: PlaylistTypes.ADD_TO_PLAYLIST_RESET,
+});
+
+export const editPlaylistRequest = () => ({
+  type: PlaylistTypes.EDIT_PLAYLIST_REQUEST,
+});
+
+export const editPlaylistError = (message) => ({
+  type: PlaylistTypes.EDIT_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const editPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.EDIT_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function editPlaylist(formData, id) {
+  return async function editPlaylistThunk(dispatch) {
+    dispatch(editPlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(editPlaylistError("User token null!"));
+      }
+      console.log(...formData.entries());
+      const playlistRes = await api.editPlaylistById(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        formData,
+        id,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(editPlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(editPlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(editPlaylistError(err.message));
+    }
+  };
+}
+
+export const editPlaylistReset = () => ({
+  type: PlaylistTypes.EDIT_PLAYLIST_RESET,
+});
+
+export const setPlaylistInfo = (playlist) => ({
+  type: PlaylistTypes.SET_PLAYLIST_INFO,
+  payload: playlist,
 });
 
 export const playlistReset = () => ({

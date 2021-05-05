@@ -1,3 +1,4 @@
+import { Background } from "../components/SearchModal/style";
 import { makeRequest } from "./api-utils";
 
 function makeApi(request = makeRequest()) {
@@ -110,6 +111,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function editPlaylistById(headers, body, id) {
+    return request({
+      url: `/playlist/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: body,
+    });
+  }
   return {
     signUp: signUp,
     signOut: signOut,
@@ -124,6 +133,7 @@ function makeApi(request = makeRequest()) {
     createPlaylist: createPlaylist,
     getFavoritePlaylists: getFavoritePlaylists,
     addSongToPlaylist: addSongToPlaylist,
+    editPlaylistById: editPlaylistById,
   };
 }
 
