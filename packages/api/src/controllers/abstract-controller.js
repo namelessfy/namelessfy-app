@@ -1,5 +1,9 @@
 const { UserRepo } = require("../repositories");
-const { orderByLikedBy, orderSongs, handleResponse } = require("../utils/utils");
+const {
+  orderByLikedBy,
+  orderSongs,
+  handleResponse,
+} = require("../utils/utils");
 
 async function getAllById(req, res, Repository) {
   const { uid } = req.user;
@@ -112,6 +116,31 @@ async function getByName(req, res, Repository) {
   }
 }
 
+async function getFavorite(req, res, Repository, next) {
+  try {
+    const { uid } = req.user;
+
+    if (req.params.userId === "me") {
+      const user = await UserRepo.findOne({ firebase_id: uid });
+
+      req.params.userId = user.data._id;
+    }
+
+    const repo = await Repository.getAll({ "likedBy._id": req.params.userId });
+
+    if (repo.error) {
+      return handleResponse(res, repo, null, 500);
+    }
+
+    if (repo.data) {
+      repo.data.sort((a, b) => orderByLikedBy(a, b, req.params.userId));
+    }
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
 async function editInfo(req, res, Repository) {
   const {
     body: data,
@@ -141,20 +170,15 @@ async function editInfo(req, res, Repository) {
   }
 }
 
-async function addFavorite(req, res, Repository) {
-  const {
-    user: { uid },
-    params: { id },
-  } = req;
-
+async function addFavorite(req, res, Repository, next) {
   try {
+    const { uid } = req.user;
+    const { id } = req.params;
+
     const user = await UserRepo.findOne({ firebase_id: uid });
 
     if (user.error) {
-      res.status(500).send({
-        data: null,
-        error: user.error,
-      });
+      return handleResponse(res, user, null, 500);
     }
 
     const repo = await Repository.findOneAndUpdate(
@@ -169,40 +193,21 @@ async function addFavorite(req, res, Repository) {
       },
     );
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(201).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function removeFavorite(req, res, Repository) {
-  const {
-    user: { uid },
-    params: { id },
-  } = req;
-
+async function removeFavorite(req, res, Repository, next) {
   try {
+    const { uid } = req.user;
+    const { id } = req.params;
+
     const user = await UserRepo.findOne({ firebase_id: uid });
 
     if (user.error) {
-      res.status(500).send({
-        data: null,
-        error: user.error,
-      });
+      return handleResponse(res, user, null, 500);
     }
 
     const repo = await Repository.findOneAndUpdate(
@@ -216,56 +221,9 @@ async function removeFavorite(req, res, Repository) {
       },
     );
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(201).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
-}
-
-async function getFavorite(req, res, Repository) {
-  const { uid } = req.user;
-
-  if (req.params.userId === "me") {
-    const user = await UserRepo.findOne({ firebase_id: uid });
-
-    req.params.userId = user.data._id;
-  }
-
-  try {
-    const repo = await Repository.getAll({ "likedBy._id": req.params.userId });
-
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      repo.data.sort((a, b) => orderByLikedBy(a, b, req.params.userId));
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
@@ -274,7 +232,6 @@ async function deleteById(req, res, Repository) {
     const response = await Repository.findOneAndDelete({ _id: req.params.id });
 
     return handleResponse(res, response, 200, 400);
-
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

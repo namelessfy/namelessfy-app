@@ -1,6 +1,6 @@
-const { UserRepo, PlaylistRepo } = require("../repositories");
+const { UserRepo, PlaylistRepo, TrackRepo } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
-const { orderByLikedBy } = require("../utils/utils");
+const { orderByLikedBy, handleResponse } = require("../utils/utils");
 const {
   addFavorite,
   removeFavorite,
@@ -8,177 +8,164 @@ const {
   deleteById,
 } = require("./abstract-controller");
 
-async function createPlaylists(req, res, next) {
-  let {
-    body: {
-      title,
-      type,
-      thumbnail = null,
-      publicAccessible = true,
-      tracks = [],
-    },
-    user: { uid },
-  } = req;
+function isTitleMissing(res, title) {
+  const errorMesage = "Missing Fields (title, url)";
 
-  try {
-    if (!title) {
-      res.status(400).send({
-        data: null,
-        error: "Missing Fields (title, url)",
-      });
+  if (!title) {
+    return res.status(400).send({ data: null, error: errorMesage });
+  }
+}
+
+async function handleCloudinaryUpdateImage(
+  res,
+  file,
+  cloudinaryThumbnailId = null,
+) {
+  if (file) {
+    const result = await uploadImageToCloudinary(
+      file.path,
+      cloudinaryThumbnailId,
+      "playlistImages",
+    );
+
+    if (result.error) {
+      return handleResponse(
+        res,
+        result,
+        null,
+        503,
+        null,
+        "Failed upload image to cloudinary",
+      );
     }
+
+    return {
+      thumbnail: result.url,
+      cloudinaryThumbnailId: result.public_id,
+    };
+  }
+}
+
+async function create(req, res, next) {
+  try {
+    const { uid } = req.user;
+    const { file } = req;
+    let { title, type, publicAccessible = true, tracks = [] } = req.body;
+
+    isTitleMissing(res, title);
 
     const user = await UserRepo.findOne({ firebase_id: uid });
 
     if (user.error) {
-      res.status(400).send({
-        data: null,
-        error: user.error,
-      });
+      return handleResponse(res, user, null, 503);
     }
 
-    if (req.file) {
-      const result = await uploadImageToCloudinary(
-        req.file.path,
-        null,
-        "playlistImages",
-      );
-
-      if (result.error) {
-        return res.status(500).send({
-          data: null,
-          error: "Failed upload image to cloudinary",
-        });
-      }
-
-      thumbnail = result.url;
-      var cloudinaryThumbnailId = result.public_id;
+    if (user.data.length <= 0) {
+      return handleResponse(res, user, 404);
     }
 
-    const response = await PlaylistRepo.create({
+    const {
+      thumbnail,
+      cloudinaryThumbnailId,
+    } = await handleCloudinaryUpdateImage(file);
+    const { _id } = user.data;
+
+    const playlist = await PlaylistRepo.create({
       title,
       thumbnail,
       cloudinaryThumbnailId,
       type,
       publicAccessible,
-      author: user.data._id,
-      likedBy: [
-        {
-          _id: user.data._id,
-          time: Date,
-        },
-      ],
+      author: _id,
+      likedBy: [{ _id, time: Date }],
       tracks,
     });
 
-    if (response.error) {
-      return res.status(500).send({
-        data: null,
-        error: response.error,
-      });
-    }
-
-    if (response.data) {
-      return res.status(201).send({
-        data: response.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, playlist, 201, 500);
   } catch (error) {
     next(error);
   }
 }
 
-async function getPlaylists(req, res) {
-  const { uid } = req.user;
-  let { userId } = req.params;
-  let query = {
-    "likedBy._id": userId,
-    publicAccessible: true,
-    type: "Playlist",
-  };
-
-  if (userId === "me") {
-    const user = await UserRepo.findOne({ firebase_id: uid });
-
-    userId = user.data._id;
-
-    query = {
-      $or: [
-        {
-          publicAccessible: true,
-          "likedBy._id": userId,
-          type: "Playlist",
-        },
-        {
-          publicAccessible: false,
-          author: userId,
-          type: "Playlist",
-        },
-      ],
+async function getByIdAndPrivacy(req, res, next) {
+  try {
+    const { uid } = req.user;
+    let { userId } = req.params;
+    let query = {
+      "likedBy._id": userId,
+      publicAccessible: true,
+      type: "Playlist",
     };
-  }
 
-  const playlists = PlaylistRepo.getAll(query);
+    if (userId === "me") {
+      const user = await UserRepo.findOne({ firebase_id: uid });
 
-  if (playlists.error) {
-    return res.status(503).send({
-      data: null,
-      error: playlists.error,
-    });
-  }
+      userId = user.data._id;
 
-  if (playlists.data) {
-    playlists.data.sort((a, b) => orderByLikedBy(a, b, userId));
-    return res.status(200).send({
-      data: playlists.data,
-      error: null,
-    });
+      query = {
+        $or: [
+          {
+            publicAccessible: true,
+            "likedBy._id": userId,
+            type: "Playlist",
+          },
+          {
+            publicAccessible: false,
+            author: userId,
+            type: "Playlist",
+          },
+        ],
+      };
+    }
+
+    const playlists = PlaylistRepo.getAll(query);
+
+    if (playlists.data) {
+      playlists.data = playlists.data.sort((a, b) =>
+        orderByLikedBy(a, b, userId),
+      );
+    }
+
+    return handleResponse(res, playlists, 200, 503);
+  } catch (error) {
+    next(error);
   }
 }
 
-async function editPlaylistInfo(req, res) {
-  let {
-    body: {
+async function getFavorites(req, res, next) {
+  return await getFavorite(req, res, PlaylistRepo, next);
+}
+
+async function patchFull(req, res, next) {
+  try {
+    const { id } = req.params;
+    let {
       title,
       type,
-      thumbnail = null,
       publicAccessible = true,
       tracks = [],
       cloudinaryThumbnailId = null,
-    },
-    params: { id },
-  } = req;
+      thumbnail = null,
+    } = req.body;
 
-  try {
-    if (req.file) {
-      const result = await uploadImageToCloudinary(
-        req.file.path,
-        cloudinaryThumbnailId,
-        "playistImages",
-      );
+    isTitleMissing(res, title);
 
-      if (result.error) {
-        return res.status(500).send({
-          data: null,
-          error: "Failed upload image to cloudinary",
-        });
-      }
+    const cloudinaryUpdateResponse = await handleCloudinaryUpdateImage(
+      res,
+      req.file,
+      cloudinaryThumbnailId,
+    );
 
-      thumbnail = result.url;
-
-      if (!cloudinaryThumbnailId) {
-        cloudinaryThumbnailId = result.public_id;
-      }
+    if (!cloudinaryThumbnailId) {
+      cloudinaryThumbnailId = cloudinaryUpdateResponse.cloudinaryThumbnailId;
     }
+
+    thumbnail = cloudinaryUpdateResponse.thumbnail;
 
     const user = await UserRepo.findOne({ firebase_id: id });
 
     if (user.error) {
-      res.status(400).send({
-        data: null,
-        error: user.error,
-      });
+      return handleResponse(res, user, null, 400);
     }
 
     const playlist = await PlaylistRepo.findOneAndUpdate(
@@ -194,36 +181,76 @@ async function editPlaylistInfo(req, res) {
       },
     );
 
-    if (playlist.error) {
-      return res.status(500).send({
-        data: null,
-        error: playlist.error,
-      });
-    }
-
-    if (playlist.data) {
-      return res.status(200).send({
-        data: playlist.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, playlist, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function addFavoritePlaylist(req, res) {
-  return await addFavorite(req, res, PlaylistRepo);
+async function addToFavorite(req, res, next) {
+  return await addFavorite(req, res, PlaylistRepo, next);
 }
 
-async function removeFavoritePlaylist(req, res) {
-  return await removeFavorite(req, res, PlaylistRepo);
+async function removeFromFavorite(req, res, next) {
+  return await removeFavorite(req, res, PlaylistRepo, next);
 }
 
-async function getFavoritePlaylist(req, res) {
-  return await getFavorite(req, res, PlaylistRepo);
+async function addTrack(req, res, next) {
+  try {
+    const { title } = req.body;
+    const { id } = req.params;
+
+    const track = await TrackRepo.findOne({ title });
+
+    if (track.error) {
+      return handleResponse(res, track, null, 500);
+    }
+
+    const repo = await PlaylistRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $addToSet: {
+          tracks: {
+            _id: track.data._id,
+            time: new Date(),
+          },
+        },
+      },
+    );
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function removeTrack(req, res, next) {
+  try {
+    const { title } = req.body;
+    const { id } = req.params;
+
+    const track = await TrackRepo.findOne({ title });
+
+    if (track.error) {
+      return handleResponse(res, track, null, 500);
+    }
+
+    const repo = await PlaylistRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $pull: {
+          tracks: {
+            _id: track.data._id,
+            time: new Date(),
+          },
+        },
+      },
+    );
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function deletePlaylist(req, res) {
@@ -231,11 +258,13 @@ async function deletePlaylist(req, res) {
 }
 
 module.exports = {
-  getPlaylists,
-  createPlaylists,
-  addFavoritePlaylist,
-  removeFavoritePlaylist,
-  getFavoritePlaylist,
+  create,
+  getByIdAndPrivacy,
+  getFavorites,
+  patchFull,
+  addToFavorite,
+  removeFromFavorite,
+  addTrack,
+  removeTrack,
   deletePlaylist,
-  editPlaylistInfo,
 };

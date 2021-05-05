@@ -6,85 +6,90 @@ const TrackSchema = Schema(
     title: {
       type: String,
       required: [true, "Track title required"],
-      trim: true
+      trim: true,
     },
     url: {
       type: String,
-      required: false
+      required: false,
     },
     thumbnail: {
       type: String,
       trim: true,
-      required: false
+      required: false,
     },
     cloudinaryThumbnailId: {
       type: String,
-      required: false
+      required: false,
     },
     duration: {
       type: Number,
-      required: false
+      required: false,
     },
     rating: {
       type: Number,
-      required: false
+      required: false,
     },
     authorId: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "user"
+      ref: "user",
     },
     genre: {
       type: [
         {
-          type: String
-        }
+          type: String,
+        },
       ],
       required: true,
-      default: []
+      default: [],
     },
     artistId: {
       type: [
         {
           userName: {
             type: String,
-            trim: true
+            trim: true,
           },
           _id: {
             type: Schema.Types.ObjectId,
-            ref: "user"
-          }
-        }
+            ref: "user",
+          },
+        },
       ],
-      default: []
+      default: [],
     },
     playlists: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "playlist"
-        }
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "playlist",
+          },
+          time: {
+            type: Date,
+          },
+        },
       ],
-      default: []
+      default: [],
     },
     likedBy: {
       type: [
         {
           _id: {
             type: Schema.Types.ObjectId,
-            ref: "user"
+            ref: "user",
           },
           time: {
-            type: Date
-          }
-        }
+            type: Date,
+          },
+        },
       ],
-      default: []
-    }
+      default: [],
+    },
   },
   {
-    timestamps: true
-  }
+    timestamps: true,
+  },
 );
 
 const Track = mongoose.model("track", TrackSchema);
