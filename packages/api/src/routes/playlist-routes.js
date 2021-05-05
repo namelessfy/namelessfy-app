@@ -1,4 +1,6 @@
 const Router = require("express").Router;
+var multer = require("multer");
+var upload = multer({ dest: "uploads/" });
 
 const { playlistController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
@@ -6,13 +8,14 @@ const { authMiddleware } = require("../middlewares");
 const playlistRouter = Router();
 
 playlistRouter.get(
-  "/playlist",
+  "/playlist/:userId",
   authMiddleware,
   playlistController.getPlaylists,
 );
 playlistRouter.post(
   "/playlist",
   authMiddleware,
+  upload.single("playlistImage"),
   playlistController.createPlaylists,
 );
 playlistRouter.post(
@@ -39,6 +42,11 @@ playlistRouter.patch(
   "/playlist/:id",
   authMiddleware,
   playlistController.editPlaylistInfo,
+);
+playlistRouter.patch(
+  "/playlist/:id/add",
+  authMiddleware,
+  playlistController.addSongToPlaylist,
 );
 
 module.exports = { playlistRouter };

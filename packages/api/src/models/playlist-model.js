@@ -27,6 +27,10 @@ const PlaylistSchema = Schema(
       required: false,
       default: false,
     },
+    authorName: {
+      type: String,
+      required: true,
+    },
     author: {
       type: Schema.Types.ObjectId,
       ref: "user",

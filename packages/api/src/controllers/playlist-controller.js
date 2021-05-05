@@ -20,11 +20,15 @@ async function createPlaylists(req, res, next) {
     user: { uid },
   } = req;
 
+  if (tracks.length > 0) {
+    tracks = JSON.parse(tracks);
+  }
+
   try {
     if (!title) {
       res.status(400).send({
         data: null,
-        error: "Missing Fields (title, url)",
+        error: "Missing Field (title)",
       });
     }
 
@@ -61,17 +65,19 @@ async function createPlaylists(req, res, next) {
       cloudinaryThumbnailId,
       type,
       publicAccessible,
+      authorName: user.data.userName,
       author: user.data._id,
       likedBy: [
         {
           _id: user.data._id,
-          time: Date,
+          time: new Date(),
         },
       ],
       tracks,
     });
 
     if (response.error) {
+      console.log(response.error);
       return res.status(500).send({
         data: null,
         error: response.error,
@@ -119,7 +125,7 @@ async function getPlaylists(req, res) {
     };
   }
 
-  const playlists = PlaylistRepo.getAll(query);
+  const playlists = await PlaylistRepo.getAll(query);
 
   if (playlists.error) {
     return res.status(503).send({
@@ -230,6 +236,42 @@ async function deletePlaylist(req, res) {
   return await deleteById(req, res, PlaylistRepo);
 }
 
+async function addSongToPlaylist(req, res) {
+  const {
+    body: { songId },
+    params: { id },
+  } = req;
+
+  try {
+    const playlist = await PlaylistRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $push: {
+          tracks: [songId],
+        },
+      },
+    );
+
+    if (playlist.error) {
+      return res.status(500).send({
+        data: null,
+        error: playlist.error,
+      });
+    }
+
+    if (playlist.data) {
+      return res.status(200).send({
+        data: playlist.data,
+        error: null,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      error: error.message,
+    });
+  }
+}
+
 module.exports = {
   getPlaylists,
   createPlaylists,
@@ -238,4 +280,5 @@ module.exports = {
   getFavoritePlaylist,
   deletePlaylist,
   editPlaylistInfo,
+  addSongToPlaylist,
 };

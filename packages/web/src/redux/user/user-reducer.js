@@ -6,6 +6,7 @@ export const UserInitialState = {
   currentUser: {
     email: null,
   },
+  initialView: "song",
 };
 
 const UserReducer = (state = UserInitialState, action) => {
@@ -36,6 +37,23 @@ const UserReducer = (state = UserInitialState, action) => {
       return {
         ...state,
         currentUser: action.payload,
+      };
+    }
+    case UserTypes.SET_USER_VIEW: {
+      return {
+        ...state,
+        initialView: action.payload,
+      };
+    }
+    case UserTypes.RESET_USER: {
+      return {
+        ...state,
+        isEditingUser: false,
+        editUserError: null,
+        currentUser: {
+          email: null,
+        },
+        initialView: "song",
       };
     }
     default: {
