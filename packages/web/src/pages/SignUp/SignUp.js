@@ -107,12 +107,7 @@ function SignUp() {
             }) => {
               return (
                 <>
-                  <Form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleSubmit();
-                    }}
-                  >
+                  <Form onSubmit={handleSubmit}>
                     <Label htmlFor="email">Email</Label>
                     <Input
                       type="email"
@@ -143,7 +138,9 @@ function SignUp() {
                       <ErrorInput>{errors.password}</ErrorInput>
                     )}
 
-                    <Button type="submit">Sign up</Button>
+                    <Button type="submit" lastItem>
+                      Sign up
+                    </Button>
                     {signUpError && <Error>Error: {signUpError}</Error>}
                   </Form>
                 </>

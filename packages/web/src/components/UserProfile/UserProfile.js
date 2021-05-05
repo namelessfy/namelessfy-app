@@ -5,10 +5,10 @@ import { useSelector } from "react-redux";
 import {
   UserName,
   Statistics,
-  ViewButton,
   ProfileImageDefault,
   ProfileContainer,
   EditButton,
+  ViewButton,
 } from "./styles";
 
 import NavBar from "../Navbar";

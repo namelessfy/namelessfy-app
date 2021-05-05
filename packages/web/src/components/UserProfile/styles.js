@@ -42,11 +42,23 @@ const Statistics = styled.div`
     * {
       text-align: center;
       font-size: 18px;
-  }
     }
   }
 `;
 
+const ProfileButton = styled.button`
+  margin-top: 10px;
+  margin-left: 80%;
+  padding: 5px;
+  * {
+    display: block;
+    position: relative;
+    right: 80px;
+    height: 40px;
+    width: auto;
+    transition: 0.3s ease-in-out;
+  }
+`;
 const ViewButton = styled.button`
   width: 80px;
   display: flex;
@@ -78,11 +90,11 @@ const ButtonContainer = styled.div`
   flex-direction: row wrap;
   justify-content: center;
   width: 100%;
-  & >button{
+  & > button {
     margin-top: 1rem;
   }
-  }
 `;
+
 const AddSongButton = styled.button`
   background-color: ${colors.NEUTRAL};
   color: ${colors.WHITE};
@@ -131,7 +143,7 @@ const MediaContainer = styled.div`
   margin-bottom: 10rem;
   padding: 0 1rem;
 
-  & > div{
+  & > div {
     margin-bottom: 1.5rem;
   }
 
@@ -139,16 +151,16 @@ const MediaContainer = styled.div`
     margin-left: 1.5rem;
   }
 
-  & >div:nth-child(5n + 1){
+  & > div:nth-child(5n + 1) {
     margin-left: 0rem;
   }
   @media (max-width: 800px) {
     padding: 0 2rem;
     width: fit-content;
-    & >div:nth-child(5n + 1){
+    & > div:nth-child(5n + 1) {
       margin-left: 1.5rem;
     }
-    & >div:nth-child(4n + 1){
+    & > div:nth-child(4n + 1) {
       margin-left: 0rem;
     }
   }
@@ -156,33 +168,33 @@ const MediaContainer = styled.div`
     & > div + div {
       margin-left: 1rem;
     }
-    & >div:nth-child(5n + 1){
+    & > div:nth-child(5n + 1) {
       margin-left: 1rem;
     }
-    & >div:nth-child(4n + 1){
+    & > div:nth-child(4n + 1) {
       margin-left: 0rem;
     }
-
   }
   @media (max-width: 500px) {
     padding: 0 1rem;
     & > div + div {
       margin-left: 0.5rem;
     }
-    & >div:nth-child(5n + 1){
+    & > div:nth-child(5n + 1) {
       margin-left: 0.5rem;
     }
-    & >div:nth-child(4n + 1){
+    & > div:nth-child(4n + 1) {
       margin-left: 0rem;
     }
   }
   @media (max-width: 350px) {
-    & >div:nth-child(4n + 1){
+    & > div:nth-child(4n + 1) {
       margin-left: 0.5rem;
     }
-    & >div:nth-child(3n + 1){
+    & > div:nth-child(3n + 1) {
       margin-left: 0rem;
     }
+  }
 `;
 
 const Media = styled.div`
@@ -213,14 +225,15 @@ const ProfileImageDefault = styled.div`
 export {
   UserName,
   Statistics,
-  ViewButton,
   AddSongButton,
   NavContainer,
   ProfileImageDefault,
   ProfileContainer,
   ButtonContainer,
-  EditButton,
   Media,
   MediaContainer,
+  ProfileButton,
   NavButton,
+  EditButton,
+  ViewButton,
 };
