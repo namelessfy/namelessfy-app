@@ -23,8 +23,8 @@ const SongsContainer = styled.div`
   }
 
   @media (max-width: 1000px) {
+    justify-content: flex-start;
     padding: 0 2.75rem;
-    width: fit-content;
   }
   @media (max-width: 800px) {
     padding: 0 2rem;
@@ -110,19 +110,33 @@ const Separation = styled.hr`
 `;
 
 const Thumbnail = styled.div`
-  display: inline-block;
-  position: relative;
   border-radius: 10px;
   padding: min(40%, 150px);
-  margin: 1em auto;
-  align-self: center;
+  margin: 2em 0 1rem;
   background-size: cover;
   background-position: center;
   box-shadow: 2px 2px 5px #0008;
-  transition: box-shadow 0.1s ease-in-out;
   background-image: url(${(props) =>
     props.src ||
     "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"});
+`;
+
+const Author = styled.div`
+  width: fit-content;
+  margin: 0 auto;
+  & > a {
+    color: ${colors.LIGHT};
+    font-size: 1.1em;
+  }
+`;
+
+const PlaylistInfo = styled.div`
+  margin: 1rem auto;
+  width: min(80%, 300px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export {
@@ -132,4 +146,6 @@ export {
   ToggleContainer,
   Separation,
   Thumbnail,
+  Author,
+  PlaylistInfo,
 };

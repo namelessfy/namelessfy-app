@@ -159,7 +159,7 @@ const SongReducer = (state = SongInitialState, action) => {
       return {
         ...state,
         isGettingMySongs: false,
-        mySongs: [...action.payload],
+        mySongs: removeFromLikedSongs(action.payload._id, state.favorites),
       };
     }
     case SongTypes.GET_MYSONGS_ERROR: {

@@ -16,8 +16,8 @@ const SongCover = styled.button`
   display: inline-block;
   position: relative;
   border-radius: 10px;
-  width: calc(${calculateContainerWidht5SongsResponsive} - 2px);
-  height: calc(${calculateContainerWidht5SongsResponsive} - 2px);
+  width: ${calculateContainerWidht5SongsResponsive};
+  height: ${calculateContainerWidht5SongsResponsive};
   margin-bottom: 1em;
   align-self: center;
   background-image: url(${(props) => props.src});
@@ -87,20 +87,20 @@ const SongCover = styled.button`
   }
 
   @media (max-width: 800px) {
-    width: ${calculateContainerWidht4SongsResponsiveBig};
-    height: ${calculateContainerWidht4SongsResponsiveBig};
+    width: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
   }
   @media (max-width: 620px) {
-    width: ${calculateContainerWidht4SongsResponsiveNormal};
-    height: ${calculateContainerWidht4SongsResponsiveNormal};
+    width: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
   }
   @media (max-width: 500px) {
-    width: ${calculateContainerWidht4SongsResponsiveSmall};
-    height: ${calculateContainerWidht4SongsResponsiveSmall};
+    width: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
   }
   @media (max-width: 350px) {
-    width: ${calculateContainerWidht3SongsResponsive};
-    height: ${calculateContainerWidht3SongsResponsive};
+    width: calc(${calculateContainerWidht3SongsResponsive} - 2px);
+    height: calc(${calculateContainerWidht3SongsResponsive} - 2px);
   }
 `;
 

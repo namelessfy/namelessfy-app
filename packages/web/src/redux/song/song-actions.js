@@ -189,7 +189,7 @@ export const dislikeSong = (trackId) => {
     if (response.errorMessage) {
       return dispatch(dislikeSongError(response.errorMessage));
     }
-
+    console.log(response.data.data);
     return dispatch(dislikeSongSuccess(response.data.data));
   };
 };

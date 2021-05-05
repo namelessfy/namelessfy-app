@@ -11,11 +11,12 @@ import {
   ToggleContainer,
   Separation,
   Thumbnail,
+  Author,
+  PlaylistInfo,
 } from "./style";
 import { Main, Icon } from "../../styles/mainStyles";
 
-import { userSelector } from "../../redux/user/user-selectors";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 import {
   setAutoPlay,
   setQueueAndCurrentSong,
@@ -25,8 +26,7 @@ import { CenterContent } from "../../styles/formStyles";
 
 function UploadSong() {
   const dispatch = useDispatch();
-  const { queue } = useSelector(playerSelector);
-  const { mySongs } = useSelector(userSelector);
+  const { mySongs } = useSelector(songSelector);
   const [isGrid, setIsGrid] = useState(true);
 
   function toggleGrid() {
@@ -46,8 +46,18 @@ function UploadSong() {
     <Main>
       <Navbar />
       <CenterContent>
-        <Thumbnail />
+        <Thumbnail src={mySongs[0].thumbnail} />
       </CenterContent>
+      <Author>
+        by <a href="#">janpc</a>
+      </Author>
+      <PlaylistInfo>
+        <div>
+          <p>618 songs</p>
+          <p>1854 minutes</p>
+        </div>
+        <Icon name="heartFull" size="small" />
+      </PlaylistInfo>
       <TitleContainer>
         <Title>My Songs</Title>
         <ToggleContainer>
@@ -65,7 +75,7 @@ function UploadSong() {
       </TitleContainer>
       <Separation />
       <SongsContainer>
-        {queue?.map((song, index) => (
+        {mySongs?.map((song, index) => (
           <Song
             key={song._id}
             songInfo={song}

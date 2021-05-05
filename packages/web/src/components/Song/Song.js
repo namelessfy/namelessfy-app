@@ -26,10 +26,12 @@ import {
 import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { currentSong } = useSelector(playerSelector);
   const { favorites } = useSelector(songSelector);
   const { currentUser } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
@@ -52,8 +54,11 @@ function Song({ songInfo, handleClick }) {
       }
     : "";
 
+  const playFunction =
+    songInfo._id === currentSong._id ? "" : { Play: handleClick };
+
   const dialogueButtons = {
-    Play: handleClick,
+    ...playFunction,
     ...likeFunction,
     "Add to playlist": () => console.log("Add to playlist"),
     ...ownerFunction,

@@ -91,8 +91,10 @@ function UploadSong() {
   }
 
   function handleSetCoverImage(e) {
-    setPreviewImage(URL.createObjectURL(e.target.files[0]));
-    setSongImage(e.target.files[0]);
+    if (e.target.files[0]) {
+      setPreviewImage(URL.createObjectURL(e.target.files[0]));
+      setSongImage(e.target.files[0]);
+    }
   }
 
   function handleNewArtist(e) {
