@@ -5,114 +5,61 @@ const {
   handleResponse,
 } = require("../utils/utils");
 
-async function getAllById(req, res, Repository) {
-  const { uid } = req.user;
-
-  if (req.params.userId === "me") {
-    const user = await UserRepo.findOne({ firebase_id: uid });
-
-    req.params.userId = user.data._id;
-  }
-
+async function getAllById(req, res, Repository, next) {
   try {
+    const { uid } = req.user;
+
+    if (req.params.userId === "me") {
+      const user = await UserRepo.findOne({ firebase_id: uid });
+
+      req.params.userId = user.data._id;
+    }
+
     const repo = await Repository.getAll({
       "artistId._id": req.params.userId,
     });
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
     if (repo.data) {
       repo.data.sort(orderSongs);
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
     }
+
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function fetchAll(req, res, Repository) {
-  const repo = await Repository.getAll();
-
+async function fetchAll(req, res, Repository, next) {
   try {
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
+    const repo = await Repository.getAll();
 
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function getById(req, res, Repository) {
-  const { id } = req;
-
+async function getById(req, res, Repository, next) {
   try {
+    const { id } = req;
+
     const repo = await Repository.getAll({ id });
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function getByName(req, res, Repository) {
-  const { name } = req;
-
+async function getByName(req, res, Repository, next) {
   try {
+    const { name } = req;
+
     const repo = await Repository.getAll({ name });
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
@@ -141,32 +88,16 @@ async function getFavorite(req, res, Repository, next) {
     next(error);
   }
 }
-async function editInfo(req, res, Repository) {
-  const {
-    body: data,
-    params: { id },
-  } = req;
 
+async function editInfo(req, res, Repository, next) {
   try {
+    const { id } = req.params;
+    const data = req.body;
     const repo = await Repository.findOneAndUpdate({ _id: id }, data);
 
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
@@ -227,13 +158,13 @@ async function removeFavorite(req, res, Repository, next) {
   }
 }
 
-async function deleteById(req, res, Repository) {
+async function deleteById(req, res, Repository, next) {
   try {
     const response = await Repository.findOneAndDelete({ _id: req.params.id });
 
     return handleResponse(res, response, 200, 400);
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    next(error);
   }
 }
 
