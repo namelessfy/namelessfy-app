@@ -1,5 +1,5 @@
 import * as PlaylistTypes from "./playlist-types";
-import { updateList, updateListById } from "../../utils/utils";
+import { updateList, updateListById, removeFromList } from "../../utils/utils";
 
 export const PlaylistInitialState = {
   myPlaylists: null,
@@ -17,6 +17,9 @@ export const PlaylistInitialState = {
   isEditingPlaylist: false,
   editPlaylistSuccess: false,
   editPlaylistError: null,
+  isDeletingPlaylist: false,
+  deletePlaylistSuccess: false,
+  deletePlaylistError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -156,6 +159,38 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         editPlaylistError: null,
       };
     }
+    case PlaylistTypes.DELETE_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        deletePlaylistSuccess: true,
+        myPlaylists: removeFromList(action.payload, [...state.myPlaylists]),
+      };
+    }
+    case PlaylistTypes.DELETE_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isDeletingPlaylist: true,
+        deletePlaylistSuccess: false,
+        deletePlaylistError: null,
+      };
+    }
+    case PlaylistTypes.DELETE_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        deletePlaylistSuccess: false,
+        deletePlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.DELETE_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isDeletingPlaylist: false,
+        deletePlaylistSuccess: false,
+        deletePlaylistError: null,
+      };
+    }
 
     case PlaylistTypes.SET_PLAYLIST_INFO: {
       return {
@@ -182,6 +217,9 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isEditingPlaylist: false,
         editPlaylistSuccess: false,
         editPlaylistError: null,
+        isDeletingPlaylist: false,
+        deletePlaylistSuccess: false,
+        deletePlaylistError: null,
       };
     }
     default: {

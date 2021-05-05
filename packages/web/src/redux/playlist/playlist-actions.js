@@ -194,6 +194,53 @@ export const editPlaylistReset = () => ({
   type: PlaylistTypes.EDIT_PLAYLIST_RESET,
 });
 
+export const deletePlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_REQUEST,
+});
+
+export const deletePlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function deletePlaylist(id) {
+  return async function deletePlaylistThunk(dispatch) {
+    dispatch(deletePlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(deletePlaylistError("User token null!"));
+      }
+
+      const playlistRes = await api.deletePlaylistById(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        id,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(deletePlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(deletePlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(deletePlaylistError(err.message));
+    }
+  };
+}
+
+export const deletePlaylistReset = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_RESET,
+});
+
 export const setPlaylistInfo = (playlist) => ({
   type: PlaylistTypes.SET_PLAYLIST_INFO,
   payload: playlist,
