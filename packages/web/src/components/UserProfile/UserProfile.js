@@ -15,12 +15,14 @@ import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
 function UserProfile() {
   const { currentUser } = useSelector(userSelector);
   const { mySongs } = useSelector(songSelector);
+  const { myPlaylists } = useSelector(playlistSelector);
   const [isGrid, setIsGrid] = useState(true);
   const tab = " ";
 
@@ -60,7 +62,7 @@ function UserProfile() {
             <Icon name={isGrid ? "grid" : "list"} size="normal" />
           </ViewButton>
         </Statistics>
-        <UserNavBar songs={mySongs} />
+        <UserNavBar songs={mySongs} playlists={myPlaylists} />
       </ProfileContainer>
     </div>
   );

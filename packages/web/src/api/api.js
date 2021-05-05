@@ -84,6 +84,32 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function createPlaylist(headers, body) {
+    return request({
+      url: `/playlist`,
+      requestMethod: "POST",
+      headers: headers,
+      body: body,
+    });
+  }
+
+  function getFavoritePlaylists(headers, id = "me") {
+    return request({
+      url: `/playlist/favorite/${id}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function addSongToPlaylist(headers, songId, id) {
+    return request({
+      url: `/playlist/${id}/add`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: { songId },
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -95,6 +121,9 @@ function makeApi(request = makeRequest()) {
     getSongs: getSongs,
     editTrack: editTrack,
     deleteTrack: deleteSong,
+    createPlaylist: createPlaylist,
+    getFavoritePlaylists: getFavoritePlaylists,
+    addSongToPlaylist: addSongToPlaylist,
   };
 }
 

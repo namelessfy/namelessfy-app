@@ -26,4 +26,19 @@ function haveUsersSameInfo(user1, user2) {
   return areTheSame;
 }
 
-export { hasUserAllInfo, haveUsersSameInfo };
+function updateList(item, list) {
+  const index = list.findIndex((element) => element._id === item._id);
+  if (index === -1) {
+    return [item, ...list];
+  }
+  return [...list];
+}
+
+function updateListById(item, list) {
+  const newList = [...list];
+  const index = newList.findIndex((element) => element._id === item._id);
+  newList[index] = item;
+  return newList;
+}
+
+export { hasUserAllInfo, haveUsersSameInfo, updateList, updateListById };

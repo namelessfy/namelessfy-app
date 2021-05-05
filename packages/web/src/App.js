@@ -14,6 +14,7 @@ import UserPage from "./pages/UserPage";
 import UploadSong from "./pages/UploadSong";
 import EditSong from "./pages/EditSong";
 import Playlist from "./pages/Playlist";
+import CreatePlaylist from "./pages/CreatePlaylist";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -57,6 +58,10 @@ function App() {
         <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
         <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
+        <ProtectedRoute
+          path={ROUTES.CREATE_PLAYLIST}
+          component={CreatePlaylist}
+        />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

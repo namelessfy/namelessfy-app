@@ -1,27 +1,38 @@
 const Router = require("express").Router;
+var multer = require("multer");
+var upload = multer({ dest: "uploads/" });
 
 const { playlistController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
 const {
   create,
-  getByIdAndPrivacy,
-  getFavorites,
-  patchFull,
+  getFavoritePlaylists,
+  getOnePlaylist,
+  editPlaylistInfo,
   addToFavorite,
   removeFromFavorite,
-  addTrack,
   removeTrack,
   deletePlaylist,
+  addSongToPlaylist,
 } = playlistController;
 
 const playlistRouter = Router();
 
-playlistRouter.post("/playlist", authMiddleware, create);
+playlistRouter.post(
+  "/playlist",
+  authMiddleware,
+  upload.single("playlistImage"),
+  create,
+);
+playlistRouter.get(
+  "/playlist/favorite/:userId",
+  authMiddleware,
+  getFavoritePlaylists,
+);
+playlistRouter.get("/playlist/:playlistId", authMiddleware, getOnePlaylist);
 
-playlistRouter.get("/playlist", authMiddleware, getByIdAndPrivacy);
-playlistRouter.get("/playlist/favorite/:userId", authMiddleware, getFavorites);
+playlistRouter.patch("/playlist/:id", authMiddleware, editPlaylistInfo);
 
-playlistRouter.patch("/playlist/:id", authMiddleware, patchFull);
 playlistRouter.patch(
   "/playlist/favorite/add/:id",
   authMiddleware,
@@ -32,8 +43,9 @@ playlistRouter.patch(
   authMiddleware,
   removeFromFavorite,
 );
-playlistRouter.patch("/playlist/track/add/:id", authMiddleware, addTrack);
-playlistRouter.patch("/playlist/track/remove/:id", authMiddleware, removeTrack);
+
+playlistRouter.patch("/playlist/:id/add", authMiddleware, addSongToPlaylist);
+playlistRouter.patch("/playlist/:id/remove", authMiddleware, removeTrack);
 
 playlistRouter.delete("/playlist/:id", authMiddleware, deletePlaylist);
 

@@ -10,7 +10,7 @@ export function shuffle(list) {
 
 export function startListByIndex(index, list) {
   // retuens de same list without the index song and starting by the index + 1 song;
-
+  console.log("player utils");
   const firstPart = list.slice(0, index);
   const secondPart = list.slice(index + 1, list.lenght);
   const newList = secondPart.concat(firstPart);

@@ -45,6 +45,10 @@ async function handleCloudinaryUpdateImage(
       cloudinaryThumbnailId: result.public_id,
     };
   }
+  return {
+    thumbnail: null,
+    cloudinaryThumbnailId: null,
+  };
 }
 
 //async function genreExistAndCreate(res, genre, trackId) {
