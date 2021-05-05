@@ -38,8 +38,13 @@ const PlaylistSchema = Schema(
     tracks: {
       type: [
         {
-          type: Schema.Types.ObjectId,
-          ref: "track",
+          _id: {
+            type: Schema.Types.ObjectId,
+            ref: "track",
+          },
+          time: {
+            type: Date,
+          },
         },
       ],
       default: [],

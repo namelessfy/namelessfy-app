@@ -4,49 +4,49 @@ var upload = multer({ dest: "uploads/" });
 
 const { playlistController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
+const {
+  create,
+  getFavoritePlaylists,
+  getOnePlaylist,
+  editPlaylistInfo,
+  addToFavorite,
+  removeFromFavorite,
+  removeTrack,
+  deletePlaylist,
+  addSongToPlaylist,
+} = playlistController;
 
 const playlistRouter = Router();
 
-playlistRouter.get(
-  "/playlist/:userId",
-  authMiddleware,
-  playlistController.getPlaylists,
-);
 playlistRouter.post(
   "/playlist",
   authMiddleware,
   upload.single("playlistImage"),
-  playlistController.createPlaylists,
+  create,
 );
-playlistRouter.post(
-  "/playlist/favorite/:id",
-  authMiddleware,
-  playlistController.addFavoritePlaylist,
-);
-playlistRouter.patch(
-  "/playlist/favorite/:id",
-  authMiddleware,
-  playlistController.removeFavoritePlaylist,
-);
-playlistRouter.patch(
+playlistRouter.get(
   "/playlist/favorite/:userId",
   authMiddleware,
-  playlistController.getFavoritePlaylist,
+  getFavoritePlaylists,
 );
-playlistRouter.delete(
-  "/playlist/:id",
+playlistRouter.get("/playlist/:playlistId", authMiddleware, getOnePlaylist);
+
+playlistRouter.patch("/playlist/:id", authMiddleware, editPlaylistInfo);
+
+playlistRouter.patch(
+  "/playlist/favorite/add/:id",
   authMiddleware,
-  playlistController.deletePlaylist,
+  addToFavorite,
 );
 playlistRouter.patch(
-  "/playlist/:id",
+  "/playlist/favorite/remove/:id",
   authMiddleware,
-  playlistController.editPlaylistInfo,
+  removeFromFavorite,
 );
-playlistRouter.patch(
-  "/playlist/:id/add",
-  authMiddleware,
-  playlistController.addSongToPlaylist,
-);
+
+playlistRouter.patch("/playlist/:id/add", authMiddleware, addSongToPlaylist);
+playlistRouter.patch("/playlist/:id/remove", authMiddleware, removeTrack);
+
+playlistRouter.delete("/playlist/:id", authMiddleware, deletePlaylist);
 
 module.exports = { playlistRouter };

@@ -46,4 +46,24 @@ async function getArtists(array) {
   return artists;
 }
 
-module.exports = { orderByLikedBy, getArtists, orderSongs };
+function handleResponse(
+  res,
+  repoResponse,
+  successCode = 200,
+  errorCode = 503,
+  customMessage = {},
+) {
+  if (repoResponse.data) {
+    return res.status(successCode).send({
+      data: customMessage.success || repoResponse.data,
+      error: null,
+    });
+  }
+
+  return res.status(errorCode).send({
+    data: null,
+    error: customMessage.error || repoResponse.error.message,
+  });
+}
+
+module.exports = { orderByLikedBy, getArtists, orderSongs, handleResponse };

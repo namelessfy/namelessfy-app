@@ -1,77 +1,128 @@
-const { GenreRepo } = require("../repositories");
-const { fetchAll } = require("./abstract-controller");
+const { GenreRepo, TrackRepo } = require("../repositories");
+const { handleResponse } = require("../utils/utils");
 
-async function createGenre(req, res, next) {
-  const {
-    body: { name },
-  } = req;
+function isNameMissing(res, name) {
+  const noNameMessage = "Bad request: Missing genre name";
+
+  if (!name) {
+    return res.status(409).send({ data: null, error: noNameMessage });
+  }
+}
+
+function trackValidation(res, trackName) {
+  const track = TrackRepo.getAll({ title: trackName });
+
+  if (track.error) {
+    return handleResponse(res, track, null, 503);
+  }
+
+  if (track.data.length <= 0) {
+    return handleResponse(res, track, 404, 503, "Track Not Found");
+  }
+
+  return track.data;
+}
+
+async function create(req, res, next) {
+  const { name } = req.body;
 
   try {
-    if (!name) {
-      return res.status(400).send({
-        data: null,
-        error: "Bad request: Missing genre name",
-      });
+    isNameMissing(res, name);
+
+    const genreExist = await GenreRepo.getAll({ name });
+
+    if (genreExist.data.length > 0) {
+      return handleResponse(res, genreExist, 200, 500);
     }
 
-    const isDuplicatedGenre = await GenreRepo.getAll({ name });
-
-    if (isDuplicatedGenre.data.length > 0) {
-      return res.status(409).send({
-        data: null,
-        error: "Genre already exists",
-      });
+    if (genreExist.error) {
+      return handleResponse(res, genreExist, null, 503);
     }
 
     const response = await GenreRepo.create({ name });
 
-    if (response.error) {
-      return res.status(400).send({
-        data: null,
-        error: response.error,
-      });
-    }
-
-    if (response.data) {
-      return res.status(201).send({
-        data: response.data,
-        error: null,
-      });
-    }
-  } catch (err) {
-    next(err);
+    return handleResponse(res, response, 201, 400);
+  } catch (error) {
+    next(error);
   }
 }
 
-async function getGenres(req, res) {
-  return fetchAll(req, res, GenreRepo);
+async function getByName(req, res, next) {
+  const { name } = req.body;
+
+  try {
+    isNameMissing(res, name);
+
+    const response = await GenreRepo.getAll({ name });
+
+    return handleResponse(res, response, 200, 400);
+  } catch (error) {
+    next(error);
+  }
 }
 
-async function updateGenreByName(req, res) {
-  const {
-    body: data,
-    params: { name },
-  } = req;
+async function getAll(req, res, next) {
+  try {
+    const response = await GenreRepo.getAll();
 
-  const genre = await GenreRepo.findOneAndUpdate({ name }, data);
-
-  if (genre.data) {
-    return res.status(200).send({
-      data: genre.data,
-      error: null,
-    });
+    return handleResponse(res, response, 200, 400);
+  } catch (error) {
+    next(error);
   }
+}
 
-  if (genre.error) {
-    return res.status(503).send({
-      data: null,
-      error: genre.error,
-    });
+async function getByTrackName(req, res, next) {
+  const { trackName } = req.body;
+
+  try {
+    isNameMissing(res, trackName);
+
+    const validatedTrack = trackValidation(res, trackName);
+
+    const response = await GenreRepo.getAll({ track: validatedTrack.data._id });
+
+    return handleResponse(res, response, 200, 400);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function updateTracksByName(req, res, next) {
+  const { name, trackName } = req.body;
+
+  try {
+    isNameMissing(res, name);
+    isNameMissing(res, trackName);
+
+    const validatedTrack = trackValidation(res, trackName);
+    const genre = await GenreRepo.getAll({ name });
+
+    if (genre.error) {
+      return handleResponse(res, genre, null, 503);
+    }
+
+    const { data } = genre;
+    const tracks = data.tracks.concat(validatedTrack.data._id);
+
+    const update = await GenreRepo.findOneAndUpdate(
+      { id: genre.data._id },
+      {
+        ...data,
+        popularity: tracks.length * 0.1,
+        tracks,
+      },
+    );
+
+    return handleResponse(res, update, 200, 400);
+  } catch (error) {
+    next(error);
   }
 }
 
 module.exports = {
-  createGenre,
-  getGenres,
-  updateGenreByName,
+  create,
+  getByName,
+  getAll,
+  getByTrackName,
+  updateTracksByName,
 };

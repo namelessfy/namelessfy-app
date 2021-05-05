@@ -93,9 +93,9 @@ function makeApi(request = makeRequest()) {
     });
   }
 
-  function getAllPlaylists(headers, id = "me") {
+  function getFavoritePlaylists(headers, id = "me") {
     return request({
-      url: `/playlist/${id}`,
+      url: `/playlist/favorite/${id}`,
       requestMethod: "GET",
       headers: headers,
     });
@@ -122,7 +122,7 @@ function makeApi(request = makeRequest()) {
     editTrack: editTrack,
     deleteTrack: deleteSong,
     createPlaylist: createPlaylist,
-    getAllPlaylists: getAllPlaylists,
+    getFavoritePlaylists: getFavoritePlaylists,
     addSongToPlaylist: addSongToPlaylist,
   };
 }

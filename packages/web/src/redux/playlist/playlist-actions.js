@@ -74,7 +74,7 @@ export function getPlaylists() {
         return dispatch(getPlaylistsError("User token null!"));
       }
 
-      const playlistRes = await api.getAllPlaylists({
+      const playlistRes = await api.getFavoritePlaylists({
         Authorization: `Bearer ${userToken}`,
       });
 

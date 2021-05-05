@@ -1,4 +1,4 @@
-const { UserRepo, TrackRepo } = require("../repositories");
+const { UserRepo, TrackRepo, PlaylistRepo } = require("../repositories");
 const {
   getAllById,
   addFavorite,
@@ -7,60 +7,99 @@ const {
   deleteById,
 } = require("./abstract-controller");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
-const { getArtists } = require("../utils/utils");
+const { getArtists, handleResponse } = require("../utils/utils");
 
-async function createTrack(req, res, next) {
-  let {
-    body: {
+function isValidRequest(res, title, url) {
+  const errorMessage = "Missing Fields (title, url)";
+
+  if (!title || !url) {
+    return res.status(400).send({ data: null, error: errorMessage });
+  }
+}
+
+async function handleCloudinaryUpdateImage(
+  res,
+  file,
+  cloudinaryThumbnailId = null,
+) {
+  if (file) {
+    const result = await uploadImageToCloudinary(
+      file.path,
+      cloudinaryThumbnailId,
+      "trackImages",
+    );
+
+    if (result.error) {
+      return handleResponse(
+        res,
+        result,
+        null,
+        503,
+        null,
+        "Failed upload image to cloudinary",
+      );
+    }
+
+    return {
+      thumbnail: result.url,
+      cloudinaryThumbnailId: result.public_id,
+    };
+  }
+  return {
+    thumbnail: null,
+    cloudinaryThumbnailId: null,
+  };
+}
+
+//async function genreExistAndCreate(res, genre, trackId) {
+// TODO: add track to genre in case genre already exists.
+
+// if (genre.length > 0) {
+//   genre.forEach(async (name) => {
+//     const genre = await GenreRepo.getAll({ name });
+
+//     if (genre.error) {
+//       return handleResponse(res, genre, null, 503);
+//     }
+
+//     if (genre.data.length <= 0) {
+//       await GenreRepo.create({ name, track: [trackId] });
+//     }
+
+//     if (genre.data.length > 0) {
+//     }
+//   });
+// }
+//}
+
+async function create(req, res, next) {
+  try {
+    const { uid } = req.user;
+    let {
       title,
       url,
-      thumbnail = null,
       duration = 0,
       genre = [],
-      artistId = [],
-      playlists = [],
       likedBy = [],
-    },
-    user: { uid },
-  } = req;
+      playlists = [],
+    } = req.body;
+    let data = req.body;
 
-  try {
-    if (!title && !url) {
-      res.status(400).send({
-        data: null,
-        error: "Missing Fields (title, url)",
-      });
-    }
+    isValidRequest(res, title, url);
 
-    const user = await UserRepo.findOne({
-      firebase_id: uid,
-    });
+    const user = await UserRepo.findOne({ firebase_id: uid });
+    const artists = await getArtists(JSON.parse(data.artistId));
 
-    const artists = await getArtists(JSON.parse(artistId));
-
-    if (req.file) {
-      const result = await uploadImageToCloudinary(
-        req.file.path,
-        null,
-        "trackImages",
-      );
-
-      if (result.error) {
-        return res.status(500).send({
-          data: null,
-          error: "Failed upload image to cloudinary",
-        });
-      }
-
-      thumbnail = result.url;
-      var cloudinaryThumbnailId = result.public_id;
-    }
+    const cloudinaryUploadResponse = await handleCloudinaryUpdateImage(
+      req,
+      req.file,
+    );
 
     const response = await TrackRepo.create({
       title,
       url,
-      thumbnail,
-      cloudinaryThumbnailId,
+      thumbnail: cloudinaryUploadResponse.thumbnail,
+      cloudinaryThumbnailId: cloudinaryUploadResponse.cloudinaryThumbnailId,
       duration,
       genre,
       authorId: user.data._id,
@@ -69,56 +108,41 @@ async function createTrack(req, res, next) {
       likedBy,
     });
 
-    if (response.error) {
-      return res.status(500).send({
-        data: null,
-        error: response.error,
-      });
-    }
-
-    if (response.data) {
-      return res.status(201).send({
-        data: response.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, response, 201, 500);
   } catch (error) {
     next(error);
   }
 }
 
-async function editTrackInfo(req, res) {
-  let {
-    body: {
+async function getById(req, res, next) {
+  return await getAllById(req, res, TrackRepo, next);
+}
+
+async function getFavorites(req, res, next) {
+  return await getFavorite(req, res, TrackRepo, next);
+}
+
+async function patchFull(req, res, next) {
+  try {
+    const { id } = req.params;
+    let {
       title,
       thumbnail = null,
       genre = [],
       artistId = [],
       cloudinaryThumbnailId = null,
-    },
-    params: { id },
-  } = req;
+    } = req.body;
 
-  try {
-    if (req.file) {
-      const result = await uploadImageToCloudinary(
-        req.file.path,
-        cloudinaryThumbnailId,
-        "trackImages",
-      );
+    //genreExistAndCreate(res, genre, id);
 
-      if (result.error) {
-        return res.status(500).send({
-          data: null,
-          error: "Failed upload image to cloudinary",
-        });
-      }
+    const cloudinaryUploadResponse = await handleCloudinaryUpdateImage(
+      req,
+      req.file,
+      cloudinaryThumbnailId,
+    );
 
-      thumbnail = result.url;
-
-      if (!cloudinaryThumbnailId) {
-        cloudinaryThumbnailId = result.public_id;
-      }
+    if (!cloudinaryThumbnailId) {
+      cloudinaryThumbnailId = cloudinaryUploadResponse.cloudinaryThumbnailId;
     }
 
     const artists = await getArtists(JSON.parse(artistId));
@@ -133,40 +157,74 @@ async function editTrackInfo(req, res) {
       },
     );
 
-    if (track.error) {
-      return res.status(500).send({
-        data: null,
-        error: track.error,
-      });
+    return handleResponse(res, track, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+async function addToFavorite(req, res, next) {
+  return await addFavorite(req, res, TrackRepo, next);
+}
+
+async function addToPlaylist(req, res, next) {
+  try {
+    const { title } = req.body;
+    const { id } = req.params;
+
+    const playlist = await PlaylistRepo.getAll({ title });
+
+    if (playlist.error) {
+      return handleResponse(res, playlist, null, 503);
     }
 
-    if (track.data) {
-      return res.status(200).send({
-        data: track.data,
-        error: null,
-      });
-    }
+    const repo = await TrackRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $addToSet: {
+          playlists: {
+            _id: playlist.data._id,
+            date: new Date(),
+          },
+        },
+      },
+    );
+
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 
-async function getTracks(req, res) {
-  return await getAllById(req, res, TrackRepo);
+async function removeFromFavorite(req, res, next) {
+  return await removeFavorite(req, res, TrackRepo, next);
 }
 
-async function addFavoriteTrack(req, res) {
-  return await addFavorite(req, res, TrackRepo);
-}
+async function removeFromPlaylist(req, res, next) {
+  try {
+    const { title } = req.body;
+    const { id } = req.params;
 
-async function removeFavoriteTrack(req, res) {
-  return await removeFavorite(req, res, TrackRepo);
-}
+    const playlist = await PlaylistRepo.getAll({ title });
 
-async function getFavoriteTracks(req, res) {
-  return await getFavorite(req, res, TrackRepo);
+    if (playlist.error) {
+      return handleResponse(res, playlist, null, 503);
+    }
+
+    const repo = await TrackRepo.findOneAndUpdate(
+      { _id: id },
+      {
+        $pull: {
+          playlists: {
+            _id: playlist.data._id,
+          },
+        },
+      },
+    );
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
 }
 
 async function deleteTrack(req, res) {
@@ -174,11 +232,13 @@ async function deleteTrack(req, res) {
 }
 
 module.exports = {
-  createTrack,
-  editTrackInfo,
-  getTracks,
-  addFavoriteTrack,
-  removeFavoriteTrack,
-  getFavoriteTracks,
+  create,
+  patchFull,
+  getById,
+  addToFavorite,
+  addToPlaylist,
+  removeFromFavorite,
+  removeFromPlaylist,
+  getFavorites,
   deleteTrack,
 };
