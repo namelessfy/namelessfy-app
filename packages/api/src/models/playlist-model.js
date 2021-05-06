@@ -35,20 +35,12 @@ const PlaylistSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: "user",
     },
-    tracks: {
-      type: [
-        {
-          _id: {
-            type: Schema.Types.ObjectId,
-            ref: "track",
-          },
-          time: {
-            type: Date,
-          },
-        },
-      ],
-      default: [],
-    },
+    tracks: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "track",
+      },
+    ],
     likedBy: {
       type: [
         {
