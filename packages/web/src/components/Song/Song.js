@@ -28,7 +28,7 @@ import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import { setPreQueue } from "../../redux/musicPlayer/player-actions";
+import { addSongToPreQueue } from "../../redux/musicPlayer/player-actions";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
@@ -65,7 +65,7 @@ function Song({ songInfo, handleClick }) {
     ...likeFunction,
     "Add to playlist": () => setIsShowingModal(true),
     ...ownerFunction,
-    "Add to Queue": () => dispatch(setPreQueue(songInfo)),
+    "Add to Queue": () => dispatch(addSongToPreQueue(songInfo)),
   };
 
   return (

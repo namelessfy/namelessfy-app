@@ -23,8 +23,18 @@ export const setShuffle = () => ({
   type: PlayerTypes.SET_SHUFFLE,
 });
 
-export const setPreQueue = (song) => ({
+export const setQueue = (newQueue) => ({
+  type: PlayerTypes.SET_QUEUE,
+  payload: newQueue,
+});
+
+export const setPreQueue = (newQueue) => ({
   type: PlayerTypes.SET_PREQUEUE,
+  payload: newQueue,
+});
+
+export const addSongToPreQueue = (song) => ({
+  type: PlayerTypes.ADD_SONG_TO_PREQUEUE,
   payload: song,
 });
 

@@ -9,7 +9,7 @@ import {
 } from "./styles";
 import { Icon } from "../../styles/mainStyles";
 
-function SongListItem({ songInfo }) {
+function SongListItem({ songInfo, ...props }) {
   function toMinutes(time) {
     const min = Math.floor(time / 60);
     let sec = Math.round(time % 60);
@@ -18,7 +18,7 @@ function SongListItem({ songInfo }) {
   }
 
   return (
-    <SongItem>
+    <SongItem {...props}>
       <SongTitle>{songInfo.title}</SongTitle>
       <SongArtist>
         {songInfo.artistId.map((artist) => (

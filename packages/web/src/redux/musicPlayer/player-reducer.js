@@ -125,7 +125,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       };
     }
 
-    case PlayerTypes.SET_PREQUEUE: {
+    case PlayerTypes.ADD_SONG_TO_PREQUEUE: {
       return {
         ...state,
         preQueue: [...state.preQueue, action.payload],
@@ -137,6 +137,14 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         queue: action.payload,
       };
     }
+
+    case PlayerTypes.SET_PREQUEUE: {
+      return {
+        ...state,
+        preQueue: action.payload,
+      };
+    }
+
     case PlayerTypes.SET_QUEUE_AND_CURRENT_SONG: {
       if (state.isShuffle) {
         const queueShuffled = shuffle([...action.payload.queue]);
