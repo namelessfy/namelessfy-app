@@ -70,7 +70,7 @@ function PlaylistPreview({ songs, title }) {
     const list = startListByIndex(index, [...songs]);
 
     dispatch(setAutoPlay(true));
-    dispatch(setQueueAndCurrentSong(song, list));
+    dispatch(setQueueAndCurrentSong(song, list, title));
   }
 
   return (

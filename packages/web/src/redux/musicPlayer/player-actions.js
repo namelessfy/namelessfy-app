@@ -26,12 +26,13 @@ export const setShuffle = () => ({
 export const setPreQueue = (song) => ({
   type: PlayerTypes.SET_PREQUEUE,
   payload: song,
-})
+});
 
-export const setQueueAndCurrentSong = (song, queue) => ({
+export const setQueueAndCurrentSong = (song, queue, playlist) => ({
   type: PlayerTypes.SET_QUEUE_AND_CURRENT_SONG,
   payload: {
     song: song,
     queue: queue,
+    playlist: playlist,
   },
 });

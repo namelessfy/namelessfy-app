@@ -18,6 +18,7 @@ import edit from "../img/edit.svg";
 import toggleOn from "../img/toggle-on.svg";
 import toggleOff from "../img/toggle-off.svg";
 import grid from "../img/grid.svg";
+import menu from "../img/menu.svg";
 
 const icons = {
   play,
@@ -35,6 +36,7 @@ const icons = {
   toggleOn,
   toggleOff,
   grid,
+  menu,
 };
 
 const iconSizes = {

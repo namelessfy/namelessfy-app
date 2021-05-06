@@ -15,6 +15,7 @@ import UploadSong from "./pages/UploadSong";
 import EditSong from "./pages/EditSong";
 import Playlist from "./pages/Playlist";
 import CreatePlaylist from "./pages/CreatePlaylist";
+import Queue from "./pages/Queue";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -60,6 +61,7 @@ function App() {
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
         <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
         <ProtectedRoute path={ROUTES.EDIT_PLAYLIST} component={EditPlaylist} />
+        <ProtectedRoute path={ROUTES.QUEUE} component={Queue} />
         <ProtectedRoute
           path={ROUTES.CREATE_PLAYLIST}
           component={CreatePlaylist}

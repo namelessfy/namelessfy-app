@@ -7,8 +7,9 @@ export const PlayerInitialState = {
   queue: [],
   shuffleQueue: [],
   preQueue: [],
-  currentSong: {},
+  currentSong: null,
   isPrequeue: false,
+  currentPlaylist: null,
 };
 
 const PlayerReducer = (state = PlayerInitialState, action) => {
@@ -31,9 +32,9 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         const list = [...state.queue];
         const song = preQ.shift();
 
-        if (!state.isPrequeue)
-          {list.push(state.currentSong);}
-
+        if (!state.isPrequeue) {
+          list.push(state.currentSong);
+        }
 
         return {
           ...state,
@@ -48,8 +49,9 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         const list = [...state.shuffleQueue];
         const song = list.shift();
 
-        if (!state.isPrequeue)
-          {list.push(state.currentSong);}
+        if (!state.isPrequeue) {
+          list.push(state.currentSong);
+        }
 
         return {
           ...state,
@@ -62,8 +64,9 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       const list = [...state.queue];
       const song = list.shift();
 
-      if (!state.isPrequeue)
-          {list.push(state.currentSong);}
+      if (!state.isPrequeue) {
+        list.push(state.currentSong);
+      }
 
       return {
         ...state,
@@ -125,7 +128,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
     case PlayerTypes.SET_PREQUEUE: {
       return {
         ...state,
-        preQueue: [ ...state.preQueue, action.payload]
+        preQueue: [...state.preQueue, action.payload],
       };
     }
     case PlayerTypes.SET_QUEUE: {
@@ -142,12 +145,14 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
           queue: action.payload.queue,
           shuffleQueue: queueShuffled,
           currentSong: action.payload.song,
+          currentPlaylist: action.payload.playlist,
         };
       }
       return {
         ...state,
         queue: action.payload.queue,
         currentSong: action.payload.song,
+        currentPlaylist: action.payload.playlist,
       };
     }
     default: {

@@ -59,114 +59,118 @@ function MusicPlayer() {
 
   return (
     <>
-      {isCard ? (
-        <>
-          <Background
-            onClick={handleBackgroundClick}
-            id="SongPalyerCardBackground"
-          >
-            <SongPalyerCard>
-              <Thumbnail src={currentSong.thumbnail} />
-              <SongInfo card>
-                <div>
-                  <SongTitle card>
-                    <a>{currentSong.title}</a>
-                  </SongTitle>
-                  <Artists card>
-                    {currentSong.artistId.map((artist, index) => {
-                      return <a key={artist.name}> {artist.userName}</a>;
-                    })}
-                  </Artists>
-                </div>
+      {currentSong &&
+        (isCard ? (
+          <>
+            <Background
+              onClick={handleBackgroundClick}
+              id="SongPalyerCardBackground"
+            >
+              <SongPalyerCard>
+                <Thumbnail src={currentSong.thumbnail} />
+                <SongInfo card>
+                  <div>
+                    <SongTitle card>
+                      <a>{currentSong.title}</a>
+                    </SongTitle>
+                    <Artists card>
+                      {currentSong.artistId.map((artist, index) => {
+                        return <a key={artist.name}> {artist.userName}</a>;
+                      })}
+                    </Artists>
+                  </div>
+                  <Icon
+                    name={isLiked ? "heartFull" : "heartEmpty"}
+                    onClick={toggleLike}
+                    size="small"
+                  />
+                </SongInfo>
+                <Buttons card>
+                  <Icon
+                    name={isShuffle ? "randomClicked" : "random"}
+                    size="small"
+                    onClick={toggleShuffle}
+                  />
+                  <Icon name="previous" size="normal" onClick={previousSong} />
+                  <Icon
+                    name={isPlaying ? "pause" : "play"}
+                    size="large"
+                    onClick={togglePlay}
+                  />
+                  <Icon name="next" size="normal" onClick={nextSong} />
+                  <Icon name="list" size="small" />
+                </Buttons>
+                <Timer card>
+                  {convertTimeToString(currentTime)} /{" "}
+                  {convertTimeToString(currentSong.duration)}
+                </Timer>
+                <Slider
+                  type="range"
+                  min="0"
+                  max="1000"
+                  value={(currentTime * 1000) / currentSong.duration}
+                  onChange={handelSliderChange}
+                />
+                <Close onClick={() => setIsCard(false)} />
+              </SongPalyerCard>
+            </Background>
+          </>
+        ) : (
+          <>
+            <SongPalyer
+              onClick={handleSongPlayerClick}
+              id="SongPalyerBackground"
+            >
+              <LikeBackground>
                 <Icon
                   name={isLiked ? "heartFull" : "heartEmpty"}
                   onClick={toggleLike}
                   size="small"
                 />
+              </LikeBackground>
+
+              <SongInfo id="SongInfo">
+                <SongTitle>{currentSong.title}</SongTitle>
+                <Artists>
+                  {currentSong?.artistId?.map((artist, index) => {
+                    return <span key={artist.userName}>{artist.userName}</span>;
+                  })}
+                </Artists>
               </SongInfo>
-              <Buttons card>
+
+              <Buttons>
                 <Icon
                   name={isShuffle ? "randomClicked" : "random"}
-                  size="small"
+                  size="xSmall"
+                  className="songButtonsRandom"
                   onClick={toggleShuffle}
                 />
-                <Icon name="previous" size="normal" onClick={previousSong} />
+                <Icon
+                  name="previous"
+                  size="small"
+                  className="songButtonsPrevious"
+                  onClick={previousSong}
+                />
                 <Icon
                   name={isPlaying ? "pause" : "play"}
-                  size="large"
+                  size="normal"
                   onClick={togglePlay}
                 />
-                <Icon name="next" size="normal" onClick={nextSong} />
-                <Icon name="list" size="small" />
+                <Icon
+                  name="next"
+                  size="small"
+                  className="songButtonsNext"
+                  onClick={nextSong}
+                />
+                <Icon name="list" size="xSmall" className="songButtonsList" />
               </Buttons>
-              <Timer card>
+              <Timer id="songTimer">
                 {convertTimeToString(currentTime)} /{" "}
                 {convertTimeToString(currentSong.duration)}
               </Timer>
-              <Slider
-                type="range"
-                min="0"
-                max="1000"
-                value={(currentTime * 1000) / currentSong.duration}
-                onChange={handelSliderChange}
-              />
-              <Close onClick={() => setIsCard(false)} />
-            </SongPalyerCard>
-          </Background>
-        </>
-      ) : (
-        <>
-          <SongPalyer onClick={handleSongPlayerClick} id="SongPalyerBackground">
-            <LikeBackground>
-              <Icon
-                name={isLiked ? "heartFull" : "heartEmpty"}
-                onClick={toggleLike}
-                size="small"
-              />
-            </LikeBackground>
-
-            <SongInfo id="SongInfo">
-              <SongTitle>{currentSong.title}</SongTitle>
-              <Artists>
-                {currentSong.artistId.map((artist, index) => {
-                  return <span key={artist.userName}>{artist.userName}</span>;
-                })}
-              </Artists>
-            </SongInfo>
-
-            <Buttons>
-              <Icon
-                name={isShuffle ? "randomClicked" : "random"}
-                size="xSmall"
-                className="songButtonsRandom"
-                onClick={toggleShuffle}
-              />
-              <Icon
-                name="previous"
-                size="small"
-                className="songButtonsPrevious"
-                onClick={previousSong}
-              />
-              <Icon
-                name={isPlaying ? "pause" : "play"}
-                size="normal"
-                onClick={togglePlay}
-              />
-              <Icon
-                name="next"
-                size="small"
-                className="songButtonsNext"
-                onClick={nextSong}
-              />
-              <Icon name="list" size="xSmall" className="songButtonsList" />
-            </Buttons>
-            <Timer id="songTimer">
-              {convertTimeToString(currentTime)} /{" "}
-              {convertTimeToString(currentSong.duration)}
-            </Timer>
-          </SongPalyer>
-        </>
-      )}
+            </SongPalyer>
+          </>
+        ))}
     </>
   );
 }

@@ -24,7 +24,7 @@ function UserList({ button, content }) {
     const list = startListByIndex(index, [...content.elements]);
 
     dispatch(setAutoPlay(true));
-    dispatch(setQueueAndCurrentSong(song, list));
+    dispatch(setQueueAndCurrentSong(song, list, "My Songs"));
   }
   console.log(content);
   return (
