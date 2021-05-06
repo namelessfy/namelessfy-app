@@ -53,9 +53,9 @@ function handleResponse(
   errorCode = 503,
   customMessage = {},
 ) {
-  if (repoResponse.data) {
+  if (repoResponse.data || repoResponse.length >= 0) {
     return res.status(successCode).send({
-      data: customMessage.success || repoResponse.data,
+      data: customMessage.success || repoResponse.data || repoResponse,
       error: null,
     });
   }

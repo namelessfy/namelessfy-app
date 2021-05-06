@@ -25,7 +25,7 @@ playlistRouter.post(
   create,
 );
 playlistRouter.get(
-  "/playlist/favorite/:userId",
+  "/playlist/favorite/:id",
   authMiddleware,
   getFavoritePlaylists,
 );
