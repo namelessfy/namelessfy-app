@@ -10,10 +10,14 @@ import {
   setPlaylistInfo,
   deletePlaylist,
   deletePlaylistReset,
+  dislikePlaylist,
+  likePlaylist,
 } from "../../redux/playlist/playlist-actions";
 import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+
+import { isIdInList } from "../../utils/utils";
 
 import {
   PlaylistCover,
@@ -29,7 +33,7 @@ function Playlist({ playlistInfo, handleClick }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { deletePlaylistSuccess } = useSelector(playlistSelector);
+  const { deletePlaylistSuccess, myPlaylists } = useSelector(playlistSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -46,7 +50,13 @@ function Playlist({ playlistInfo, handleClick }) {
     }
   }, [deletePlaylistSuccess]);
 
-  const likeFunction = {};
+  const likeFunction = isIdInList(playlistInfo._id, myPlaylists)
+    ? {
+        "Unfollow Playlist": () => dispatch(dislikePlaylist(playlistInfo._id)),
+      }
+    : {
+        "Follow Playlist": () => dispatch(likePlaylist(playlistInfo._id)),
+      };
 
   const ownerFunction =
     currentUser._id === playlistInfo.author
@@ -57,11 +67,12 @@ function Playlist({ playlistInfo, handleClick }) {
           },
           Delete: () => dispatch(deletePlaylist(playlistInfo._id)),
         }
-      : "";
+      : {
+          ...likeFunction,
+        };
 
   const dialogueButtons = {
     Play: handleClick,
-    ...likeFunction,
     ...ownerFunction,
   };
 

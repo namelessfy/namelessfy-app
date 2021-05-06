@@ -1,5 +1,11 @@
 import * as PlaylistTypes from "./playlist-types";
-import { updateList, updateListById, removeFromList } from "../../utils/utils";
+import {
+  updateList,
+  updateListById,
+  removeFromList,
+  addToLikedList,
+  removeFromLikedList,
+} from "../../utils/utils";
 
 export const PlaylistInitialState = {
   myPlaylists: null,
@@ -20,6 +26,10 @@ export const PlaylistInitialState = {
   isDeletingPlaylist: false,
   deletePlaylistSuccess: false,
   deletePlaylistError: null,
+  isSettingLikePlaylist: false,
+  likePlaylistError: null,
+  isSettingDislikePlaylist: false,
+  dislikePlaylistError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -126,7 +136,6 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         addToPlaylistError: null,
       };
     }
-
     case PlaylistTypes.EDIT_PLAYLIST_SUCCESS: {
       return {
         ...state,
@@ -191,11 +200,54 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         deletePlaylistError: null,
       };
     }
-
     case PlaylistTypes.SET_PLAYLIST_INFO: {
       return {
         ...state,
         playlistInfo: action.payload,
+      };
+    }
+
+    case PlaylistTypes.LIKE_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isSettingLikePlaylist: false,
+        myPlaylists: addToLikedList(action.payload, [...state.myPlaylists]),
+      };
+    }
+    case PlaylistTypes.LIKE_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isSettingLikePlaylist: false,
+        likePlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.LIKE_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isSettingLikePlaylist: true,
+      };
+    }
+    case PlaylistTypes.DISLIKE_PLAYLIST_SUCCESS: {
+      const newFav = removeFromLikedList(action.payload, [
+        ...state.myPlaylists,
+      ]);
+      return {
+        ...state,
+        isSettingDislikePlaylist: false,
+        myPlaylists: newFav,
+      };
+    }
+    case PlaylistTypes.DISLIKE_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isSettingDislikePlaylist: false,
+        dislikePlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.DISLIKE_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isSettingDislikePlaylist: true,
       };
     }
 
@@ -220,6 +272,10 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isDeletingPlaylist: false,
         deletePlaylistSuccess: false,
         deletePlaylistError: null,
+        isSettingLikePlaylistPlaylist: false,
+        likePlaylistError: null,
+        isSettingDislikePlaylist: false,
+        dislikePlaylistError: null,
       };
     }
     default: {

@@ -146,12 +146,7 @@ function EditPlaylist() {
         {isEditingPlaylist && <Error>Editing playlist...</Error>}
         {editPlaylistSuccess && <Error>Edit playlist successful!</Error>}
         {editPlaylistError && <Error>{editPlaylistError}!</Error>}
-        <Button
-          type="submit"
-          form="mainForm"
-          disabled={isEditingPlaylist}
-          lastItem
-        >
+        <Button type="submit" form="mainForm" disabled={isEditingPlaylist}>
           Edit
         </Button>
         <Form id="deleteBtn" onSubmit={handleDelete}>
