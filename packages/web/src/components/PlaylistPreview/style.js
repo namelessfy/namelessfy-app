@@ -24,7 +24,7 @@ const SongsContainer = styled.div`
     margin-left: 1.5rem;
   }
   @media (max-width: 800px) {
-    padding: 0;
+    padding: 2px;
   }
   @media (max-width: 620px) {
     & > div + div {

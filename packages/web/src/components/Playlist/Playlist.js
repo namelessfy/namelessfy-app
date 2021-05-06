@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 
 import PropTypes from "prop-types";
 
+import * as ROUTES from "../../routes";
+
 import DialogueBox from "../DialogueBox";
 
 import {
@@ -13,7 +15,6 @@ import {
   dislikePlaylist,
   likePlaylist,
 } from "../../redux/playlist/playlist-actions";
-import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
@@ -29,7 +30,7 @@ import {
 
 import { Icon } from "../../styles/mainStyles";
 
-function Playlist({ playlistInfo, handleClick }) {
+function Playlist({ playlistInfo }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
@@ -71,8 +72,13 @@ function Playlist({ playlistInfo, handleClick }) {
           ...likeFunction,
         };
 
+  function handleClick() {
+    dispatch(setPlaylistInfo(playlistInfo));
+    history.push(ROUTES.PLAYLIST);
+  }
+
   const dialogueButtons = {
-    Play: handleClick,
+    "View Playlist": handleClick,
     ...ownerFunction,
   };
 
@@ -113,7 +119,6 @@ function Playlist({ playlistInfo, handleClick }) {
 
 Playlist.propTypes = {
   playlistInfo: PropTypes.object.isRequired,
-  handleClick: PropTypes.func.isRequired,
 };
 
 export default Playlist;

@@ -58,11 +58,11 @@ function EditUserForm() {
   return (
     <Formik
       initialValues={{
-        porfileImage: "",
-        userName: "",
-        firstName: "",
-        lastName: "",
-        birthday: "",
+        porfileImage: user.porfileImage,
+        userName: user.userName,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        birthday: user.birthday,
       }}
       validationSchema={Yup.object().shape({
         userName: Yup.string()
@@ -91,7 +91,6 @@ function EditUserForm() {
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
-          console.log(values);
           setSubmitting(false);
           handleEditInfoUser(
             values.porfileImage,
@@ -113,7 +112,6 @@ function EditUserForm() {
         handleBlur,
       }) => (
         <Form onSubmit={handleSubmit}>
-          {JSON.stringify(errors, null, 2)}
           <Label htmlFor="porfileImage">
             <CenterContent>
               <PorfileImage
@@ -193,7 +191,7 @@ function EditUserForm() {
           {errors.birthday && touched.birthday && (
             <ErrorInput> {errors.birthday} </ErrorInput>
           )}
-          <Button type="submit" disabled={isSubmitting} lastItem>
+          <Button type="submit" disabled={isSubmitting}>
             Save
           </Button>
           {editUserError && <Error> Error: {editUserError} </Error>}

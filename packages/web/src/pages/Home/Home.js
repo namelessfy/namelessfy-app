@@ -67,7 +67,7 @@ function Home() {
   }
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <Container>
         {favorites?.length > 0 && (

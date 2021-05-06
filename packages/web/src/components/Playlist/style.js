@@ -61,7 +61,7 @@ const PlaylistCover = styled.button`
 `;
 
 const PlaylistTitle = styled.h3`
-  font-size: 16px;
+  font-size: 18px;
   margin: -0.5rem 0 0;
   cursor: pointer;
   white-space: nowrap;
@@ -110,7 +110,7 @@ const BottomContainer = styled.div`
   padding: 0 0.2rem;
   margin-left: 0.2rem;
   display: flex;
-  align-items: start;
+  align-items: center;
   @media (max-width: 620px) {
     & #dialogueButton {
       display: none;

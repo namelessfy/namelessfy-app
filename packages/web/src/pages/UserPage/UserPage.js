@@ -14,7 +14,7 @@ function UserPage() {
   }, []);
 
   return (
-    <Main>
+    <Main marginBottom>
       <UserProfile />
     </Main>
   );

@@ -7,8 +7,8 @@ const animatedModal = keyframes`
 
 `;
 
-const ModalBackground = styled.div`
-  position: absolute;
+const ModalBackground = styled.section`
+  position: fixed;
   top: 0;
   left: 0;
   display: flex;
@@ -22,12 +22,12 @@ const ModalBackground = styled.div`
 `;
 
 const ModalHeight = 500;
-const ModalWidth = 500;
+const ModalWidth = "min(500px, 80vw)";
 
 const Modal = styled.div`
   position: relative;
-  width: ${ModalWidth}px;
-  height: ${ModalHeight}px;
+  width: ${ModalWidth};
+  max-height: ${ModalHeight}px;
   z-index: 0;
   background-color: ${colors.DARK};
   border-radius: 10px;
@@ -42,6 +42,10 @@ const ModalButton = styled.button`
   align-text: center;
   border-bottom: 2px solid ${colors.MAIN};
   font-weight: 200;
+  &:last-of-type {
+    border: none;
+  }
+
   &:hover,
   &:focus {
     outline: none;
@@ -102,7 +106,7 @@ const ModalTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${ModalWidth}px;
+  width: ${ModalWidth};
   height: 100px;
   box-shadow: 2px 2px 5px #0008;
   background-color: ${colors.MAIN};

@@ -151,7 +151,7 @@ function EditSong() {
   }
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <Title>Edit Song</Title>
       <Separation />
@@ -241,12 +241,7 @@ function EditSong() {
           Save
         </Button>
         <Form id="deleteBtn" onSubmit={handleDelete}>
-          <DeleteButton
-            type="submit"
-            form="deleteBtn"
-            disabled={isEditingSong}
-            lastItem
-          >
+          <DeleteButton type="submit" form="deleteBtn" disabled={isEditingSong}>
             Delete
           </DeleteButton>
         </Form>

@@ -89,7 +89,7 @@ function CreatePlaylist() {
   }
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <Title>Create playlist</Title>
       <Separation />
@@ -129,12 +129,7 @@ function CreatePlaylist() {
         {isCreatingPlaylist && <Error>Creating playlist...</Error>}
         {createPlaylistSuccess && <Error>Create playlist successful!</Error>}
         {createPlaylistError && <Error>{createPlaylistError}!</Error>}
-        <Button
-          type="submit"
-          form="mainForm"
-          disabled={isCreatingPlaylist}
-          lastItem
-        >
+        <Button type="submit" form="mainForm" disabled={isCreatingPlaylist}>
           Create
         </Button>
       </CenterContent>
