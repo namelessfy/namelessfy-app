@@ -68,13 +68,13 @@ function Song({ songInfo, handleClick }) {
 
   return (
     <>
-      {isShowingModal && (
-        <SelectPlaylistModal
-          songId={songInfo._id}
-          closeModal={() => setIsShowingModal(false)}
-        />
-      )}
       <SongContainer>
+        {isShowingModal && (
+          <SelectPlaylistModal
+            songId={songInfo._id}
+            closeModal={() => setIsShowingModal(false)}
+          />
+        )}
         {isShowingDialogue && (
           <DialogueBox
             x={dialoguePosition.x}

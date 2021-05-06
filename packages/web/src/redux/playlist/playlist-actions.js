@@ -134,7 +134,6 @@ export function addToPlaylist(songId, playlistId) {
       if (playlistRes.errorMessage) {
         return dispatch(addToPlaylistError(playlistRes.errorMessage));
       }
-
       return dispatch(addToPlaylistSuccess(playlistRes.data.data));
     } catch (err) {
       return dispatch(addToPlaylistError(err.message));
@@ -144,6 +143,11 @@ export function addToPlaylist(songId, playlistId) {
 
 export const addToPlaylistReset = () => ({
   type: PlaylistTypes.ADD_TO_PLAYLIST_RESET,
+});
+
+export const setPlaylisInfo = (playlist) => ({
+  type: PlaylistTypes.SET_PLAYLIST_INFO,
+  payload: playlist,
 });
 
 export const playlistReset = () => ({

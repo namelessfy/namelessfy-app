@@ -132,15 +132,12 @@ const NavButton = styled.button`
 
 const MediaContainer = styled.div`
   display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-around;
-  width: 100%;
-  margin: 0 auto;
-  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  margin-bottom: 10rem;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
   padding: 0 1rem;
 
   & > div {
@@ -154,9 +151,11 @@ const MediaContainer = styled.div`
   & > div:nth-child(5n + 1) {
     margin-left: 0rem;
   }
+  @media (max-width: 1000px) {
+    padding: 0 1.5rem;
+  }
   @media (max-width: 800px) {
     padding: 0 2rem;
-    width: fit-content;
     & > div:nth-child(5n + 1) {
       margin-left: 1.5rem;
     }
@@ -203,7 +202,7 @@ const Media = styled.div`
   width: 100%;
   height: 200px;
   border: 1px solid white;
-  justify-content: space-around;
+  /* justify-content: space-around; */
 `;
 
 const ProfileImageDefault = styled.div`

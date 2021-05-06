@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
+
+import * as ROUTES from "../../routes";
 
 import DialogueBox from "../DialogueBox";
 
@@ -12,8 +16,11 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
+import { setPlaylisInfo } from "../../redux/playlist/playlist-actions";
 
-function Playlist({ playlistInfo, handleClick }) {
+function Playlist({ playlistInfo }) {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -30,8 +37,14 @@ function Playlist({ playlistInfo, handleClick }) {
     Delete: () => {},
   };
 
+  function handleClick() {
+    console.log(playlistInfo);
+    dispatch(setPlaylisInfo(playlistInfo));
+    history.push(ROUTES.PLAYLIST);
+  }
+
   const dialogueButtons = {
-    Play: handleClick,
+    "View Playlist": handleClick,
     ...likeFunction,
     ...ownerFunction,
   };
@@ -73,7 +86,6 @@ function Playlist({ playlistInfo, handleClick }) {
 
 Playlist.propTypes = {
   playlistInfo: PropTypes.object.isRequired,
-  handleClick: PropTypes.func.isRequired,
 };
 
 export default Playlist;

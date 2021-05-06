@@ -65,11 +65,7 @@ function PlaylistList({ playlists, title }) {
       <hr />
       <PlaylistContainer>
         {shownPlaylists.map((playlist) => (
-          <Playlist
-            key={playlist._id}
-            playlistInfo={playlist}
-            handleClick={() => {}}
-          />
+          <Playlist key={playlist._id} playlistInfo={playlist} />
         ))}
       </PlaylistContainer>
     </Container>

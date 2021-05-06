@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Background, Modal } from "./style";
+import { Background, Modal, Button } from "./style";
 
 function DialogueModal({ text, confirm, cancel }) {
   return (
@@ -10,12 +10,12 @@ function DialogueModal({ text, confirm, cancel }) {
         <Modal>
           <h2>{text}</h2>
           <div>
-            <button type="button" onClick={confirm.func}>
+            <Button type="button" onClick={confirm.func}>
               {confirm.title}
-            </button>
-            <button type="button" onClick={cancel.func}>
+            </Button>
+            <Button type="button" onClick={cancel.func} cancel>
               {cancel.title}
-            </button>
+            </Button>
           </div>
         </Modal>
       </Background>

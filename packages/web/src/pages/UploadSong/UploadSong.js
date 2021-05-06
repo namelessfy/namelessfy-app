@@ -139,7 +139,7 @@ function UploadSong() {
   }
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <Title>Upload Song</Title>
       <Separation />

@@ -23,7 +23,7 @@ function EditUser() {
   }, [currentUser]);
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <EditUserForm />
     </Main>

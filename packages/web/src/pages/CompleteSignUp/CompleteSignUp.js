@@ -19,7 +19,7 @@ function CompleteSignUP() {
     return <Redirect to={ROUTES.HOME} />;
   }
   return (
-    <Main>
+    <Main marginBottom>
       <section>
         <Title>Complete Sign Up</Title>
         <Separation />

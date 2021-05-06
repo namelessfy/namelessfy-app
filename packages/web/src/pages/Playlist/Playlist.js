@@ -16,17 +16,19 @@ import {
 } from "./style";
 import { Main, Icon } from "../../styles/mainStyles";
 
-import { songSelector } from "../../redux/song/song-selectors";
 import {
   setAutoPlay,
   setQueueAndCurrentSong,
 } from "../../redux/musicPlayer/player-actions";
 import { startListByIndex } from "../../utils/playerUtils";
 import { CenterContent } from "../../styles/formStyles";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function UploadSong() {
   const dispatch = useDispatch();
-  const { mySongs } = useSelector(songSelector);
+  const { currentUser } = useSelector(userSelector);
+  const { playlistInfo } = useSelector(playlistSelector);
   const [isGrid, setIsGrid] = useState(true);
 
   function toggleGrid() {
@@ -34,32 +36,36 @@ function UploadSong() {
   }
 
   function handlePlaySong(index) {
-    const song = mySongs[index];
+    const song = playlistInfo.tracks[index];
 
-    const list = startListByIndex(index, [...mySongs]);
+    const list = startListByIndex(index, [...playlistInfo.tracks]);
 
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list));
   }
 
   return (
-    <Main>
+    <Main marginBottom>
       <Navbar />
       <CenterContent>
-        <Thumbnail src={mySongs[0].thumbnail} />
+        <Thumbnail src={playlistInfo.thumbnail} />
       </CenterContent>
       <Author>
-        by <a href="#">janpc</a>
+        by <a href="#">{playlistInfo.authorName}</a>
       </Author>
       <PlaylistInfo>
         <div>
           <p>618 songs</p>
           <p>1854 minutes</p>
         </div>
-        <Icon name="heartFull" size="small" />
+        {playlistInfo.author === currentUser._id ? (
+          <Icon name="edit" size="small" />
+        ) : (
+          <Icon name="heartFull" size="small" />
+        )}
       </PlaylistInfo>
       <TitleContainer>
-        <Title>My Songs</Title>
+        <Title>{playlistInfo.title}</Title>
         <ToggleContainer>
           <Icon
             name={isGrid ? "toggleOn" : "toggleOff"}
@@ -75,7 +81,7 @@ function UploadSong() {
       </TitleContainer>
       <Separation />
       <SongsContainer>
-        {mySongs?.map((song, index) => (
+        {playlistInfo.tracks.map((song, index) => (
           <Song
             key={song._id}
             songInfo={song}

@@ -13,6 +13,7 @@ export const PlaylistInitialState = {
   isAddingToPlaylist: false,
   addToPlaylistSuccess: false,
   addToPlaylistError: null,
+  playlistInfo: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -119,6 +120,12 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         addToPlaylistError: null,
       };
     }
+    case PlaylistTypes.SET_PLAYLIST_INFO: {
+      return {
+        ...state,
+        playlistInfo: action.payload,
+      };
+    }
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -133,6 +140,7 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isAddingToPlaylist: false,
         addToPlaylistSuccess: false,
         addToPlaylistError: null,
+        playlistInfo: null,
       };
     }
     default: {
