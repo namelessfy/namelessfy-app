@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AiOutlineCloseCircle } from "react-icons/ai";
+/* import { AiOutlineCloseCircle } from "react-icons/ai"; */
 
 import { signOut } from "../../redux/auth/auth-actions";
 import { userSelector } from "../../redux/user/user-selectors";
@@ -26,6 +26,7 @@ import {
 import { Button, CenterContent } from "../../styles/formStyles";
 
 import PlaylistPreview from "../PlaylistPreview";
+import { Icon } from "../../styles/mainStyles";
 
 function Menu({ show, close }) {
   const dispatch = useDispatch();
@@ -72,9 +73,12 @@ function Menu({ show, close }) {
     <>
       <Back isShowing={show} onClick={handleBackClick} id="back">
         <Background isShowing={show}>
-          <CloseContainer>
-            <AiOutlineCloseCircle type="button" id="back" onClick={close} />
-          </CloseContainer>
+          {
+            <CloseContainer>
+              {/* <AiOutlineCloseCircle type="button" id="back" onClick={close} /> */}
+              <Icon type="button" name="close" size="small" onClick={close} />
+            </CloseContainer>
+          }
           <CenterContent>
             <RowDiv>
               <Link to="/user-page">

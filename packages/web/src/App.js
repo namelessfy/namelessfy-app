@@ -21,6 +21,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
+import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
 
 function App() {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ function App() {
         <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
         <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
+        <ProtectedRoute path={ROUTES.EDIT_PLAYLIST} component={EditPlaylist} />
         <ProtectedRoute
           path={ROUTES.CREATE_PLAYLIST}
           component={CreatePlaylist}

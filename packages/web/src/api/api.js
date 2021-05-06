@@ -110,6 +110,39 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function editPlaylistById(headers, body, id) {
+    return request({
+      url: `/playlist/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: body,
+    });
+  }
+
+  function deletePlaylistById(headers, id) {
+    return request({
+      url: `/playlist/${id}`,
+      requestMethod: "DELETE",
+      headers: headers,
+    });
+  }
+
+  function likePlaylist(headers, id) {
+    return request({
+      url: `/playlist/favorite/add/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+    });
+  }
+
+  function dislikePlaylist(headers, id) {
+    return request({
+      url: `/playlist/favorite/remove/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -124,6 +157,10 @@ function makeApi(request = makeRequest()) {
     createPlaylist: createPlaylist,
     getFavoritePlaylists: getFavoritePlaylists,
     addSongToPlaylist: addSongToPlaylist,
+    editPlaylistById: editPlaylistById,
+    deletePlaylistById: deletePlaylistById,
+    likePlaylist: likePlaylist,
+    dislikePlaylist: dislikePlaylist,
   };
 }
 

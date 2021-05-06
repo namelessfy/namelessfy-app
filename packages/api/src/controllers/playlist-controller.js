@@ -190,18 +190,13 @@ async function editPlaylistInfo(req, res, next) {
     const { id } = req.params;
     let {
       title,
-      type,
       publicAccessible = true,
-      tracks = [],
       cloudinaryThumbnailId = null,
       thumbnail = null,
     } = req.body;
 
     isTitleMissing(res, title);
 
-    if (tracks.length > 0) {
-      tracks = JSON.parse(tracks);
-    }
     const cloudinaryUpdateResponse = await handleCloudinaryUpdateImage(
       res,
       req.file,
@@ -214,24 +209,18 @@ async function editPlaylistInfo(req, res, next) {
 
     thumbnail = cloudinaryUpdateResponse.thumbnail;
 
-    const user = await UserRepo.findOne({ firebase_id: id });
-
-    if (user.error) {
-      return handleResponse(res, user, null, 400);
-    }
-
-    const playlist = await PlaylistRepo.findOneAndUpdate(
-      { _id: id },
-      {
-        title,
-        thumbnail,
-        cloudinaryThumbnailId,
-        type,
-        publicAccessible,
-        author: user.data._id,
-        tracks,
-      },
-    );
+    const query = thumbnail
+      ? {
+          title,
+          thumbnail,
+          cloudinaryThumbnailId,
+          publicAccessible,
+        }
+      : {
+          title,
+          publicAccessible,
+        };
+    const playlist = await PlaylistRepo.findOneAndUpdate({ _id: id }, query);
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {

@@ -31,7 +31,12 @@ playlistRouter.get(
 );
 playlistRouter.get("/playlist/:playlistId", authMiddleware, getOnePlaylist);
 
-playlistRouter.patch("/playlist/:id", authMiddleware, editPlaylistInfo);
+playlistRouter.patch(
+  "/playlist/:id",
+  authMiddleware,
+  upload.single("playlistImage"),
+  editPlaylistInfo,
+);
 
 playlistRouter.patch(
   "/playlist/favorite/add/:id",
