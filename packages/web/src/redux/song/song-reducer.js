@@ -13,7 +13,7 @@ export const SongInitialState = {
   favorites: [],
   setFavoritesError: null,
   isGettingFavorites: false,
-  isSettinLike: false,
+  isSettingLike: false,
   likeError: null,
   isSettingDislike: false,
   dislikeError: null,
@@ -128,7 +128,7 @@ const SongReducer = (state = SongInitialState, action) => {
     case SongTypes.LIKE_REQUEST: {
       return {
         ...state,
-        isSettinLike: true,
+        isSettingLike: true,
       };
     }
     case SongTypes.DISLIKE_SUCCESS: {
@@ -217,7 +217,7 @@ const SongReducer = (state = SongInitialState, action) => {
         favorites: [],
         setFavoritesError: null,
         isGettingFavorites: false,
-        isSettinLike: false,
+        isSettingLike: false,
         likeError: null,
         isSettingDislike: false,
         dislikeError: null,

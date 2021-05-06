@@ -1,5 +1,6 @@
 import * as PlaylistTypes from "./playlist-types";
 import api from "../../api";
+import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
 
 export const createPlaylistRequest = () => ({
@@ -123,7 +124,7 @@ export function addToPlaylist(songId, playlistId) {
         return dispatch(addToPlaylistError("User token null!"));
       }
 
-      const playlistRes = await api.addSongToPlaylist(
+      const playlistRes = await api.addPlaylistToPlaylist(
         {
           Authorization: `Bearer ${userToken}`,
         },
@@ -194,8 +195,129 @@ export const editPlaylistReset = () => ({
   type: PlaylistTypes.EDIT_PLAYLIST_RESET,
 });
 
+export const deletePlaylistRequest = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_REQUEST,
+});
+
+export const deletePlaylistError = (message) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const deletePlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function deletePlaylist(id) {
+  return async function deletePlaylistThunk(dispatch) {
+    dispatch(deletePlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(deletePlaylistError("User token null!"));
+      }
+
+      const playlistRes = await api.deletePlaylistById(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        id,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(deletePlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(deletePlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(deletePlaylistError(err.message));
+    }
+  };
+}
+
+export const deletePlaylistReset = () => ({
+  type: PlaylistTypes.DELETE_PLAYLIST_RESET,
+});
+
 export const setPlaylistInfo = (playlist) => ({
   type: PlaylistTypes.SET_PLAYLIST_INFO,
+  payload: playlist,
+});
+
+export const likePlaylist = (id) => {
+  return async function likePlaylistThunk(dispatch) {
+    dispatch(likePlaylistRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(likePlaylistError("Error Getting the token"));
+    }
+
+    const response = await api.likePlaylist(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      id,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(likePlaylistError(response.errorMessage));
+    }
+
+    return dispatch(likePlaylistSuccess(response.data.data));
+  };
+};
+
+export const likePlaylistRequest = () => ({
+  type: PlaylistTypes.LIKE_PLAYLIST_REQUEST,
+});
+
+export const likePlaylistError = (error) => ({
+  type: PlaylistTypes.LIKE_PLAYLIST_ERROR,
+  payload: error,
+});
+
+export const likePlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.LIKE_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export const dislikePlaylist = (id) => {
+  return async function dislikePlaylistThunk(dispatch) {
+    dispatch(dislikePlaylistRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(dislikePlaylistError("Error Getting the token"));
+    }
+
+    const response = await api.dislikePlaylist(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      id,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(dislikePlaylistError(response.errorMessage));
+    }
+
+    return dispatch(dislikePlaylistSuccess(response.data.data));
+  };
+};
+
+export const dislikePlaylistRequest = () => ({
+  type: PlaylistTypes.DISLIKE_PLAYLIST_REQUEST,
+});
+
+export const dislikePlaylistError = (error) => ({
+  type: PlaylistTypes.DISLIKE_PLAYLIST_ERROR,
+  payload: error,
+});
+
+export const dislikePlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.DISLIKE_PLAYLIST_SUCCESS,
   payload: playlist,
 });
 
