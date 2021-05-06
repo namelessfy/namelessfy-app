@@ -1,6 +1,6 @@
 const { UserRepo, PlaylistRepo } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
-const { orderByLikedBy, handleResponse } = require("../utils/utils");
+const { handleResponse } = require("../utils/utils");
 const {
   addFavorite,
   removeFavorite,
@@ -117,41 +117,39 @@ async function create(req, res, next) {
 async function getFavoritePlaylists(req, res, next) {
   try {
     const { uid } = req.user;
-    let { userId } = req.params;
-    let query = {
-      "likedBy._id": userId,
+    let { id } = req.params;
+    let firebase_id = id === "me" ? uid : id;
+
+    const user = await UserRepo.findOne({ firebase_id });
+
+    id = user.data._id;
+
+    let defaultQuery = {
+      "likedBy._id": id,
       publicAccessible: true,
       type: "Playlist",
     };
 
-    if (userId === "me") {
-      const user = await UserRepo.findOne({ firebase_id: uid });
+    let meQuery = {
+      $or: [
+        defaultQuery,
+        {
+          author: id,
+          publicAccessible: false,
+          type: "Playlist",
+        },
+      ],
+    };
 
-      userId = user.data._id;
+    let query = id === "me" ? meQuery : defaultQuery;
 
-      query = {
-        $or: [
-          {
-            publicAccessible: true,
-            "likedBy._id": userId,
-            type: "Playlist",
-          },
-          {
-            publicAccessible: false,
-            author: userId,
-            type: "Playlist",
-          },
-        ],
-      };
+    const playlists = await PlaylistRepo.getAll(query, ["tracks"]);
+
+    if (playlists.error) {
+      return handleResponse(res, playlists, null, 500);
     }
 
-    const playlists = await PlaylistRepo.getAll(query);
-
-    if (playlists.data) {
-      playlists.data.sort((a, b) => orderByLikedBy(a, b, userId));
-    }
-
-    return handleResponse(res, playlists, 200, 503);
+    return handleResponse(res, playlists, 200, 500);
   } catch (error) {
     next(error);
   }
@@ -271,7 +269,7 @@ async function deletePlaylist(req, res) {
   return await deleteById(req, res, PlaylistRepo);
 }
 
-async function addSongToPlaylist(req, res) {
+async function addSongToPlaylist(req, res, next) {
   const {
     body: { songId },
     params: { id },
@@ -282,28 +280,14 @@ async function addSongToPlaylist(req, res) {
       { _id: id },
       {
         $push: {
-          tracks: [{ _id: songId, time: new Date() }],
+          tracks: [songId],
         },
       },
     );
 
-    if (playlist.error) {
-      return res.status(500).send({
-        data: null,
-        error: playlist.error,
-      });
-    }
-
-    if (playlist.data) {
-      return res.status(200).send({
-        data: playlist.data,
-        error: null,
-      });
-    }
+    return handleResponse(res, playlist, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
   }
 }
 

@@ -1,6 +1,14 @@
 const db = require("../models");
 const normalizeDBQuery = require("../utils/normalizeDBQuery");
 
+function populate(query, populators) {
+  populators?.forEach((_) => {
+    query.populate(_);
+  });
+
+  return query;
+}
+
 class AbstractRepository {
   constructor(repo) {
     this.repo = repo;
@@ -10,15 +18,19 @@ class AbstractRepository {
     return normalizeDBQuery(db[this.repo].create(options));
   }
 
-  getAll(query) {
-    return normalizeDBQuery(db[this.repo].find(query));
+  getAll(query, populators) {
+    let toNormalizeQuery = populate(db[this.repo].find(query), populators);
+
+    return normalizeDBQuery(toNormalizeQuery);
   }
 
-  getOne(query) {
-    return normalizeDBQuery(db[this.repo].findOne(query));
+  getOne(query, populators) {
+    let toNormalizeQuery = populate(db[this.repo].findOne(query), populators);
+
+    return normalizeDBQuery(toNormalizeQuery);
   }
 
-  async findOneAndUpdate(query, data) {
+  async findOneAndUpdate(query, data, populators) {
     const response = await normalizeDBQuery(
       db[this.repo].findByIdAndUpdate(query, data),
     );
@@ -26,7 +38,9 @@ class AbstractRepository {
     if (response.error) {
       return response;
     } else {
-      return normalizeDBQuery(db[this.repo].findOne(query));
+      let toNormalizeQuery = populate(db[this.repo].findOne(query), populators);
+
+      return normalizeDBQuery(toNormalizeQuery);
     }
   }
 
