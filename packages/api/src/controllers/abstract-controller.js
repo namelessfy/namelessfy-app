@@ -5,118 +5,7 @@ const {
   handleResponse,
 } = require("../utils/utils");
 
-async function getAllById(req, res, Repository) {
-  const { uid } = req.user;
-
-  if (req.params.userId === "me") {
-    const user = await UserRepo.findOne({ firebase_id: uid });
-
-    req.params.userId = user.data._id;
-  }
-
-  try {
-    const repo = await Repository.getAll({
-      "artistId._id": req.params.userId,
-    });
-
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      repo.data.sort(orderSongs);
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
-}
-
-async function fetchAll(req, res, Repository) {
-  const repo = await Repository.getAll();
-
-  try {
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
-}
-
-async function getById(req, res, Repository) {
-  const { id } = req;
-
-  try {
-    const repo = await Repository.getAll({ id });
-
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
-}
-
-async function getByName(req, res, Repository) {
-  const { name } = req;
-
-  try {
-    const repo = await Repository.getAll({ name });
-
-    if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
-    }
-
-    if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
-    }
-  } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
-  }
-}
-
-async function getFavorite(req, res, Repository, next) {
+async function getAllById(req, res, Repository, next) {
   try {
     const { uid } = req.user;
 
@@ -126,14 +15,12 @@ async function getFavorite(req, res, Repository, next) {
       req.params.userId = user.data._id;
     }
 
-    const repo = await Repository.getAll({ "likedBy._id": req.params.userId });
-
-    if (repo.error) {
-      return handleResponse(res, repo, null, 500);
-    }
+    const repo = await Repository.getAll({
+      "artistId._id": req.params.userId,
+    });
 
     if (repo.data) {
-      repo.data.sort((a, b) => orderByLikedBy(a, b, req.params.userId));
+      repo.data.sort(orderSongs);
     }
 
     return handleResponse(res, repo, 200, 500);
@@ -141,32 +28,76 @@ async function getFavorite(req, res, Repository, next) {
     next(error);
   }
 }
-async function editInfo(req, res, Repository) {
-  const {
-    body: data,
-    params: { id },
-  } = req;
 
+async function fetchAll(req, res, Repository, next) {
   try {
-    const repo = await Repository.findOneAndUpdate({ _id: id }, data);
+    const repo = await Repository.getAll();
+
+    return handleResponse(res, repo);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getById(req, res, Repository, next) {
+  try {
+    const { id } = req;
+
+    const repo = await Repository.getAll({ id });
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getByName(req, res, Repository, next) {
+  try {
+    const { name } = req;
+
+    const repo = await Repository.getAll({ name });
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getFavorite(req, res, Repository, next) {
+  try {
+    const { uid } = req.user;
+    let { id } = req.params;
+    let firebase_id = id === "me" ? uid : id;
+
+    const user = await UserRepo.findOne({ firebase_id });
+
+    id = user.data._id;
+
+    const repo = await Repository.getAll({ "likedBy._id": id });
 
     if (repo.error) {
-      return res.status(500).send({
-        data: null,
-        error: repo.error,
-      });
+      return handleResponse(res, repo, null, 500);
     }
 
     if (repo.data) {
-      return res.status(200).send({
-        data: repo.data,
-        error: null,
-      });
+      repo.data.sort((a, b) => orderByLikedBy(a, b, id));
     }
+
+    return handleResponse(res, repo, 200, 500);
   } catch (error) {
-    res.status(500).send({
-      error: error.message,
-    });
+    next(error);
+  }
+}
+
+async function editInfo(req, res, Repository, next) {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    const repo = await Repository.findOneAndUpdate({ _id: id }, data);
+
+    return handleResponse(res, repo, 200, 500);
+  } catch (error) {
+    next(error);
   }
 }
 
@@ -227,13 +158,13 @@ async function removeFavorite(req, res, Repository, next) {
   }
 }
 
-async function deleteById(req, res, Repository) {
+async function deleteById(req, res, Repository, next) {
   try {
     const response = await Repository.findOneAndDelete({ _id: req.params.id });
 
     return handleResponse(res, response, 200, 400);
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    next(error);
   }
 }
 
