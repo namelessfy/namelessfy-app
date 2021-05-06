@@ -27,10 +27,12 @@ import {
 import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Song({ songInfo, handleClick }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { currentSong } = useSelector(playerSelector);
   const { favorites } = useSelector(songSelector);
   const { currentUser } = useSelector(userSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
@@ -54,8 +56,11 @@ function Song({ songInfo, handleClick }) {
       }
     : "";
 
+  const playFunction =
+    songInfo._id === currentSong._id ? "" : { Play: handleClick };
+
   const dialogueButtons = {
-    Play: handleClick,
+    ...playFunction,
     ...likeFunction,
     "Add to playlist": () => setIsShowingModal(true),
     ...ownerFunction,
@@ -63,13 +68,13 @@ function Song({ songInfo, handleClick }) {
 
   return (
     <>
-      {isShowingModal && (
-        <SelectPlaylistModal
-          songId={songInfo._id}
-          closeModal={() => setIsShowingModal(false)}
-        />
-      )}
       <SongContainer>
+        {isShowingModal && (
+          <SelectPlaylistModal
+            songId={songInfo._id}
+            closeModal={() => setIsShowingModal(false)}
+          />
+        )}
         {isShowingDialogue && (
           <DialogueBox
             x={dialoguePosition.x}

@@ -197,7 +197,7 @@ const SongReducer = (state = SongInitialState, action) => {
         isUploadingSong: false,
         uploadSongSuccess: true,
         uploadSongError: null,
-        mySongs: [...state.mySongs, action.payload],
+        mySongs: [action.payload, ...state.mySongs],
       };
     }
     case SongTypes.UPLOAD_SONG_RESET: {

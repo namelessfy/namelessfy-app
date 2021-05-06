@@ -28,14 +28,17 @@ function PlaylistPreview({ songs, title }) {
   const [songsPerPage, setSongsPerPage] = useState(5);
 
   const isBigScreen = useMediaQuery({ minWidth: 800 });
+  const isSmallScreen = useMediaQuery({ maxWidth: 350 });
 
   useEffect(() => {
     if (isBigScreen) {
       setSongsPerPage(5);
+    } else if (isSmallScreen) {
+      setSongsPerPage(3);
     } else {
       setSongsPerPage(4);
     }
-  }, [isBigScreen, page]);
+  }, [isBigScreen, isSmallScreen, page]);
 
   useEffect(() => {
     const songsToShow = songs.slice(
@@ -76,7 +79,10 @@ function PlaylistPreview({ songs, title }) {
         <Title>{title}</Title>
         <Buttons>
           <Icon name="previous" onClick={handlePreviousPage} size="xSmall" />
-          {page}/{Math.floor(songs.length / songsPerPage) + 1}
+          {page}/
+          {songs.length % songsPerPage === 0
+            ? songs.length / songsPerPage
+            : Math.floor(songs.length / songsPerPage) + 1}
           <Icon name="next" onClick={handleNextPage} size="xSmall" />
         </Buttons>
       </TitleContainer>

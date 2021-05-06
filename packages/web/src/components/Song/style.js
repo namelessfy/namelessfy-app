@@ -87,20 +87,20 @@ const SongCover = styled.button`
   }
 
   @media (max-width: 800px) {
-    width: ${calculateContainerWidht4SongsResponsiveBig};
-    height: ${calculateContainerWidht4SongsResponsiveBig};
+    width: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
   }
   @media (max-width: 620px) {
-    width: ${calculateContainerWidht4SongsResponsiveNormal};
-    height: ${calculateContainerWidht4SongsResponsiveNormal};
+    width: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
   }
   @media (max-width: 500px) {
-    width: ${calculateContainerWidht4SongsResponsiveSmall};
-    height: ${calculateContainerWidht4SongsResponsiveSmall};
+    width: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
+    height: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
   }
   @media (max-width: 350px) {
-    width: ${calculateContainerWidht3SongsResponsive};
-    height: ${calculateContainerWidht3SongsResponsive};
+    width: calc(${calculateContainerWidht3SongsResponsive} - 2px);
+    height: calc(${calculateContainerWidht3SongsResponsive} - 2px);
   }
 `;
 

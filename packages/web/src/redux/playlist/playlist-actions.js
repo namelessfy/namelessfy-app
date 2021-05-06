@@ -135,7 +135,6 @@ export function addToPlaylist(songId, playlistId) {
       if (playlistRes.errorMessage) {
         return dispatch(addToPlaylistError(playlistRes.errorMessage));
       }
-
       return dispatch(addToPlaylistSuccess(playlistRes.data.data));
     } catch (err) {
       return dispatch(addToPlaylistError(err.message));
@@ -171,7 +170,6 @@ export function editPlaylist(formData, id) {
       if (!userToken) {
         return dispatch(editPlaylistError("User token null!"));
       }
-      console.log(...formData.entries());
       const playlistRes = await api.editPlaylistById(
         {
           Authorization: `Bearer ${userToken}`,
