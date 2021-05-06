@@ -1,11 +1,24 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import PropTypes from "prop-types";
 
 import * as ROUTES from "../../routes";
 
 import DialogueBox from "../DialogueBox";
+
+import {
+  setPlaylistInfo,
+  deletePlaylist,
+  deletePlaylistReset,
+  dislikePlaylist,
+  likePlaylist,
+} from "../../redux/playlist/playlist-actions";
+import { userSelector } from "../../redux/user/user-selectors";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+
+import { isIdInList } from "../../utils/utils";
 
 import {
   PlaylistCover,
@@ -16,11 +29,12 @@ import {
 } from "./style";
 
 import { Icon } from "../../styles/mainStyles";
-import { setPlaylisInfo } from "../../redux/playlist/playlist-actions";
 
 function Playlist({ playlistInfo }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { currentUser } = useSelector(userSelector);
+  const { deletePlaylistSuccess, myPlaylists } = useSelector(playlistSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -30,22 +44,41 @@ function Playlist({ playlistInfo }) {
     setIsShowingDialogue(true);
   }
 
-  const likeFunction = {};
+  useEffect(() => {
+    if (deletePlaylistSuccess) {
+      dispatch(deletePlaylistReset());
+      history.push(ROUTES.USER_PAGE);
+    }
+  }, [deletePlaylistSuccess]);
 
-  const ownerFunction = {
-    Edit: () => {},
-    Delete: () => {},
-  };
+  const likeFunction = isIdInList(playlistInfo._id, myPlaylists)
+    ? {
+        "Unfollow Playlist": () => dispatch(dislikePlaylist(playlistInfo._id)),
+      }
+    : {
+        "Follow Playlist": () => dispatch(likePlaylist(playlistInfo._id)),
+      };
+
+  const ownerFunction =
+    currentUser._id === playlistInfo.author
+      ? {
+          Edit: () => {
+            dispatch(setPlaylistInfo(playlistInfo));
+            history.push(ROUTES.EDIT_PLAYLIST);
+          },
+          Delete: () => dispatch(deletePlaylist(playlistInfo._id)),
+        }
+      : {
+          ...likeFunction,
+        };
 
   function handleClick() {
-    console.log(playlistInfo);
-    dispatch(setPlaylisInfo(playlistInfo));
+    dispatch(setPlaylistInfo(playlistInfo));
     history.push(ROUTES.PLAYLIST);
   }
 
   const dialogueButtons = {
     "View Playlist": handleClick,
-    ...likeFunction,
     ...ownerFunction,
   };
 

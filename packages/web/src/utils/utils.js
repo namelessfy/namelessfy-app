@@ -41,4 +41,45 @@ function updateListById(item, list) {
   return newList;
 }
 
-export { hasUserAllInfo, haveUsersSameInfo, updateList, updateListById };
+function removeFromList(item, list) {
+  const newList = [...list];
+  const index = newList.findIndex((element) => element._id === item._id);
+  if (index !== -1) {
+    newList.splice(index, 1);
+  }
+  return [...newList];
+}
+
+function addToLikedList(item, likedList) {
+  const newList = [...likedList];
+  const index = newList.findIndex((element) => element._id === item._id);
+  if (index === -1) {
+    return [item, ...newList];
+  }
+  return newList;
+}
+
+function removeFromLikedList(item, likedList) {
+  const newList = [...likedList];
+  const index = newList.findIndex((element) => element._id === item._id);
+  if (index !== -1) {
+    newList.splice(index, 1);
+  }
+  return [...newList];
+}
+
+function isIdInList(id, List) {
+  const index = List.findIndex((element) => element._id === id);
+  return index !== -1;
+}
+
+export {
+  hasUserAllInfo,
+  haveUsersSameInfo,
+  updateList,
+  updateListById,
+  removeFromList,
+  addToLikedList,
+  removeFromLikedList,
+  isIdInList,
+};
