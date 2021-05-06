@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import Song from "../../components/Song";
+
+import * as ROUTES from "../../routes";
 
 import {
   SongsContainer,
@@ -24,11 +27,18 @@ import { startListByIndex } from "../../utils/playerUtils";
 import { CenterContent } from "../../styles/formStyles";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
+import {
+  dislikePlaylist,
+  likePlaylist,
+  setPlaylistInfo,
+} from "../../redux/playlist/playlist-actions";
+import { isIdInList } from "../../utils/favoritesUtils";
 
 function UploadSong() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { playlistInfo } = useSelector(playlistSelector);
+  const { playlistInfo, myPlaylists } = useSelector(playlistSelector);
   const [isGrid, setIsGrid] = useState(true);
 
   function toggleGrid() {
@@ -42,6 +52,27 @@ function UploadSong() {
 
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list));
+  }
+
+  function editPlaylist() {
+    dispatch(setPlaylistInfo(playlistInfo));
+    history.push(ROUTES.EDIT_PLAYLIST);
+  }
+
+  function dislike() {
+    dispatch(dislikePlaylist(playlistInfo._id));
+  }
+
+  function like() {
+    dispatch(likePlaylist(playlistInfo._id));
+  }
+
+  function heartFunction() {
+    return isIdInList(playlistInfo._id, myPlaylists) ? (
+      <Icon name="heartFull" size="small" onClick={dislike} />
+    ) : (
+      <Icon name="heartEmpty" size="small" onClick={like} />
+    );
   }
 
   return (
@@ -59,9 +90,9 @@ function UploadSong() {
           <p>1854 minutes</p>
         </div>
         {playlistInfo.author === currentUser._id ? (
-          <Icon name="edit" size="small" />
+          <Icon name="edit" size="small" onClick={editPlaylist} />
         ) : (
-          <Icon name="heartFull" size="small" />
+          heartFunction()
         )}
       </PlaylistInfo>
       <TitleContainer>
