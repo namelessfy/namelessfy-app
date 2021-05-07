@@ -137,6 +137,13 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
     }
 
     case PlayerTypes.ADD_SONG_TO_PREQUEUE: {
+      if (!state.currentSong) {
+        return {
+          ...state,
+          currentSong: action.payload,
+          autoPlay: true,
+        };
+      }
       return {
         ...state,
         preQueue: [...state.preQueue, action.payload],

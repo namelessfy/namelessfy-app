@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import * as COLORS from "../../styles/colors";
 
+const SongList = styled.ul`
+  width: 100%;
+`;
+
 const SongItem = styled.li`
   display: flex;
   flex-direction: row;
@@ -44,7 +48,9 @@ const SongDuration = styled.div`
 
 const Icontainer = styled.div`
   width: 12.5%;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 `;
 
-export { SongItem, SongTitle, SongArtist, SongDuration, Icontainer };
+export { SongList, SongItem, SongTitle, SongArtist, SongDuration, Icontainer };
