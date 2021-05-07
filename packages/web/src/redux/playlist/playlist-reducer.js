@@ -15,11 +15,14 @@ export const PlaylistInitialState = {
   isGettingMyPlaylists: false,
   getPlaylistsError: null,
   getPlaylistsSuccess: false,
+  playlistInfo: null,
+  isGettingOnePlaylist: false,
+  getOnePlaylistError: null,
+  getOnePlaylistSuccess: false,
   cacheSongId: null,
   isAddingToPlaylist: false,
   addToPlaylistSuccess: false,
   addToPlaylistError: null,
-  playlistInfo: null,
   isEditingPlaylist: false,
   editPlaylistSuccess: false,
   editPlaylistError: null,
@@ -30,6 +33,9 @@ export const PlaylistInitialState = {
   likePlaylistError: null,
   isSettingDislikePlaylist: false,
   dislikePlaylistError: null,
+  isRemoving: false,
+  removeSuccess: false,
+  removeError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -96,6 +102,38 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isGettingMyPlaylists: false,
         getPlaylistsSuccess: false,
         getPlaylistsError: null,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: true,
+        playlistInfo: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isGettingOnePlaylist: true,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
       };
     }
     case PlaylistTypes.SET_CACHE_SONG_ID: {
@@ -251,6 +289,41 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
       };
     }
 
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: true,
+        playlistInfo: action.payload,
+        myPlaylists: updateListById(action.payload, [...state.myPlaylists]),
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isRemoving: true,
+        removeSuccess: false,
+        removeError: null,
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: action.payload,
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: null,
+      };
+    }
+
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -266,6 +339,9 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         addToPlaylistSuccess: false,
         addToPlaylistError: null,
         playlistInfo: null,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
         isEditingPlaylist: false,
         editPlaylistSuccess: false,
         editPlaylistError: null,
@@ -276,6 +352,9 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         likePlaylistError: null,
         isSettingDislikePlaylist: false,
         dislikePlaylistError: null,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: null,
       };
     }
     default: {

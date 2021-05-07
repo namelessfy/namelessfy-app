@@ -14,7 +14,10 @@ import {
   deletePlaylistReset,
   dislikePlaylist,
   likePlaylist,
+  editPlaylistReset,
 } from "../../redux/playlist/playlist-actions";
+import { deleteSongReset } from "../../redux/song/song-actions";
+
 import { userSelector } from "../../redux/user/user-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
@@ -73,8 +76,10 @@ function Playlist({ playlistInfo }) {
         };
 
   function handleClick() {
-    dispatch(setPlaylistInfo(playlistInfo));
-    history.push(ROUTES.PLAYLIST);
+    dispatch(deleteSongReset());
+    dispatch(editPlaylistReset());
+    dispatch(setPlaylistInfo(null));
+    history.push(`${ROUTES.PLAYLIST}/${playlistInfo._id}`);
   }
 
   const dialogueButtons = {

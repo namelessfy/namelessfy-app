@@ -1,4 +1,5 @@
 import { shuffle, startListByIndex } from "../../utils/playerUtils";
+import { deleteAllInstancesFromList } from "../../utils/utils";
 import * as PlayerTypes from "./player-types";
 
 export const PlayerInitialState = {
@@ -10,6 +11,7 @@ export const PlayerInitialState = {
   currentSong: null,
   isPrequeue: false,
   currentPlaylist: null,
+  isCurrentSongDeleted: false,
 };
 
 const PlayerReducer = (state = PlayerInitialState, action) => {
@@ -32,7 +34,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         const list = [...state.queue];
         const song = preQ.shift();
 
-        if (!state.isPrequeue) {
+        if (!state.isPrequeue && !state.isCurrentSongDeleted) {
           list.push(state.currentSong);
         }
 
@@ -42,6 +44,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
           queue: list,
           preQueue: preQ,
           isPrequeue: true,
+          isCurrentSongDeleted: false,
         };
       }
 
@@ -49,7 +52,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         const list = [...state.shuffleQueue];
         const song = list.shift();
 
-        if (!state.isPrequeue) {
+        if (!state.isPrequeue && !state.isCurrentSongDeleted) {
           list.push(state.currentSong);
         }
 
@@ -58,13 +61,14 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
           currentSong: song,
           shuffleQueue: list,
           isPrequeue: false,
+          isCurrentSongDeleted: false,
         };
       }
 
       const list = [...state.queue];
       const song = list.shift();
 
-      if (!state.isPrequeue) {
+      if (!state.isPrequeue && !state.isCurrentSongDeleted) {
         list.push(state.currentSong);
       }
 
@@ -73,27 +77,34 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         currentSong: song,
         queue: list,
         isPrequeue: false,
+        isCurrentSongDeleted: false,
       };
     }
 
     case PlayerTypes.PREVIOUS_SONG: {
       if (state.isShuffle) {
-        const list = [state.currentSong, ...state.shuffleQueue];
+        const list = state.isCurrentSongDeleted
+          ? state.shuffleQueue
+          : [state.currentSong, ...state.shuffleQueue];
         const song = list.pop();
 
         return {
           ...state,
           currentSong: song,
           shuffleQueue: list,
+          isCurrentSongDeleted: false,
         };
       }
-      const list = [state.currentSong, ...state.queue];
-      const song = list.pop();
 
+      const list = state.isCurrentSongDeleted
+        ? state.queue
+        : [state.currentSong, ...state.queue];
+      const song = list.pop();
       return {
         ...state,
         currentSong: song,
         queue: list,
+        isCurrentSongDeleted: false,
       };
     }
     case PlayerTypes.SET_SHUFFLE: {
@@ -126,6 +137,13 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
     }
 
     case PlayerTypes.ADD_SONG_TO_PREQUEUE: {
+      if (!state.currentSong) {
+        return {
+          ...state,
+          currentSong: action.payload,
+          autoPlay: true,
+        };
+      }
       return {
         ...state,
         preQueue: [...state.preQueue, action.payload],
@@ -163,6 +181,23 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         currentPlaylist: action.payload.playlist,
       };
     }
+
+    case PlayerTypes.DELETE_SONG_FROM_QUEUE: {
+      return {
+        ...state,
+        queue: deleteAllInstancesFromList(action.payload, state.queue),
+        preQueue: deleteAllInstancesFromList(action.payload, state.preQueue),
+        isCurrentSongDeleted: action.payload._id === state.currentSong._id,
+      };
+    }
+
+    case PlayerTypes.IS_CURRENT_SONG_DELETED_RESET: {
+      return {
+        ...state,
+        isCurrentSongDeleted: false,
+      };
+    }
+
     default: {
       return state;
     }

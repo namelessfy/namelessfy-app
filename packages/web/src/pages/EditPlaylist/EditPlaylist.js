@@ -45,27 +45,27 @@ function EditPlaylist() {
   } = useSelector(playlistSelector);
 
   const [playlistImage, setPlaylistImage] = useState(
-    playlistInfo.thumbnail || "",
+    playlistInfo?.thumbnail || "",
   );
-  const [title, setTitle] = useState(playlistInfo.title || "");
+  const [title, setTitle] = useState(playlistInfo?.title || "");
   const [previewImage, setPreviewImage] = useState(
-    playlistInfo.thumbnail || "",
+    playlistInfo?.thumbnail || "",
   );
-  const [isPublic, setisPublic] = useState(playlistInfo.publicAccessible);
+  const [isPublic, setisPublic] = useState(playlistInfo?.publicAccessible);
 
   useEffect(() => {
     if (editPlaylistSuccess) {
       dispatch(setPlaylistInfo(null));
       dispatch(setUserView("playlist"));
-      history.push(ROUTES.USER_PAGE);
       dispatch(editPlaylistReset());
+      history.goBack();
     }
   }, [editPlaylistSuccess]);
 
   useEffect(() => {
     if (deletePlaylistSuccess) {
       dispatch(deletePlaylistReset());
-      history.push(ROUTES.USER_PAGE);
+      history.push(ROUTES.HOME);
     }
   }, [deletePlaylistSuccess]);
 
@@ -82,7 +82,7 @@ function EditPlaylist() {
       formData.append("playlistImage", playlistImage);
     }
 
-    dispatch(editPlaylist(formData, playlistInfo._id));
+    dispatch(editPlaylist(formData, playlistInfo?._id));
   }
 
   function handleSetTitle(e) {
@@ -102,13 +102,13 @@ function EditPlaylist() {
 
   function handleDelete(e) {
     e.preventDefault();
-    dispatch(deletePlaylist(playlistInfo._id));
+    dispatch(deletePlaylist(playlistInfo?._id));
   }
 
   return (
     <Main>
       <Navbar />
-      <Title>Edit playlist {playlistInfo.title}</Title>
+      <Title>Edit playlist {playlistInfo?.title}</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
         <label htmlFor="coverImage">

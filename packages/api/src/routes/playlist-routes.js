@@ -29,6 +29,7 @@ playlistRouter.get(
   authMiddleware,
   getFavoritePlaylists,
 );
+
 playlistRouter.get("/playlist/:playlistId", authMiddleware, getOnePlaylist);
 
 playlistRouter.patch(

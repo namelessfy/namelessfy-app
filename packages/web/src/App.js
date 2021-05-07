@@ -55,7 +55,7 @@ function App() {
           path={ROUTES.COMPLETE_SIGNUP}
           component={CompleteSignUp}
         />
-        <ProtectedRoute path={ROUTES.PLAYLIST} component={Playlist} />
+        <ProtectedRoute path={`${ROUTES.PLAYLIST}/:id`} component={Playlist} />
         <ProtectedRoute path={ROUTES.USER_PAGE} component={UserPage} />
         <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />

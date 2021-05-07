@@ -28,9 +28,12 @@ import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import { addSongToPreQueue } from "../../redux/musicPlayer/player-actions";
+import {
+  addSongToPreQueue,
+  resetCurrentSongDeleted,
+} from "../../redux/musicPlayer/player-actions";
 
-function Song({ songInfo, handleClick }) {
+function Song({ songInfo, handleClick, contextFunctions = null }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentSong } = useSelector(playerSelector);
@@ -66,7 +69,13 @@ function Song({ songInfo, handleClick }) {
     "Add to playlist": () => setIsShowingModal(true),
     ...ownerFunction,
     "Add to Queue": () => dispatch(addSongToPreQueue(songInfo)),
+    ...contextFunctions,
   };
+
+  function playSong() {
+    dispatch(resetCurrentSongDeleted());
+    handleClick();
+  }
 
   return (
     <>
@@ -90,12 +99,12 @@ function Song({ songInfo, handleClick }) {
             songInfo.thumbnail ||
             "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
           }
-          onClick={handleClick}
+          onClick={playSong}
           onContextMenu={showDialogueBox}
         />
         <BottomContainer>
           <InfoContainer>
-            <SongTitle onClick={handleClick}>{songInfo.title}</SongTitle>
+            <SongTitle onClick={playSong}>{songInfo.title}</SongTitle>
             <SongArtists>
               {songInfo.artistId.map((artist, index) => (
                 <a key={artist._id}>
@@ -119,6 +128,9 @@ function Song({ songInfo, handleClick }) {
 Song.propTypes = {
   songInfo: PropTypes.object.isRequired,
   handleClick: PropTypes.func.isRequired,
+  contextFunctions: PropTypes.object,
 };
+
+Song.defaultProps = { contextFunctions: null };
 
 export default Song;

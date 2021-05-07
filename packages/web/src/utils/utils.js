@@ -37,9 +37,7 @@ function updateList(item, list) {
 function updateListById(item, list) {
   const newList = [...list];
   const index = newList.findIndex((element) => element._id === item._id);
-  console.log("index", index);
   newList[index] = item;
-  console.log("newList", newList);
   return newList;
 }
 
@@ -75,6 +73,13 @@ function isIdInList(id, List) {
   return index !== -1;
 }
 
+function deleteAllInstancesFromList(item, list) {
+  const newList = list.filter((element) => {
+    return element._id !== item._id;
+  });
+  return newList;
+}
+
 export {
   hasUserAllInfo,
   haveUsersSameInfo,
@@ -84,4 +89,5 @@ export {
   addToLikedList,
   removeFromLikedList,
   isIdInList,
+  deleteAllInstancesFromList,
 };

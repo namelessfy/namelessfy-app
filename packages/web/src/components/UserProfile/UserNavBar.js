@@ -10,7 +10,7 @@ import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { setUserView } from "../../redux/user/user-actions";
 
-function UserNavBar({ songs, playlists }) {
+function UserNavBar({ songs, playlists, favSongs }) {
   const dispatch = useDispatch();
   const { initialView } = useSelector(userSelector);
   const history = useHistory();
@@ -18,8 +18,8 @@ function UserNavBar({ songs, playlists }) {
   const switchToSongs = () => {
     dispatch(setUserView("song"));
   };
-  const switchToAlbums = () => {
-    dispatch(setUserView("album"));
+  const switchToFavs = () => {
+    dispatch(setUserView("favs"));
   };
 
   const switchToPlaylists = () => {
@@ -45,10 +45,17 @@ function UserNavBar({ songs, playlists }) {
     elements: songs,
   };
 
+  const favsContent = {
+    type: "favs",
+    elements: favSongs,
+  };
+
   const playlistContent = {
     type: "playlist",
     elements: playlists,
   };
+
+  console.log(favSongs);
 
   return (
     <div>
@@ -63,11 +70,11 @@ function UserNavBar({ songs, playlists }) {
         </NavButton>
         <NavButton
           type="button"
-          onClick={switchToAlbums}
-          selected={initialView === "album"}
+          onClick={switchToFavs}
+          selected={initialView === "favs"}
         >
           {" "}
-          Albums{" "}
+          Favourite Songs{" "}
         </NavButton>
         <NavButton
           type="button"
@@ -82,7 +89,9 @@ function UserNavBar({ songs, playlists }) {
       {initialView === "song" && (
         <UserList button={buttonAddSong} content={songsContent} />
       )}
-      {initialView === "album" && <Media>Albums</Media>}
+      {initialView === "favs" && (
+        <UserList button={null} content={favsContent} />
+      )}
       {initialView === "playlist" && (
         <UserList button={buttonAddPlayList} content={playlistContent} />
       )}
@@ -92,6 +101,7 @@ function UserNavBar({ songs, playlists }) {
 
 UserNavBar.propTypes = {
   songs: PropTypes.array.isRequired,
+  favSongs: PropTypes.array.isRequired,
   playlists: PropTypes.array.isRequired,
 };
 

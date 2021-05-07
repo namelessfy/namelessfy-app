@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import Song from "../../components/Song";
@@ -30,73 +30,108 @@ import { userSelector } from "../../redux/user/user-selectors";
 import {
   dislikePlaylist,
   likePlaylist,
-  setPlaylistInfo,
+  removeFromPlaylist,
+  setPlaylistInfo, // tenemos que eliminar este
+  getOnePlaylist,
+  getOnePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
+
+import { deleteSongReset } from "../../redux/song/song-actions";
 import { isIdInList } from "../../utils/favoritesUtils";
+import { songSelector } from "../../redux/song/song-selectors";
 
 function UploadSong() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { id } = useParams();
   const { currentUser } = useSelector(userSelector);
-  const { playlistInfo, myPlaylists } = useSelector(playlistSelector);
+  const { playlistInfo, myPlaylists, getOnePlaylistSuccess } = useSelector(
+    playlistSelector,
+  );
+  const { deletingSuccess } = useSelector(songSelector);
   const [isGrid, setIsGrid] = useState(true);
+
+  useEffect(() => {
+    if (deletingSuccess) {
+      dispatch(getOnePlaylist(id));
+      dispatch(deleteSongReset());
+    }
+  }, [deletingSuccess]);
+
+  useEffect(() => {
+    dispatch(getOnePlaylist(id));
+  }, [id]);
+
+  useEffect(() => {
+    if (getOnePlaylistSuccess) {
+      dispatch(getOnePlaylistReset);
+    }
+  }, [getOnePlaylistSuccess]);
 
   function toggleGrid() {
     setIsGrid(!isGrid);
   }
 
   function handlePlaySong(index) {
-    const song = playlistInfo.tracks[index];
+    const song = playlistInfo?.tracks[index];
 
-    const list = startListByIndex(index, [...playlistInfo.tracks]);
+    const list = startListByIndex(index, [...playlistInfo?.tracks]);
 
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list));
   }
 
   function editPlaylist() {
-    dispatch(setPlaylistInfo(playlistInfo));
     history.push(ROUTES.EDIT_PLAYLIST);
   }
 
   function dislike() {
-    dispatch(dislikePlaylist(playlistInfo._id));
+    dispatch(dislikePlaylist(playlistInfo?._id));
   }
 
   function like() {
-    dispatch(likePlaylist(playlistInfo._id));
+    dispatch(likePlaylist(playlistInfo?._id));
   }
 
   function heartFunction() {
-    return isIdInList(playlistInfo._id, myPlaylists) ? (
+    return isIdInList(playlistInfo?._id, myPlaylists) ? (
       <Icon name="heartFull" size="small" onClick={dislike} />
     ) : (
       <Icon name="heartEmpty" size="small" onClick={like} />
     );
   }
 
+  const removeSongFromPlaylist = (songId) =>
+    currentUser._id === playlistInfo?.author
+      ? {
+          "Remove From Playlist": () => {
+            dispatch(removeFromPlaylist(songId, playlistInfo?._id));
+          },
+        }
+      : {};
+
   return (
     <Main marginBottom>
       <Navbar />
       <CenterContent>
-        <Thumbnail src={playlistInfo.thumbnail} />
+        <Thumbnail src={playlistInfo?.thumbnail} />
       </CenterContent>
       <Author>
-        by <a href="#">{playlistInfo.authorName}</a>
+        by <a href="#">{playlistInfo?.authorName}</a>
       </Author>
       <PlaylistInfo>
         <div>
           <p>618 songs</p>
           <p>1854 minutes</p>
         </div>
-        {playlistInfo.author === currentUser._id ? (
+        {playlistInfo?.author === currentUser._id ? (
           <Icon name="edit" size="small" onClick={editPlaylist} />
         ) : (
           heartFunction()
         )}
       </PlaylistInfo>
       <TitleContainer>
-        <Title>{playlistInfo.title}</Title>
+        <Title>{playlistInfo?.title}</Title>
         <ToggleContainer>
           <Icon
             name={isGrid ? "toggleOn" : "toggleOff"}
@@ -112,13 +147,14 @@ function UploadSong() {
       </TitleContainer>
       <Separation />
       <SongsContainer>
-        {playlistInfo.tracks.map((song, index) => (
+        {playlistInfo?.tracks.map((song, index) => (
           <Song
             key={song._id}
             songInfo={song}
             handleClick={() => {
               handlePlaySong(index);
             }}
+            contextFunctions={removeSongFromPlaylist(song._id)}
           />
         ))}
       </SongsContainer>
