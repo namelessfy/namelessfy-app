@@ -3,6 +3,7 @@ import api from "../../api";
 import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
 import { getFileUrl } from "../../services/cloudinary";
+import { deleteSongFromQueue } from "../musicPlayer/player-actions";
 
 export function editSong(formData, id) {
   return async function editSongThunk(dispatch) {
@@ -73,6 +74,7 @@ export function deleteSong(id) {
       if (deleteSongRes.errorMessage) {
         return dispatch(deleteSongError(deleteSongRes.errorMessage));
       }
+      dispatch(deleteSongFromQueue(deleteSongRes.data.data));
 
       return dispatch(deleteSongSuccess(deleteSongRes.data.data));
     } catch (err) {

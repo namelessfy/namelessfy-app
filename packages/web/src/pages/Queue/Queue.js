@@ -56,10 +56,14 @@ function Queue() {
       <Title>Queue</Title>
       <Separation />
       <QueueContainer>
-        <SectionTitle>Playing:</SectionTitle>
-        <SongList>
-          <SongListItem songInfo={currentSong} />
-        </SongList>
+        {currentSong && (
+          <>
+            <SectionTitle>Playing:</SectionTitle>
+            <SongList>
+              <SongListItem songInfo={currentSong} />
+            </SongList>
+          </>
+        )}
         {preQueue.length > 0 && (
           <>
             <SectionTitle>Queue:</SectionTitle>
@@ -74,8 +78,8 @@ function Queue() {
                     {preQueue.map((song, index) => {
                       return (
                         <Draggable
-                          key={song._id}
-                          draggableId={song._id}
+                          key={song?._id}
+                          draggableId={song?._id}
                           index={index}
                         >
                           {(provided) => (
@@ -85,16 +89,16 @@ function Queue() {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <SongTitle>{song.title}</SongTitle>
+                              <SongTitle>{song?.title}</SongTitle>
                               <SongArtist>
-                                {song.artistId.map((artist) => (
+                                {song?.artistId?.map((artist) => (
                                   <span key={artist._id}>
                                     {artist.userName}
                                   </span>
                                 ))}
                               </SongArtist>
                               <SongDuration>
-                                {toMinutes(song.duration)}
+                                {toMinutes(song?.duration)}
                               </SongDuration>
                               <Icontainer>
                                 <Icon name="menu" size="small" />
@@ -111,51 +115,57 @@ function Queue() {
             </DragDropContext>
           </>
         )}
-        <SectionTitle>Next from {currentPlaylist}:</SectionTitle>
-        <DragDropContext onDragEnd={handleOnNextFromDragEnd}>
-          <Droppable droppableId="nextFrom">
-            {(provide) => (
-              <SongList
-                className="nextFrom"
-                {...provide.droppableProps}
-                ref={provide.innerRef}
-              >
-                {queue.map((song, index) => {
-                  return (
-                    <Draggable
-                      key={song._id}
-                      draggableId={song._id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <SongItem
-                          songInfo={song}
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
+        {queue.length > 0 && (
+          <>
+            <SectionTitle>Next from {currentPlaylist}:</SectionTitle>
+            <DragDropContext onDragEnd={handleOnNextFromDragEnd}>
+              <Droppable droppableId="nextFrom">
+                {(provide) => (
+                  <SongList
+                    className="nextFrom"
+                    {...provide.droppableProps}
+                    ref={provide.innerRef}
+                  >
+                    {queue.map((song, index) => {
+                      return (
+                        <Draggable
+                          key={song?._id}
+                          draggableId={song?._id}
+                          index={index}
                         >
-                          <SongTitle>{song.title}</SongTitle>
-                          <SongArtist>
-                            {song.artistId.map((artist) => (
-                              <span key={artist._id}>{artist.userName}</span>
-                            ))}
-                          </SongArtist>
-                          <SongDuration>
-                            {toMinutes(song.duration)}
-                          </SongDuration>
-                          <Icontainer>
-                            <Icon name="menu" size="small" disabled />
-                          </Icontainer>
-                        </SongItem>
-                      )}
-                    </Draggable>
-                  );
-                })}
-                {provide.placeholder}
-              </SongList>
-            )}
-          </Droppable>
-        </DragDropContext>
+                          {(provided) => (
+                            <SongItem
+                              songInfo={song}
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <SongTitle>{song?.title}</SongTitle>
+                              <SongArtist>
+                                {song?.artistId?.map((artist) => (
+                                  <span key={artist._id}>
+                                    {artist.userName}
+                                  </span>
+                                ))}
+                              </SongArtist>
+                              <SongDuration>
+                                {toMinutes(song?.duration)}
+                              </SongDuration>
+                              <Icontainer>
+                                <Icon name="menu" size="small" disabled />
+                              </Icontainer>
+                            </SongItem>
+                          )}
+                        </Draggable>
+                      );
+                    })}
+                    {provide.placeholder}
+                  </SongList>
+                )}
+              </Droppable>
+            </DragDropContext>
+          </>
+        )}
       </QueueContainer>
     </Main>
   );

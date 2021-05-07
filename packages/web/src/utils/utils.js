@@ -73,6 +73,13 @@ function isIdInList(id, List) {
   return index !== -1;
 }
 
+function deleteAllInstancesFromList(item, list) {
+  const newList = list.filter((element) => {
+    return element._id !== item._id;
+  });
+  return newList;
+}
+
 export {
   hasUserAllInfo,
   haveUsersSameInfo,
@@ -82,4 +89,5 @@ export {
   addToLikedList,
   removeFromLikedList,
   isIdInList,
+  deleteAllInstancesFromList,
 };

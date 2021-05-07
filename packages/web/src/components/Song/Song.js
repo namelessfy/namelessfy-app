@@ -28,7 +28,10 @@ import { isIdInList, isLiked } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import { addSongToPreQueue } from "../../redux/musicPlayer/player-actions";
+import {
+  addSongToPreQueue,
+  resetCurrentSongDeleted,
+} from "../../redux/musicPlayer/player-actions";
 
 function Song({ songInfo, handleClick, contextFunctions = null }) {
   const dispatch = useDispatch();
@@ -69,6 +72,11 @@ function Song({ songInfo, handleClick, contextFunctions = null }) {
     ...contextFunctions,
   };
 
+  function playSong() {
+    dispatch(resetCurrentSongDeleted());
+    handleClick();
+  }
+
   return (
     <>
       <SongContainer>
@@ -91,12 +99,12 @@ function Song({ songInfo, handleClick, contextFunctions = null }) {
             songInfo.thumbnail ||
             "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
           }
-          onClick={handleClick}
+          onClick={playSong}
           onContextMenu={showDialogueBox}
         />
         <BottomContainer>
           <InfoContainer>
-            <SongTitle onClick={handleClick}>{songInfo.title}</SongTitle>
+            <SongTitle onClick={playSong}>{songInfo.title}</SongTitle>
             <SongArtists>
               {songInfo.artistId.map((artist, index) => (
                 <a key={artist._id}>
