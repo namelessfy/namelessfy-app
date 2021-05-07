@@ -30,6 +30,9 @@ export const PlaylistInitialState = {
   likePlaylistError: null,
   isSettingDislikePlaylist: false,
   dislikePlaylistError: null,
+  isRemoving: false,
+  removeSuccess: false,
+  removeError: null,
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -251,6 +254,41 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
       };
     }
 
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_SUCCESS: {
+      console.log(action.payload);
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: true,
+        playlistInfo: action.payload,
+        myPlaylists: updateListById(action.payload, [...state.myPlaylists]),
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isRemoving: true,
+        removeSuccess: false,
+        removeError: null,
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: action.payload,
+      };
+    }
+    case PlaylistTypes.REMOVE_FROM_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: null,
+      };
+    }
+
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -276,6 +314,9 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         likePlaylistError: null,
         isSettingDislikePlaylist: false,
         dislikePlaylistError: null,
+        isRemoving: false,
+        removeSuccess: false,
+        removeError: null,
       };
     }
     default: {

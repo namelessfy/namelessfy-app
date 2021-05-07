@@ -30,6 +30,7 @@ import { userSelector } from "../../redux/user/user-selectors";
 import {
   dislikePlaylist,
   likePlaylist,
+  removeFromPlaylist,
   setPlaylistInfo,
 } from "../../redux/playlist/playlist-actions";
 import { isIdInList } from "../../utils/favoritesUtils";
@@ -75,6 +76,15 @@ function UploadSong() {
     );
   }
 
+  const removeSongFromPlaylist = (songId) =>
+    currentUser._id === playlistInfo.author
+      ? {
+          "Remove From Playlist": () => {
+            dispatch(removeFromPlaylist(songId, playlistInfo._id));
+          },
+        }
+      : {};
+
   return (
     <Main marginBottom>
       <Navbar />
@@ -119,6 +129,7 @@ function UploadSong() {
             handleClick={() => {
               handlePlaySong(index);
             }}
+            contextFunctions={removeSongFromPlaylist(song._id)}
           />
         ))}
       </SongsContainer>

@@ -143,6 +143,15 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function removeFromPlaylistById(headers, songId, playlistId) {
+    return request({
+      url: `/playlist/${playlistId}/remove`,
+      requestMethod: "PATCH",
+      headers: headers,
+      body: { _id: songId },
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -161,6 +170,7 @@ function makeApi(request = makeRequest()) {
     deletePlaylistById: deletePlaylistById,
     likePlaylist: likePlaylist,
     dislikePlaylist: dislikePlaylist,
+    removeFromPlaylistById: removeFromPlaylistById,
   };
 }
 

@@ -30,7 +30,7 @@ import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { addSongToPreQueue } from "../../redux/musicPlayer/player-actions";
 
-function Song({ songInfo, handleClick }) {
+function Song({ songInfo, handleClick, contextFunctions = null }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentSong } = useSelector(playerSelector);
@@ -66,6 +66,7 @@ function Song({ songInfo, handleClick }) {
     "Add to playlist": () => setIsShowingModal(true),
     ...ownerFunction,
     "Add to Queue": () => dispatch(addSongToPreQueue(songInfo)),
+    ...contextFunctions,
   };
 
   return (
@@ -119,6 +120,9 @@ function Song({ songInfo, handleClick }) {
 Song.propTypes = {
   songInfo: PropTypes.object.isRequired,
   handleClick: PropTypes.func.isRequired,
+  contextFunctions: PropTypes.object,
 };
+
+Song.defaultProps = { contextFunctions: null };
 
 export default Song;

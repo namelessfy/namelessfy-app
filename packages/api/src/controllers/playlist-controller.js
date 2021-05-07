@@ -55,12 +55,10 @@ async function create(req, res, next) {
     let { title, type, publicAccessible = true, tracks = [] } = req.body;
 
     isTitleMissing(res, title);
-    console.log(tracks);
     if (tracks.length > 0) {
       tracks = JSON.parse(tracks);
       tracks = tracks.map((el) => ({ _id: el, time: new Date() }));
     }
-    console.log(tracks);
 
     const user = await UserRepo.findOne({ firebase_id: uid });
 
@@ -146,8 +144,6 @@ async function getFavoritePlaylists(req, res, next) {
     let query = id === "me" ? meQuery : defaultQuery;
 
     const playlists = await PlaylistRepo.getAll(query, ["tracks"]);
-
-    console.log(playlists);
 
     if (playlists.error) {
       return handleResponse(res, playlists, null, 500);
@@ -243,14 +239,16 @@ async function removeTrack(req, res, next) {
     const { _id } = req.body;
     const { id } = req.params;
 
-    const repo = await PlaylistRepo.findOneAndUpdate(
+    let repo = await PlaylistRepo.findOneAndUpdate(
       { _id: id },
       {
         $pull: {
-          tracks: [_id],
+          tracks: _id,
         },
       },
     );
+
+    repo = await PlaylistRepo.getOne({ _id: repo.data._id }, ["tracks"]);
 
     return handleResponse(res, repo, 200, 500);
   } catch (error) {

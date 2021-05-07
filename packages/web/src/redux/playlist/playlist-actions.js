@@ -317,6 +317,56 @@ export const dislikePlaylistSuccess = (playlist) => ({
   payload: playlist,
 });
 
+export const removeFromPlaylistRequest = () => ({
+  type: PlaylistTypes.REMOVE_FROM_PLAYLIST_REQUEST,
+});
+
+export const removeFromPlaylistError = (message) => ({
+  type: PlaylistTypes.REMOVE_FROM_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const removeFromPlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.REMOVE_FROM_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function removeFromPlaylist(songId, playlistId) {
+  return async function removeFromPlaylistThunk(dispatch) {
+    dispatch(removeFromPlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(removeFromPlaylistError("User token null!"));
+      }
+
+      const playlistRes = await api.removeFromPlaylistById(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        songId,
+        playlistId,
+      );
+
+      console.log(playlistRes.data);
+
+      if (playlistRes.errorMessage) {
+        return dispatch(removeFromPlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(removeFromPlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(removeFromPlaylistError(err.message));
+    }
+  };
+}
+
+export const removeFromPlaylistReset = () => ({
+  type: PlaylistTypes.REMOVE_FROM_PLAYLIST_RESET,
+});
+
 export const playlistReset = () => ({
   type: PlaylistTypes.PLAYLIST_RESET,
 });
