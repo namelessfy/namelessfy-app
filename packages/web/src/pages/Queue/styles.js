@@ -2,7 +2,7 @@ import styled from "styled-components";
 import * as COLORS from "../../styles/colors";
 
 const QueueContainer = styled.section`
-  width: min(800px, 80%);
+  width: min(800px, 90%);
   margin: 0 auto;
   margin-top: 2rem;
 `;

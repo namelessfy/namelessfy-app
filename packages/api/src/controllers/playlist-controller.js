@@ -75,9 +75,9 @@ async function create(req, res, next) {
     const {
       thumbnail,
       cloudinaryThumbnailId,
-    } = await handleCloudinaryUpdateImage(file);
+    } = await handleCloudinaryUpdateImage(500, file);
 
-    const playlist = await PlaylistRepo.create({
+    let playlist = await PlaylistRepo.create({
       title,
       thumbnail,
       cloudinaryThumbnailId,
@@ -94,7 +94,9 @@ async function create(req, res, next) {
       tracks,
     });
 
-    console.log(playlist);
+    playlist = await PlaylistRepo.getOne({ _id: playlist.data._id }, [
+      "tracks",
+    ]);
 
     if (playlist.error) {
       return res.status(500).send({
@@ -144,6 +146,8 @@ async function getFavoritePlaylists(req, res, next) {
     let query = id === "me" ? meQuery : defaultQuery;
 
     const playlists = await PlaylistRepo.getAll(query, ["tracks"]);
+
+    console.log(playlists);
 
     if (playlists.error) {
       return handleResponse(res, playlists, null, 500);
@@ -265,7 +269,7 @@ async function addSongToPlaylist(req, res, next) {
   } = req;
 
   try {
-    const playlist = await PlaylistRepo.findOneAndUpdate(
+    let playlist = await PlaylistRepo.findOneAndUpdate(
       { _id: id },
       {
         $push: {
@@ -273,6 +277,10 @@ async function addSongToPlaylist(req, res, next) {
         },
       },
     );
+
+    playlist = await PlaylistRepo.getOne({ _id: playlist.data._id }, [
+      "tracks",
+    ]);
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {

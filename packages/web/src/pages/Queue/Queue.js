@@ -27,7 +27,6 @@ function Queue() {
   const dispatch = useDispatch();
 
   function handleOnNextFromDragEnd(result) {
-    console.log(result);
     if (result.destination?.droppableId === "nextFrom") {
       const items = [...queue];
       const [reorderedItem] = items.splice(result.source.index, 1);
@@ -145,7 +144,7 @@ function Queue() {
                             {toMinutes(song.duration)}
                           </SongDuration>
                           <Icontainer>
-                            <Icon name="menu" size="small" />
+                            <Icon name="menu" size="small" disabled />
                           </Icontainer>
                         </SongItem>
                       )}

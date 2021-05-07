@@ -119,12 +119,10 @@ export function addToPlaylist(songId, playlistId) {
 
     try {
       const userToken = await getCurrentUserToken();
-
       if (!userToken) {
         return dispatch(addToPlaylistError("User token null!"));
       }
-
-      const playlistRes = await api.addPlaylistToPlaylist(
+      const playlistRes = await api.addSongToPlaylist(
         {
           Authorization: `Bearer ${userToken}`,
         },

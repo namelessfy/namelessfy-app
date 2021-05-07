@@ -37,7 +37,9 @@ function updateList(item, list) {
 function updateListById(item, list) {
   const newList = [...list];
   const index = newList.findIndex((element) => element._id === item._id);
+  console.log("index", index);
   newList[index] = item;
+  console.log("newList", newList);
   return newList;
 }
 

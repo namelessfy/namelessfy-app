@@ -34,7 +34,9 @@ export default function usePlayer() {
       song.pause();
       song.removeEventListener("timeupdate", handleTimeChange);
     }
-    setSong(new Audio(currentSong.url));
+    if (currentSong) {
+      setSong(new Audio(currentSong.url));
+    }
   }, [currentSong]);
 
   useEffect(() => {
@@ -51,7 +53,7 @@ export default function usePlayer() {
   }, [song]);
 
   useEffect(() => {
-    if (favorites) {
+    if (favorites && currentSong) {
       setIsLiked(isThisSongLiked(currentSong._id, favorites));
     }
   }, [favorites, currentSong]);
