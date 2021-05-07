@@ -94,6 +94,53 @@ export const getPlaylistsReset = () => ({
   type: PlaylistTypes.GET_PLAYLISTS_RESET,
 });
 
+export const getOnePlaylistRequest = () => ({
+  type: PlaylistTypes.GET_ONE_PLAYLIST_REQUEST,
+});
+
+export const getOnePlaylistError = (message) => ({
+  type: PlaylistTypes.GET_ONE_PLAYLIST_ERROR,
+  payload: message,
+});
+
+export const getOnePlaylistSuccess = (playlist) => ({
+  type: PlaylistTypes.GET_ONE_PLAYLIST_SUCCESS,
+  payload: playlist,
+});
+
+export function getOnePlaylist(playlistId) {
+  return async function playlistThunk(dispatch) {
+    dispatch(getOnePlaylistRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(getOnePlaylistError("User token null!"));
+      }
+
+      const playlistRes = await api.getPlaylistById(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        playlistId,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(getOnePlaylistError(playlistRes.errorMessage));
+      }
+
+      return dispatch(getOnePlaylistSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(getOnePlaylistError(err.message));
+    }
+  };
+}
+
+export const getOnePlaylistReset = () => ({
+  type: PlaylistTypes.GET_ONE_PLAYLIST_RESET,
+});
+
 export const setCacheSongId = (id) => ({
   type: PlaylistTypes.SET_CACHE_SONG_ID,
   payload: id,

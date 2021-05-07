@@ -73,8 +73,8 @@ function Playlist({ playlistInfo }) {
         };
 
   function handleClick() {
-    dispatch(setPlaylistInfo(playlistInfo));
-    history.push(ROUTES.PLAYLIST);
+    // dispatch(setPlaylistInfo(playlistInfo));
+    history.push(`${ROUTES.PLAYLIST}/${playlistInfo._id}`);
   }
 
   const dialogueButtons = {

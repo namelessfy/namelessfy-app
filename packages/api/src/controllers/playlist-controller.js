@@ -143,7 +143,7 @@ async function getFavoritePlaylists(req, res, next) {
 
     let query = id === "me" ? meQuery : defaultQuery;
 
-    const playlists = await PlaylistRepo.getAll(query, ["tracks"]);
+    let playlists = await PlaylistRepo.getAll(query, null);
 
     if (playlists.error) {
       return handleResponse(res, playlists, null, 500);
@@ -175,9 +175,9 @@ async function getOnePlaylist(req, res, next) {
       ],
     };
 
-    const playlists = await PlaylistRepo.getOne(query);
+    const playlist = await PlaylistRepo.getOne(query, ["tracks"]);
 
-    return handleResponse(res, playlists, 200, 503);
+    return handleResponse(res, playlist, 200, 503);
   } catch (error) {
     next(error);
   }

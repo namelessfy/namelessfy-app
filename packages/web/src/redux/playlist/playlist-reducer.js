@@ -15,11 +15,14 @@ export const PlaylistInitialState = {
   isGettingMyPlaylists: false,
   getPlaylistsError: null,
   getPlaylistsSuccess: false,
+  playlistInfo: null,
+  isGettingOnePlaylist: false,
+  getOnePlaylistError: null,
+  getOnePlaylistSuccess: false,
   cacheSongId: null,
   isAddingToPlaylist: false,
   addToPlaylistSuccess: false,
   addToPlaylistError: null,
-  playlistInfo: null,
   isEditingPlaylist: false,
   editPlaylistSuccess: false,
   editPlaylistError: null,
@@ -99,6 +102,38 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isGettingMyPlaylists: false,
         getPlaylistsSuccess: false,
         getPlaylistsError: null,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_SUCCESS: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: true,
+        playlistInfo: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_REQUEST: {
+      return {
+        ...state,
+        isGettingOnePlaylist: true,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_ERROR: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_ONE_PLAYLIST_RESET: {
+      return {
+        ...state,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
       };
     }
     case PlaylistTypes.SET_CACHE_SONG_ID: {
@@ -304,6 +339,9 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         addToPlaylistSuccess: false,
         addToPlaylistError: null,
         playlistInfo: null,
+        isGettingOnePlaylist: false,
+        getOnePlaylistSuccess: false,
+        getOnePlaylistError: null,
         isEditingPlaylist: false,
         editPlaylistSuccess: false,
         editPlaylistError: null,
