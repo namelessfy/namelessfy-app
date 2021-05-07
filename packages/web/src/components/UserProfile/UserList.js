@@ -29,9 +29,11 @@ function UserList({ button, content }) {
   console.log(content);
   return (
     <div>
-      <ButtonContainer>
-        <Button onClick={button.function}>{button.name}</Button>
-      </ButtonContainer>
+      {button && (
+        <ButtonContainer>
+          <Button onClick={button.function}>{button.name}</Button>
+        </ButtonContainer>
+      )}
       <MediaContainer>
         {content.type === "songs" &&
           content.elements?.map((song, index) => (
@@ -43,7 +45,16 @@ function UserList({ button, content }) {
               }}
             />
           ))}
-
+        {content.type === "favs" &&
+          content.elements?.map((song, index) => (
+            <Song
+              key={song._id}
+              songInfo={song}
+              handleClick={() => {
+                handlePlaySong(index);
+              }}
+            />
+          ))}
         {content.type === "playlist" &&
           content.elements?.map((playlist, index) => (
             <Playlist

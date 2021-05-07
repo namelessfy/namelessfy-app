@@ -21,7 +21,7 @@ import { Icon } from "../../styles/mainStyles";
 
 function UserProfile() {
   const { currentUser } = useSelector(userSelector);
-  const { mySongs } = useSelector(songSelector);
+  const { mySongs, favorites } = useSelector(songSelector);
   const { myPlaylists } = useSelector(playlistSelector);
   const [isGrid, setIsGrid] = useState(true);
   const tab = " ";
@@ -62,7 +62,11 @@ function UserProfile() {
             <Icon name={isGrid ? "grid" : "list"} size="normal" />
           </ViewButton>
         </Statistics>
-        <UserNavBar songs={mySongs} playlists={myPlaylists} />
+        <UserNavBar
+          songs={mySongs}
+          favSongs={favorites}
+          playlists={myPlaylists}
+        />
       </ProfileContainer>
     </div>
   );
