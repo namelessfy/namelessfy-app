@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import usePlayer from "../../hooks/usePlayer";
 
 import {
@@ -18,7 +20,10 @@ import {
 
 import { Icon } from "../../styles/mainStyles";
 
+import * as ROUTES from "../../routes";
+
 function MusicPlayer() {
+  const history = useHistory();
   const {
     currentSong,
     isLiked,
@@ -55,6 +60,10 @@ function MusicPlayer() {
     ) {
       setIsCard(true);
     }
+  }
+  function openQueue() {
+    history.push(ROUTES.QUEUE);
+    setIsCard(false);
   }
 
   return (
@@ -98,7 +107,7 @@ function MusicPlayer() {
                     onClick={togglePlay}
                   />
                   <Icon name="next" size="normal" onClick={nextSong} />
-                  <Icon name="list" size="small" />
+                  <Icon name="list" size="small" onClick={openQueue} />
                 </Buttons>
                 <Timer card>
                   {convertTimeToString(currentTime)} /{" "}
@@ -162,7 +171,12 @@ function MusicPlayer() {
                   className="songButtonsNext"
                   onClick={nextSong}
                 />
-                <Icon name="list" size="xSmall" className="songButtonsList" />
+                <Icon
+                  name="list"
+                  size="xSmall"
+                  className="songButtonsList"
+                  onClick={openQueue}
+                />
               </Buttons>
               <Timer id="songTimer">
                 {convertTimeToString(currentTime)} /{" "}

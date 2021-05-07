@@ -73,6 +73,7 @@ const Main = styled.main`
   font-family: ${fonts.MAIN}, sans-serif;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 
   ${({ marginBottom }) =>
     marginBottom &&
@@ -114,6 +115,8 @@ const Icon = styled.button`
   background-position: center;
   cursor: pointer;
   transition: opacity 0.2s ease-in-out;
+
+  ${({ disabled }) => disabled && "pointer-events: none;"}
   &:hover,
   &:focus {
     outline: none;

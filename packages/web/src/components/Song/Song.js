@@ -58,7 +58,7 @@ function Song({ songInfo, handleClick }) {
     : "";
 
   const playFunction =
-    songInfo._id === currentSong._id ? "" : { Play: handleClick };
+    songInfo._id === currentSong?._id ? "" : { Play: handleClick };
 
   const dialogueButtons = {
     ...playFunction,

@@ -11,7 +11,6 @@ const SongsContainer = styled.div`
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: flex-start;
-  margin-bottom: 10rem;
   padding: 0 1rem;
 
   & > div + div {
@@ -28,7 +27,7 @@ const SongsContainer = styled.div`
   }
   @media (max-width: 800px) {
     padding: 0 2rem;
-    width: fit-content;
+    width: 100vw;
     & >div:nth-child(5n + 1){
       margin-left: 1.5rem;
     }

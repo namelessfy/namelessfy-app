@@ -22,10 +22,12 @@ import {
   ModalScroll,
 } from "./style";
 import DialogueModal from "../Modal/Modal";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function SelectPlaylistModal({ songId, closeModal }) {
   const dispatch = useDispatch();
   const history = useHistory();
+  const { currentUser } = useSelector(userSelector);
   const { myPlaylists, addToPlaylistSuccess } = useSelector(playlistSelector);
   const [isShowingConfirmPopUp, setIsShowingConfirmPopUp] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
@@ -76,16 +78,19 @@ function SelectPlaylistModal({ songId, closeModal }) {
             >
               Add to new playlist
             </ModalButton>
-            {myPlaylists.map((playlist) => (
-              <ModalButton
-                type="button"
-                key={playlist._id}
-                /* onClick={() => clickHandler(playlist._id)} */
-                onClick={() => clickHandler(playlist)}
-              >
-                {playlist.title}
-              </ModalButton>
-            ))}
+            {myPlaylists.map(
+              (playlist) =>
+                playlist.author === currentUser._id && (
+                  <ModalButton
+                    type="button"
+                    key={playlist._id}
+                    /* onClick={() => clickHandler(playlist._id)} */
+                    onClick={() => clickHandler(playlist)}
+                  >
+                    {playlist.title}
+                  </ModalButton>
+                ),
+            )}
           </ButtonContainer>
         </ModalScroll>
       </Modal>
