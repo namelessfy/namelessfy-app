@@ -73,7 +73,7 @@ async function create(req, res, next) {
     const {
       thumbnail,
       cloudinaryThumbnailId,
-    } = await handleCloudinaryUpdateImage(500, file);
+    } = await handleCloudinaryUpdateImage(res, file);
 
     let playlist = await PlaylistRepo.create({
       title,

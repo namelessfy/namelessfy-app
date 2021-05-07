@@ -136,14 +136,10 @@ async function patchFull(req, res, next) {
     //genreExistAndCreate(res, genre, id);
 
     const cloudinaryUploadResponse = await handleCloudinaryUpdateImage(
-      req,
+      res,
       req.file,
       cloudinaryThumbnailId,
     );
-
-    if (!cloudinaryThumbnailId) {
-      cloudinaryThumbnailId = cloudinaryUploadResponse.cloudinaryThumbnailId;
-    }
 
     const artists = await getArtists(JSON.parse(artistId));
     const track = await TrackRepo.findOneAndUpdate(
@@ -152,10 +148,14 @@ async function patchFull(req, res, next) {
         title,
         genre,
         artistId: artists,
-        thumbnail,
-        cloudinaryThumbnailId,
+        thumbnail: cloudinaryUploadResponse.thumbnail || thumbnail,
+        cloudinaryThumbnailId:
+          cloudinaryUploadResponse.cloudinaryThumbnailId ||
+          cloudinaryThumbnailId,
       },
     );
+
+    console.log(track);
 
     return handleResponse(res, track, 200, 500);
   } catch (error) {
