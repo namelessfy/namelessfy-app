@@ -63,12 +63,6 @@ function UploadSong() {
   }, [id]);
 
   useEffect(() => {
-    return () => {
-      dispatch(setPlaylistInfo(null));
-    };
-  }, []);
-
-  useEffect(() => {
     if (getOnePlaylistSuccess) {
       dispatch(getOnePlaylistReset);
     }
@@ -88,7 +82,6 @@ function UploadSong() {
   }
 
   function editPlaylist() {
-    dispatch(setPlaylistInfo(playlistInfo));
     history.push(ROUTES.EDIT_PLAYLIST);
   }
 

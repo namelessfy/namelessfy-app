@@ -14,6 +14,7 @@ import {
   deletePlaylistReset,
   dislikePlaylist,
   likePlaylist,
+  editPlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 import { deleteSongReset } from "../../redux/song/song-actions";
 
@@ -76,6 +77,8 @@ function Playlist({ playlistInfo }) {
 
   function handleClick() {
     dispatch(deleteSongReset());
+    dispatch(editPlaylistReset());
+    dispatch(setPlaylistInfo(null));
     history.push(`${ROUTES.PLAYLIST}/${playlistInfo._id}`);
   }
 

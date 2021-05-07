@@ -68,14 +68,14 @@ function EditSong() {
   useEffect(() => {
     if (editingSuccess) {
       dispatch(editSongReset());
-      history.push(ROUTES.USER_PAGE);
+      history.goBack();
     }
   }, [editingSuccess]);
 
   useEffect(() => {
     if (deletingSuccess) {
       dispatch(deleteSongReset());
-      history.push(ROUTES.USER_PAGE);
+      history.push(ROUTES.HOME);
     }
   }, [deletingSuccess]);
 
