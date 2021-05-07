@@ -35,6 +35,8 @@ import {
   getOnePlaylist,
   getOnePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
+
+import { deleteSongReset } from "../../redux/song/song-actions";
 import { isIdInList } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
 
@@ -46,14 +48,15 @@ function UploadSong() {
   const { playlistInfo, myPlaylists, getOnePlaylistSuccess } = useSelector(
     playlistSelector,
   );
-  const { deleteSongSuccess } = useSelector(songSelector);
+  const { deletingSuccess } = useSelector(songSelector);
   const [isGrid, setIsGrid] = useState(true);
 
-  // useEffect(() => {
-  //   if (deleteSongSuccess){
-
-  //   }
-  // }, [deleteSongSuccess])
+  useEffect(() => {
+    if (deletingSuccess) {
+      dispatch(getOnePlaylist(id));
+      dispatch(deleteSongReset());
+    }
+  }, [deletingSuccess]);
 
   useEffect(() => {
     dispatch(getOnePlaylist(id));

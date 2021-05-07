@@ -15,6 +15,8 @@ import {
   dislikePlaylist,
   likePlaylist,
 } from "../../redux/playlist/playlist-actions";
+import { deleteSongReset } from "../../redux/song/song-actions";
+
 import { userSelector } from "../../redux/user/user-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
@@ -73,7 +75,7 @@ function Playlist({ playlistInfo }) {
         };
 
   function handleClick() {
-    // dispatch(setPlaylistInfo(playlistInfo));
+    dispatch(deleteSongReset());
     history.push(`${ROUTES.PLAYLIST}/${playlistInfo._id}`);
   }
 

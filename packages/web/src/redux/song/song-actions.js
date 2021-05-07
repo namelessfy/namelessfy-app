@@ -74,8 +74,7 @@ export function deleteSong(id) {
         return dispatch(deleteSongError(deleteSongRes.errorMessage));
       }
 
-      dispatch(deleteSongSuccess(deleteSongRes.data.data));
-      return dispatch(deleteSongReset());
+      return dispatch(deleteSongSuccess(deleteSongRes.data.data));
     } catch (err) {
       return dispatch(deleteSongError(err.message));
     }
