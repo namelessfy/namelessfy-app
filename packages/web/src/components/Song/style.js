@@ -2,22 +2,24 @@ import styled from "styled-components";
 import * as colors from "../../styles/colors";
 import playIcon from "../../img/play.svg";
 
-const calculateContainerWidht = "calc(calc(1000px - 8rem) / 5)";
-const calculateContainerWidht5SongsResponsive = "calc(calc(100vw - 12rem) / 5)";
-const calculateContainerWidht4SongsResponsiveBig =
+const calculateContainerWidth = "calc(calc(1000px - 8rem) / 5)";
+const calculateContainerWidth5SongsResponsive = "calc(calc(100vw - 12rem) / 5)";
+const calculateContainerWidth4SongsResponsiveBig =
   "calc(calc(100vw - 8.5rem) / 4)";
-const calculateContainerWidht4SongsResponsiveNormal =
+const calculateContainerWidth4SongsResponsiveNormal =
   "calc(calc(100vw - 7rem) / 4)";
-const calculateContainerWidht4SongsResponsiveSmall =
+const calculateContainerWidth4SongsResponsiveSmall =
   "calc(calc(100vw - 3.5rem) / 4)";
-const calculateContainerWidht3SongsResponsive = "calc(calc(100vw - 3rem) / 3)";
+const calculateContainerWidth3SongsResponsive = "calc(calc(100vw - 3rem) / 3)";
+
+const containerWidthMenu = "120px";
 
 const SongCover = styled.button`
   display: inline-block;
   position: relative;
   border-radius: 10px;
-  width: ${calculateContainerWidht5SongsResponsive};
-  height: ${calculateContainerWidht5SongsResponsive};
+  width: ${calculateContainerWidth5SongsResponsive};
+  height: ${calculateContainerWidth5SongsResponsive};
   margin-bottom: 1em;
   align-self: center;
   background-image: url(${(props) => props.src});
@@ -27,12 +29,12 @@ const SongCover = styled.button`
   cursor: pointer;
   transition: box-shadow 0.1s ease-in-out;
 
-  &::before {
+  &::after {
     content: "";
     background: url("${playIcon}");
     background-repeat: no-repeat;
     background-size: cover;
-    z-index: 2;
+    z-index: 1;
     position: absolute;
     display: block;
     height: 40px;
@@ -43,7 +45,7 @@ const SongCover = styled.button`
     transition: opacity 0.2s ease-in-out;
   }
 
-  &::after {
+  &::before {
     content: "";
     z-index: 1;
     background: radial-gradient(
@@ -69,8 +71,6 @@ const SongCover = styled.button`
   }
 
   @media (min-width: 1000px) {
-    width: ${calculateContainerWidht};
-    height: ${calculateContainerWidht};
     &:hover {
       &::before,
       &::after {
@@ -86,26 +86,35 @@ const SongCover = styled.button`
     }
   }
 
-  @media (max-width: 800px) {
-    width: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
-    height: calc(${calculateContainerWidht4SongsResponsiveBig} - 2px);
-  }
-  @media (max-width: 620px) {
-    width: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
-    height: calc(${calculateContainerWidht4SongsResponsiveNormal} - 2px);
-  }
-  @media (max-width: 500px) {
-    width: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
-    height: calc(${calculateContainerWidht4SongsResponsiveSmall} - 2px);
-  }
-  @media (max-width: 350px) {
-    width: calc(${calculateContainerWidht3SongsResponsive} - 2px);
-    height: calc(${calculateContainerWidht3SongsResponsive} - 2px);
-  }
+  ${({ isMenu }) =>
+    isMenu
+      ? `width: calc(${containerWidthMenu} - 2px);
+    height: calc(${containerWidthMenu} - 2px);`
+      : `
+      @media (min-width: 1000px) {
+        width: ${calculateContainerWidth};
+        height: ${calculateContainerWidth};
+      }
+      @media (max-width: 800px) {
+      width: calc(${calculateContainerWidth4SongsResponsiveBig} - 2px);
+      height: calc(${calculateContainerWidth4SongsResponsiveBig} - 2px);
+    }
+    @media (max-width: 620px) {
+      width: calc(${calculateContainerWidth4SongsResponsiveNormal} - 2px);
+      height: calc(${calculateContainerWidth4SongsResponsiveNormal} - 2px);
+    }
+    @media (max-width: 500px) {
+      width: calc(${calculateContainerWidth4SongsResponsiveSmall} - 2px);
+      height: calc(${calculateContainerWidth4SongsResponsiveSmall} - 2px);
+    }
+    @media (max-width: 350px) {
+      width: calc(${calculateContainerWidth3SongsResponsive} - 2px);
+      height: calc(${calculateContainerWidth3SongsResponsive} - 2px);
+    }`}
 `;
 
 const SongTitle = styled.h3`
-  font-size: 16px;
+  ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 16px;`)}
   margin: -0.5rem 0 0;
   cursor: pointer;
   white-space: nowrap;
@@ -128,7 +137,6 @@ const SongTitle = styled.h3`
 `;
 
 const SongArtists = styled.div`
-  font-size: 16px;
   font-weight: 200;
   width: 100%;
   margin: -0.2rem 0 0;
@@ -139,6 +147,7 @@ const SongArtists = styled.div`
     color: ${colors.LIGHT};
     cursor: pointer;
     margin-top: 0.5em;
+    ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 16px;`)}
 
     @media (max-width: 620px) {
       font-size: medium;
@@ -162,25 +171,29 @@ const SongArtists = styled.div`
 `;
 
 const SongContainer = styled.div`
-  width: ${calculateContainerWidht};
+  width: ${calculateContainerWidth};
   padding-bottom: 1rem;
   margin-top: 1rem;
 
-  @media (max-width: 1000px) {
-    width: ${calculateContainerWidht5SongsResponsive};
-  }
-  @media (max-width: 800px) {
-    width: ${calculateContainerWidht4SongsResponsiveBig};
-  }
-  @media (max-width: 620px) {
-    width: ${calculateContainerWidht4SongsResponsiveNormal};
-  }
-  @media (max-width: 500px) {
-    width: ${calculateContainerWidht4SongsResponsiveSmall};
-  }
-  @media (max-width: 350px) {
-    width: ${calculateContainerWidht3SongsResponsive};
-  }
+  ${({ isMenu }) =>
+    isMenu
+      ? `width: ${containerWidthMenu};
+    height: ${containerWidthMenu};`
+      : `@media (max-width: 1000px) {
+        width: ${calculateContainerWidth5SongsResponsive};
+      }
+      @media (max-width: 800px) {
+        width: ${calculateContainerWidth4SongsResponsiveBig};
+      }
+      @media (max-width: 620px) {
+        width: ${calculateContainerWidth4SongsResponsiveNormal};
+      }
+      @media (max-width: 500px) {
+        width: ${calculateContainerWidth4SongsResponsiveSmall};
+      }
+      @media (max-width: 350px) {
+        width: ${calculateContainerWidth3SongsResponsive};
+      }`}
 `;
 
 const BottomContainer = styled.div`
@@ -189,6 +202,13 @@ const BottomContainer = styled.div`
   margin-left: 0.2rem;
   display: flex;
   align-items: start;
+
+  ${({ isMenu }) =>
+    isMenu &&
+    `&>#dialogueButton {
+    display: none;
+  }`}
+
   @media (max-width: 620px) {
     & #dialogueButton {
       display: none;
@@ -197,7 +217,11 @@ const BottomContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
-  width: calc(100% - 20px);
+  ${({ isMenu }) => {
+    console.log(isMenu);
+    return isMenu ? `width: 100%;` : `width: calc(100% - 20px);`;
+  }}
+
   @media (max-width: 620px) {
     width: 100%;
   }

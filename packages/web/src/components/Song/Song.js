@@ -33,7 +33,7 @@ import {
   resetCurrentSongDeleted,
 } from "../../redux/musicPlayer/player-actions";
 
-function Song({ songInfo, handleClick, contextFunctions = null }) {
+function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentSong } = useSelector(playerSelector);
@@ -79,14 +79,14 @@ function Song({ songInfo, handleClick, contextFunctions = null }) {
 
   return (
     <>
-      <SongContainer>
-        {isShowingModal && (
+      <SongContainer isMenu={isMenu}>
+        {isShowingModal && !isMenu && (
           <SelectPlaylistModal
             songId={songInfo._id}
             closeModal={() => setIsShowingModal(false)}
           />
         )}
-        {isShowingDialogue && (
+        {isShowingDialogue && !isMenu && (
           <DialogueBox
             x={dialoguePosition.x}
             y={dialoguePosition.y}
@@ -94,18 +94,32 @@ function Song({ songInfo, handleClick, contextFunctions = null }) {
             hideDialogue={() => setIsShowingDialogue(false)}
           />
         )}
-        <SongCover
-          src={
-            songInfo.thumbnail ||
-            "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
-          }
-          onClick={playSong}
-          onContextMenu={showDialogueBox}
-        />
-        <BottomContainer>
-          <InfoContainer>
-            <SongTitle onClick={playSong}>{songInfo.title}</SongTitle>
-            <SongArtists>
+        {!isMenu ? (
+          <SongCover
+            src={
+              songInfo.thumbnail ||
+              "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
+            }
+            onClick={playSong}
+            onContextMenu={DialogueBox}
+          />
+        ) : (
+          <SongCover
+            src={
+              songInfo.thumbnail ||
+              "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
+            }
+            onClick={playSong}
+            isMenu
+          />
+        )}
+
+        <BottomContainer isMenu={isMenu}>
+          <InfoContainer isMenu={isMenu}>
+            <SongTitle onClick={playSong} isMenu={isMenu}>
+              {songInfo.title}
+            </SongTitle>
+            <SongArtists isMenu={isMenu}>
               {songInfo.artistId.map((artist, index) => (
                 <a key={artist._id}>
                   {index > 0 ? ` ${artist.userName}` : artist.userName}
@@ -129,8 +143,9 @@ Song.propTypes = {
   songInfo: PropTypes.object.isRequired,
   handleClick: PropTypes.func.isRequired,
   contextFunctions: PropTypes.object,
+  isMenu: PropTypes.bool,
 };
 
-Song.defaultProps = { contextFunctions: null };
+Song.defaultProps = { contextFunctions: null, isMenu: false };
 
 export default Song;
