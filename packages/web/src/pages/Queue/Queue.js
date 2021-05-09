@@ -23,7 +23,7 @@ function Queue() {
 
   function handleOnNextFromDragEnd(result) {
     if (result.destination?.droppableId === "nextFrom") {
-      const items = [...queue];
+      const items = isShuffle ? [...shuffleQueue] : [...queue];
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
       dispatch(setQueue(items));
