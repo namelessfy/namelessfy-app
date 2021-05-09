@@ -30,6 +30,7 @@ import {
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
+import Loader from "../../components/Loader";
 
 function SignUp() {
   const dispatch = useDispatch();
@@ -57,6 +58,7 @@ function SignUp() {
   return (
     <>
       <Main>
+        {isSigningUp && <Loader />}
         <section>
           <NamelessfyLogo
             type="svg"

@@ -5,18 +5,20 @@ import { Redirect } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import PlaylistPreview from "../../components/PlaylistPreview";
 import PlaylistList from "../../components/PlaylistList";
+import Loader from "../../components/Loader";
 
 import * as ROUTES from "../../routes";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
+import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { getPlaylists } from "../../redux/playlist/playlist-actions";
+
 import { hasUserAllInfo } from "../../utils/utils";
 
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
-import { getFavorites, getMySongs } from "../../redux/song/song-actions";
-import { getPlaylists } from "../../redux/playlist/playlist-actions";
 
 function Home() {
   const dispatch = useDispatch();
@@ -68,6 +70,7 @@ function Home() {
 
   return (
     <Main marginBottom>
+      {(!hasMySongs || !hasPlaylists) && <Loader />}
       <Navbar />
       <Container>
         {favorites?.length > 0 && (

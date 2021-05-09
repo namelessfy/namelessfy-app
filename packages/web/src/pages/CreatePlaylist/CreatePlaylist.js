@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../../components/Navbar";
+import Loader from "../../components/Loader";
 
 import {
   createPlaylist,
@@ -90,6 +91,7 @@ function CreatePlaylist() {
 
   return (
     <Main marginBottom>
+      {isCreatingPlaylist && <Loader />}
       <Navbar />
       <Title>Create playlist</Title>
       <Separation />

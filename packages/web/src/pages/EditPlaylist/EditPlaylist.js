@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../../components/Navbar";
+import Loader from "../../components/Loader";
 
 import {
   editPlaylist,
@@ -107,6 +108,7 @@ function EditPlaylist() {
 
   return (
     <Main>
+      {(isDeletingPlaylist || isEditingPlaylist) && <Loader />}
       <Navbar />
       <Title>Edit playlist {playlistInfo?.title}</Title>
       <Separation />

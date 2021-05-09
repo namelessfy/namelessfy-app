@@ -13,6 +13,7 @@ import {
 import * as ROUTES from "../../routes";
 
 import Navbar from "../../components/Navbar";
+import Loader from "../../components/Loader";
 
 import {
   Button,
@@ -28,8 +29,8 @@ import {
   AddInput,
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
-
 import { Main } from "../../styles/mainStyles";
+
 import { getSongFromList } from "../../utils/favoritesUtils";
 
 function EditSong() {
@@ -39,6 +40,7 @@ function EditSong() {
     isEditingSong,
     editSongError,
     editingSuccess,
+    isDeletingSong,
     deletingSuccess,
   } = useSelector(songSelector);
 
@@ -152,6 +154,7 @@ function EditSong() {
 
   return (
     <Main marginBottom>
+      {(isDeletingSong || isEditingSong) && <Loader />}
       <Navbar />
       <Title>Edit Song</Title>
       <Separation />

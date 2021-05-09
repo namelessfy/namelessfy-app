@@ -25,6 +25,7 @@ import {
   resetAuthState,
 } from "../../redux/auth/auth-actions";
 import { authSelector } from "../../redux/auth/auth-selectors";
+import Loader from "../../components/Loader";
 
 function buttonText(loading, sent) {
   if (loading) {
@@ -64,6 +65,7 @@ function ResetPassword() {
 
   return (
     <>
+      {isSendingPasswordReset && <Loader />}
       <Main>
         <section>
           <NamelessfyLogo
