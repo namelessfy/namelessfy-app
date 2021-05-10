@@ -1,6 +1,8 @@
 const { UserRepo } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
 
+const { handleResponse } = require("../utils/utils");
+
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
 
@@ -127,9 +129,26 @@ async function remove(req, res) {
   }
 }
 
+async function getByUsername(req, res, next) {
+  const { userName } = req.params;
+
+  try {
+    const user = await UserRepo.findOne({ userName: userName });
+
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+
+    return handleResponse(res, user, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signUp,
   signOut,
   edit,
   delete: remove,
+  getByUsername,
 };

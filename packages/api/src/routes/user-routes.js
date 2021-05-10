@@ -7,6 +7,7 @@ const { userController } = require("../controllers");
 
 const userRouter = Router();
 
+userRouter.get("/user/:userName", authMiddleware, userController.getByUsername);
 userRouter.post("/sign-up", authMiddleware, userController.signUp);
 userRouter.post("/sign-out", authMiddleware, userController.signOut);
 userRouter.patch(

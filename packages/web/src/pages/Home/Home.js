@@ -30,32 +30,31 @@ function Home() {
   const [hasPlaylists, setHasPlaylists] = useState(false);
 
   useEffect(() => {
-    if (hasAllInfo && !hasMySongs) {
-      dispatch(getMySongs());
-    }
-  }, [hasAllInfo, hasMySongs]);
-
-  useEffect(() => {
-    if (mySongs) {
-      setHasMySongs(true);
-    }
-  }, [mySongs]);
-
-  useEffect(() => {
     if (hasAllInfo && !hasPlaylists) {
       dispatch(getPlaylists());
     }
   }, [hasAllInfo]);
 
   useEffect(() => {
-    console.log("My Playlists", myPlaylists);
+    if (hasAllInfo && !hasMySongs) {
+      dispatch(getMySongs());
+    }
+  }, [hasAllInfo, hasMySongs]);
+
+  useEffect(() => {
+    if (mySongs !== null) {
+      setHasMySongs(true);
+    }
+  }, [mySongs]);
+
+  useEffect(() => {
     if (myPlaylists) {
       setHasPlaylists(true);
     }
   }, [myPlaylists]);
 
   useEffect(() => {
-    if (hasAllInfo) {
+    if (hasAllInfo && favorites.length === 0) {
       dispatch(getFavorites());
     }
   }, [hasAllInfo]);

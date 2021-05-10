@@ -38,13 +38,13 @@ function RowPlaylist({ playlistInfo }) {
     setDialoguePosition({ x: e.clientX, y: e.clientY });
     setIsShowingDialogue(true);
   }
-
+  /* 
   useEffect(() => {
     if (deletePlaylistSuccess) {
       dispatch(deletePlaylistReset());
-      history.push(ROUTES.USER_PAGE);
+      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
     }
-  }, [deletePlaylistSuccess]);
+  }, [deletePlaylistSuccess]); */
 
   const likeFunction = isIdInList(playlistInfo._id, myPlaylists)
     ? {

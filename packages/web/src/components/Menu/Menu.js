@@ -12,6 +12,8 @@ import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
 import { hasUserAllInfo } from "../../utils/utils";
 
+import * as ROUTES from "../../routes";
+
 import {
   Background,
   Back,
@@ -23,42 +25,17 @@ import {
   FullName,
   MediaContainer,
 } from "./style";
-import { DeleteButton, CenterContent } from "../../styles/formStyles";
+import { DeleteButton } from "../../styles/formStyles";
 import { Icon } from "../../styles/mainStyles";
 
 import PlaylistPreviewMenu from "../PlaylistPreviewMenu";
-import RowPlaylist from "../RowPlaylist";
 import MenuPlaylistList from "../MenuPlaylistList";
 
 function Menu({ show, close }) {
   const dispatch = useDispatch();
   const User = useSelector(userSelector);
   const { myPlaylists } = useSelector(playlistSelector);
-  const { favorites, mySongs } = useSelector(songSelector);
-  const [hasAllInfo, setHasAllInfo] = useState(false);
-  const [hasMySongs, setHasMySongs] = useState(false);
-
-  useEffect(() => {
-    if (hasAllInfo && !hasMySongs) {
-      dispatch(getMySongs());
-    }
-  }, [hasAllInfo, hasMySongs]);
-
-  useEffect(() => {
-    if (mySongs) {
-      setHasMySongs(true);
-    }
-  }, [mySongs]);
-
-  useEffect(() => {
-    if (hasAllInfo) {
-      dispatch(getFavorites());
-    }
-  }, [hasAllInfo]);
-
-  useEffect(() => {
-    setHasAllInfo(hasUserAllInfo(User.currentUser));
-  }, [User.currentUser]);
+  const { favorites } = useSelector(songSelector);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -78,7 +55,7 @@ function Menu({ show, close }) {
             <Icon type="button" name="close" size="small" onClick={close} />
           </CloseContainer>
           <RowDiv>
-            <Link to="/user-page">
+            <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <MenuImage
                 src={
                   User.currentUser.porfileImage ||
@@ -86,7 +63,7 @@ function Menu({ show, close }) {
                 }
               />
             </Link>
-            <Link to="/user-page">
+            <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <ColumnDiv>
                 <UserNameMenu>{User.currentUser.userName}</UserNameMenu>
                 <FullName>{`${User.currentUser.firstName}  ${User.currentUser.lastName}`}</FullName>

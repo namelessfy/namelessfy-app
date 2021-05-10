@@ -26,7 +26,7 @@ function UserList({ button, content }) {
     dispatch(setAutoPlay(true));
     dispatch(setQueueAndCurrentSong(song, list, "My Songs"));
   }
-  console.log(content);
+
   return (
     <div>
       {button && (

@@ -51,7 +51,7 @@ function UploadSong() {
   useEffect(() => {
     if (uploadSongSuccess) {
       dispatch(setUserView("song"));
-      history.push(ROUTES.USER_PAGE);
+      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
       dispatch(uploadSongReset());
     }
   }, [uploadSongSuccess]);

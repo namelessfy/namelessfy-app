@@ -300,6 +300,88 @@ export const uploadSongReset = () => ({
   type: SongTypes.UPLOAD_SONG_RESET,
 });
 
+export const getUserSongs = (id) => {
+  return async function getUserSongsThunk(dispatch) {
+    dispatch(getUserSongsRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getUserSongsError("Error Getting the token"));
+    }
+
+    const response = await api.getSongs(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      id,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(getUserSongsError(response.errorMessage));
+    }
+
+    return dispatch(getUserSongsSuccess(response.data.data));
+  };
+};
+
+export const getUserSongsRequest = () => ({
+  type: SongTypes.GET_USER_SONGS_REQUEST,
+});
+
+export const getUserSongsError = (error) => ({
+  type: SongTypes.GET_USER_SONGS_ERROR,
+  payload: error,
+});
+
+export const getUserSongsSuccess = (songs) => ({
+  type: SongTypes.GET_USER_SONGS_SUCCESS,
+  payload: songs,
+});
+
+export const getUserSongsReset = () => ({
+  type: SongTypes.GET_USER_SONGS_RESET,
+});
+
+export const getUserFavorites = (id) => {
+  return async function getUserFavoritesThunk(dispatch) {
+    dispatch(getUserFavoritesRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getUserFavoritesError("Error getUserting the token"));
+    }
+
+    const response = await api.getFavorites(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      id,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(getUserFavoritesError(response.errorMessage));
+    }
+
+    return dispatch(getUserFavoritesSuccess(response.data.data));
+  };
+};
+
+export const getUserFavoritesRequest = () => ({
+  type: SongTypes.GET_USER_FAVORITES_REQUEST,
+});
+
+export const getUserFavoritesError = (error) => ({
+  type: SongTypes.GET_USER_FAVORITES_ERROR,
+  payload: error,
+});
+
+export const getUserFavoritesSuccess = (favorites) => ({
+  type: SongTypes.GET_USER_FAVORITES_SUCCESS,
+  payload: favorites,
+});
+
+export const getUserFavoritesReset = () => ({
+  type: SongTypes.GET_USER_FAVORITES_RESET,
+});
+
 export const songReset = () => ({
   type: SongTypes.SONG_RESET,
 });

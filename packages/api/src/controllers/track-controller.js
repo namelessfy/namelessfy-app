@@ -155,8 +155,6 @@ async function patchFull(req, res, next) {
       },
     );
 
-    console.log(track);
-
     return handleResponse(res, track, 200, 500);
   } catch (error) {
     next(error);

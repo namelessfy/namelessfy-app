@@ -118,11 +118,11 @@ async function getFavoritePlaylists(req, res, next) {
   try {
     const { uid } = req.user;
     let { id } = req.params;
-    let firebase_id = id === "me" ? uid : id;
+    let firebase_id = uid;
 
     const user = await UserRepo.findOne({ firebase_id });
 
-    id = user.data._id;
+    id = id === "me" ? user.data._id : id;
 
     let defaultQuery = {
       "likedBy._id": id,

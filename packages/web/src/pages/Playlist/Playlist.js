@@ -82,7 +82,7 @@ function UploadSong() {
     const list = startListByIndex(index, [...playlistInfo?.tracks]);
 
     dispatch(setAutoPlay(true));
-    dispatch(setQueueAndCurrentSong(song, list));
+    dispatch(setQueueAndCurrentSong(song, list, playlistInfo.title));
   }
 
   function editPlaylist() {
