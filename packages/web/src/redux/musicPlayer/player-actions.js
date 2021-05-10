@@ -60,3 +60,8 @@ export const updateSongFromQueue = (song) => ({
   type: PlayerTypes.UPDATE_SONG_FROM_QUEUE,
   payload: song,
 });
+
+export const addSongToLastPlayed = (song) => ({
+  type: PlayerTypes.SET_LAST_SONG_PLAYED,
+  payload: song,
+});

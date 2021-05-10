@@ -51,10 +51,6 @@ const PlaylistCover = styled.button`
     height: ${calculateContainerWidht4PlaylistsResponsiveNormal};
   }
   @media (max-width: 500px) {
-    width: ${calculateContainerWidht4PlaylistsResponsiveSmall};
-    height: ${calculateContainerWidht4PlaylistsResponsiveSmall};
-  }
-  @media (max-width: 350px) {
     width: ${calculateContainerWidht3PlaylistsResponsive};
     height: ${calculateContainerWidht3PlaylistsResponsive};
   }
@@ -97,9 +93,6 @@ const PlaylistContainer = styled.div`
     width: ${calculateContainerWidht4PlaylistsResponsiveNormal};
   }
   @media (max-width: 500px) {
-    width: ${calculateContainerWidht4PlaylistsResponsiveSmall};
-  }
-  @media (max-width: 350px) {
     width: ${calculateContainerWidht3PlaylistsResponsive};
   }
 `;

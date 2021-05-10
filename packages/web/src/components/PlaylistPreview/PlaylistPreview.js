@@ -57,10 +57,12 @@ function PlaylistPreview({ songs, title }) {
   }
 
   function handlePreviousPage() {
-    if (page === 1) {
-      setPage(Math.floor(songs.length / songsPerPage) + 1);
-    } else {
-      setPage(page - 1);
+    if (page < songs.length / songsPerPage) {
+      if (page === 1) {
+        setPage(Math.floor(songs.length / songsPerPage) + 1);
+      } else {
+        setPage(page - 1);
+      }
     }
   }
 

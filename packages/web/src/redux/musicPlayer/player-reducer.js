@@ -1,3 +1,4 @@
+import { addSongToLastPlayed } from "../../utils/favoritesUtils";
 import { shuffle, startListByIndex } from "../../utils/playerUtils";
 import {
   deleteAllInstancesFromList,
@@ -15,6 +16,7 @@ export const PlayerInitialState = {
   isPrequeue: false,
   currentPlaylist: null,
   isCurrentSongDeleted: false,
+  lastSongsPlayed: [],
 };
 
 const PlayerReducer = (state = PlayerInitialState, action) => {
@@ -216,6 +218,15 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         queue: replaceAllInstancesFromList(song, state.queue),
         preQueue: replaceAllInstancesFromList(song, state.preQueue),
         shuffleQueue: replaceAllInstancesFromList(song, state.shuffleQueue),
+      };
+    }
+    case PlayerTypes.SET_LAST_SONG_PLAYED: {
+      return {
+        ...state,
+        lastSongsPlayed: addSongToLastPlayed(
+          action.payload,
+          state.lastSongsPlayed,
+        ),
       };
     }
 

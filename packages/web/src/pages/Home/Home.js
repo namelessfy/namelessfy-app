@@ -19,12 +19,14 @@ import { hasUserAllInfo } from "../../utils/utils";
 
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Home() {
   const dispatch = useDispatch();
   const { currentUser } = useSelector(userSelector);
   const { favorites, mySongs } = useSelector(songSelector);
   const { myPlaylists } = useSelector(playlistSelector);
+  const { lastSongsPlayed } = useSelector(playerSelector);
   const [hasAllInfo, setHasAllInfo] = useState(false);
   const [hasMySongs, setHasMySongs] = useState(false);
   const [hasPlaylists, setHasPlaylists] = useState(false);
@@ -72,14 +74,17 @@ function Home() {
       {(!hasMySongs || !hasPlaylists) && <Loader />}
       <Navbar />
       <Container>
+        {myPlaylists?.length > 0 && (
+          <PlaylistList title="My Playlists" playlists={myPlaylists} />
+        )}
+        {lastSongsPlayed?.length > 0 && (
+          <PlaylistPreview title="Last songs played" songs={lastSongsPlayed} />
+        )}
         {favorites?.length > 0 && (
-          <PlaylistPreview title="Liked Songs" songs={favorites} />
+          <PlaylistPreview title="Your favorite songs" songs={favorites} />
         )}
         {mySongs?.length > 0 && (
           <PlaylistPreview title="My Songs" songs={mySongs} />
-        )}
-        {myPlaylists?.length > 0 && (
-          <PlaylistList title="My Playlists" playlists={myPlaylists} />
         )}
       </Container>
     </Main>
