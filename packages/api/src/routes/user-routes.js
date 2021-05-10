@@ -18,5 +18,11 @@ userRouter.patch(
   userController.edit,
 );
 userRouter.delete("/user/delete", authMiddleware, userController.delete);
+userRouter.get(
+  "/user/following/:id",
+  authMiddleware,
+  userController.getUsersFollowing,
+);
+userRouter.patch("/user/follow/:id", authMiddleware, userController.followUser);
 
 module.exports = { userRouter };

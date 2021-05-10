@@ -122,7 +122,10 @@ function UploadSong() {
         <Thumbnail src={playlistInfo?.thumbnail} />
       </CenterContent>
       <Author>
-        by <Link to={`${ROUTES.USER_PAGE}/${playlistInfo?.authorName}`}>{playlistInfo?.authorName}</Link>
+        by{" "}
+        <Link to={`${ROUTES.USER_PAGE}/${playlistInfo?.authorName}`}>
+          {playlistInfo?.authorName}
+        </Link>
       </Author>
       <PlaylistInfo>
         <div>

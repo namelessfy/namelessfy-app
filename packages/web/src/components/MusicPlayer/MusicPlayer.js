@@ -84,7 +84,18 @@ function MusicPlayer() {
                     </SongTitle>
                     <Artists card>
                       {currentSong.artistId.map((artist) => {
-                        return <Link onClick={() => {setIsCard(false)}} to={`${ROUTES.USER_PAGE}/${artist.userName}`} key={artist._id}> {artist.userName}</Link>;
+                        return (
+                          <Link
+                            onClick={() => {
+                              setIsCard(false);
+                            }}
+                            to={`${ROUTES.USER_PAGE}/${artist.userName}`}
+                            key={artist._id}
+                          >
+                            {" "}
+                            {artist.userName}
+                          </Link>
+                        );
                       })}
                     </Artists>
                   </div>

@@ -29,11 +29,18 @@ function UserPage() {
   const { currentUser, user, isGettingUser, getUserError } = useSelector(
     userSelector,
   );
-  const { mySongs, favorites, userSongs, userFavorites, isGettingUserSongs, isGettingUserFavorites } = useSelector(
-    songSelector,
+  const {
+    mySongs,
+    favorites,
+    userSongs,
+    userFavorites,
+    isGettingUserSongs,
+    isGettingUserFavorites,
+  } = useSelector(songSelector);
+  const { myPlaylists, userPlaylists, isGettingUserPlaylists } = useSelector(
+    playlistSelector,
   );
-  const { myPlaylists, userPlaylists, isGettingUserPlaylists } = useSelector(playlistSelector);
-  const [ hasAllInfo, setHasAllInfo ] = useState(false);
+  const [hasAllInfo, setHasAllInfo] = useState(false);
   const { userName } = useParams();
 
   useEffect(() => {
@@ -69,7 +76,10 @@ function UserPage() {
 
   return (
     <Main marginBottom>
-      {(isGettingUser || isGettingUserSongs || isGettingUserFavorites || isGettingUserPlaylists) && <Loader />}
+      {(isGettingUser ||
+        isGettingUserSongs ||
+        isGettingUserFavorites ||
+        isGettingUserPlaylists) && <Loader />}
       {userName === currentUser.userName && !isGettingUser && !getUserError && (
         <UserProfile
           user={currentUser}

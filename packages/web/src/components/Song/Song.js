@@ -121,7 +121,10 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
             </SongTitle>
             <SongArtists isMenu={isMenu}>
               {songInfo.artistId.map((artist, index) => (
-                <Link key={artist._id} to={`${ROUTES.USER_PAGE}/${artist.userName}`}>
+                <Link
+                  key={artist._id}
+                  to={`${ROUTES.USER_PAGE}/${artist.userName}`}
+                >
                   {index > 0 ? ` ${artist.userName}` : artist.userName}
                 </Link>
               ))}

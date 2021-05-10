@@ -112,15 +112,16 @@ const FollowButton = styled.button`
   border: 2px solid ${colors.WHITE};
   border-radius: 10px;
 
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     outline: none;
   }
-  ${({isFollowed}) =>
-    !isFollowed && `
+  ${({ isFollowed }) =>
+    !isFollowed &&
+    `
     background-color: ${colors.WHITE};
     color: ${colors.DARK};
-    `
-}
+    `}
 `;
 
 const NavContainer = styled.div`
