@@ -25,7 +25,7 @@ const SongCover = styled.button`
   background-image: url(${(props) => props.src});
   background-size: cover;
   background-position: center;
-  box-shadow: 2px 2px 5px #0008;
+  /* box-shadow: 2px 2px 5px #0008; */
   cursor: pointer;
   transition: box-shadow 0.1s ease-in-out;
 
@@ -64,10 +64,32 @@ const SongCover = styled.button`
     transition: opacity 0.2s ease-in-out;
   }
 
+  ${({ isMenu }) =>
+    isMenu
+      ? `width: ${containerWidthMenu};
+    height: ${containerWidthMenu};`
+      : `
+      @media (min-width: 1000px) {
+        width: ${calculateContainerWidth};
+        height: ${calculateContainerWidth};
+      }
+      @media (max-width: 800px) {
+      width: ${calculateContainerWidth4SongsResponsiveBig};
+      height: ${calculateContainerWidth4SongsResponsiveBig};
+    }
+    @media (max-width: 620px) {
+      width: ${calculateContainerWidth4SongsResponsiveNormal};
+      height: ${calculateContainerWidth4SongsResponsiveNormal};
+    }
+    @media (max-width: 500px) {
+      width: ${calculateContainerWidth3SongsResponsive};
+      height: ${calculateContainerWidth3SongsResponsive};
+    }`}
+
   &:hover,
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 0 2px ${colors.WHITE};
+    box-shadow: inset 0px 0px 0 2px ${colors.WHITE};
   }
 
   @media (min-width: 1000px) {
@@ -85,44 +107,18 @@ const SongCover = styled.button`
       }
     }
   }
-
-  ${({ isMenu }) =>
-    isMenu
-      ? `width: calc(${containerWidthMenu} - 2px);
-    height: calc(${containerWidthMenu} - 2px);`
-      : `
-      @media (min-width: 1000px) {
-        width: ${calculateContainerWidth};
-        height: ${calculateContainerWidth};
-      }
-      @media (max-width: 800px) {
-      width: calc(${calculateContainerWidth4SongsResponsiveBig} - 2px);
-      height: calc(${calculateContainerWidth4SongsResponsiveBig} - 2px);
-    }
-    @media (max-width: 620px) {
-      width: calc(${calculateContainerWidth4SongsResponsiveNormal} - 2px);
-      height: calc(${calculateContainerWidth4SongsResponsiveNormal} - 2px);
-    }
-    @media (max-width: 500px) {
-      width: calc(${calculateContainerWidth4SongsResponsiveSmall} - 2px);
-      height: calc(${calculateContainerWidth4SongsResponsiveSmall} - 2px);
-    }
-    @media (max-width: 350px) {
-      width: calc(${calculateContainerWidth3SongsResponsive} - 2px);
-      height: calc(${calculateContainerWidth3SongsResponsive} - 2px);
-    }`}
 `;
 
 const SongTitle = styled.h3`
-  ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 16px;`)}
-  margin: -0.5rem 0 0;
+  ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 14px;`)}
+  margin: 0;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
   @media (max-width: 620px) {
-    font-size: medium;
+    font-size: 14px;
   }
 
   @media (max-width: 500px) {
@@ -147,10 +143,10 @@ const SongArtists = styled.div`
     color: ${colors.LIGHT};
     cursor: pointer;
     margin-top: 0.5em;
-    ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 16px;`)}
+    ${({ isMenu }) => (isMenu ? `font-size: small;` : `font-size: 14px;`)}
 
     @media (max-width: 620px) {
-      font-size: medium;
+      font-size: 14px;
     }
 
     @media (max-width: 500px) {
@@ -172,8 +168,9 @@ const SongArtists = styled.div`
 
 const SongContainer = styled.div`
   width: ${calculateContainerWidth};
-  padding-bottom: 1rem;
-  margin-top: 1rem;
+  padding-bottom: 0.5rem;
+  margin: 1.5rem 0 0;
+  border-radius: 10px;
 
   ${({ isMenu }) =>
     isMenu
@@ -189,7 +186,7 @@ const SongContainer = styled.div`
         width: ${calculateContainerWidth4SongsResponsiveNormal};
       }
       @media (max-width: 500px) {
-        width: ${calculateContainerWidth4SongsResponsiveSmall};
+        width: ${calculateContainerWidth3SongsResponsive};
       }
       @media (max-width: 350px) {
         width: ${calculateContainerWidth3SongsResponsive};
@@ -198,10 +195,10 @@ const SongContainer = styled.div`
 
 const BottomContainer = styled.div`
   width: 100%;
-  padding: 0 0.2rem;
   margin-left: 0.2rem;
   display: flex;
-  align-items: start;
+  align-items: center;
+  margin-top: -0.5rem;
 
   ${({ isMenu }) =>
     isMenu &&
@@ -210,6 +207,7 @@ const BottomContainer = styled.div`
   }`}
 
   @media (max-width: 620px) {
+    padding: 0;
     & #dialogueButton {
       display: none;
     }
@@ -217,8 +215,11 @@ const BottomContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  padding: 0 0.5rem;
   ${({ isMenu }) => {
-    return isMenu ? `width: 100%;` : `width: calc(100% - 20px);`;
+    return isMenu
+      ? `width: calc(100% - 0.5rem);`
+      : `width: calc(calc(100% - 20px) - 0.5rem);`;
   }}
 
   @media (max-width: 620px) {

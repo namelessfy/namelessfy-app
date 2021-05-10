@@ -78,7 +78,7 @@ const SongPalyerCard = styled.section`
 
 const SongPalyer = styled.section`
   width: min(100%, 1000px);
-  height: 80px;
+  height: 75px;
   background-color: ${colors.MAIN};
   border-radius: 10px 10px 0 0;
   display: flex;
@@ -103,7 +103,7 @@ const SongPalyer = styled.section`
   }
 
   @media (max-width: 650px) {
-    height: 155px;
+    height: 145px;
     padding-bottom: 75px;
   }
 
@@ -112,7 +112,7 @@ const SongPalyer = styled.section`
   }
 
   @media (max-width: 320px) {
-    height: 140px;
+    height: 135px;
     padding: 0 2rem 75px;
   } ;
 `;
@@ -193,7 +193,7 @@ const SongInfo = styled.div`
 `;
 
 const SongTitle = styled.h2`
-  font-size: larger;
+  font-size: large;
   cursor: pointer;
   margin-bottom: 0;
   white-space: nowrap;
@@ -216,12 +216,8 @@ const SongTitle = styled.h2`
       }`;
   }}
 
-  @media (max-width: 480px) {
-    font-size: large;
-  }
-
-  @media (max-width: 320px) {
-    font-size: medium;
+  @media (max-width: 400px) {
+    font-size: small;
   }
 `;
 
@@ -229,6 +225,7 @@ const Artists = styled.div`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 200;
 
   ${({ card }) => {
     if (card) {
@@ -251,11 +248,15 @@ const Artists = styled.div`
           text-decoration: underline;
         }
       }
-    
-      & a:not(:last-child):after {
+      
+      & > a + a:before {
+        content: " ";
+      }
+      & > a:not(:last-child):after {
         content: ",";
         color: ${colors.WHITE};
-      }`;
+      }
+      `;
     }
 
     return `
@@ -266,11 +267,7 @@ const Artists = styled.div`
       margin-top: 0.5em;
       pointer-events: none;
   
-      @media (max-width: 480px) {
-        font-size: medium;
-      }
-  
-      @media (max-width: 320px) {
+      @media (max-width: 400px) {
         font-size: small;
       }
   
@@ -281,7 +278,10 @@ const Artists = styled.div`
       }
     }
   
-    & span:not(:last-child):after {
+    & > span + span:before {
+      content: " ";
+    }
+    & > span:not(:last-child):after {
       content: ",";
       color: ${colors.WHITE};
     }`;
@@ -421,7 +421,8 @@ const LikeBackground = styled.div`
   width: fit-content;
   height: fit-content;
   margin: 0 2rem 0 0;
-
+  display: flex;
+  align-items: center;
   @media (max-width: 650px) {
     display: none;
   } ;

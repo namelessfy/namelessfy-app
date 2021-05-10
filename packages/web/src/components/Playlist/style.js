@@ -31,7 +31,7 @@ const PlaylistCover = styled.button`
   &:hover,
   &:focus {
     outline: none;
-    box-shadow: 0px 0px 0 2px ${colors.WHITE};
+    box-shadow: inset 0px 0px 0 2px ${colors.WHITE};
   }
 
   @media (min-width: 1000px) {
@@ -62,7 +62,7 @@ const PlaylistCover = styled.button`
 
 const PlaylistTitle = styled.h3`
   font-size: 18px;
-  margin: -0.5rem 0 0;
+  font-weight: 400;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -85,8 +85,7 @@ const PlaylistTitle = styled.h3`
 
 const PlaylistContainer = styled.div`
   width: ${calculateContainerWidht};
-  padding-bottom: 1rem;
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 
   @media (max-width: 1000px) {
     width: ${calculateContainerWidht5PlaylistsResponsive};
@@ -108,6 +107,7 @@ const PlaylistContainer = styled.div`
 const BottomContainer = styled.div`
   width: 100%;
   padding: 0 0.2rem;
+  margin-top: -0.4rem;
   margin-left: 0.2rem;
   display: flex;
   align-items: center;
@@ -119,6 +119,8 @@ const BottomContainer = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  align-items: center;
   width: calc(100% - 20px);
   @media (max-width: 620px) {
     width: 100%;
