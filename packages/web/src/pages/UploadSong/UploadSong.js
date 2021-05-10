@@ -27,6 +27,7 @@ import {
 import { Tag, TagList, CloseButton } from "./style";
 
 import { Main } from "../../styles/mainStyles";
+import Loader from "../../components/Loader";
 
 function UploadSong() {
   const history = useHistory();
@@ -140,6 +141,7 @@ function UploadSong() {
 
   return (
     <Main marginBottom>
+      {isUploadingSong && <Loader />}
       <Navbar />
       <Title>Upload Song</Title>
       <Separation />

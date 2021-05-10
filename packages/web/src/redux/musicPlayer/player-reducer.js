@@ -150,6 +150,12 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       };
     }
     case PlayerTypes.SET_QUEUE: {
+      if (state.isShuffle) {
+        return {
+          ...state,
+          shuffleQueue: action.payload,
+        };
+      }
       return {
         ...state,
         queue: action.payload,

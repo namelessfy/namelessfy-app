@@ -43,7 +43,7 @@ const SongArtist = styled.div`
 
 const SongDuration = styled.div`
   width: 12.5%;
-  text-align: center;
+  text-align: right;
 `;
 
 const Icontainer = styled.div`
@@ -51,6 +51,10 @@ const Icontainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  & > button {
+    pointer-events: none;
+  }
 `;
 
 export { SongList, SongItem, SongTitle, SongArtist, SongDuration, Icontainer };

@@ -39,15 +39,19 @@ import {
 import { deleteSongReset } from "../../redux/song/song-actions";
 import { isIdInList } from "../../utils/favoritesUtils";
 import { songSelector } from "../../redux/song/song-selectors";
+import Loader from "../../components/Loader";
 
 function UploadSong() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
   const { currentUser } = useSelector(userSelector);
-  const { playlistInfo, myPlaylists, getOnePlaylistSuccess } = useSelector(
-    playlistSelector,
-  );
+  const {
+    playlistInfo,
+    myPlaylists,
+    isGettingOnePlaylist,
+    getOnePlaylistSuccess,
+  } = useSelector(playlistSelector);
   const { deletingSuccess } = useSelector(songSelector);
   const [isGrid, setIsGrid] = useState(true);
 
@@ -112,6 +116,7 @@ function UploadSong() {
 
   return (
     <Main marginBottom>
+      {isGettingOnePlaylist && <Loader />}
       <Navbar />
       <CenterContent>
         <Thumbnail src={playlistInfo?.thumbnail} />

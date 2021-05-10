@@ -11,14 +11,19 @@ import { setQueue, setPreQueue } from "../../redux/musicPlayer/player-actions";
 import DragAndDropList from "../../components/DragAndDropList/DragAndDropList";
 
 function Queue() {
-  const { queue, preQueue, currentSong, currentPlaylist } = useSelector(
-    playerSelector,
-  );
+  const {
+    queue,
+    isShuffle,
+    shuffleQueue,
+    preQueue,
+    currentSong,
+    currentPlaylist,
+  } = useSelector(playerSelector);
   const dispatch = useDispatch();
 
   function handleOnNextFromDragEnd(result) {
     if (result.destination?.droppableId === "nextFrom") {
-      const items = [...queue];
+      const items = isShuffle ? [...shuffleQueue] : [...queue];
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
       dispatch(setQueue(items));
@@ -62,16 +67,27 @@ function Queue() {
             />
           </>
         )}
-        {queue.length > 0 && (
-          <>
-            <SectionTitle>Next from {currentPlaylist}:</SectionTitle>
-            <DragAndDropList
-              dropId="nextFrom"
-              handleOnDragEnd={handleOnNextFromDragEnd}
-              songList={queue}
-            />
-          </>
-        )}
+        {isShuffle
+          ? shuffleQueue.length > 0 && (
+              <>
+                <SectionTitle>Next from {currentPlaylist}:</SectionTitle>
+                <DragAndDropList
+                  dropId="nextFrom"
+                  handleOnDragEnd={handleOnNextFromDragEnd}
+                  songList={shuffleQueue}
+                />
+              </>
+            )
+          : queue.length > 0 && (
+              <>
+                <SectionTitle>Next from {currentPlaylist}:</SectionTitle>
+                <DragAndDropList
+                  dropId="nextFrom"
+                  handleOnDragEnd={handleOnNextFromDragEnd}
+                  songList={queue}
+                />
+              </>
+            )}
       </QueueContainer>
     </Main>
   );

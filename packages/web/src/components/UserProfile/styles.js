@@ -120,7 +120,9 @@ const NavContainer = styled.div`
 `;
 
 const NavButton = styled.button`
-  ${({ selected }) => `color: ${selected ? colors.LIGHT : colors.WHITE};`}
+  ${({ selected }) =>
+    `color: ${selected ? colors.LIGHT : colors.WHITE}; 
+    ${selected && `font-weight: bold;`}`};
   width: calc(100% / 3);
   letter-spacing: 1px;
   &:hover,

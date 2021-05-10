@@ -23,7 +23,7 @@ const Container = styled.div`
   height: ${({ numberOfButtons }) => numberOfButtons * buttonHeight}px;
   position: absolute;
   background-color: ${colors.NEUTRAL};
-  z-index: 6;
+  z-index: 12;
   border-radius: 0 10px 10px;
   box-shadow: 2px 2px 10px #0008;
   display: flex;
@@ -84,7 +84,7 @@ const Background = styled.div`
   width: 100vw;
   height: 100vh;
   position: absolute;
-  z-index: 6;
+  z-index: 12;
   top: 0;
   left: 0;
 `;
