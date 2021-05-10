@@ -1,5 +1,4 @@
-const { CommonStaticRepository } = require("../repositories");
-const USER_COLLECTION = "User";
+const { USER_COLLECTION, CommonStaticRepository } = require("../repositories");
 
 function orderByLikedBy(a, b, id) {
   const one = a.likedBy.find((s) => s._id.toString() === id.toString());
