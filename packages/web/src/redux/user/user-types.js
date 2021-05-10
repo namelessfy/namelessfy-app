@@ -6,3 +6,8 @@ export const SET_USER = "SET_USER";
 export const RESET_USER = "RESET_USER";
 
 export const SET_USER_VIEW = "SET_USER_VIEW";
+
+export const GET_USER_REQUEST = "GET_USER_REQUEST";
+export const GET_USER_ERROR = "GET_USER_ERROR";
+export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
+export const GET_USER_RESET = "GET_USER_RESET";

@@ -7,6 +7,9 @@ export const UserInitialState = {
     email: null,
   },
   initialView: "song",
+  isGettingUser: false,
+  getUserError: null,
+  user: null,
 };
 
 const UserReducer = (state = UserInitialState, action) => {
@@ -54,6 +57,36 @@ const UserReducer = (state = UserInitialState, action) => {
           email: null,
         },
         initialView: "song",
+      };
+    }
+    case UserTypes.GET_USER_REQUEST: {
+      return {
+        ...state,
+        isGettingUser: true,
+        getUserError: null,
+      };
+    }
+    case UserTypes.GET_USER_ERROR: {
+      return {
+        ...state,
+        isGettingUser: false,
+        getUserError: action.payload,
+      };
+    }
+    case UserTypes.GET_USER_SUCCESS: {
+      return {
+        ...state,
+        isGettingUser: false,
+        getUserError: null,
+        user: action.payload,
+      };
+    }
+    case UserTypes.GET_USER_RESET: {
+      return {
+        ...state,
+        isGettingUser: false,
+        getUserError: null,
+        user: null,
       };
     }
     default: {

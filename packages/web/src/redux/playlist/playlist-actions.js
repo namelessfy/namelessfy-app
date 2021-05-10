@@ -397,8 +397,6 @@ export function removeFromPlaylist(songId, playlistId) {
         playlistId,
       );
 
-      console.log(playlistRes.data);
-
       if (playlistRes.errorMessage) {
         return dispatch(removeFromPlaylistError(playlistRes.errorMessage));
       }
@@ -412,6 +410,53 @@ export function removeFromPlaylist(songId, playlistId) {
 
 export const removeFromPlaylistReset = () => ({
   type: PlaylistTypes.REMOVE_FROM_PLAYLIST_RESET,
+});
+
+export const getUserPlaylistsRequest = () => ({
+  type: PlaylistTypes.GET_USER_PLAYLISTS_REQUEST,
+});
+
+export const getUserPlaylistsError = (message) => ({
+  type: PlaylistTypes.GET_USER_PLAYLISTS_ERROR,
+  payload: message,
+});
+
+export const getUserPlaylistsSuccess = (playlists) => ({
+  type: PlaylistTypes.GET_USER_PLAYLISTS_SUCCESS,
+  payload: playlists,
+});
+
+export function getUserPlaylists(id) {
+  return async function playlistThunk(dispatch) {
+    dispatch(getUserPlaylistsRequest());
+
+    try {
+      const userToken = await getCurrentUserToken();
+
+      if (!userToken) {
+        return dispatch(getUserPlaylistsError("User token null!"));
+      }
+
+      const playlistRes = await api.getFavoritePlaylists(
+        {
+          Authorization: `Bearer ${userToken}`,
+        },
+        id,
+      );
+
+      if (playlistRes.errorMessage) {
+        return dispatch(getUserPlaylistsError(playlistRes.errorMessage));
+      }
+
+      return dispatch(getUserPlaylistsSuccess(playlistRes.data.data));
+    } catch (err) {
+      return dispatch(getUserPlaylistsError(err.message));
+    }
+  };
+}
+
+export const getUserPlaylistsReset = () => ({
+  type: PlaylistTypes.GET_USER_PLAYLISTS_RESET,
 });
 
 export const playlistReset = () => ({

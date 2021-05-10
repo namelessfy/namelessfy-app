@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import usePlayer from "../../hooks/usePlayer";
 
@@ -83,8 +83,19 @@ function MusicPlayer() {
                       <a>{currentSong.title}</a>
                     </SongTitle>
                     <Artists card>
-                      {currentSong.artistId.map((artist, index) => {
-                        return <a key={artist.name}> {artist.userName}</a>;
+                      {currentSong.artistId.map((artist) => {
+                        return (
+                          <Link
+                            onClick={() => {
+                              setIsCard(false);
+                            }}
+                            to={`${ROUTES.USER_PAGE}/${artist.userName}`}
+                            key={artist._id}
+                          >
+                            {" "}
+                            {artist.userName}
+                          </Link>
+                        );
                       })}
                     </Artists>
                   </div>

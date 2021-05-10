@@ -160,6 +160,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getUserByUsername(headers, userName) {
+    return request({
+      url: `/user/${userName}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -180,6 +188,7 @@ function makeApi(request = makeRequest()) {
     likePlaylist: likePlaylist,
     dislikePlaylist: dislikePlaylist,
     removeFromPlaylistById: removeFromPlaylistById,
+    getUserByUsername: getUserByUsername,
   };
 }
 

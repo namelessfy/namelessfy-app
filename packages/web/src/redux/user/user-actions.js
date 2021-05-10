@@ -20,7 +20,7 @@ export function editUser(formData) {
     if (response.errorMessage) {
       return dispatch(editUserError(response.errorMessage));
     }
-    return dispatch(editUserSuccess(response.data));
+    return dispatch(editUserSuccess(response.data.data));
   };
 }
 
@@ -49,6 +49,47 @@ export function setUserView(view) {
     payload: view,
   };
 }
+
+export const getUserRequest = () => ({
+  type: UserTypes.GET_USER_REQUEST,
+});
+
+export const getUserError = (message) => ({
+  type: UserTypes.GET_USER_ERROR,
+  payload: message,
+});
+
+export const getUserSuccess = (user) => ({
+  type: UserTypes.GET_USER_SUCCESS,
+  payload: user,
+});
+
+export function getUser(userName) {
+  return async function getUserThunk(dispatch) {
+    dispatch(getUserRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getUserError("Error Getting the token"));
+    }
+
+    const response = await api.getUserByUsername(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      userName,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(getUserError(response.errorMessage));
+    }
+    return dispatch(getUserSuccess(response.data.data));
+  };
+}
+
+export const getUserReset = (user) => ({
+  type: UserTypes.GET_USER_RESET,
+  payload: user,
+});
 
 export const resetUser = () => ({
   type: UserTypes.RESET_USER,

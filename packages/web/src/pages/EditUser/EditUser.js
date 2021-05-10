@@ -18,7 +18,7 @@ function EditUser() {
     if (user === null) {
       setUser(currentUser);
     } else if (!haveUsersSameInfo(user, currentUser)) {
-      history.push(ROUTES.USER_PAGE);
+      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
     }
   }, [currentUser]);
 

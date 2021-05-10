@@ -55,8 +55,6 @@ function UserNavBar({ songs, playlists, favSongs }) {
     elements: playlists,
   };
 
-  console.log(favSongs);
-
   return (
     <div>
       <NavContainer>

@@ -218,7 +218,6 @@ const BottomContainer = styled.div`
 
 const InfoContainer = styled.div`
   ${({ isMenu }) => {
-    console.log(isMenu);
     return isMenu ? `width: 100%;` : `width: calc(100% - 20px);`;
   }}
 

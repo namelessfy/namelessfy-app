@@ -36,6 +36,10 @@ export const PlaylistInitialState = {
   isRemoving: false,
   removeSuccess: false,
   removeError: null,
+
+  isGettingUserPlaylists: false,
+  getUserPlaylistsError: null,
+  userPlaylists: [],
 };
 
 const PlaylistReducer = (state = PlaylistInitialState, action) => {
@@ -323,7 +327,40 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         removeError: null,
       };
     }
-
+    case PlaylistTypes.GET_USER_PLAYLISTS_REQUEST: {
+      return {
+        ...state,
+        isGettingUserPlaylists: true,
+        getUserPlaylistsSuccess: false,
+        getUserPlaylistsError: null,
+      };
+    }
+    case PlaylistTypes.GET_USER_PLAYLISTS_ERROR: {
+      return {
+        ...state,
+        isGettingUserPlaylists: false,
+        getUserPlaylistsSuccess: false,
+        getUserPlaylistsError: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_USER_PLAYLISTS_SUCCESS: {
+      return {
+        ...state,
+        isGettingUserPlaylists: false,
+        getUserPlaylistsSuccess: true,
+        getUserPlaylistsError: null,
+        userPlaylists: action.payload,
+      };
+    }
+    case PlaylistTypes.GET_USER_PLAYLISTS_RESET: {
+      return {
+        ...state,
+        isGettingUserSongs: false,
+        getUserSongsSuccess: false,
+        getUserSongsError: null,
+        userPlaylists: [],
+      };
+    }
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
@@ -355,6 +392,10 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isRemoving: false,
         removeSuccess: false,
         removeError: null,
+
+        isGettingUserPlaylists: false,
+        getUserPlaylistsError: null,
+        userPlaylists: [],
       };
     }
     default: {

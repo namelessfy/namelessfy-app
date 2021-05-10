@@ -131,7 +131,7 @@ async function getFavoritePlaylists(req, res, next) {
   try {
     const { uid } = req.user;
     let { id } = req.params;
-    let firebase_id = id === "me" ? uid : id;
+    let firebase_id = uid;
 
     const userOptions = {
       query: { firebase_id },
@@ -143,7 +143,7 @@ async function getFavoritePlaylists(req, res, next) {
       userOptions,
     );
 
-    id = user.data._id;
+    id = id === "me" ? user.data._id : id;
 
     let defaultQuery = {
       "likedBy._id": id,
