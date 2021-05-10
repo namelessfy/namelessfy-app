@@ -1,4 +1,8 @@
-const { UserRepo, PlaylistRepo } = require("../repositories");
+const {
+  PLAYLIST_COLLECTION,
+  USER_COLLECTION,
+  CommonStaticRepository,
+} = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
 const { handleResponse } = require("../utils/utils");
 const {
@@ -60,7 +64,15 @@ async function create(req, res, next) {
       tracks = tracks.map((el) => ({ _id: el, time: new Date() }));
     }
 
-    const user = await UserRepo.findOne({ firebase_id: uid });
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
 
     if (user.error) {
       return handleResponse(res, user, null, 503);
@@ -75,40 +87,41 @@ async function create(req, res, next) {
       cloudinaryThumbnailId,
     } = await handleCloudinaryUpdateImage(res, file);
 
-    let playlist = await PlaylistRepo.create({
-      title,
-      thumbnail,
-      cloudinaryThumbnailId,
-      type,
-      publicAccessible,
-      authorName: user.data.userName,
-      author: user.data._id,
-      likedBy: [
-        {
-          _id: user.data._id,
-          time: new Date(),
-        },
-      ],
-      tracks,
-    });
+    const playlistCreateOptions = {
+      query: {
+        title,
+        thumbnail,
+        cloudinaryThumbnailId,
+        type,
+        publicAccessible,
+        authorName: user.data.userName,
+        author: user.data._id,
+        likedBy: [
+          {
+            _id: user.data._id,
+            time: new Date(),
+          },
+        ],
+        tracks,
+      },
+    };
 
-    playlist = await PlaylistRepo.getOne({ _id: playlist.data._id }, [
-      "tracks",
-    ]);
+    await CommonStaticRepository.create(
+      PLAYLIST_COLLECTION,
+      playlistCreateOptions,
+    );
 
-    if (playlist.error) {
-      return res.status(500).send({
-        data: null,
-        error: playlist.error,
-      });
-    }
+    const playlistOptions = {
+      query: { _id: playlist.data._id },
+      populators: ["tracks"],
+    };
 
-    if (playlist.data) {
-      return res.status(201).send({
-        data: playlist.data,
-        error: null,
-      });
-    }
+    const playlist = await CommonStaticRepository.getOne(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
+
+    return handleResponse(res, playlist, 201);
   } catch (error) {
     next(error);
   }
@@ -120,7 +133,15 @@ async function getFavoritePlaylists(req, res, next) {
     let { id } = req.params;
     let firebase_id = uid;
 
-    const user = await UserRepo.findOne({ firebase_id });
+    const userOptions = {
+      query: { firebase_id },
+      projection: "-__v",
+    };
+
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
 
     id = id === "me" ? user.data._id : id;
 
@@ -141,13 +162,13 @@ async function getFavoritePlaylists(req, res, next) {
       ],
     };
 
-    let query = id === "me" ? meQuery : defaultQuery;
-
-    let playlists = await PlaylistRepo.getAll(query, null);
-
-    if (playlists.error) {
-      return handleResponse(res, playlists, null, 500);
-    }
+    const playlistOptions = {
+      query: id === "me" ? meQuery : defaultQuery,
+    };
+    const playlists = await CommonStaticRepository.getAll(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     return handleResponse(res, playlists, 200, 500);
   } catch (error) {
@@ -160,22 +181,34 @@ async function getOnePlaylist(req, res, next) {
     const { uid } = req.user;
     let { playlistId } = req.params;
 
-    const user = await UserRepo.findOne({ firebase_id: uid });
-
-    const query = {
-      $or: [
-        {
-          publicAccessible: true,
-          _id: playlistId,
-        },
-        {
-          author: user.data._id,
-          _id: playlistId,
-        },
-      ],
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
     };
 
-    const playlist = await PlaylistRepo.getOne(query, ["tracks"]);
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+    const playlistOptions = {
+      query: {
+        $or: [
+          {
+            publicAccessible: true,
+            _id: playlistId,
+          },
+          {
+            author: user.data._id,
+            _id: playlistId,
+          },
+        ],
+      },
+      populators: ["tracks"],
+    };
+    const playlist = await CommonStaticRepository.getOne(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     return handleResponse(res, playlist, 200, 503);
   } catch (error) {
@@ -207,18 +240,16 @@ async function editPlaylistInfo(req, res, next) {
 
     thumbnail = cloudinaryUpdateResponse.thumbnail;
 
-    const query = thumbnail
-      ? {
-          title,
-          thumbnail,
-          cloudinaryThumbnailId,
-          publicAccessible,
-        }
-      : {
-          title,
-          publicAccessible,
-        };
-    const playlist = await PlaylistRepo.findOneAndUpdate({ _id: id }, query);
+    const playlistOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: thumbnail
+        ? { title, thumbnail, cloudinaryThumbnailId, publicAccessible }
+        : { title, publicAccessible },
+    };
+    const playlist = await CommonStaticRepository.findOneAndUpdate(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {
@@ -227,11 +258,11 @@ async function editPlaylistInfo(req, res, next) {
 }
 
 async function addToFavorite(req, res, next) {
-  return await addFavorite(req, res, PlaylistRepo, next);
+  return await addFavorite(req, res, PLAYLIST_COLLECTION, next);
 }
 
 async function removeFromFavorite(req, res, next) {
-  return await removeFavorite(req, res, PlaylistRepo, next);
+  return await removeFavorite(req, res, PLAYLIST_COLLECTION, next);
 }
 
 async function removeTrack(req, res, next) {
@@ -239,16 +270,29 @@ async function removeTrack(req, res, next) {
     const { _id } = req.body;
     const { id } = req.params;
 
-    let repo = await PlaylistRepo.findOneAndUpdate(
-      { _id: id },
-      {
+    const playlistCreateOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $pull: {
           tracks: _id,
         },
       },
+    };
+
+    let repo = await CommonStaticRepository.findOneAndUpdate(
+      PLAYLIST_COLLECTION,
+      playlistCreateOptions,
     );
 
-    repo = await PlaylistRepo.getOne({ _id: repo.data._id }, ["tracks"]);
+    const playlistOptions = {
+      query: { _id: repo.data._id },
+      populators: ["tracks"],
+    };
+
+    repo = await CommonStaticRepository.getOne(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     return handleResponse(res, repo, 200, 500);
   } catch (error) {
@@ -257,7 +301,7 @@ async function removeTrack(req, res, next) {
 }
 
 async function deletePlaylist(req, res) {
-  return await deleteById(req, res, PlaylistRepo);
+  return await deleteById(req, res, PLAYLIST_COLLECTION);
 }
 
 async function addSongToPlaylist(req, res, next) {
@@ -267,18 +311,27 @@ async function addSongToPlaylist(req, res, next) {
   } = req;
 
   try {
-    let playlist = await PlaylistRepo.findOneAndUpdate(
-      { _id: id },
-      {
+    const playlistUpdateOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $push: {
           tracks: [songId],
         },
       },
+    };
+    let playlist = await CommonStaticRepository.findOneAndUpdate(
+      PLAYLIST_COLLECTION,
+      playlistUpdateOptions,
     );
 
-    playlist = await PlaylistRepo.getOne({ _id: playlist.data._id }, [
-      "tracks",
-    ]);
+    const playlistOptions = {
+      query: { _id: playlist.data._id },
+      populators: ["tracks"],
+    };
+    playlist = await CommonStaticRepository.getOne(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {

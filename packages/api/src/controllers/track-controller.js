@@ -1,4 +1,9 @@
-const { UserRepo, TrackRepo, PlaylistRepo } = require("../repositories");
+const {
+  TRACK_COLLECTION,
+  USER_COLLECTION,
+  PLAYLIST_COLLECTION,
+  CommonStaticRepository,
+} = require("../repositories");
 const {
   getAllById,
   addFavorite,
@@ -11,9 +16,10 @@ const { getArtists, handleResponse } = require("../utils/utils");
 
 function isValidRequest(res, title, url) {
   const errorMessage = "Missing Fields (title, url)";
+  const response = { data: null, error: errorMessage };
 
   if (!title || !url) {
-    return res.status(400).send({ data: null, error: errorMessage });
+    return res.status(400).send(response);
   }
 }
 
@@ -87,7 +93,12 @@ async function create(req, res, next) {
 
     isValidRequest(res, title, url);
 
-    const user = await UserRepo.findOne({ firebase_id: uid });
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+
+    const user = CommonStaticRepository.getOne(USER_COLLECTION, userOptions);
     const artists = await getArtists(JSON.parse(data.artistId));
 
     const cloudinaryUploadResponse = await handleCloudinaryUpdateImage(
@@ -95,18 +106,25 @@ async function create(req, res, next) {
       req.file,
     );
 
-    const response = await TrackRepo.create({
-      title,
-      url,
-      thumbnail: cloudinaryUploadResponse.thumbnail,
-      cloudinaryThumbnailId: cloudinaryUploadResponse.cloudinaryThumbnailId,
-      duration,
-      genre,
-      authorId: user.data._id,
-      artistId: artists,
-      playlists,
-      likedBy,
-    });
+    const trackOptions = {
+      query: {
+        title,
+        url,
+        thumbnail: cloudinaryUploadResponse.thumbnail,
+        cloudinaryThumbnailId: cloudinaryUploadResponse.cloudinaryThumbnailId,
+        duration,
+        genre,
+        authorId: user.data._id,
+        artistId: artists,
+        playlists,
+        likedBy,
+      },
+    };
+
+    const response = await CommonStaticRepository.create(
+      TRACK_COLLECTION,
+      trackOptions,
+    );
 
     return handleResponse(res, response, 201, 500);
   } catch (error) {
@@ -115,11 +133,11 @@ async function create(req, res, next) {
 }
 
 async function getById(req, res, next) {
-  return await getAllById(req, res, TrackRepo, next);
+  return await getAllById(req, res, TRACK_COLLECTION, next);
 }
 
 async function getFavorites(req, res, next) {
-  return await getFavorite(req, res, TrackRepo, next);
+  return await getFavorite(req, res, TRACK_COLLECTION, next);
 }
 
 async function patchFull(req, res, next) {
@@ -142,9 +160,9 @@ async function patchFull(req, res, next) {
     );
 
     const artists = await getArtists(JSON.parse(artistId));
-    const track = await TrackRepo.findOneAndUpdate(
-      { _id: id },
-      {
+    const trackOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         title,
         genre,
         artistId: artists,
@@ -153,6 +171,11 @@ async function patchFull(req, res, next) {
           cloudinaryUploadResponse.cloudinaryThumbnailId ||
           cloudinaryThumbnailId,
       },
+    };
+
+    const track = await CommonStaticRepository.findOneAndUpdate(
+      TRACK_COLLECTION,
+      trackOptions,
     );
 
     return handleResponse(res, track, 200, 500);
@@ -161,23 +184,28 @@ async function patchFull(req, res, next) {
   }
 }
 async function addToFavorite(req, res, next) {
-  return await addFavorite(req, res, TrackRepo, next);
+  return await addFavorite(req, res, TRACK_COLLECTION, next);
 }
 
 async function addToPlaylist(req, res, next) {
   try {
     const { title } = req.body;
     const { id } = req.params;
+    const playlistOptions = {
+      query: { title },
+    };
 
-    const playlist = await PlaylistRepo.getAll({ title });
+    const playlist = await CommonStaticRepository.getAll(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     if (playlist.error) {
       return handleResponse(res, playlist, null, 503);
     }
-
-    const repo = await TrackRepo.findOneAndUpdate(
-      { _id: id },
-      {
+    const trackOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $addToSet: {
           playlists: {
             _id: playlist.data._id,
@@ -185,48 +213,61 @@ async function addToPlaylist(req, res, next) {
           },
         },
       },
+    };
+
+    const trackResponse = await CommonStaticRepository.findOneAndUpdate(
+      TRACK_COLLECTION,
+      trackOptions,
     );
 
-    return handleResponse(res, repo, 200, 500);
+    return handleResponse(res, trackResponse, 200, 500);
   } catch (error) {
     next(error);
   }
 }
 
 async function removeFromFavorite(req, res, next) {
-  return await removeFavorite(req, res, TrackRepo, next);
+  return await removeFavorite(req, res, TRACK_COLLECTION, next);
 }
 
 async function removeFromPlaylist(req, res, next) {
   try {
     const { title } = req.body;
     const { id } = req.params;
-
-    const playlist = await PlaylistRepo.getAll({ title });
+    const playlistOptions = { title };
+    const playlist = await CommonStaticRepository.getAll(
+      PLAYLIST_COLLECTION,
+      playlistOptions,
+    );
 
     if (playlist.error) {
       return handleResponse(res, playlist, null, 503);
     }
 
-    const repo = await TrackRepo.findOneAndUpdate(
-      { _id: id },
-      {
+    const trackOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $pull: {
           playlists: {
             _id: playlist.data._id,
           },
         },
       },
+    };
+
+    const trackResponse = await CommonStaticRepository.findOneAndUpdate(
+      TRACK_COLLECTION,
+      trackOptions,
     );
 
-    return handleResponse(res, repo, 200, 500);
+    return handleResponse(res, trackResponse, 200, 500);
   } catch (error) {
     next(error);
   }
 }
 
 async function deleteTrack(req, res) {
-  return await deleteById(req, res, TrackRepo);
+  return await deleteById(req, res, TRACK_COLLECTION);
 }
 
 module.exports = {

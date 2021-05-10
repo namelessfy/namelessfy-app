@@ -3,6 +3,7 @@ const { healthRouter } = require("./health-routes");
 const { trackRouter } = require("./track-routes");
 const { playlistRouter } = require("./playlist-routes");
 const { genreRouter } = require("./genre-routes");
+const { searchRouter } = require("./search-routes");
 
 module.exports = {
   userRouter,
@@ -10,4 +11,5 @@ module.exports = {
   trackRouter,
   playlistRouter,
   genreRouter,
+  searchRouter,
 };

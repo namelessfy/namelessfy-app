@@ -1,10 +1,9 @@
-const UserRepository = require("./user-repository");
-
-const AbstractRepository = require("./AbstractRepository");
+const CommonStaticRepository = require("./CommonStaticRepository");
 
 module.exports = {
-  UserRepo: UserRepository,
-  TrackRepo: new AbstractRepository("Track"),
-  PlaylistRepo: new AbstractRepository("Playlist"),
-  GenreRepo: new AbstractRepository("Genre"),
+  USER_COLLECTION: "User",
+  TRACK_COLLECTION: "Track",
+  PLAYLIST_COLLECTION: "Playlist",
+  GENRE_COLLECTION: "Genre",
+  CommonStaticRepository,
 };
