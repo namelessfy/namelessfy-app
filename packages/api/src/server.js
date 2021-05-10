@@ -12,6 +12,7 @@ const {
   trackRouter,
   playlistRouter,
   genreRouter,
+  searchRouter,
 } = require("./routes");
 
 const app = express();
@@ -26,6 +27,7 @@ app.use(healthRouter);
 app.use(trackRouter);
 app.use(playlistRouter);
 app.use(genreRouter);
+app.use(searchRouter);
 
 app.use(errorMiddleware);
 

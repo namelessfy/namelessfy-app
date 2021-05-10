@@ -1,4 +1,4 @@
-const { UserRepo } = require("../repositories");
+const { USER_COLLECTION, CommonStaticRepository } = require("../repositories");
 
 function orderByLikedBy(a, b, id) {
   const one = a.likedBy.find((s) => s._id.toString() === id.toString());
@@ -27,10 +27,19 @@ function orderSongs(a, b) {
 
 async function getArtists(array) {
   let artists = [];
+
   await Promise.all(
     array.map(async ({ userName }) => {
       try {
-        let user = await UserRepo.findOne({ userName });
+        const options = {
+          query: { userName },
+          projection: "-__v",
+        };
+        let user = await CommonStaticRepository.getOne(
+          USER_COLLECTION,
+          options,
+        );
+
         if (user.error) {
           throw new Error(user.error);
         }

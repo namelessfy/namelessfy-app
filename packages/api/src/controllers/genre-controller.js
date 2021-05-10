@@ -1,4 +1,8 @@
-const { GenreRepo, TrackRepo } = require("../repositories");
+const {
+  GENRE_COLLECTION,
+  TRACK_COLLECTION,
+  CommonStaticRepository,
+} = require("../repositories");
 const { handleResponse } = require("../utils/utils");
 
 function isNameMissing(res, name) {
@@ -9,11 +13,13 @@ function isNameMissing(res, name) {
   }
 }
 
-function trackValidation(res, trackName) {
-  const track = TrackRepo.getAll({ title: trackName });
+async function trackValidation(res, title) {
+  const track = await CommonStaticRepository.getAll(TRACK_COLLECTION, {
+    title,
+  });
 
   if (track.error) {
-    return handleResponse(res, track, null, 503);
+    return handleResponse(res, track);
   }
 
   if (track.data.length <= 0) {
@@ -29,17 +35,21 @@ async function create(req, res, next) {
   try {
     isNameMissing(res, name);
 
-    const genreExist = await GenreRepo.getAll({ name });
+    const genre = await CommonStaticRepository.getAll(GENRE_COLLECTION, {
+      name,
+    });
 
-    if (genreExist.data.length > 0) {
-      return handleResponse(res, genreExist, 200, 500);
+    if (genre.data.length > 0) {
+      return handleResponse(res, genre);
     }
 
-    if (genreExist.error) {
-      return handleResponse(res, genreExist, null, 503);
+    if (genre.error) {
+      return handleResponse(res, genre);
     }
 
-    const response = await GenreRepo.create({ name });
+    const response = await CommonStaticRepository.create(GENRE_COLLECTION, {
+      name,
+    });
 
     return handleResponse(res, response, 201, 400);
   } catch (error) {
@@ -53,9 +63,11 @@ async function getByName(req, res, next) {
   try {
     isNameMissing(res, name);
 
-    const response = await GenreRepo.getAll({ name });
+    const genre = await CommonStaticRepository.getAll(GENRE_COLLECTION, {
+      name,
+    });
 
-    return handleResponse(res, response, 200, 400);
+    return handleResponse(res, genre, 200, 400);
   } catch (error) {
     next(error);
   }
@@ -63,9 +75,9 @@ async function getByName(req, res, next) {
 
 async function getAll(req, res, next) {
   try {
-    const response = await GenreRepo.getAll();
+    const genre = await CommonStaticRepository.getAll(GENRE_COLLECTION, {});
 
-    return handleResponse(res, response, 200, 400);
+    return handleResponse(res, genre, 200, 400);
   } catch (error) {
     next(error);
   }
@@ -77,11 +89,14 @@ async function getByTrackName(req, res, next) {
   try {
     isNameMissing(res, trackName);
 
-    const validatedTrack = trackValidation(res, trackName);
+    const validatedTrack = await trackValidation(res, trackName).data;
+    const genreOptions = { track: validatedTrack.data._id };
+    const genre = await CommonStaticRepository.getAll(
+      GENRE_COLLECTION,
+      genreOptions,
+    );
 
-    const response = await GenreRepo.getAll({ track: validatedTrack.data._id });
-
-    return handleResponse(res, response, 200, 400);
+    return handleResponse(res, genre, 200, 400);
   } catch (error) {
     next(error);
   }
@@ -95,17 +110,24 @@ async function updateTracksByName(req, res, next) {
     isNameMissing(res, trackName);
 
     const validatedTrack = trackValidation(res, trackName);
-    const genre = await GenreRepo.getAll({ name });
+    const genreOptions = { name };
+    const genre = await CommonStaticRepository.getAll(
+      GENRE_COLLECTION,
+      genreOptions,
+    );
 
     if (genre.error) {
-      return handleResponse(res, genre, null, 503);
+      return handleResponse(res, genre);
     }
 
     const { data } = genre;
     const tracks = data.tracks.concat(validatedTrack.data._id);
 
-    const update = await GenreRepo.findOneAndUpdate(
-      { id: genre.data._id },
+    const update = await CommonStaticRepository.findOneAndUpdate(
+      GENRE_COLLECTION,
+      {
+        id: genre.data._id,
+      },
       {
         ...data,
         popularity: tracks.length * 0.1,
