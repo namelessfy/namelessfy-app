@@ -230,6 +230,23 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       };
     }
 
+    case PlayerTypes.SET_QUEUE_TO_SHUFFLE: {
+      const songs = action.payload;
+      const index = Math.floor(Math.random() * songs.length);
+      const queue = startListByIndex(index, [...songs]);
+      const song = songs[index];
+      const queueShuffled = shuffle(queue);
+
+      return {
+        ...state,
+        isShuffle: true,
+        queue: queue,
+        shuffleQueue: queueShuffled,
+        currentSong: song,
+        autoPlay: true,
+      };
+    }
+
     default: {
       return state;
     }

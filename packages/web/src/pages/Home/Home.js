@@ -75,7 +75,7 @@ function Home() {
       <Navbar />
       <Container>
         {myPlaylists?.length > 0 && (
-          <PlaylistList title="My Playlists" playlists={myPlaylists} />
+          <PlaylistList title="Your playlists" playlists={myPlaylists} />
         )}
         {lastSongsPlayed?.length > 0 && (
           <PlaylistPreview title="Last songs played" songs={lastSongsPlayed} />
@@ -84,7 +84,7 @@ function Home() {
           <PlaylistPreview title="Your favorite songs" songs={favorites} />
         )}
         {mySongs?.length > 0 && (
-          <PlaylistPreview title="My Songs" songs={mySongs} />
+          <PlaylistPreview title="Your Songs" songs={mySongs} />
         )}
       </Container>
     </Main>

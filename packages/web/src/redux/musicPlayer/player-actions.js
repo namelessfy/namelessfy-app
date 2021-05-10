@@ -65,3 +65,8 @@ export const addSongToLastPlayed = (song) => ({
   type: PlayerTypes.SET_LAST_SONG_PLAYED,
   payload: song,
 });
+
+export const setQueueToShuffle = (songs) => ({
+  type: PlayerTypes.SET_QUEUE_TO_SHUFFLE,
+  payload: songs,
+});

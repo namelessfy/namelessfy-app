@@ -60,7 +60,7 @@ const ProfileButton = styled.button`
   }
 `;
 const ViewButton = styled.div`
-  width: 80px;
+  width: 70px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -90,8 +90,9 @@ const ButtonContainer = styled.div`
   flex-direction: row wrap;
   justify-content: center;
   width: 100%;
+
   & > button {
-    margin-top: 1rem;
+    margin: 2rem;
   }
 `;
 
