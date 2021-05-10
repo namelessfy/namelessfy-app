@@ -82,7 +82,6 @@ export default function usePlayer() {
   }
 
   function pause() {
-    console.log("pause");
     song.pause();
     setIsPlaying(false);
   }

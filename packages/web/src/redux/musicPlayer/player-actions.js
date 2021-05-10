@@ -55,3 +55,8 @@ export const deleteSongFromQueue = (song) => ({
 export const resetCurrentSongDeleted = () => ({
   type: PlayerTypes.IS_CURRENT_SONG_DELETED_RESET,
 });
+
+export const updateSongFromQueue = (song) => ({
+  type: PlayerTypes.UPDATE_SONG_FROM_QUEUE,
+  payload: song,
+});

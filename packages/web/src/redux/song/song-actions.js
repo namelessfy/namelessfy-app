@@ -3,7 +3,10 @@ import api from "../../api";
 import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
 import { getFileUrl } from "../../services/cloudinary";
-import { deleteSongFromQueue } from "../musicPlayer/player-actions";
+import {
+  deleteSongFromQueue,
+  updateSongFromQueue,
+} from "../musicPlayer/player-actions";
 
 export function editSong(formData, id) {
   return async function editSongThunk(dispatch) {
@@ -27,7 +30,7 @@ export function editSong(formData, id) {
       if (editSongRes.errorMessage) {
         return dispatch(editSongError(editSongRes.errorMessage));
       }
-
+      dispatch(updateSongFromQueue(editSongRes.data.data));
       return dispatch(editSongSuccess(editSongRes.data.data));
     } catch (err) {
       return dispatch(editSongError(err.message));
@@ -190,7 +193,6 @@ export const dislikeSong = (trackId) => {
     if (response.errorMessage) {
       return dispatch(dislikeSongError(response.errorMessage));
     }
-    console.log(response.data.data);
     return dispatch(dislikeSongSuccess(response.data.data));
   };
 };

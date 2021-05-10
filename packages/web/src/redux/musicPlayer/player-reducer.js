@@ -1,5 +1,8 @@
 import { shuffle, startListByIndex } from "../../utils/playerUtils";
-import { deleteAllInstancesFromList } from "../../utils/utils";
+import {
+  deleteAllInstancesFromList,
+  replaceAllInstancesFromList,
+} from "../../utils/utils";
 import * as PlayerTypes from "./player-types";
 
 export const PlayerInitialState = {
@@ -201,6 +204,18 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       return {
         ...state,
         isCurrentSongDeleted: false,
+      };
+    }
+
+    case PlayerTypes.UPDATE_SONG_FROM_QUEUE: {
+      const song = action.payload;
+      return {
+        ...state,
+        currentSong:
+          state.currentSong._id === song._id ? song : state.currentSong,
+        queue: replaceAllInstancesFromList(song, state.queue),
+        preQueue: replaceAllInstancesFromList(song, state.preQueue),
+        shuffleQueue: replaceAllInstancesFromList(song, state.shuffleQueue),
       };
     }
 
