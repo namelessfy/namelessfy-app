@@ -106,6 +106,23 @@ const AddSongButton = styled.button`
   max-width: 200px;
 `;
 
+const FollowButton = styled.button`
+  width: 120px;
+  font-size: 18px;
+  border: 2px solid ${colors.WHITE};
+  border-radius: 10px;
+
+  &:focus, &:hover {
+    outline: none;
+  }
+  ${({isFollowed}) =>
+    !isFollowed && `
+    background-color: ${colors.WHITE};
+    color: ${colors.DARK};
+    `
+}
+`;
+
 const NavContainer = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -237,4 +254,5 @@ export {
   NavButton,
   EditButton,
   ViewButton,
+  FollowButton,
 };

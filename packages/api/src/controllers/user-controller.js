@@ -145,10 +145,22 @@ async function getByUsername(req, res, next) {
   }
 }
 
+async function getUsersFollowing(req, res, next) {
+  const { uid } = req.user;
+
+  try {
+    const users = await UserRepo.
+  } catch (error) {
+    next(error);
+  }
+
+}
+
 module.exports = {
   signUp,
   signOut,
   edit,
   delete: remove,
   getByUsername,
+  getUsersFollowing,
 };

@@ -10,6 +10,10 @@ class UserRepository {
     return normalizeDBQuery(db.User.findOne(query, "-__v"));
   }
 
+  /* find(query) {
+
+  } */
+
   async findOneAndUpdate(query, data) {
     const response = await normalizeDBQuery(
       db.User.findOneAndUpdate(query, data),

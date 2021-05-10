@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 
 import Navbar from "../../components/Navbar";
 import Song from "../../components/Song";
@@ -122,7 +122,7 @@ function UploadSong() {
         <Thumbnail src={playlistInfo?.thumbnail} />
       </CenterContent>
       <Author>
-        by <a href="#">{playlistInfo?.authorName}</a>
+        by <Link to={`${ROUTES.USER_PAGE}/${playlistInfo?.authorName}`}>{playlistInfo?.authorName}</Link>
       </Author>
       <PlaylistInfo>
         <div>

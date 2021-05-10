@@ -10,6 +10,7 @@ import {
   ProfileContainer,
   EditButton,
   ViewButton,
+  FollowButton,
 } from "./styles";
 
 import NavBar from "../Navbar";
@@ -17,12 +18,17 @@ import { CenterContent } from "../../styles/formStyles";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
-function UserProfile({ user, songs, favorites, playlists }) {
+function UserProfile({ user, songs, favorites, playlists, isCurrentUser }) {
   const [isGrid, setIsGrid] = useState(true);
+  const [ isFollowed, setIsFollowed ] = useState(false);
   const tab = " ";
 
   function toggleGrid() {
     setIsGrid(!isGrid);
+  }
+
+  function toggleFollowed() {
+    setIsFollowed(!isFollowed);
   }
 
   return (
@@ -30,12 +36,17 @@ function UserProfile({ user, songs, favorites, playlists }) {
       <NavBar />
       <ProfileContainer>
         <CenterContent>
-          <EditButton>
+          {isCurrentUser &&
+            <EditButton>
             <Link to="/edit-user">
               {" "}
               <Icon name="edit" size="normal" />
             </Link>
-          </EditButton>
+          </EditButton>}
+          {!isCurrentUser &&
+            <EditButton>
+              <FollowButton onClick={toggleFollowed} isFollowed={isFollowed}>{isFollowed? "Unfollow" : "Follow"}</FollowButton>
+            </EditButton>}
           <ProfileImageDefault
             src={
               user?.porfileImage ||
@@ -76,6 +87,11 @@ UserProfile.propTypes = {
   songs: PropTypes.array.isRequired,
   favorites: PropTypes.array.isRequired,
   playlists: PropTypes.array.isRequired,
+  isCurrentUser:PropTypes.bool,
+};
+
+UserProfile.defaultProps = {
+  isCurrentUser: false
 };
 
 export default UserProfile;

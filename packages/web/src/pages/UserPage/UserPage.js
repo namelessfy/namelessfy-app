@@ -22,17 +22,18 @@ import {
   getUserPlaylists,
   getUserPlaylistsReset,
 } from "../../redux/playlist/playlist-actions";
+import Loader from "../../components/Loader";
 
 function UserPage() {
   const dispatch = useDispatch();
   const { currentUser, user, isGettingUser, getUserError } = useSelector(
     userSelector,
   );
-  const { mySongs, favorites, userSongs, userFavorites } = useSelector(
+  const { mySongs, favorites, userSongs, userFavorites, isGettingUserSongs, isGettingUserFavorites } = useSelector(
     songSelector,
   );
-  const { myPlaylists, userPlaylists } = useSelector(playlistSelector);
-  const [hasAllInfo, setHasAllInfo] = useState(false);
+  const { myPlaylists, userPlaylists, isGettingUserPlaylists } = useSelector(playlistSelector);
+  const [ hasAllInfo, setHasAllInfo ] = useState(false);
   const { userName } = useParams();
 
   useEffect(() => {
@@ -68,13 +69,14 @@ function UserPage() {
 
   return (
     <Main marginBottom>
-      {isGettingUser && "Getting user info"}
+      {(isGettingUser || isGettingUserSongs || isGettingUserFavorites || isGettingUserPlaylists) && <Loader />}
       {userName === currentUser.userName && !isGettingUser && !getUserError && (
         <UserProfile
           user={currentUser}
           songs={mySongs}
           favorites={favorites}
           playlists={myPlaylists}
+          isCurrentUser
         />
       )}
       {userName !== currentUser.userName && !isGettingUser && !getUserError && (
