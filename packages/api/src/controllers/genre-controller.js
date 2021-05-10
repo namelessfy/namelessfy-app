@@ -75,7 +75,7 @@ async function getByName(req, res, next) {
 
 async function getAll(req, res, next) {
   try {
-    const genre = await CommonStaticRepository.getAll(GENRE_COLLECTION);
+    const genre = await CommonStaticRepository.getAll(GENRE_COLLECTION, {});
 
     return handleResponse(res, genre, 200, 400);
   } catch (error) {

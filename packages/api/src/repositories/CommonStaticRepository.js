@@ -2,7 +2,7 @@ const db = require("../models");
 const normalizeDBQuery = require("../utils/normalizeDBQuery");
 
 function populate(data, options) {
-  const { populators = {} } = options;
+  const { populators = [] } = options;
 
   populators.forEach((_) => {
     data.populate(_);

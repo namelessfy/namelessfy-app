@@ -40,7 +40,7 @@ async function getAllById(req, res, collection, next) {
 
 async function fetchAll(req, res, collection, next) {
   try {
-    const repo = await CommonStaticRepository.getAll(collection);
+    const repo = await CommonStaticRepository.getAll(collection, {});
 
     return handleResponse(res, repo);
   } catch (error) {
