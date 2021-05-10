@@ -1,23 +1,32 @@
-const { UserRepo } = require("../repositories");
+const { USER_COLLECTION, CommonStaticRepository } = require("../repositories");
 const {
   orderByLikedBy,
   orderSongs,
   handleResponse,
 } = require("../utils/utils");
 
-async function getAllById(req, res, Repository, next) {
+async function getAllById(req, res, collection, next) {
   try {
     const { uid } = req.user;
 
     if (req.params.userId === "me") {
-      const user = await UserRepo.findOne({ firebase_id: uid });
+      const options = {
+        query: { firebase_id: uid },
+        projection: "-__v",
+      };
+      const user = await CommonStaticRepository.getOne(
+        USER_COLLECTION,
+        options,
+      );
 
       req.params.userId = user.data._id;
     }
-
-    const repo = await Repository.getAll({
-      "artistId._id": req.params.userId,
-    });
+    const repoOptions = {
+      query: {
+        "artistId._id": req.params.userId,
+      },
+    };
+    const repo = await CommonStaticRepository.getAll(collection, repoOptions);
 
     if (repo.data) {
       repo.data.sort(orderSongs);
@@ -29,9 +38,9 @@ async function getAllById(req, res, Repository, next) {
   }
 }
 
-async function fetchAll(req, res, Repository, next) {
+async function fetchAll(req, res, collection, next) {
   try {
-    const repo = await Repository.getAll();
+    const repo = await CommonStaticRepository.getAll(collection);
 
     return handleResponse(res, repo);
   } catch (error) {
@@ -39,11 +48,13 @@ async function fetchAll(req, res, Repository, next) {
   }
 }
 
-async function getById(req, res, Repository, next) {
+async function getById(req, res, collection, next) {
   try {
     const { id } = req;
-
-    const repo = await Repository.getAll({ id });
+    const options = {
+      query: { id },
+    };
+    const repo = await CommonStaticRepository.getAll(collection, options);
 
     return handleResponse(res, repo, 200, 500);
   } catch (error) {
@@ -51,11 +62,14 @@ async function getById(req, res, Repository, next) {
   }
 }
 
-async function getByName(req, res, Repository, next) {
+async function getByName(req, res, collection, next) {
   try {
     const { name } = req;
 
-    const repo = await Repository.getAll({ name });
+    const options = {
+      query: { name },
+    };
+    const repo = await CommonStaticRepository.getAll(collection, options);
 
     return handleResponse(res, repo, 200, 500);
   } catch (error) {
@@ -63,21 +77,27 @@ async function getByName(req, res, Repository, next) {
   }
 }
 
-async function getFavorite(req, res, Repository, next) {
+async function getFavorite(req, res, collection, next) {
   try {
     const { uid } = req.user;
     let { id } = req.params;
     let firebase_id = id === "me" ? uid : id;
 
-    const user = await UserRepo.findOne({ firebase_id });
+    const userOptions = {
+      query: { firebase_id },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
 
     id = user.data._id;
 
-    const repo = await Repository.getAll({ "likedBy._id": id });
-
-    if (repo.error) {
-      return handleResponse(res, repo, null, 500);
-    }
+    const options = {
+      query: { "likedBy._id": id },
+    };
+    const repo = await CommonStaticRepository.getAll(collection, options);
 
     if (repo.data) {
       repo.data.sort((a, b) => orderByLikedBy(a, b, id));
@@ -89,11 +109,19 @@ async function getFavorite(req, res, Repository, next) {
   }
 }
 
-async function editInfo(req, res, Repository, next) {
+async function editInfo(req, res, collection, next) {
   try {
     const { id } = req.params;
     const data = req.body;
-    const repo = await Repository.findOneAndUpdate({ _id: id }, data);
+
+    const options = {
+      query: { _id: id },
+      findOneAndUpdateOptions: data,
+    };
+    const repo = await CommonStaticRepository.findOneAndUpdate(
+      collection,
+      options,
+    );
 
     return handleResponse(res, repo, 200, 500);
   } catch (error) {
@@ -101,20 +129,24 @@ async function editInfo(req, res, Repository, next) {
   }
 }
 
-async function addFavorite(req, res, Repository, next) {
+async function addFavorite(req, res, collection, next) {
   try {
     const { uid } = req.user;
     const { id } = req.params;
 
-    const user = await UserRepo.findOne({ firebase_id: uid });
+    const options = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(USER_COLLECTION, options);
 
     if (user.error) {
       return handleResponse(res, user, null, 500);
     }
 
-    const repo = await Repository.findOneAndUpdate(
-      { _id: id },
-      {
+    const repoOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $addToSet: {
           likedBy: {
             _id: user.data._id,
@@ -122,6 +154,11 @@ async function addFavorite(req, res, Repository, next) {
           },
         },
       },
+    };
+
+    const repo = await CommonStaticRepository.findOneAndUpdate(
+      collection,
+      repoOptions,
     );
 
     return handleResponse(res, repo, 200, 500);
@@ -130,26 +167,36 @@ async function addFavorite(req, res, Repository, next) {
   }
 }
 
-async function removeFavorite(req, res, Repository, next) {
+async function removeFavorite(req, res, collection, next) {
   try {
     const { uid } = req.user;
     const { id } = req.params;
 
-    const user = await UserRepo.findOne({ firebase_id: uid });
+    const options = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+
+    const user = await CommonStaticRepository.getOne(USER_COLLECTION, options);
 
     if (user.error) {
       return handleResponse(res, user, null, 500);
     }
 
-    const repo = await Repository.findOneAndUpdate(
-      { _id: id },
-      {
+    const repoOptions = {
+      query: { _id: id },
+      findByIdAndUpdateOptions: {
         $pull: {
           likedBy: {
             _id: user.data._id,
           },
         },
       },
+    };
+
+    const repo = await CommonStaticRepository.findOneAndUpdate(
+      collection,
+      repoOptions,
     );
 
     return handleResponse(res, repo, 200, 500);
@@ -158,9 +205,16 @@ async function removeFavorite(req, res, Repository, next) {
   }
 }
 
-async function deleteById(req, res, Repository, next) {
+async function deleteById(req, res, collection, next) {
   try {
-    const response = await Repository.findOneAndDelete({ _id: req.params.id });
+    const repoOptions = {
+      query: { _id: req.params.id },
+    };
+
+    const response = await CommonStaticRepository.findOneAndDelete(
+      collection,
+      repoOptions,
+    );
 
     return handleResponse(res, response, 200, 400);
   } catch (error) {

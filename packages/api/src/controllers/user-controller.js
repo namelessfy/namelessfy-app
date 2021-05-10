@@ -1,21 +1,26 @@
-const { UserRepo } = require("../repositories");
+const { USER_COLLECTION, CommonStaticRepository } = require("../repositories");
+const { handleResponse } = require("../utils/utils");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
 
 async function signUp(req, res, next) {
   const { uid, email } = req.user;
+  const options = {
+    query: { email },
+    projection: "-__v",
+  };
 
   try {
-    const response = await UserRepo.findOne({ email: email });
+    const response = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      options,
+    );
 
     if (response.error) {
-      return res.status(400).send({
-        data: null,
-        error: response.error,
-      });
+      return handleResponse(res, response, null, 400);
     }
 
     if (response.data) {
-      return res.status(200).send(response.data);
+      return handleResponse(res, response);
     }
 
     const position = email.indexOf("@");
@@ -23,32 +28,36 @@ async function signUp(req, res, next) {
 
     const userName = email.slice(0, position) + randomNumber;
 
-    await UserRepo.create({
-      firebase_id: uid,
-      email: email,
-      userName: userName,
-    });
+    const createOptions = {
+      query: {
+        firebase_id: uid,
+        email: email,
+        userName: userName,
+      },
+    };
 
-    res.status(201).send({
-      firebase_id: uid,
-      email: email,
-      userName: userName,
+    await CommonStaticRepository.create(USER_COLLECTION, createOptions);
+
+    return handleResponse(res, response, 201);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function signOut(req, res, next) {
+  try {
+    req.signOut();
+
+    return res.status(200).send({
+      data: "OK",
+      error: null,
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function signOut(req, res) {
-  req.signOut();
-
-  res.status(200).send({
-    data: "OK",
-    error: null,
-  });
-}
-
-async function edit(req, res) {
+async function edit(req, res, next) {
   let dataToUpdate = {
     ...req.body,
   };
@@ -86,44 +95,38 @@ async function edit(req, res) {
   }
 
   try {
-    const response = await UserRepo.findOneAndUpdate(
-      { email: email },
-      dataToUpdate,
+    const options = {
+      query: { email },
+      findByIdAndUpdateOptions: dataToUpdate,
+      projection: "-__v",
+    };
+
+    const response = await CommonStaticRepository.findOneAndUpdate(
+      USER_COLLECTION,
+      options,
     );
 
-    if (response.error) {
-      return res.status(400).send({
-        data: null,
-        error: response.error,
-      });
-    }
-
-    if (response.data) {
-      return res.status(200).send(response.data);
-    }
+    return handleResponse(res, response, null, 400);
   } catch (error) {
-    res.status(500).send(error.message);
+    next(error);
   }
 }
 
-async function remove(req, res) {
+async function remove(req, res, next) {
   const { email } = req.user;
 
   try {
-    const response = await UserRepo.findOneAndDelete({ email: email });
+    const options = {
+      query: { email },
+    };
+    const response = await CommonStaticRepository.findOneAndDelete(
+      USER_COLLECTION,
+      options,
+    );
 
-    if (response.error) {
-      return res.status(400).send({
-        data: null,
-        error: response.error,
-      });
-    }
-
-    res.status(200).send({
-      data: "Delete user successfully",
-    });
+    return handleResponse(res, response, null, 400, "Delete user successfully");
   } catch (error) {
-    res.status(500).send(error.message);
+    next(error);
   }
 }
 
