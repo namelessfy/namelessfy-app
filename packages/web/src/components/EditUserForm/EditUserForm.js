@@ -25,28 +25,14 @@ function EditUserForm() {
   );
   const dispatch = useDispatch();
 
-  const [user, setUser] = useState({});
-  const [previewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
   const formData = new FormData();
 
-  useEffect(() => {
-    if (currentUser.birthday) {
-      setUser({ ...currentUser, birthday: currentUser.birthday.slice(0, 10) });
-    } else {
-      setUser(currentUser);
-    }
-  }, [currentUser]);
-
-  function handleEditInfoUser(
-    porfileImage,
-    userName,
-    firstName,
-    lastName,
-    birthday,
-  ) {
-    if (porfileImage) {
-      formData.append("porfileImage", porfileImage);
+  function handleEditInfoUser(userName, firstName, lastName, birthday) {
+    if (profileImage) {
+      formData.append("porfileImage", profileImage);
     }
 
     formData.append("userName", userName);
@@ -59,16 +45,21 @@ function EditUserForm() {
     dispatch(editUser(formData));
   }
 
+  function handleSubmitImage(e) {
+    e.preventDefault();
+    setPreviewImage(URL.createObjectURL(e.target.files[0]));
+    setProfileImage(e.target.files[0]);
+  }
+
   return (
     <>
       {isEditingUser && <Loader />}
       <Formik
         initialValues={{
-          porfileImage: user.porfileImage,
-          userName: user.userName,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          birthday: user.birthday,
+          userName: currentUser.userName,
+          firstName: currentUser.firstName,
+          lastName: currentUser.lastName,
+          birthday: currentUser.birthday,
         }}
         validationSchema={Yup.object().shape({
           userName: Yup.string()
@@ -99,7 +90,6 @@ function EditUserForm() {
           setTimeout(() => {
             setSubmitting(false);
             handleEditInfoUser(
-              values.porfileImage,
               values.userName,
               values.firstName,
               values.lastName,
@@ -123,7 +113,7 @@ function EditUserForm() {
                 <PorfileImage
                   src={
                     previewImage ||
-                    user.porfileImage ||
+                    currentUser.porfileImage ||
                     "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
                   }
                 />
@@ -135,8 +125,7 @@ function EditUserForm() {
               name="porfileImage"
               accept="image/png, image/jpeg"
               display="none"
-              value={values.porfileImage}
-              onChange={handleChange}
+              onChange={handleSubmitImage}
               onBlur={handleBlur}
               valid={touched.porfileImage && !errors.porfileImage}
               error={errors.porfileImage && touched.porfileImage && "error"}
@@ -146,8 +135,11 @@ function EditUserForm() {
               type="text"
               id="userName"
               name="userName"
-              value={values.userName}
-              onChange={handleChange}
+              value={values.userName ? values.userName : ""}
+              onChange={(e) => {
+                e.preventDefault();
+                handleChange(e);
+              }}
               onBlur={handleBlur}
               valid={touched.userName && !errors.userName}
               error={errors.userName && touched.userName && "error"}
@@ -160,8 +152,11 @@ function EditUserForm() {
               type="text"
               id="firstName"
               name="firstName"
-              value={values.firstName}
-              onChange={handleChange}
+              value={values.firstName ? values.firstName : ""}
+              onChange={(e) => {
+                e.preventDefault();
+                handleChange(e);
+              }}
               onBlur={handleBlur}
               valid={touched.firstName && !errors.firstName}
               error={errors.firstName && touched.firstName && "error"}
@@ -174,8 +169,11 @@ function EditUserForm() {
               type="text"
               id="lastName"
               name="lastName"
-              value={values.lastName}
-              onChange={handleChange}
+              value={values.lastName ? values.lastName : ""}
+              onChange={(e) => {
+                e.preventDefault();
+                handleChange(e);
+              }}
               onBlur={handleBlur}
               valid={touched.lastName && !errors.lastName}
               error={errors.lastName && touched.lastName && "error"}
@@ -188,8 +186,11 @@ function EditUserForm() {
               type="date"
               id="birthday"
               name="birthday"
-              value={values.birthday}
-              onChange={handleChange}
+              value={values.birthday ? values.birthday.slice(0, 10) : ""}
+              onChange={(e) => {
+                e.preventDefault();
+                handleChange(e);
+              }}
               onBlur={handleBlur}
               valid={touched.birthday && !errors.birthday}
               error={errors.birthday && touched.birthday && "error"}
