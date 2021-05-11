@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Container = styled.section`
   width: 1000px;
+  margin-bottom: 4rem;
 
   @media (max-width: 1000px) {
     width: calc(100vw - 4rem);

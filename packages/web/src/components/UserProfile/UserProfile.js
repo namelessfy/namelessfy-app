@@ -71,12 +71,12 @@ function UserProfile({ user, songs, favorites, playlists, isCurrentUser }) {
             <Icon
               onClick={toggleGrid}
               name={isGrid ? "toggleOn" : "toggleOff"}
-              size="normal"
+              size="small"
             />
             <Icon
               onClick={toggleGrid}
               name={isGrid ? "grid" : "list"}
-              size="normal"
+              size="small"
             />
           </ViewButton>
         </Statistics>

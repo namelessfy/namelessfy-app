@@ -30,12 +30,14 @@ import { Icon } from "../../styles/mainStyles";
 
 import PlaylistPreviewMenu from "../PlaylistPreviewMenu";
 import MenuPlaylistList from "../MenuPlaylistList";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Menu({ show, close }) {
   const dispatch = useDispatch();
   const User = useSelector(userSelector);
   const { myPlaylists } = useSelector(playlistSelector);
   const { favorites } = useSelector(songSelector);
+  const { lastSongsPlayed } = useSelector(playerSelector);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -81,8 +83,11 @@ function Menu({ show, close }) {
               )}
             </ColumnDiv>
             <ColumnDiv>
-              {favorites?.length > 0 && (
-                <PlaylistPreviewMenu title="Liked Songs" songs={favorites} />
+              {lastSongsPlayed?.length > 0 && (
+                <PlaylistPreviewMenu
+                  title="Last songs played"
+                  songs={lastSongsPlayed}
+                />
               )}
             </ColumnDiv>
             <ColumnDiv>

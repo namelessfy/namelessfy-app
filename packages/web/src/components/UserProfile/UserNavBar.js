@@ -9,6 +9,13 @@ import UserList from "./UserList";
 import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { setUserView } from "../../redux/user/user-actions";
+import {
+  setAutoPlay,
+  setQueueAndCurrentSong,
+  setQueueToShuffle,
+  setShuffle,
+} from "../../redux/musicPlayer/player-actions";
+import { startListByIndex } from "../../utils/playerUtils";
 
 function UserNavBar({ songs, playlists, favSongs }) {
   const dispatch = useDispatch();
@@ -37,6 +44,13 @@ function UserNavBar({ songs, playlists, favSongs }) {
     name: "Add Playlist",
     function: () => {
       history.push(ROUTES.CREATE_PLAYLIST);
+    },
+  };
+
+  const buttonShufflePlay = {
+    name: "Shuffle Play",
+    function: () => {
+      dispatch(setQueueToShuffle(favSongs));
     },
   };
 
@@ -88,7 +102,7 @@ function UserNavBar({ songs, playlists, favSongs }) {
         <UserList button={buttonAddSong} content={songsContent} />
       )}
       {initialView === "favs" && (
-        <UserList button={null} content={favsContent} />
+        <UserList button={buttonShufflePlay} content={favsContent} />
       )}
       {initialView === "playlist" && (
         <UserList button={buttonAddPlayList} content={playlistContent} />

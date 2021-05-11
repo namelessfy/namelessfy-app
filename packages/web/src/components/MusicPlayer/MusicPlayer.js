@@ -79,9 +79,7 @@ function MusicPlayer() {
                 <Thumbnail src={currentSong.thumbnail} />
                 <SongInfo card>
                   <div>
-                    <SongTitle card>
-                      <a>{currentSong.title}</a>
-                    </SongTitle>
+                    <SongTitle card>{currentSong.title}</SongTitle>
                     <Artists card>
                       {currentSong.artistId.map((artist) => {
                         return (

@@ -6,6 +6,7 @@ import {
   setPreviousSong,
   setShuffle,
   setAutoPlay,
+  addSongToLastPlayed,
 } from "../redux/musicPlayer/player-actions";
 import { songSelector } from "../redux/song/song-selectors";
 
@@ -79,10 +80,10 @@ export default function usePlayer() {
   function play() {
     song.play();
     setIsPlaying(true);
+    dispatch(addSongToLastPlayed(currentSong));
   }
 
   function pause() {
-    console.log("pause");
     song.pause();
     setIsPlaying(false);
   }

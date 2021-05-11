@@ -106,13 +106,13 @@ async function create(req, res, next) {
       },
     };
 
-    await CommonStaticRepository.create(
+    const createdPlaylist = await CommonStaticRepository.create(
       PLAYLIST_COLLECTION,
       playlistCreateOptions,
     );
 
     const playlistOptions = {
-      query: { _id: playlist.data._id },
+      query: { _id: createdPlaylist.data._id },
       populators: ["tracks"],
     };
 

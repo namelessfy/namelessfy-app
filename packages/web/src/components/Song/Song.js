@@ -101,7 +101,7 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
               "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
             }
             onClick={playSong}
-            onContextMenu={DialogueBox}
+            onContextMenu={showDialogueBox}
           />
         ) : (
           <SongCover
