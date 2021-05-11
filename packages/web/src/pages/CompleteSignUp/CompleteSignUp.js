@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import EditUserForm from "../../components/EditUserForm";
 
-import { Main } from "../../styles/mainStyles";
 import { Title, Separation } from "./style";
 
 import * as ROUTES from "../../routes";
@@ -18,13 +17,11 @@ function CompleteSignUP() {
   return hasUserAllInfo(currentUser) ? (
     <Redirect to={ROUTES.HOME} />
   ) : (
-    <Main marginBottom>
-      <section>
-        <Title>Complete Sign Up</Title>
-        <Separation />
-        <EditUserForm />
-      </section>
-    </Main>
+    <section>
+      <Title>Complete Sign Up</Title>
+      <Separation />
+      <EditUserForm />
+    </section>
   );
 }
 

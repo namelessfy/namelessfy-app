@@ -26,7 +26,7 @@ import {
   CenterContent,
 } from "../../styles/formStyles";
 
-import { Main, Icon } from "../../styles/mainStyles";
+import { Icon } from "../../styles/mainStyles";
 import { PrivacityContainer } from "./style";
 import { userSelector } from "../../redux/user/user-selectors";
 
@@ -91,7 +91,7 @@ function CreatePlaylist() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {isCreatingPlaylist && <Loader />}
       <Title>Create playlist</Title>
       <Separation />
@@ -135,7 +135,7 @@ function CreatePlaylist() {
           Create
         </Button>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

@@ -63,9 +63,10 @@ function Navbar() {
               <NamelessfyLogo />
             </Link>
             <SearchBar
-              type="search"
+              type="text"
               placeholder="Search..."
               onChange={onChangeHandler}
+              size="25"
             />
             <MenuLogo onClick={() => setIsMenuOpen(true)} />
           </ul>

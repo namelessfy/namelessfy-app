@@ -45,7 +45,7 @@ function Home() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {(isGettingFollowedUsers ||
         isGettingFavorites ||
         isGettingMySongs ||
@@ -64,7 +64,7 @@ function Home() {
           <PlaylistPreview title="Your Songs" songs={mySongs} />
         )}
       </Container>
-    </Main>
+    </>
   );
 }
 

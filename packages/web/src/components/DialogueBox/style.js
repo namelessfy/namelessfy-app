@@ -83,7 +83,7 @@ const DialogueButton = styled.button`
 const Background = styled.div`
   width: 100vw;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   z-index: 12;
   top: 0;
   left: 0;

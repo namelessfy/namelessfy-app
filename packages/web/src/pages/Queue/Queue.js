@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { Separation, Title } from "../../styles/formStyles";
-import { Main } from "../../styles/mainStyles";
 import { QueueContainer, SectionTitle, SongList } from "./styles";
 
 import { setQueue, setPreQueue } from "../../redux/musicPlayer/player-actions";
@@ -39,7 +38,7 @@ function Queue() {
   }
 
   return (
-    <Main>
+    <>
       <Title>Queue</Title>
       <Separation />
       <QueueContainer>
@@ -87,7 +86,7 @@ function Queue() {
               </>
             )}
       </QueueContainer>
-    </Main>
+    </>
   );
 }
 

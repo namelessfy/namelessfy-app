@@ -2,6 +2,7 @@ import styled from "styled-components";
 import * as colors from "../../styles/colors";
 
 const Back = styled.section`
+  color: ${colors.WHITE};
   @media (min-width: 650px) {
     position: absolute;
     height: 100vh;

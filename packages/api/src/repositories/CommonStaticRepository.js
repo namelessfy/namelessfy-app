@@ -27,15 +27,20 @@ class CommonStaticRepository {
   }
 
   static async getOne(collection, options) {
-    const { query = {}, projection } = options;
+    const { query = {}, populators = [], projection } = options;
 
     const data = db[collection].findOne(query, projection);
 
-    return normalizeDBQuery(populate(data, options));
+    return normalizeDBQuery(populate(data, populators));
   }
 
   static async findOneAndUpdate(collection, options) {
-    const { query = {}, findByIdAndUpdateOptions, projection } = options;
+    const {
+      query = {},
+      populators = [],
+      findByIdAndUpdateOptions,
+      projection,
+    } = options;
 
     const findByIdAndUpdateData = db[collection].findByIdAndUpdate(
       query,
@@ -49,7 +54,7 @@ class CommonStaticRepository {
     } else {
       const data = db[collection].findOne(query, projection);
 
-      return normalizeDBQuery(populate(data, options));
+      return normalizeDBQuery(populate(data, populators));
     }
   }
 

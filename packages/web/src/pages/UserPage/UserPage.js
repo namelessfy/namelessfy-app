@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Main } from "../../styles/mainStyles";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
 import {
@@ -74,7 +73,7 @@ function UserPage() {
   }, []);
 
   return (
-    <Main marginBottom>
+    <>
       {(isGettingUser ||
         isGettingUserSongs ||
         isGettingUserFavorites ||
@@ -99,7 +98,7 @@ function UserPage() {
         />
       )}
       {isGettingUser && isGettingUser}
-    </Main>
+    </>
   );
 }
 

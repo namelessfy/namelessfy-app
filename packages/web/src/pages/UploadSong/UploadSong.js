@@ -25,7 +25,6 @@ import {
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "./style";
 
-import { Main } from "../../styles/mainStyles";
 import Loader from "../../components/Loader";
 
 function UploadSong() {
@@ -138,7 +137,7 @@ function UploadSong() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {isUploadingSong && <Loader />}
       <Title>Upload Song</Title>
       <Separation />
@@ -239,7 +238,7 @@ function UploadSong() {
           Upload
         </Button>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

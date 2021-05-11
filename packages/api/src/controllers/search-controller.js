@@ -29,7 +29,7 @@ function limitResults(results) {
 
 async function getByNameFromAllCollections(req, res, next) {
   try {
-    const { search } = req.body;
+    const { search } = req.params;
 
     const genreOptions = generateOptions(search);
     const genres = await CommonStaticRepository.getAll(

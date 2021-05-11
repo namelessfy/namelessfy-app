@@ -115,7 +115,7 @@ function UploadSong() {
       : {};
 
   return (
-    <Main marginBottom>
+    <>
       {isGettingOnePlaylist && <Loader />}
       <CenterContent>
         <Thumbnail src={playlistInfo?.thumbnail} />
@@ -165,7 +165,7 @@ function UploadSong() {
           />
         ))}
       </SongsContainer>
-    </Main>
+    </>
   );
 }
 

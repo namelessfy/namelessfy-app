@@ -12,7 +12,11 @@ const {
 
 const searchRouter = Router();
 
-searchRouter.get("/search", authMiddleware, getByNameFromAllCollections);
+searchRouter.get(
+  "/search/:search",
+  authMiddleware,
+  getByNameFromAllCollections,
+);
 searchRouter.get("/search/track", authMiddleware, getAllTrackReferences);
 searchRouter.get("/search/playlist", authMiddleware, getAllPlaylistReferences);
 searchRouter.get("/search/genre", authMiddleware, getAllGenreReferences);

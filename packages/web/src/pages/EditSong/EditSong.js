@@ -28,7 +28,6 @@ import {
   AddInput,
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
-import { Main } from "../../styles/mainStyles";
 
 import { getSongFromList } from "../../utils/favoritesUtils";
 
@@ -152,7 +151,7 @@ function EditSong() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {(isDeletingSong || isEditingSong) && <Loader />}
       <Title>Edit Song</Title>
       <Separation />
@@ -247,7 +246,7 @@ function EditSong() {
           </DeleteButton>
         </Form>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

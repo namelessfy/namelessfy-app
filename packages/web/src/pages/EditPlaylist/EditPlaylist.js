@@ -29,7 +29,7 @@ import {
   CenterContent,
 } from "../../styles/formStyles";
 
-import { Main, Icon } from "../../styles/mainStyles";
+import { Icon } from "../../styles/mainStyles";
 import { PrivacityContainer } from "../CreatePlaylist/style";
 
 function EditPlaylist() {
@@ -106,7 +106,7 @@ function EditPlaylist() {
   }
 
   return (
-    <Main>
+    <>
       {(isDeletingPlaylist || isEditingPlaylist) && <Loader />}
       <Title>Edit playlist {playlistInfo?.title}</Title>
       <Separation />
@@ -160,7 +160,7 @@ function EditPlaylist() {
           </DeleteButton>
         </Form>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 
