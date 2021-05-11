@@ -61,6 +61,8 @@ const PlaylistSchema = Schema(
   },
 );
 
+PlaylistSchema.index({ title: "text" });
+
 const Playlist = mongoose.model("playlist", PlaylistSchema);
 
 module.exports = Playlist;
