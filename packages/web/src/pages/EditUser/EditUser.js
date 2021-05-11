@@ -24,7 +24,6 @@ function EditUser() {
 
   return (
     <Main marginBottom>
-      <Navbar />
       <EditUserForm />
     </Main>
   );

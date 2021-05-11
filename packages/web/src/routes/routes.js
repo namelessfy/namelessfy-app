@@ -11,3 +11,4 @@ export const PLAYLIST = "/playlist";
 export const CREATE_PLAYLIST = "/create-playlist";
 export const EDIT_PLAYLIST = "/edit-playlist";
 export const QUEUE = "/queue";
+export const SEARCH = "/search";

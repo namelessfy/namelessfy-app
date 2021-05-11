@@ -88,6 +88,7 @@ const AuthReducer = (state = AuthInitialState, action) => {
         signUpError: null,
         isSigningOut: false,
         signOutError: null,
+        isAuthenticated: false,
         isSendingPasswordReset: false,
         passwordResetError: null,
         passwordResetSent: false,

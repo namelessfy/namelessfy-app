@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Navbar from "../../components/Navbar";
 import Loader from "../../components/Loader";
 
 import {
@@ -109,7 +108,6 @@ function EditPlaylist() {
   return (
     <Main>
       {(isDeletingPlaylist || isEditingPlaylist) && <Loader />}
-      <Navbar />
       <Title>Edit playlist {playlistInfo?.title}</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">

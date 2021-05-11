@@ -181,7 +181,7 @@ async function getUsersFollowing(req, res, next) {
       if (user.error) {
         return handleResponse(res, user, null, 500);
       }
-      id = user._id;
+      id = user.data._id;
     }
 
     const options = {
@@ -195,6 +195,7 @@ async function getUsersFollowing(req, res, next) {
     if (followingUser.error) {
       return handleResponse(res, followingUser, null, 500);
     }
+    console.log(followingUser);
     return handleResponse(res, followingUser, 200, 500);
   } catch (error) {
     next(error);
@@ -240,6 +241,45 @@ async function followUser(req, res, next) {
   }
 }
 
+async function unfollowUser(req, res, next) {
+  let { id } = req.params;
+  const { uid } = req.user;
+
+  try {
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+
+    const options = {
+      query: { _id: id },
+      projection: "-__v",
+      findByIdAndUpdateOptions: {
+        $pull: {
+          followedBy: user.data._id,
+        },
+      },
+    };
+    const result = await CommonStaticRepository.findOneAndUpdate(
+      USER_COLLECTION,
+      options,
+    );
+    if (result.error) {
+      return handleResponse(res, result, null, 500);
+    }
+    return handleResponse(res, result, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signUp,
   signOut,
@@ -248,4 +288,5 @@ module.exports = {
   getByUsername,
   getUsersFollowing,
   followUser,
+  unfollowUser,
 };

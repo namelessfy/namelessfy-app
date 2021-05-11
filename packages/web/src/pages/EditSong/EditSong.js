@@ -12,7 +12,6 @@ import {
 
 import * as ROUTES from "../../routes";
 
-import Navbar from "../../components/Navbar";
 import Loader from "../../components/Loader";
 
 import {
@@ -155,7 +154,6 @@ function EditSong() {
   return (
     <Main marginBottom>
       {(isDeletingSong || isEditingSong) && <Loader />}
-      <Navbar />
       <Title>Edit Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
