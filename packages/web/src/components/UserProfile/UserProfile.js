@@ -14,7 +14,6 @@ import {
   FollowButton,
 } from "./styles";
 
-import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
@@ -55,7 +54,6 @@ function UserProfile({
 
   return (
     <div>
-      <NavBar />
       <ProfileContainer>
         <CenterContent>
           {isCurrentUser && (

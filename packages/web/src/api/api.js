@@ -192,6 +192,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function searchByTextInput(headers, data) {
+    return request({
+      url: `/search/${data}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -216,6 +224,7 @@ function makeApi(request = makeRequest()) {
     getFollowedUsersById: getFollowedUsersById,
     followUserById: followUserById,
     unfollowUserById: unfollowUserById,
+    searchByTextInput: searchByTextInput,
   };
 }
 

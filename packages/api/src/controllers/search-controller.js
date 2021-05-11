@@ -8,8 +8,8 @@ const {
 
 async function getByNameFromAllCollections(req, res, next) {
   try {
-    const { search } = req.body;
-
+    const { search } = req.params;
+    console.log(search);
     const genres = await CommonStaticRepository.getAll(GENRE_COLLECTION, {
       query: { name: search },
     });
@@ -33,7 +33,7 @@ async function getByNameFromAllCollections(req, res, next) {
         error: "No items found",
       });
     }
-
+    console.log(genres, playlists, tracks, users);
     return res.status(200).send({
       data: {
         genres: genres.data || genres.error,

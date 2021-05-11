@@ -7,6 +7,10 @@ const { getByNameFromAllCollections } = searchController;
 
 const searchRouter = Router();
 
-searchRouter.get("/search", authMiddleware, getByNameFromAllCollections);
+searchRouter.get(
+  "/search/:search",
+  authMiddleware,
+  getByNameFromAllCollections,
+);
 
 module.exports = { searchRouter };

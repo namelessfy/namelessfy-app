@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
 import PlaylistPreview from "../../components/PlaylistPreview";
 import PlaylistList from "../../components/PlaylistList";
 import Loader from "../../components/Loader";
@@ -51,7 +50,6 @@ function Home() {
         isGettingFavorites ||
         isGettingMySongs ||
         isGettingMyPlaylists) && <Loader />}
-      <Navbar />
       <Container>
         {myPlaylists?.length > 0 && (
           <PlaylistList title="Your playlists" playlists={myPlaylists} />

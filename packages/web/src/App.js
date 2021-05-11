@@ -23,6 +23,7 @@ import { onAuthStateChanged } from "./services/auth";
 import { syncSignIn, signOut, resetAuthState } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
 import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
+import Search from "./pages/Search/Search";
 
 function App() {
   const dispatch = useDispatch();
@@ -70,6 +71,7 @@ function App() {
           path={ROUTES.CREATE_PLAYLIST}
           component={CreatePlaylist}
         />
+        <ProtectedRoute path={`${ROUTES.SEARCH}`} component={Search} />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

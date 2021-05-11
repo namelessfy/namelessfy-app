@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -6,7 +6,6 @@ import { Main } from "../../styles/mainStyles";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
 import {
-  getMySongs,
   getUserFavorites,
   getUserFavoritesReset,
   getUserSongs,
@@ -21,7 +20,6 @@ import {
   getUserReset,
 } from "../../redux/user/user-actions";
 
-import { hasUserAllInfo } from "../../utils/utils";
 import {
   getUserPlaylists,
   getUserPlaylistsReset,
