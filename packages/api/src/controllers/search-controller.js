@@ -64,7 +64,7 @@ async function getByNameFromAllCollections(req, res, next) {
         error: "No items found",
       });
     }
-  
+
     return res.status(200).send({
       data: {
         genres: limitResults(genres.data) || genres.error,
