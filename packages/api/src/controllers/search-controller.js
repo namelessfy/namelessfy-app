@@ -147,28 +147,22 @@ async function getAllGenreReferences(req, res, next) {
     const { search } = req.body;
 
     const genreOptions = generateOptions(search, ["tracks"]);
-    const genre = await CommonStaticRepository.getAll(
+    const genres = await CommonStaticRepository.getAll(
       GENRE_COLLECTION,
       genreOptions,
     );
 
-    if (genre.error) {
+    if (genres.error) {
       return res.status(503).send({ data: null, error: SERVER_ERROR_MESSAGE });
     }
 
-    if (genre.data.length === 0) {
+    if (genres.data.length === 0) {
       return res.status(404).send({ data: null, error: NOT_FOUND_MESSAGE });
     }
-
-    const playlists = await CommonStaticRepository.getAll(PLAYLIST_COLLECTION, {
-      query: { genre: genre.data._id },
-    });
 
     return res.status(200).send({
       data: {
         genres: limitResults(genres.data) || genres.error,
-        playlists: limitResults(playlists.data) || playlists.error,
-        tracks: limitResults(tracks.data) || tracks.error,
       },
       error: null,
     });
