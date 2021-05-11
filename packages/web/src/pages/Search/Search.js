@@ -13,10 +13,21 @@ import { searchSelector } from "../../redux/search/search-selectors";
 function Search() {
   const dispatch = useDispatch();
   const {
+    searchInput,
     searchingSuccess,
     searchResults: { users, tracks, playlists, genres } = {},
     isSearching,
   } = useSelector(searchSelector);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      dispatch(search(searchInput));
+    }, 200);
+
+    return () => {
+      clearTimeout(id);
+    };
+  }, [searchInput]);
 
   return (
     <Main marginBottom>

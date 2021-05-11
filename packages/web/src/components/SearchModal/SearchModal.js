@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useHistory } from "react-router-dom";
+
+import * as ROUTES from "../../routes";
+
+import { setSearchInput, search } from "../../redux/search/search-actions";
+import { searchSelector } from "../../redux/search/search-selectors";
 
 import { Background, Modal } from "./style";
 
 function SearchModal({ close }) {
+  const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { searchInput, searchingSuccess, searchResults } = useSelector(
+    searchSelector,
+  );
+  const [inputValue, setInputValue] = useState("");
+
+  function onClickHandler(e) {
+    dispatch(setSearchInput(inputValue));
+    if (location.pathname !== ROUTES.SEARCH) {
+      history.push(ROUTES.SEARCH);
+    }
+    close();
+  }
+
   return (
     <>
       <Background onClick={close} />
@@ -11,9 +34,9 @@ function SearchModal({ close }) {
         <h2>Search:</h2>
         <input
           placeholder="Search..."
-          onChange={(e) => console.log(e.target.value)}
+          onChange={(e) => setInputValue(e.target.value)}
         />
-        <button type="button" onClick=" ">
+        <button type="button" onClick={onClickHandler}>
           Go!
         </button>
       </Modal>

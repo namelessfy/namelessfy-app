@@ -53,16 +53,6 @@ function Navbar() {
     dispatch(setSearchInput(e.target.value));
   }
 
-  useEffect(() => {
-    const id = setTimeout(() => {
-      dispatch(search(searchInput));
-    }, 200);
-
-    return () => {
-      clearTimeout(id);
-    };
-  }, [searchInput]);
-
   return (
     <>
       {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
