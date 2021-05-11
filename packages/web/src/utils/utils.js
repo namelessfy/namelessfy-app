@@ -80,6 +80,13 @@ function deleteAllInstancesFromList(item, list) {
   return newList;
 }
 
+function replaceAllInstancesFromList(item, list) {
+  const newList = list.map((element) => {
+    return element._id === item._id ? item : element;
+  });
+  return newList;
+}
+
 export {
   hasUserAllInfo,
   haveUsersSameInfo,
@@ -90,4 +97,5 @@ export {
   removeFromLikedList,
   isIdInList,
   deleteAllInstancesFromList,
+  replaceAllInstancesFromList,
 };

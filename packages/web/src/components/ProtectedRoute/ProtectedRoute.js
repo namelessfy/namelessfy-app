@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/auth/auth-selectors";
 import * as ROUTES from "../../routes";
 import MusicPlayer from "../MusicPlayer";
+import Navbar from "../Navbar";
 
 function ProtectedRoute({ ...props }) {
   const location = useLocation();
@@ -14,6 +15,7 @@ function ProtectedRoute({ ...props }) {
     if (location.pathname !== ROUTES.COMPLETE_SIGNUP) {
       return (
         <>
+          <Navbar />
           <MusicPlayer />
           <Route {...props} />
         </>

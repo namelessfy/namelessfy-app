@@ -64,7 +64,7 @@ async function getByNameFromAllCollections(req, res, next) {
         error: "No items found",
       });
     }
-
+  
     return res.status(200).send({
       data: {
         genres: limitResults(genres.data) || genres.error,
@@ -166,9 +166,9 @@ async function getAllGenreReferences(req, res, next) {
 
     return res.status(200).send({
       data: {
-        genres: limitResults(genre.data) || genre.error,
-        tracks: limitResults(genre.tracks) || null,
-        playlists: limitResults(playlists.data) || playlists.errors,
+        genres: limitResults(genres.data) || genres.error,
+        playlists: limitResults(playlists.data) || playlists.error,
+        tracks: limitResults(tracks.data) || tracks.error,
       },
       error: null,
     });

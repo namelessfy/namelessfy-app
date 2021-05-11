@@ -67,8 +67,8 @@ export function syncSignIn() {
       return dispatch(signUpError(response.errorMessage));
     }
 
-    dispatch(setUser(response.data));
-    return dispatch(signUpSuccess(response.data));
+    dispatch(setUser(response.data.data));
+    return dispatch(signUpSuccess(response.data.data));
   };
 }
 

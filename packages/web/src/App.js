@@ -20,9 +20,10 @@ import Queue from "./pages/Queue";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { onAuthStateChanged } from "./services/auth";
-import { syncSignIn, signOut } from "./redux/auth/auth-actions";
+import { syncSignIn, signOut, resetAuthState } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
 import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
+import Search from "./pages/Search/Search";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
 
     unsubscribeFromAuth = onAuthStateChanged((user) => {
       if (user) {
+        dispatch(resetAuthState());
         dispatch(syncSignIn());
       } else {
         dispatch(signOut());
@@ -56,7 +58,10 @@ function App() {
           component={CompleteSignUp}
         />
         <ProtectedRoute path={`${ROUTES.PLAYLIST}/:id`} component={Playlist} />
-        <ProtectedRoute path={ROUTES.USER_PAGE} component={UserPage} />
+        <ProtectedRoute
+          path={`${ROUTES.USER_PAGE}/:userName`}
+          component={UserPage}
+        />
         <ProtectedRoute path={ROUTES.EDIT_USER} component={EditUser} />
         <ProtectedRoute path={ROUTES.UPLOAD_SONG} component={UploadSong} />
         <ProtectedRoute path={`${ROUTES.EDIT_SONG}/:id`} component={EditSong} />
@@ -66,6 +71,7 @@ function App() {
           path={ROUTES.CREATE_PLAYLIST}
           component={CreatePlaylist}
         />
+        <ProtectedRoute path={`${ROUTES.SEARCH}`} component={Search} />
         <ProtectedRoute path={ROUTES.HOME} component={Home} exact />
       </Switch>
     </div>

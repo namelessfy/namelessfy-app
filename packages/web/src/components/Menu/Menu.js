@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
 import { signOut } from "../../redux/auth/auth-actions";
-import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 
-import { hasUserAllInfo } from "../../utils/utils";
+import * as ROUTES from "../../routes";
 
 import {
   Background,
@@ -23,42 +22,19 @@ import {
   FullName,
   MediaContainer,
 } from "./style";
-import { DeleteButton, CenterContent } from "../../styles/formStyles";
+import { DeleteButton } from "../../styles/formStyles";
 import { Icon } from "../../styles/mainStyles";
 
 import PlaylistPreviewMenu from "../PlaylistPreviewMenu";
-import RowPlaylist from "../RowPlaylist";
 import MenuPlaylistList from "../MenuPlaylistList";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Menu({ show, close }) {
   const dispatch = useDispatch();
   const User = useSelector(userSelector);
   const { myPlaylists } = useSelector(playlistSelector);
-  const { favorites, mySongs } = useSelector(songSelector);
-  const [hasAllInfo, setHasAllInfo] = useState(false);
-  const [hasMySongs, setHasMySongs] = useState(false);
-
-  useEffect(() => {
-    if (hasAllInfo && !hasMySongs) {
-      dispatch(getMySongs());
-    }
-  }, [hasAllInfo, hasMySongs]);
-
-  useEffect(() => {
-    if (mySongs) {
-      setHasMySongs(true);
-    }
-  }, [mySongs]);
-
-  useEffect(() => {
-    if (hasAllInfo) {
-      dispatch(getFavorites());
-    }
-  }, [hasAllInfo]);
-
-  useEffect(() => {
-    setHasAllInfo(hasUserAllInfo(User.currentUser));
-  }, [User.currentUser]);
+  const { favorites } = useSelector(songSelector);
+  const { lastSongsPlayed } = useSelector(playerSelector);
 
   function handleSignOut() {
     dispatch(signOut());
@@ -78,7 +54,7 @@ function Menu({ show, close }) {
             <Icon type="button" name="close" size="small" onClick={close} />
           </CloseContainer>
           <RowDiv>
-            <Link to="/user-page">
+            <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <MenuImage
                 src={
                   User.currentUser.porfileImage ||
@@ -86,7 +62,7 @@ function Menu({ show, close }) {
                 }
               />
             </Link>
-            <Link to="/user-page">
+            <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <ColumnDiv>
                 <UserNameMenu>{User.currentUser.userName}</UserNameMenu>
                 <FullName>{`${User.currentUser.firstName}  ${User.currentUser.lastName}`}</FullName>
@@ -104,8 +80,11 @@ function Menu({ show, close }) {
               )}
             </ColumnDiv>
             <ColumnDiv>
-              {favorites?.length > 0 && (
-                <PlaylistPreviewMenu title="Liked Songs" songs={favorites} />
+              {lastSongsPlayed?.length > 0 && (
+                <PlaylistPreviewMenu
+                  title="Last songs played"
+                  songs={lastSongsPlayed}
+                />
               )}
             </ColumnDiv>
             <ColumnDiv>

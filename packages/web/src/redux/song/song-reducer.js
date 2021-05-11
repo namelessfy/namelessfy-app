@@ -17,7 +17,7 @@ export const SongInitialState = {
   likeError: null,
   isSettingDislike: false,
   dislikeError: null,
-  mySongs: null,
+  mySongs: [],
   isGettingMySongs: false,
   getMySongsError: null,
   isUploadingSong: false,
@@ -26,6 +26,13 @@ export const SongInitialState = {
   isdeletingSong: false,
   deletingSuccess: false,
   deleteSongError: null,
+
+  isGettingUserSongs: false,
+  getUserSongsError: null,
+  userSongs: [],
+  isGettingUserFavorites: false,
+  getUserFavoritesError: null,
+  userFavorites: [],
 };
 
 const SongReducer = (state = SongInitialState, action) => {
@@ -208,6 +215,75 @@ const SongReducer = (state = SongInitialState, action) => {
         uploadSongError: null,
       };
     }
+
+    case SongTypes.GET_USER_SONGS_REQUEST: {
+      return {
+        ...state,
+        isGettingUserSongs: true,
+        getUserSongsSuccess: false,
+        getUserSongsError: null,
+      };
+    }
+    case SongTypes.GET_USER_SONGS_ERROR: {
+      return {
+        ...state,
+        isGettingUserSongs: false,
+        getUserSongsSuccess: false,
+        getUserSongsError: action.payload,
+      };
+    }
+    case SongTypes.GET_USER_SONGS_SUCCESS: {
+      return {
+        ...state,
+        isGettingUserSongs: false,
+        getUserSongsSuccess: true,
+        getUserSongsError: null,
+        userSongs: action.payload,
+      };
+    }
+    case SongTypes.GET_USER_SONGS_RESET: {
+      return {
+        ...state,
+        isGettingUserSongs: false,
+        getUserSongsSuccess: false,
+        getUserSongsError: null,
+        userSongs: [],
+      };
+    }
+    case SongTypes.GET_USER_FAVORITES_REQUEST: {
+      return {
+        ...state,
+        isGettingUserFavorites: true,
+        getUserFavoritesSuccess: false,
+        getUserFavoritesError: null,
+      };
+    }
+    case SongTypes.GET_USER_FAVORITES_ERROR: {
+      return {
+        ...state,
+        isGettingUserFavorites: false,
+        getUserFavoritesSuccess: false,
+        getUserFavoritesError: action.payload,
+      };
+    }
+    case SongTypes.GET_USER_FAVORITES_SUCCESS: {
+      return {
+        ...state,
+        isGettingUserFavorites: false,
+        getUserFavoritesSuccess: true,
+        getUserFavoritesError: null,
+        userFavorites: action.payload,
+      };
+    }
+    case SongTypes.GET_USER_FAVORITES_RESET: {
+      return {
+        ...state,
+        isGettingUserSongs: false,
+        getUserSongsSuccess: false,
+        getUserSongsError: null,
+        userFavorites: [],
+      };
+    }
     case SongTypes.SONG_RESET: {
       return {
         ...state,
@@ -221,7 +297,7 @@ const SongReducer = (state = SongInitialState, action) => {
         likeError: null,
         isSettingDislike: false,
         dislikeError: null,
-        mySongs: null,
+        mySongs: [],
         isGettingMySongs: false,
         getMySongsError: null,
         isUploadingSong: false,
@@ -230,6 +306,13 @@ const SongReducer = (state = SongInitialState, action) => {
         isdeletingSong: false,
         deletingSuccess: false,
         deleteSongError: null,
+
+        isGettingUserSongs: false,
+        getUserSongsError: null,
+        userSongs: [],
+        isGettingUserFavorites: false,
+        getUserFavoritesError: null,
+        userFavorites: [],
       };
     }
     default: {

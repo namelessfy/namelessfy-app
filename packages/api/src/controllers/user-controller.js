@@ -36,9 +36,12 @@ async function signUp(req, res, next) {
       },
     };
 
-    await CommonStaticRepository.create(USER_COLLECTION, createOptions);
+    const user = await CommonStaticRepository.create(
+      USER_COLLECTION,
+      createOptions,
+    );
 
-    return handleResponse(res, response, 201);
+    return handleResponse(res, user, 201, 500);
   } catch (error) {
     next(error);
   }
@@ -58,9 +61,12 @@ async function signOut(req, res, next) {
 }
 
 async function edit(req, res, next) {
+  const { uid, email } = req.user;
   let dataToUpdate = {
     ...req.body,
   };
+  dataToUpdate.email = email;
+
   delete dataToUpdate._id;
   delete dataToUpdate.firebase_id;
 
@@ -73,7 +79,6 @@ async function edit(req, res, next) {
     dataToUpdate.porfileImage = result.url;
   }
 
-  const { email } = req.user;
   const updateFields = Object.keys(dataToUpdate);
 
   const allowedUpdates = [
@@ -95,18 +100,27 @@ async function edit(req, res, next) {
   }
 
   try {
-    const options = {
-      query: { email },
-      findByIdAndUpdateOptions: dataToUpdate,
+    const userOptions = {
+      query: { firebase_id: uid },
       projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+    const options = {
+      query: { _id: user.data._id },
+      findByIdAndUpdateOptions: dataToUpdate,
     };
 
     const response = await CommonStaticRepository.findOneAndUpdate(
       USER_COLLECTION,
       options,
     );
-
-    return handleResponse(res, response, null, 400);
+    return handleResponse(res, response, 200, 500);
   } catch (error) {
     next(error);
   }
@@ -130,9 +144,149 @@ async function remove(req, res, next) {
   }
 }
 
+async function getByUsername(req, res, next) {
+  const { userName } = req.params;
+
+  try {
+    const options = {
+      query: { userName: userName },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(USER_COLLECTION, options);
+
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+
+    return handleResponse(res, user, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function getUsersFollowing(req, res, next) {
+  let { id } = req.params;
+  const { uid } = req.user;
+
+  try {
+    if (id === "me") {
+      const userOptions = {
+        query: { firebase_id: uid },
+        projection: "-__v",
+      };
+      const user = await CommonStaticRepository.getOne(
+        USER_COLLECTION,
+        userOptions,
+      );
+      if (user.error) {
+        return handleResponse(res, user, null, 500);
+      }
+      id = user.data._id;
+    }
+
+    const options = {
+      query: { followedBy: id },
+      projection: "-__v",
+    };
+    const followingUser = await CommonStaticRepository.getAll(
+      USER_COLLECTION,
+      options,
+    );
+    if (followingUser.error) {
+      return handleResponse(res, followingUser, null, 500);
+    }
+    console.log(followingUser);
+    return handleResponse(res, followingUser, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function followUser(req, res, next) {
+  let { id } = req.params;
+  const { uid } = req.user;
+
+  try {
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+
+    const options = {
+      query: { _id: id },
+      projection: "-__v",
+      findByIdAndUpdateOptions: {
+        $addToSet: {
+          followedBy: user.data._id,
+        },
+      },
+    };
+    const result = await CommonStaticRepository.findOneAndUpdate(
+      USER_COLLECTION,
+      options,
+    );
+    if (result.error) {
+      return handleResponse(res, result, null, 500);
+    }
+    return handleResponse(res, result, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function unfollowUser(req, res, next) {
+  let { id } = req.params;
+  const { uid } = req.user;
+
+  try {
+    const userOptions = {
+      query: { firebase_id: uid },
+      projection: "-__v",
+    };
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+    if (user.error) {
+      return handleResponse(res, user, null, 500);
+    }
+
+    const options = {
+      query: { _id: id },
+      projection: "-__v",
+      findByIdAndUpdateOptions: {
+        $pull: {
+          followedBy: user.data._id,
+        },
+      },
+    };
+    const result = await CommonStaticRepository.findOneAndUpdate(
+      USER_COLLECTION,
+      options,
+    );
+    if (result.error) {
+      return handleResponse(res, result, null, 500);
+    }
+    return handleResponse(res, result, 200, 500);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   signUp,
   signOut,
   edit,
   delete: remove,
+  getByUsername,
+  getUsersFollowing,
+  followUser,
+  unfollowUser,
 };

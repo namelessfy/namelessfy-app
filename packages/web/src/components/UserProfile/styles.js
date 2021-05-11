@@ -59,8 +59,8 @@ const ProfileButton = styled.button`
     transition: 0.3s ease-in-out;
   }
 `;
-const ViewButton = styled.button`
-  width: 80px;
+const ViewButton = styled.div`
+  width: 70px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -74,7 +74,7 @@ const ViewButton = styled.button`
   }
 `;
 
-const EditButton = styled.button`
+const EditButton = styled.div`
   margin-top: 25px;
   margin-left: calc(50% + min(20%, 75px));
   padding: 5px;
@@ -90,8 +90,9 @@ const ButtonContainer = styled.div`
   flex-direction: row wrap;
   justify-content: center;
   width: 100%;
+
   & > button {
-    margin-top: 1rem;
+    margin: 2rem;
   }
 `;
 
@@ -104,6 +105,24 @@ const AddSongButton = styled.button`
   border-radius: 5px;
   width: 40vw;
   max-width: 200px;
+`;
+
+const FollowButton = styled.button`
+  width: 120px;
+  font-size: 18px;
+  border: 2px solid ${colors.WHITE};
+  border-radius: 10px;
+
+  &:focus,
+  &:hover {
+    outline: none;
+  }
+  ${({ isFollowed }) =>
+    !isFollowed &&
+    `
+    background-color: ${colors.WHITE};
+    color: ${colors.DARK};
+    `}
 `;
 
 const NavContainer = styled.div`
@@ -237,4 +256,5 @@ export {
   NavButton,
   EditButton,
   ViewButton,
+  FollowButton,
 };

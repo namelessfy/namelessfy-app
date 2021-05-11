@@ -81,7 +81,7 @@ async function getFavorite(req, res, collection, next) {
   try {
     const { uid } = req.user;
     let { id } = req.params;
-    let firebase_id = id === "me" ? uid : id;
+    let firebase_id = uid;
 
     const userOptions = {
       query: { firebase_id },
@@ -92,7 +92,7 @@ async function getFavorite(req, res, collection, next) {
       userOptions,
     );
 
-    id = user.data._id;
+    id = id === "me" ? user.data._id : id;
 
     const options = {
       query: { "likedBy._id": id },

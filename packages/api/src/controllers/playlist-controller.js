@@ -106,13 +106,13 @@ async function create(req, res, next) {
       },
     };
 
-    await CommonStaticRepository.create(
+    const createdPlaylist = await CommonStaticRepository.create(
       PLAYLIST_COLLECTION,
       playlistCreateOptions,
     );
 
     const playlistOptions = {
-      query: { _id: playlist.data._id },
+      query: { _id: createdPlaylist.data._id },
       populators: ["tracks"],
     };
 
@@ -131,7 +131,7 @@ async function getFavoritePlaylists(req, res, next) {
   try {
     const { uid } = req.user;
     let { id } = req.params;
-    let firebase_id = id === "me" ? uid : id;
+    let firebase_id = uid;
 
     const userOptions = {
       query: { firebase_id },
@@ -143,7 +143,7 @@ async function getFavoritePlaylists(req, res, next) {
       userOptions,
     );
 
-    id = user.data._id;
+    id = id === "me" ? user.data._id : id;
 
     let defaultQuery = {
       "likedBy._id": id,

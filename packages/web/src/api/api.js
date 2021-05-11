@@ -160,6 +160,46 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function getUserByUsername(headers, userName) {
+    return request({
+      url: `/user/${userName}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function getFollowedUsersById(headers, id = "me") {
+    return request({
+      url: `/user/following/${id}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
+  function followUserById(headers, id) {
+    return request({
+      url: `/user/follow/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+    });
+  }
+
+  function unfollowUserById(headers, id) {
+    return request({
+      url: `/user/unfollow/${id}`,
+      requestMethod: "PATCH",
+      headers: headers,
+    });
+  }
+
+  function searchByTextInput(headers, data) {
+    return request({
+      url: `/search/${data}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -180,6 +220,11 @@ function makeApi(request = makeRequest()) {
     likePlaylist: likePlaylist,
     dislikePlaylist: dislikePlaylist,
     removeFromPlaylistById: removeFromPlaylistById,
+    getUserByUsername: getUserByUsername,
+    getFollowedUsersById: getFollowedUsersById,
+    followUserById: followUserById,
+    unfollowUserById: unfollowUserById,
+    searchByTextInput: searchByTextInput,
   };
 }
 

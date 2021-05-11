@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
@@ -101,7 +101,7 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
               "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
             }
             onClick={playSong}
-            onContextMenu={DialogueBox}
+            onContextMenu={showDialogueBox}
           />
         ) : (
           <SongCover
@@ -121,9 +121,12 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
             </SongTitle>
             <SongArtists isMenu={isMenu}>
               {songInfo.artistId.map((artist, index) => (
-                <a key={artist._id}>
+                <Link
+                  key={artist._id}
+                  to={`${ROUTES.USER_PAGE}/${artist.userName}`}
+                >
                   {index > 0 ? ` ${artist.userName}` : artist.userName}
-                </a>
+                </Link>
               ))}
             </SongArtists>
           </InfoContainer>

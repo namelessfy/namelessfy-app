@@ -17,6 +17,7 @@ const NavbarContainer = styled.div`
   color: ${colors.WHITE};
   width: min(85%, 1000px);
   margin: 1.5rem auto 0;
+  position: absolute;
 
   & ul {
     display: flex;

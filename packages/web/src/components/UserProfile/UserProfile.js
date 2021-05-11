@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+
+import PropTypes from "prop-types";
 
 import {
   UserName,
@@ -9,67 +11,112 @@ import {
   ProfileContainer,
   EditButton,
   ViewButton,
+  FollowButton,
 } from "./styles";
 
-import NavBar from "../Navbar";
 import { CenterContent } from "../../styles/formStyles";
-import { userSelector } from "../../redux/user/user-selectors";
-import { songSelector } from "../../redux/song/song-selectors";
-import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
-function UserProfile() {
-  const { currentUser } = useSelector(userSelector);
-  const { mySongs, favorites } = useSelector(songSelector);
-  const { myPlaylists } = useSelector(playlistSelector);
+import { userSelector } from "../../redux/user/user-selectors";
+import { isIdInList } from "../../utils/favoritesUtils";
+import { followUser, unfollowUser } from "../../redux/user/user-actions";
+
+function UserProfile({
+  user,
+  songs,
+  favorites,
+  playlists,
+  isCurrentUser,
+  userFollowedUsers,
+}) {
+  const dispatch = useDispatch();
   const [isGrid, setIsGrid] = useState(true);
+  const [isFollowed, setIsFollowed] = useState(false);
+  const { followedUsers } = useSelector(userSelector);
   const tab = " ";
+
+  useEffect(() => {
+    setIsFollowed(isIdInList(user?._id, followedUsers));
+  }, [followedUsers, user]);
 
   function toggleGrid() {
     setIsGrid(!isGrid);
   }
 
+  function toggleFollowed() {
+    if (isFollowed) {
+      dispatch(unfollowUser(user?._id));
+    } else {
+      dispatch(followUser(user?._id));
+    }
+  }
+
   return (
     <div>
-      <NavBar />
       <ProfileContainer>
         <CenterContent>
-          <EditButton>
-            <Link to="/edit-user">
-              {" "}
-              <Icon name="edit" size="normal" />
-            </Link>
-          </EditButton>
+          {isCurrentUser && (
+            <EditButton>
+              <Link to="/edit-user">
+                {" "}
+                <Icon name="edit" size="normal" />
+              </Link>
+            </EditButton>
+          )}
+          {!isCurrentUser && (
+            <EditButton>
+              <FollowButton onClick={toggleFollowed} isFollowed={isFollowed}>
+                {isFollowed ? "Unfollow" : "Follow"}
+              </FollowButton>
+            </EditButton>
+          )}
           <ProfileImageDefault
             src={
-              currentUser?.porfileImage ||
+              user?.porfileImage ||
               "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
             }
           />
         </CenterContent>
         <UserName>
-          <h1>{currentUser?.userName}</h1>
-          <h4>{currentUser?.firstName + tab + currentUser?.lastName}</h4>
+          <h1>{user?.userName}</h1>
+          <h4>{user?.firstName + tab + user?.lastName}</h4>
         </UserName>
         <Statistics>
           <div>
-            <p>{currentUser?.followers || "3.141.596 Followers"}</p>
-            <p>{currentUser?.followers || "4 Following"}</p>
+            <p>{`${user?.followedBy?.length} Followers`}</p>
+            <p>{`${userFollowedUsers?.length} Following`}</p>
           </div>
-          <ViewButton onClick={toggleGrid}>
-            <Icon name={isGrid ? "toggleOn" : "toggleOff"} size="normal" />
-            <Icon name={isGrid ? "grid" : "list"} size="normal" />
+          <ViewButton>
+            <Icon
+              onClick={toggleGrid}
+              name={isGrid ? "toggleOn" : "toggleOff"}
+              size="small"
+            />
+            <Icon
+              onClick={toggleGrid}
+              name={isGrid ? "grid" : "list"}
+              size="small"
+            />
           </ViewButton>
         </Statistics>
-        <UserNavBar
-          songs={mySongs}
-          favSongs={favorites}
-          playlists={myPlaylists}
-        />
+        <UserNavBar songs={songs} favSongs={favorites} playlists={playlists} />
       </ProfileContainer>
     </div>
   );
 }
+
+UserProfile.propTypes = {
+  user: PropTypes.object.isRequired,
+  songs: PropTypes.array.isRequired,
+  favorites: PropTypes.array.isRequired,
+  playlists: PropTypes.array.isRequired,
+  isCurrentUser: PropTypes.bool,
+  userFollowedUsers: PropTypes.array.isRequired,
+};
+
+UserProfile.defaultProps = {
+  isCurrentUser: false,
+};
 
 export default UserProfile;

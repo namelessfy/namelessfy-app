@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Dropzone from "../../components/Dropzone";
-import Navbar from "../../components/Navbar";
 
 import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
 import { setUserView } from "../../redux/user/user-actions";
@@ -51,7 +50,7 @@ function UploadSong() {
   useEffect(() => {
     if (uploadSongSuccess) {
       dispatch(setUserView("song"));
-      history.push(ROUTES.USER_PAGE);
+      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
       dispatch(uploadSongReset());
     }
   }, [uploadSongSuccess]);
@@ -111,7 +110,6 @@ function UploadSong() {
       setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
-    console.log(artists);
   }
 
   function deleteArtist(index) {
@@ -142,7 +140,6 @@ function UploadSong() {
   return (
     <Main marginBottom>
       {isUploadingSong && <Loader />}
-      <Navbar />
       <Title>Upload Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">

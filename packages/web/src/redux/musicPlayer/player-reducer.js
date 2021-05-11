@@ -1,5 +1,9 @@
+import { addSongToLastPlayed } from "../../utils/favoritesUtils";
 import { shuffle, startListByIndex } from "../../utils/playerUtils";
-import { deleteAllInstancesFromList } from "../../utils/utils";
+import {
+  deleteAllInstancesFromList,
+  replaceAllInstancesFromList,
+} from "../../utils/utils";
 import * as PlayerTypes from "./player-types";
 
 export const PlayerInitialState = {
@@ -12,6 +16,7 @@ export const PlayerInitialState = {
   isPrequeue: false,
   currentPlaylist: null,
   isCurrentSongDeleted: false,
+  lastSongsPlayed: [],
 };
 
 const PlayerReducer = (state = PlayerInitialState, action) => {
@@ -201,6 +206,44 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       return {
         ...state,
         isCurrentSongDeleted: false,
+      };
+    }
+
+    case PlayerTypes.UPDATE_SONG_FROM_QUEUE: {
+      const song = action.payload;
+      return {
+        ...state,
+        currentSong:
+          state.currentSong._id === song._id ? song : state.currentSong,
+        queue: replaceAllInstancesFromList(song, state.queue),
+        preQueue: replaceAllInstancesFromList(song, state.preQueue),
+        shuffleQueue: replaceAllInstancesFromList(song, state.shuffleQueue),
+      };
+    }
+    case PlayerTypes.SET_LAST_SONG_PLAYED: {
+      return {
+        ...state,
+        lastSongsPlayed: addSongToLastPlayed(
+          action.payload,
+          state.lastSongsPlayed,
+        ),
+      };
+    }
+
+    case PlayerTypes.SET_QUEUE_TO_SHUFFLE: {
+      const songs = action.payload;
+      const index = Math.floor(Math.random() * songs.length);
+      const queue = startListByIndex(index, [...songs]);
+      const song = songs[index];
+      const queueShuffled = shuffle(queue);
+
+      return {
+        ...state,
+        isShuffle: true,
+        queue: queue,
+        shuffleQueue: queueShuffled,
+        currentSong: song,
+        autoPlay: true,
       };
     }
 

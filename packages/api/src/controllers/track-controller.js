@@ -98,7 +98,14 @@ async function create(req, res, next) {
       projection: "-__v",
     };
 
-    const user = CommonStaticRepository.getOne(USER_COLLECTION, userOptions);
+    const user = await CommonStaticRepository.getOne(
+      USER_COLLECTION,
+      userOptions,
+    );
+
+    if (user.error) {
+      return handleResponse(res, user, null, 400);
+    }
     const artists = await getArtists(JSON.parse(data.artistId));
 
     const cloudinaryUploadResponse = await handleCloudinaryUpdateImage(

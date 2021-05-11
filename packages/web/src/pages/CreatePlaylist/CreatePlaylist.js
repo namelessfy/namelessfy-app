@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Navbar from "../../components/Navbar";
 import Loader from "../../components/Loader";
 
 import {
@@ -29,6 +28,7 @@ import {
 
 import { Main, Icon } from "../../styles/mainStyles";
 import { PrivacityContainer } from "./style";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function CreatePlaylist() {
   const history = useHistory();
@@ -39,6 +39,7 @@ function CreatePlaylist() {
     createPlaylistError,
     cacheSongId,
   } = useSelector(playlistSelector);
+  const { currentUser } = useSelector(userSelector);
 
   const [title, setTitle] = useState("");
   const [playlistImage, setPlaylistImage] = useState(null);
@@ -50,7 +51,7 @@ function CreatePlaylist() {
       dispatch(setCacheSongId(null));
       dispatch(setUserView("playlist"));
       dispatch(createPlaylistReset());
-      history.push(ROUTES.USER_PAGE);
+      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
     }
   }, [createPlaylistSuccess]);
 
@@ -92,7 +93,6 @@ function CreatePlaylist() {
   return (
     <Main marginBottom>
       {isCreatingPlaylist && <Loader />}
-      <Navbar />
       <Title>Create playlist</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">

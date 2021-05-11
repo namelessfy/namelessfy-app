@@ -47,3 +47,21 @@ export function removeFromMySongs(id, mySongs) {
   mySongs.splice(index, 1);
   return [...mySongs];
 }
+
+export function addSongToLastPlayed(song, list) {
+  if (list) {
+    let lastPlayed = [...list];
+    const index = lastPlayed.findIndex((item) => item._id === song._id);
+
+    if (index !== -1) {
+      lastPlayed.splice(index, 1);
+    }
+
+    lastPlayed = [song, ...lastPlayed];
+
+    lastPlayed = lastPlayed.slice(0, 20);
+
+    return lastPlayed;
+  }
+  return [song];
+}

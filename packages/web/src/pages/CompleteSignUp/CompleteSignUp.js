@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -15,10 +15,9 @@ import { hasUserAllInfo } from "../../utils/utils";
 function CompleteSignUP() {
   const { currentUser } = useSelector(userSelector);
 
-  if (hasUserAllInfo(currentUser)) {
-    return <Redirect to={ROUTES.HOME} />;
-  }
-  return (
+  return hasUserAllInfo(currentUser) ? (
+    <Redirect to={ROUTES.HOME} />
+  ) : (
     <Main marginBottom>
       <section>
         <Title>Complete Sign Up</Title>
