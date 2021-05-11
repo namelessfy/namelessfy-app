@@ -1,9 +1,7 @@
 const CommonStaticRepository = require("./CommonStaticRepository");
+const collectionCatalog = require("./collection-catalog");
 
 module.exports = {
-  USER_COLLECTION: "User",
-  TRACK_COLLECTION: "Track",
-  PLAYLIST_COLLECTION: "Playlist",
-  GENRE_COLLECTION: "Genre",
+  ...collectionCatalog,
   CommonStaticRepository,
 };
