@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -18,17 +19,38 @@ import { CenterContent } from "../../styles/formStyles";
 import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
-function UserProfile({ user, songs, favorites, playlists, isCurrentUser }) {
+import { userSelector } from "../../redux/user/user-selectors";
+import { isIdInList } from "../../utils/favoritesUtils";
+import { followUser, unfollowUser } from "../../redux/user/user-actions";
+
+function UserProfile({
+  user,
+  songs,
+  favorites,
+  playlists,
+  isCurrentUser,
+  userFollowedUsers,
+}) {
+  const dispatch = useDispatch();
   const [isGrid, setIsGrid] = useState(true);
   const [isFollowed, setIsFollowed] = useState(false);
+  const { followedUsers } = useSelector(userSelector);
   const tab = " ";
+
+  useEffect(() => {
+    setIsFollowed(isIdInList(user?._id, followedUsers));
+  }, [followedUsers, user]);
 
   function toggleGrid() {
     setIsGrid(!isGrid);
   }
 
   function toggleFollowed() {
-    setIsFollowed(!isFollowed);
+    if (isFollowed) {
+      dispatch(unfollowUser(user?._id));
+    } else {
+      dispatch(followUser(user?._id));
+    }
   }
 
   return (
@@ -64,8 +86,8 @@ function UserProfile({ user, songs, favorites, playlists, isCurrentUser }) {
         </UserName>
         <Statistics>
           <div>
-            <p>{user?.followers || "3.141.596 Followers"}</p>
-            <p>{user?.followers || "4 Following"}</p>
+            <p>{`${user?.followedBy?.length} Followers`}</p>
+            <p>{`${userFollowedUsers?.length} Following`}</p>
           </div>
           <ViewButton>
             <Icon
@@ -92,6 +114,7 @@ UserProfile.propTypes = {
   favorites: PropTypes.array.isRequired,
   playlists: PropTypes.array.isRequired,
   isCurrentUser: PropTypes.bool,
+  userFollowedUsers: PropTypes.array.isRequired,
 };
 
 UserProfile.defaultProps = {

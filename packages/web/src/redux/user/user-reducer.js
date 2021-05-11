@@ -21,6 +21,10 @@ export const UserInitialState = {
 
   isSettingUnfollowUser: false,
   unfollowUserError: null,
+
+  othersFollowedUsers: [],
+  isGettingOthersFollowedUsers: false,
+  getOthersFollowedUsersError: null,
 };
 
 const UserReducer = (state = UserInitialState, action) => {
@@ -190,6 +194,38 @@ const UserReducer = (state = UserInitialState, action) => {
         unfollowUserError: null,
       };
     }
+
+    case UserTypes.GET_OTHERS_FOLLOWED_USERS_REQUEST: {
+      return {
+        ...state,
+        isGettingoOthersFollowedUsers: true,
+        getOthersFollowedUsersError: null,
+      };
+    }
+    case UserTypes.GET_OTHERS_FOLLOWED_USERS_ERROR: {
+      return {
+        ...state,
+        isGettingoOthersFollowedUsers: false,
+        getOthersFollowedUsersError: action.payload,
+      };
+    }
+    case UserTypes.GET_OTHERS_FOLLOWED_USERS_SUCCESS: {
+      return {
+        ...state,
+        isGettingoOthersFollowedUsers: false,
+        getOthersFollowedUsersError: null,
+        othersFollowedUsers: action.payload,
+      };
+    }
+    case UserTypes.GET_OTHERS_FOLLOWED_USERS_RESET: {
+      return {
+        ...state,
+        othersFollowedUsers: [],
+        isGettingOthersFollowedUsers: false,
+        getOthersFollowedUsersError: null,
+      };
+    }
+
     default: {
       return state;
     }

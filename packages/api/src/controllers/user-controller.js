@@ -181,7 +181,7 @@ async function getUsersFollowing(req, res, next) {
       if (user.error) {
         return handleResponse(res, user, null, 500);
       }
-      id = user._id;
+      id = user.data._id;
     }
 
     const options = {
@@ -195,6 +195,7 @@ async function getUsersFollowing(req, res, next) {
     if (followingUser.error) {
       return handleResponse(res, followingUser, null, 500);
     }
+    console.log(followingUser);
     return handleResponse(res, followingUser, 200, 500);
   } catch (error) {
     next(error);

@@ -208,6 +208,46 @@ export const unfollowUserReset = () => ({
   type: UserTypes.UNFOLLOW_USER_RESET,
 });
 
+export const getOthersFollowedUsersRequest = () => ({
+  type: UserTypes.GET_OTHERS_FOLLOWED_USERS_REQUEST,
+});
+
+export const getOthersFollowedUsersError = (message) => ({
+  type: UserTypes.GET_OTHERS_FOLLOWED_USERS_ERROR,
+  payload: message,
+});
+
+export const getOthersFollowedUsersSuccess = (followedUsers) => ({
+  type: UserTypes.GET_OTHERS_FOLLOWED_USERS_SUCCESS,
+  payload: followedUsers,
+});
+
+export function getOthersFollowedUsers(id) {
+  return async function getOthersFollowedUsersThunk(dispatch) {
+    dispatch(getOthersFollowedUsersRequest());
+    const token = await auth.getCurrentUserToken();
+    if (!token) {
+      return dispatch(getOthersFollowedUsersError("Error Getting the token"));
+    }
+
+    const response = await api.getFollowedUsersById(
+      {
+        Authorization: `Bearer ${token}`,
+      },
+      id,
+    );
+
+    if (response.errorMessage) {
+      return dispatch(getOthersFollowedUsersError(response.errorMessage));
+    }
+    return dispatch(getOthersFollowedUsersSuccess(response.data.data));
+  };
+}
+
+export const getOthersFollowedUsersReset = () => ({
+  type: UserTypes.GET_OTHERS_FOLLOWED_USERS_RESET,
+});
+
 export const resetUser = () => ({
   type: UserTypes.RESET_USER,
 });
