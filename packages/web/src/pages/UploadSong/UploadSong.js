@@ -111,7 +111,6 @@ function UploadSong() {
       setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
-    console.log(artists);
   }
 
   function deleteArtist(index) {

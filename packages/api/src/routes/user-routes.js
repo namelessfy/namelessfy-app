@@ -24,5 +24,10 @@ userRouter.get(
   userController.getUsersFollowing,
 );
 userRouter.patch("/user/follow/:id", authMiddleware, userController.followUser);
+userRouter.patch(
+  "/user/unfollow/:id",
+  authMiddleware,
+  userController.unfollowUser,
+);
 
 module.exports = { userRouter };

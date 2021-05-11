@@ -20,7 +20,7 @@ import Queue from "./pages/Queue";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import { onAuthStateChanged } from "./services/auth";
-import { syncSignIn, signOut } from "./redux/auth/auth-actions";
+import { syncSignIn, signOut, resetAuthState } from "./redux/auth/auth-actions";
 import EditUser from "./pages/EditUser/EditUser";
 import EditPlaylist from "./pages/EditPlaylist/EditPlaylist";
 
@@ -32,6 +32,7 @@ function App() {
 
     unsubscribeFromAuth = onAuthStateChanged((user) => {
       if (user) {
+        dispatch(resetAuthState());
         dispatch(syncSignIn());
       } else {
         dispatch(signOut());

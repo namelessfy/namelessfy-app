@@ -23,7 +23,6 @@ async function validateUserMiddleware(req, res, next) {
         error: error,
         data: null,
       });
-      console.log(`edit user middleware: ${error}`);
     } else {
       next();
     }
