@@ -3,8 +3,13 @@ import { Route, Redirect, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
+
 import * as ROUTES from "../../routes";
+
 import MusicPlayer from "../MusicPlayer";
+import Navbar from "../Navbar";
+
+import { Main } from "../../styles/mainStyles";
 
 function ProtectedRoute({ ...props }) {
   const location = useLocation();
@@ -14,8 +19,12 @@ function ProtectedRoute({ ...props }) {
     if (location.pathname !== ROUTES.COMPLETE_SIGNUP) {
       return (
         <>
+          <Main marginBottom>
+            <Navbar />
+
+            <Route {...props} />
+          </Main>
           <MusicPlayer />
-          <Route {...props} />
         </>
       );
     }

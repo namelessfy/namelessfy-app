@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import Navbar from "../../components/Navbar";
 import Loader from "../../components/Loader";
 
 import {
@@ -27,7 +26,7 @@ import {
   CenterContent,
 } from "../../styles/formStyles";
 
-import { Main, Icon } from "../../styles/mainStyles";
+import { Icon } from "../../styles/mainStyles";
 import { PrivacityContainer } from "./style";
 import { userSelector } from "../../redux/user/user-selectors";
 
@@ -92,9 +91,8 @@ function CreatePlaylist() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {isCreatingPlaylist && <Loader />}
-      <Navbar />
       <Title>Create playlist</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
@@ -137,7 +135,7 @@ function CreatePlaylist() {
           Create
         </Button>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

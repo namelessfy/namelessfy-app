@@ -72,6 +72,7 @@ const Main = styled.main`
   overflow: auto;
   font-family: ${fonts.MAIN}, sans-serif;
   margin: 0;
+  position: relative;
   padding: 0;
   overflow-x: hidden;
 
@@ -79,6 +80,7 @@ const Main = styled.main`
     marginBottom &&
     `padding-bottom: 100px; @media (max-width: 650px) {
     padding-bottom: 160px;
+    padding-top: 0;
   }`}
   padding-bottom: 100px;
   color: ${colors.WHITE};

@@ -17,8 +17,6 @@ const GenreSchema = Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "track",
-        default: [],
-        required: false,
       },
     ],
   },
@@ -26,6 +24,8 @@ const GenreSchema = Schema(
     timestamps: true,
   },
 );
+
+GenreSchema.index({ name: "text" });
 
 const Genre = mongoose.model("genre", GenreSchema);
 

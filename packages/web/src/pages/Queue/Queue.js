@@ -1,10 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import Navbar from "../../components/Navbar";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 import { Separation, Title } from "../../styles/formStyles";
-import { Main } from "../../styles/mainStyles";
 import { QueueContainer, SectionTitle, SongList } from "./styles";
 
 import { setQueue, setPreQueue } from "../../redux/musicPlayer/player-actions";
@@ -40,8 +38,7 @@ function Queue() {
   }
 
   return (
-    <Main>
-      <Navbar />
+    <>
       <Title>Queue</Title>
       <Separation />
       <QueueContainer>
@@ -89,7 +86,7 @@ function Queue() {
               </>
             )}
       </QueueContainer>
-    </Main>
+    </>
   );
 }
 

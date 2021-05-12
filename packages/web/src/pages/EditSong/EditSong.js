@@ -12,7 +12,6 @@ import {
 
 import * as ROUTES from "../../routes";
 
-import Navbar from "../../components/Navbar";
 import Loader from "../../components/Loader";
 
 import {
@@ -29,7 +28,6 @@ import {
   AddInput,
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
-import { Main } from "../../styles/mainStyles";
 
 import { getSongFromList } from "../../utils/favoritesUtils";
 
@@ -153,9 +151,8 @@ function EditSong() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {(isDeletingSong || isEditingSong) && <Loader />}
-      <Navbar />
       <Title>Edit Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
@@ -249,7 +246,7 @@ function EditSong() {
           </DeleteButton>
         </Form>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
 import PlaylistPreview from "../../components/PlaylistPreview";
 import PlaylistList from "../../components/PlaylistList";
 import Loader from "../../components/Loader";
@@ -20,59 +19,37 @@ import { hasUserAllInfo } from "../../utils/utils";
 import { Main } from "../../styles/mainStyles";
 import { Container } from "./style";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+import { getFollowedUsers } from "../../redux/user/user-actions";
 
 function Home() {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(userSelector);
-  const { favorites, mySongs } = useSelector(songSelector);
-  const { myPlaylists } = useSelector(playlistSelector);
+  const { currentUser, isGettingFollowedUsers } = useSelector(userSelector);
+  const {
+    favorites,
+    mySongs,
+    isGettingFavorites,
+    isGettingMySongs,
+  } = useSelector(songSelector);
+  const { myPlaylists, isGettingMyPlaylists } = useSelector(playlistSelector);
   const { lastSongsPlayed } = useSelector(playerSelector);
-  const [hasAllInfo, setHasAllInfo] = useState(false);
-  const [hasMySongs, setHasMySongs] = useState(false);
-  const [hasPlaylists, setHasPlaylists] = useState(false);
 
   useEffect(() => {
-    if (hasAllInfo && !hasPlaylists) {
-      dispatch(getPlaylists());
-    }
-  }, [hasAllInfo]);
-
-  useEffect(() => {
-    if (hasAllInfo && !hasMySongs) {
-      dispatch(getMySongs());
-    }
-  }, [hasAllInfo, hasMySongs]);
-
-  useEffect(() => {
-    if (mySongs !== null) {
-      setHasMySongs(true);
-    }
-  }, [mySongs]);
-
-  useEffect(() => {
-    if (myPlaylists) {
-      setHasPlaylists(true);
-    }
-  }, [myPlaylists]);
-
-  useEffect(() => {
-    if (hasAllInfo && favorites.length === 0) {
-      dispatch(getFavorites());
-    }
-  }, [hasAllInfo]);
-
-  useEffect(() => {
-    setHasAllInfo(hasUserAllInfo(currentUser));
-  }, [currentUser]);
+    dispatch(getPlaylists());
+    dispatch(getFollowedUsers());
+    dispatch(getMySongs());
+    dispatch(getFavorites());
+  }, [dispatch]);
 
   if (!hasUserAllInfo(currentUser)) {
     return <Redirect to={ROUTES.COMPLETE_SIGNUP} />;
   }
 
   return (
-    <Main marginBottom>
-      {(!hasMySongs || !hasPlaylists) && <Loader />}
-      <Navbar />
+    <>
+      {(isGettingFollowedUsers ||
+        isGettingFavorites ||
+        isGettingMySongs ||
+        isGettingMyPlaylists) && <Loader />}
       <Container>
         {myPlaylists?.length > 0 && (
           <PlaylistList title="Your playlists" playlists={myPlaylists} />
@@ -87,7 +64,7 @@ function Home() {
           <PlaylistPreview title="Your Songs" songs={mySongs} />
         )}
       </Container>
-    </Main>
+    </>
   );
 }
 

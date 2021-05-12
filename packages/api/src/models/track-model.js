@@ -92,6 +92,8 @@ const TrackSchema = Schema(
   },
 );
 
+TrackSchema.index({ title: "text" });
+
 const Track = mongoose.model("track", TrackSchema);
 
 module.exports = Track;

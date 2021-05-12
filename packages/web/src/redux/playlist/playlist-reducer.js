@@ -8,7 +8,7 @@ import {
 } from "../../utils/utils";
 
 export const PlaylistInitialState = {
-  myPlaylists: null,
+  myPlaylists: [],
   isCreatingPlaylist: false,
   createPlaylistError: null,
   createPlaylistSuccess: false,
@@ -294,7 +294,6 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
     }
 
     case PlaylistTypes.REMOVE_FROM_PLAYLIST_SUCCESS: {
-      console.log(action.payload);
       return {
         ...state,
         isRemoving: false,
@@ -364,7 +363,7 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
     case PlaylistTypes.PLAYLIST_RESET: {
       return {
         ...state,
-        myPlaylists: null,
+        myPlaylists: [],
         isCreatingPlaylist: false,
         createPlaylistError: null,
         createPlaylistSuccess: false,

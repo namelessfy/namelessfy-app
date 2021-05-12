@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
 import { signOut } from "../../redux/auth/auth-actions";
-import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
-
-import { hasUserAllInfo } from "../../utils/utils";
 
 import * as ROUTES from "../../routes";
 

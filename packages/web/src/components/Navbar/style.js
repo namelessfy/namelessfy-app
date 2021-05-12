@@ -15,7 +15,7 @@ const icons = {
 
 const NavbarContainer = styled.div`
   color: ${colors.WHITE};
-  width: min(85%, 1000px);
+  width: min(85%, 1050px);
   margin: 1.5rem auto 0;
 
   & ul {
@@ -62,19 +62,27 @@ const NamelessfyLogo = styled.button`
 const SearchBar = styled.input`
   height: 35px;
   color: ${colors.DARK};
-  background-color: ${colors.SMOOTH};
+  background-color: ${colors.WHITE};
   box-shadow: inset 2px 2px 10px #000;
-  border-radius: 50px;
-  border: none;
+  border-radius: 10px;
+  border: 2px solid ${colors.MAIN};
   outline: none;
   margin: auto auto;
-  padding: 0 2em;
+  padding: 0 1em;
   font-size: large;
   font-weight: 500;
+  overflow: hidden;
 
   &::placeholder {
     color: ${colors.DARK};
     opacity: 0.8;
+  }
+
+  &:focus,
+  &:hover {
+    outline: none;
+    box-shadow: inset 2px 2px 5px #000;
+    border: 2px solid ${colors.WHITE};
   }
 `;
 

@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
-import SeacrhModal from "../SearchModal";
+import {
+  setSearchInput,
+  search,
+  setSearchReference,
+} from "../../redux/search/search-actions";
+import SearchModal from "../SearchModal";
+import { searchSelector } from "../../redux/search/search-selectors";
 import Menu from "../Menu";
 
 import {
@@ -15,8 +22,6 @@ import {
   NavbarMobile,
   Icon,
 } from "./style";
-
-import { AddInput, Button } from "../../styles/formStyles";
 
 function Navbar() {
   const isDesktop = useMediaQuery({
@@ -29,6 +34,9 @@ function Navbar() {
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -39,6 +47,17 @@ function Navbar() {
     setIsSearchOpen(false);
   };
 
+  function onChangeHandler(e) {
+    if (location.pathname !== ROUTES.SEARCH) {
+      history.push(ROUTES.SEARCH);
+    }
+    dispatch(setSearchInput(e.target.value));
+  }
+
+  function changeReference(e) {
+    dispatch(setSearchReference(e.target.value));
+  }
+
   return (
     <>
       {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
@@ -48,14 +67,25 @@ function Navbar() {
             <Link to={ROUTES.HOME} onClick={closeAll}>
               <NamelessfyLogo />
             </Link>
-            <SearchBar placeholder="Search..." />
+            <SearchBar
+              type="text"
+              placeholder="Search..."
+              onChange={onChangeHandler}
+              size="25"
+            />
+            <SearchBar
+              type="text"
+              placeholder="reference..."
+              onChange={changeReference}
+              size="10"
+            />
             <MenuLogo onClick={() => setIsMenuOpen(true)} />
           </ul>
         </NavbarContainer>
       )}
       {isMobile && (
         <>
-          {isSearchOpen && <SeacrhModal close={() => setIsSearchOpen(false)} />}
+          {isSearchOpen && <SearchModal close={() => setIsSearchOpen(false)} />}
           <NavbarMobile>
             <div>
               <Link to={ROUTES.HOME} onClick={closeAll}>

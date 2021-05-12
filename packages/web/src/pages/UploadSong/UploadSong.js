@@ -3,7 +3,6 @@ import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Dropzone from "../../components/Dropzone";
-import Navbar from "../../components/Navbar";
 
 import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
 import { setUserView } from "../../redux/user/user-actions";
@@ -26,7 +25,6 @@ import {
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "./style";
 
-import { Main } from "../../styles/mainStyles";
 import Loader from "../../components/Loader";
 
 function UploadSong() {
@@ -111,7 +109,6 @@ function UploadSong() {
       setArtists([...artists, { _id: null, userName: newArtist }]);
       setNewArtist("");
     }
-    console.log(artists);
   }
 
   function deleteArtist(index) {
@@ -140,9 +137,8 @@ function UploadSong() {
   }
 
   return (
-    <Main marginBottom>
+    <>
       {isUploadingSong && <Loader />}
-      <Navbar />
       <Title>Upload Song</Title>
       <Separation />
       <Form onSubmit={handleSubmit} id="mainForm">
@@ -242,7 +238,7 @@ function UploadSong() {
           Upload
         </Button>
       </CenterContent>
-    </Main>
+    </>
   );
 }
 

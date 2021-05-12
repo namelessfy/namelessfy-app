@@ -93,7 +93,6 @@ function SignUp() {
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                console.log(values);
                 setSubmitting(false);
                 handleLoginWithEmailAndPassword(values.email, values.password);
               }, 500);

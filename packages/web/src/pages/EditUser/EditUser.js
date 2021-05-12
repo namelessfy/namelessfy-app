@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import EditUserForm from "../../components/EditUserForm";
 import Navbar from "../../components/Navbar";
 import { userSelector } from "../../redux/user/user-selectors";
-import { Main } from "../../styles/mainStyles";
 import { haveUsersSameInfo } from "../../utils/utils";
 
 import * as ROUTES from "../../routes";
@@ -22,12 +21,7 @@ function EditUser() {
     }
   }, [currentUser]);
 
-  return (
-    <Main marginBottom>
-      <Navbar />
-      <EditUserForm />
-    </Main>
-  );
+  return <EditUserForm />;
 }
 
 export default EditUser;
