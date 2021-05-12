@@ -17,8 +17,20 @@ searchRouter.get(
   authMiddleware,
   getByNameFromAllCollections,
 );
-searchRouter.get("/search/track", authMiddleware, getAllTrackReferences);
-searchRouter.get("/search/playlist", authMiddleware, getAllPlaylistReferences);
-searchRouter.get("/search/genre", authMiddleware, getAllGenreReferences);
+searchRouter.get(
+  "/search/track/:search",
+  authMiddleware,
+  getAllTrackReferences,
+);
+searchRouter.get(
+  "/search/playlist/:search",
+  authMiddleware,
+  getAllPlaylistReferences,
+);
+searchRouter.get(
+  "/search/genre/:search",
+  authMiddleware,
+  getAllGenreReferences,
+);
 
 module.exports = { searchRouter };

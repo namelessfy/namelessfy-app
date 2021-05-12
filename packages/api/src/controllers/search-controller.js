@@ -10,15 +10,16 @@ const RESULTS_LIMIT = 20;
 const SERVER_ERROR_MESSAGE = "Something went wrong";
 const NOT_FOUND_MESSAGE = "Not found";
 
-function generateOptions(search, populators) {
+function generateOptions(search, populators, fields) {
+  const regex = search.split(" ").join("|");
   return {
     populators,
     query: {
-      $text: {
-        $search: search,
-        $caseSensitive: false,
-        $diacriticSensitive: true,
-      },
+      $or: fields.map((el) => {
+        const object = {};
+        object[el] = { $regex: regex, $options: "i" };
+        return object;
+      }),
     },
   };
 }
@@ -31,25 +32,29 @@ async function getByNameFromAllCollections(req, res, next) {
   try {
     const { search } = req.params;
 
-    const genreOptions = generateOptions(search);
+    const genreOptions = generateOptions(search, undefined, ["name"]);
     const genres = await CommonStaticRepository.getAll(
       GENRE_COLLECTION,
       genreOptions,
     );
 
-    const playlistsOptions = generateOptions(search);
+    const playlistsOptions = generateOptions(search, undefined, ["title"]);
     const playlists = await CommonStaticRepository.getAll(
       PLAYLIST_COLLECTION,
       playlistsOptions,
     );
 
-    const tracksOptions = generateOptions(search);
+    const tracksOptions = generateOptions(search, undefined, ["title"]);
     const tracks = await CommonStaticRepository.getAll(
       TRACK_COLLECTION,
       tracksOptions,
     );
 
-    const userOptions = generateOptions(search);
+    const userOptions = generateOptions(search, undefined, [
+      "firstName",
+      "lastName",
+      "userName",
+    ]);
     const users = await CommonStaticRepository.getAll(
       USER_COLLECTION,
       userOptions,
@@ -59,12 +64,25 @@ async function getByNameFromAllCollections(req, res, next) {
       genres.error && playlists.error && tracks.error && users.error;
 
     if (noDataInAnyCollection) {
-      return res.status(404).send({
-        data: null,
-        error: "No items found",
+      return res.status(200).send({
+        data: {
+          genres: [],
+          playlists: [],
+          tracks: [],
+          users: [],
+        },
+        message: "No items found",
       });
     }
-
+    console.log(
+      {
+        genres: limitResults(genres.data) || genres.error,
+        playlists: limitResults(playlists.data) || playlists.error,
+        tracks: limitResults(tracks.data) || tracks.error,
+        users: limitResults(users.data) || users.error,
+      },
+      noDataInAnyCollection,
+    );
     return res.status(200).send({
       data: {
         genres: limitResults(genres.data) || genres.error,
@@ -81,38 +99,38 @@ async function getByNameFromAllCollections(req, res, next) {
 
 async function getAllTrackReferences(req, res, next) {
   try {
-    const { search } = req.body;
+    const { search } = req.params;
 
-    const trackOptions = generateOptions(search, ["likedBy"]);
-    const track = await CommonStaticRepository.getAll(
+    const trackOptions = generateOptions(search, ["likedBy"], ["title"]);
+    const tracks = await CommonStaticRepository.getAll(
       TRACK_COLLECTION,
       trackOptions,
     );
 
-    if (track.error) {
+    if (tracks.error) {
       return res.status(503).send({ data: null, error: SERVER_ERROR_MESSAGE });
     }
-    if (track.data.length === 0) {
+    if (tracks.data.length === 0) {
       return res.status(404).send({ data: null, error: NOT_FOUND_MESSAGE });
     }
 
-    const trackId = track?.data?._id;
+    const trackId = tracks?.data?.map((el) => el._id);
 
     const playlists = await CommonStaticRepository.getAll(PLAYLIST_COLLECTION, {
-      query: { tracks: trackId },
+      query: { tracks: { $in: trackId } },
       populators: ["tracks"],
     });
 
     const genres = await CommonStaticRepository.getAll(GENRE_COLLECTION, {
-      query: { tracks: trackId },
+      query: { tracks: { $in: trackId } },
     });
 
     return res.status(200).send({
       data: {
-        track: limitResults(track.data) || track.error,
+        track: limitResults(tracks.data) || tracks.error,
         playlists: limitResults(playlists.data) || playlists.error,
         genres: limitResults(genres.data) || genres.error,
-        users: limitResults(track.data.likedBy) || null,
+        users: limitResults(tracks.data.likedBy) || null,
       },
       error: null,
     });
@@ -123,9 +141,9 @@ async function getAllTrackReferences(req, res, next) {
 
 async function getAllPlaylistReferences(req, res, next) {
   try {
-    const { search } = req.body;
+    const { search } = req.params;
 
-    const playlistOptions = generateOptions(search);
+    const playlistOptions = generateOptions(search, undefined, ["title"]);
     const playlists = await CommonStaticRepository.getAll(
       PLAYLIST_COLLECTION,
       playlistOptions,
@@ -144,9 +162,9 @@ async function getAllPlaylistReferences(req, res, next) {
 
 async function getAllGenreReferences(req, res, next) {
   try {
-    const { search } = req.body;
+    const { search } = req.params;
 
-    const genreOptions = generateOptions(search, ["tracks"]);
+    const genreOptions = generateOptions(search, ["tracks"], ["name"]);
     const genres = await CommonStaticRepository.getAll(
       GENRE_COLLECTION,
       genreOptions,
