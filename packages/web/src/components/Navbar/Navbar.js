@@ -5,7 +5,11 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
-import { setSearchInput, search } from "../../redux/search/search-actions";
+import {
+  setSearchInput,
+  search,
+  setSearchReference,
+} from "../../redux/search/search-actions";
 import SearchModal from "../SearchModal";
 import { searchSelector } from "../../redux/search/search-selectors";
 import Menu from "../Menu";
@@ -33,9 +37,6 @@ function Navbar() {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { searchInput, searchingSuccess, searchResults } = useSelector(
-    searchSelector,
-  );
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -53,6 +54,10 @@ function Navbar() {
     dispatch(setSearchInput(e.target.value));
   }
 
+  function changeReference(e) {
+    dispatch(setSearchReference(e.target.value));
+  }
+
   return (
     <>
       {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
@@ -67,6 +72,12 @@ function Navbar() {
               placeholder="Search..."
               onChange={onChangeHandler}
               size="25"
+            />
+            <SearchBar
+              type="text"
+              placeholder="reference..."
+              onChange={changeReference}
+              size="10"
             />
             <MenuLogo onClick={() => setIsMenuOpen(true)} />
           </ul>

@@ -200,6 +200,14 @@ function makeApi(request = makeRequest()) {
     });
   }
 
+  function searchByReference(headers, data, reference) {
+    return request({
+      url: `/search/${reference}/${data}`,
+      requestMethod: "GET",
+      headers: headers,
+    });
+  }
+
   return {
     signUp: signUp,
     signOut: signOut,
@@ -225,6 +233,7 @@ function makeApi(request = makeRequest()) {
     followUserById: followUserById,
     unfollowUserById: unfollowUserById,
     searchByTextInput: searchByTextInput,
+    searchByReference: searchByReference,
   };
 }
 
