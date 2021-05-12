@@ -14,11 +14,12 @@ function Search() {
     searchInput,
     searchResults: { users, tracks, playlists } = {},
     isSearching,
+    searchReference,
   } = useSelector(searchSelector);
 
   useEffect(() => {
     const id = setTimeout(() => {
-      dispatch(search(searchInput));
+      dispatch(search(searchInput, searchReference));
     }, 200);
 
     return () => {

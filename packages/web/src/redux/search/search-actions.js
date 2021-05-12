@@ -2,7 +2,7 @@ import * as SearchTypes from "./search-types";
 import api from "../../api";
 import * as auth from "../../services/auth";
 
-export function search(text) {
+export function search(text, reference = null) {
   return async function searchThunk(dispatch) {
     dispatch(searchRequest());
 
@@ -14,6 +14,23 @@ export function search(text) {
       }
       // const formData = new FormData();
       // formData.append('search', text);
+
+      if (reference) {
+        const searchRes = await api.searchByReference(
+          {
+            Authorization: `Bearer ${userToken}`,
+            "Content-Type": "application/json",
+          },
+          text,
+          reference,
+        );
+
+        if (searchRes.errorMessage) {
+          return dispatch(searchError(searchRes.errorMessage));
+        }
+        return dispatch(searchSuccess(searchRes.data.data));
+      }
+
       const searchRes = await api.searchByTextInput(
         {
           Authorization: `Bearer ${userToken}`,
@@ -52,5 +69,10 @@ export const searchReset = () => ({
 
 export const setSearchInput = (input) => ({
   type: SearchTypes.SET_SEARCH_INPUT,
+  payload: input,
+});
+
+export const setSearchReference = (input) => ({
+  type: SearchTypes.SET_SEARCH_REFERENCE,
   payload: input,
 });

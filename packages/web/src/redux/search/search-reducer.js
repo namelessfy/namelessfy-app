@@ -6,6 +6,7 @@ export const SearchInitialState = {
   searchResults: {},
   searchingSuccess: false,
   searchInput: "",
+  searchReference: null,
 };
 
 const SearchReducer = (state = SearchInitialState, action) => {
@@ -35,6 +36,18 @@ const SearchReducer = (state = SearchInitialState, action) => {
         searchingSuccess: true,
       };
     }
+    case SearchTypes.SET_SEARCH_INPUT: {
+      return {
+        ...state,
+        searchInput: action.payload,
+      };
+    }
+    case SearchTypes.SET_SEARCH_REFERENCE: {
+      return {
+        ...state,
+        searchReference: action.payload,
+      };
+    }
     case SearchTypes.SEARCH_RESET: {
       return {
         ...state,
@@ -43,12 +56,7 @@ const SearchReducer = (state = SearchInitialState, action) => {
         searchResults: {},
         searchingSuccess: false,
         searchInput: "",
-      };
-    }
-    case SearchTypes.SET_SEARCH_INPUT: {
-      return {
-        ...state,
-        searchInput: action.payload,
+        searchReference: null,
       };
     }
     default: {
