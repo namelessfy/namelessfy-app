@@ -8,6 +8,7 @@ const {
   getAllTrackReferences,
   getAllPlaylistReferences,
   getAllGenreReferences,
+  getAllUserReferences,
 } = searchController;
 
 const searchRouter = Router();
@@ -32,5 +33,6 @@ searchRouter.get(
   authMiddleware,
   getAllGenreReferences,
 );
+searchRouter.get("/search/user/:search", authMiddleware, getAllUserReferences);
 
 module.exports = { searchRouter };
