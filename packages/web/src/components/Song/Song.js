@@ -53,12 +53,14 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
     ? { Dislike: () => dispatch(dislikeSong(songInfo._id)) }
     : { Like: () => dispatch(likeSong(songInfo._id)) };
 
-  const ownerFunction = isIdInList(currentUser._id, songInfo.artistId)
+  const ownerFunction = isIdInList(currentUser._id, songInfo?.artistId)
     ? {
         Edit: () => history.push(`${ROUTES.EDIT_SONG}/${songInfo._id}`),
         Delete: () => dispatch(deleteSong(songInfo._id)),
       }
     : "";
+
+  console.log(songInfo);
 
   const playFunction =
     songInfo._id === currentSong?._id ? "" : { Play: handleClick };
