@@ -55,6 +55,10 @@ const PlaylistSchema = Schema(
       ],
       default: [],
     },
+    duration: {
+      type: Number,
+      required: false,
+    },
   },
   {
     timestamps: true,

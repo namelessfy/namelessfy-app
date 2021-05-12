@@ -2,6 +2,7 @@ const {
   PLAYLIST_COLLECTION,
   USER_COLLECTION,
   CommonStaticRepository,
+  TRACK_COLLECTION,
 } = require("../repositories");
 const { uploadImageToCloudinary } = require("../utils/cloudinary");
 const { handleResponse } = require("../utils/utils");
@@ -73,7 +74,6 @@ async function create(req, res, next) {
       USER_COLLECTION,
       userOptions,
     );
-
     if (user.error) {
       return handleResponse(res, user, null, 503);
     }
@@ -86,6 +86,8 @@ async function create(req, res, next) {
       thumbnail,
       cloudinaryThumbnailId,
     } = await handleCloudinaryUpdateImage(res, file);
+
+    const duration = await getPlaylistDuration(tracks);
 
     const playlistCreateOptions = {
       query: {
@@ -102,6 +104,7 @@ async function create(req, res, next) {
             time: new Date(),
           },
         ],
+        duration,
         tracks,
       },
     };
@@ -270,31 +273,25 @@ async function removeTrack(req, res, next) {
     const { _id } = req.body;
     const { id } = req.params;
 
-    const playlistCreateOptions = {
+    let playlist = await CommonStaticRepository.getOne(PLAYLIST_COLLECTION, {
       query: { _id: id },
-      findByIdAndUpdateOptions: {
-        $pull: {
-          tracks: _id,
-        },
-      },
-    };
-
-    let repo = await CommonStaticRepository.findOneAndUpdate(
-      PLAYLIST_COLLECTION,
-      playlistCreateOptions,
-    );
-
-    const playlistOptions = {
-      query: { _id: repo.data._id },
       populators: ["tracks"],
-    };
+    });
 
-    repo = await CommonStaticRepository.getOne(
-      PLAYLIST_COLLECTION,
-      playlistOptions,
-    );
+    const index = playlist.data.tracks.findIndex((track) => track._id === _id);
+    playlist.data.tracks.splice(index, 1);
 
-    return handleResponse(res, repo, 200, 500);
+    const removedTrack = await CommonStaticRepository.getOne(TRACK_COLLECTION, {
+      query: {
+        _id: _id,
+      },
+    });
+
+    playlist.data.duration -= removedTrack.data.duration;
+
+    playlist.data.save();
+
+    return handleResponse(res, playlist, 200, 500);
   } catch (error) {
     next(error);
   }
@@ -324,19 +321,50 @@ async function addSongToPlaylist(req, res, next) {
       playlistUpdateOptions,
     );
 
+    const addedTrack = await CommonStaticRepository.getOne(TRACK_COLLECTION, {
+      query: {
+        _id: songId,
+      },
+    });
+
+    playlist.data.duration += addedTrack.data.duration;
+
     const playlistOptions = {
-      query: { _id: playlist.data._id },
+      query: { _id: id },
+      findByIdAndUpdateOptions: playlist.data,
       populators: ["tracks"],
     };
-    playlist = await CommonStaticRepository.getOne(
+    playlist = await CommonStaticRepository.findOneAndUpdate(
       PLAYLIST_COLLECTION,
       playlistOptions,
     );
+
+    // const playlistOptions = {
+    //   query: { _id: playlist.data._id },
+    //   populators: ["tracks"],
+    // };
+    // playlist = await CommonStaticRepository.getOne(
+    //   PLAYLIST_COLLECTION,
+    //   playlistOptions,
+    // );
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {
     next(error);
   }
+}
+
+async function getPlaylistDuration(tracks) {
+  const playlistTracks = await CommonStaticRepository.getAll(TRACK_COLLECTION, {
+    query: {
+      _id: { $in: tracks },
+    },
+  });
+  let counter = 0;
+  playlistTracks.data.forEach((track) => {
+    counter = counter + track.duration;
+  });
+  return counter;
 }
 
 module.exports = {
@@ -349,4 +377,5 @@ module.exports = {
   deletePlaylist,
   editPlaylistInfo,
   addSongToPlaylist,
+  getPlaylistDuration,
 };
