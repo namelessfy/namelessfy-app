@@ -3,7 +3,7 @@ import * as colors from "../../styles/colors";
 
 const Back = styled.section`
   @media (min-width: 650px) {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     right: 0;
     top: 0;
@@ -55,7 +55,7 @@ const Background = styled.section`
       isShowing
         ? `
       opacity: 13;
-      width: 500px;
+      width: 600px;
   `
         : `opacity: 0; width: 10vw;`}
   }
