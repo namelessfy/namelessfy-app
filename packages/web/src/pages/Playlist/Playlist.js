@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 
-import Navbar from "../../components/Navbar";
 import Song from "../../components/Song";
 
 import * as ROUTES from "../../routes";
@@ -17,7 +16,7 @@ import {
   Author,
   PlaylistInfo,
 } from "./style";
-import { Main, Icon } from "../../styles/mainStyles";
+import { Icon } from "../../styles/mainStyles";
 
 import {
   setAutoPlay,
@@ -31,13 +30,12 @@ import {
   dislikePlaylist,
   likePlaylist,
   removeFromPlaylist,
-  setPlaylistInfo, // tenemos que eliminar este
   getOnePlaylist,
   getOnePlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 
 import { deleteSongReset } from "../../redux/song/song-actions";
-import { isIdInList } from "../../utils/favoritesUtils";
+import { isIdInList } from "../../utils/utils";
 import { songSelector } from "../../redux/song/song-selectors";
 import Loader from "../../components/Loader";
 

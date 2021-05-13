@@ -19,6 +19,9 @@ import toggleOn from "../img/toggle-on.svg";
 import toggleOff from "../img/toggle-off.svg";
 import grid from "../img/grid.svg";
 import menu from "../img/menu.svg";
+import filter from "../img/filter.svg";
+import home from "../img/home.svg";
+import search from "../img/search.svg";
 
 const icons = {
   play,
@@ -37,6 +40,9 @@ const icons = {
   toggleOff,
   grid,
   menu,
+  filter,
+  search,
+  home,
 };
 
 const iconSizes = {
