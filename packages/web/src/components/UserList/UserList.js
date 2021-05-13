@@ -58,7 +58,10 @@ function UserList({ users, title }) {
         <Title>{title}</Title>
         <Buttons>
           <Icon name="previous" onClick={handlePreviousPage} size="xSmall" />
-          {page}/{Math.floor(users.length / usersPerPage) + 1}
+          {page}/
+          {users.length % usersPerPage === 0
+            ? users.length / usersPerPage
+            : Math.floor(users.length / usersPerPage) + 1}
           <Icon name="next" onClick={handleNextPage} size="xSmall" />
         </Buttons>
       </TitleContainer>

@@ -58,7 +58,10 @@ function PlaylistList({ playlists, title }) {
         <Title>{title}</Title>
         <Buttons>
           <Icon name="previous" onClick={handlePreviousPage} size="xSmall" />
-          {page}/{Math.floor(playlists.length / playlistsPerPage) + 1}
+          {page}/
+          {playlists.length % playlistsPerPage === 0
+            ? playlists.length / playlistsPerPage
+            : Math.floor(playlists.length / playlistsPerPage) + 1}
           <Icon name="next" onClick={handleNextPage} size="xSmall" />
         </Buttons>
       </TitleContainer>
