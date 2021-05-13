@@ -255,6 +255,10 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
       };
     }
 
+    case PlayerTypes.RESET_PLAYER: {
+      return PlayerInitialState;
+    }
+
     default: {
       return state;
     }

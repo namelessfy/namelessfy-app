@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
+
+import * as ROUTES from "../../routes";
 
 import {
   UserName,
@@ -58,7 +59,7 @@ function UserProfile({
         <CenterContent>
           {isCurrentUser && (
             <EditButton>
-              <Link to="/edit-user">
+              <Link to={ROUTES.EDIT_USER}>
                 {" "}
                 <Icon name="edit" size="normal" />
               </Link>
