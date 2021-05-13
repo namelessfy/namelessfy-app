@@ -8,7 +8,7 @@ const {
 
 const RESULTS_LIMIT = 20;
 const SERVER_ERROR_MESSAGE = "Something went wrong";
-const NOT_FOUND_MESSAGE = "Not found";
+/* const NOT_FOUND_MESSAGE = "Not found"; */
 
 function generateOptions(search, populators, fields) {
   const regex = search.split(" ").join("|");
