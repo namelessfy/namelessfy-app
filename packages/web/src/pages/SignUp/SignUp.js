@@ -4,6 +4,17 @@ import { Link, Redirect } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import Loader from "../../components/Loader";
+
+import * as ROUTES from "../../routes";
+
+import {
+  resetAuthState,
+  signUpWithGoogleRequest,
+  signUpWithEmailRequest,
+} from "../../redux/auth/auth-actions";
+import { authSelector } from "../../redux/auth/auth-selectors";
+
 import {
   Button,
   Error,
@@ -16,21 +27,9 @@ import {
   Separation,
   Title,
 } from "../../styles/formStyles";
-
-import namelessfyLogo from "../../img/namelessfyLogo.svg";
-
 import { Main } from "../../styles/mainStyles";
 
-import * as ROUTES from "../../routes";
-
-import {
-  resetAuthState,
-  signUpWithGoogleRequest,
-  signUpWithEmailRequest,
-} from "../../redux/auth/auth-actions";
-
-import { authSelector } from "../../redux/auth/auth-selectors";
-import Loader from "../../components/Loader";
+import namelessfyLogo from "../../img/namelessfyLogo.svg";
 
 function SignUp() {
   const dispatch = useDispatch();

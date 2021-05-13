@@ -5,8 +5,8 @@ import * as Yup from "yup";
 
 import Loader from "../Loader";
 
-import { userSelector } from "../../redux/user/user-selectors";
 import { editUser } from "../../redux/user/user-actions";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   PorfileImage,

@@ -1,6 +1,8 @@
-import * as UserTypes from "./user-types";
 import api from "../../api";
+
 import * as auth from "../../services/auth";
+
+import * as UserTypes from "./user-types";
 
 export function editUser(formData) {
   return async function editUserThunk(dispatch) {

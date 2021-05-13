@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import { Separation, Title } from "../../styles/formStyles";
-import { QueueContainer, SectionTitle, SongList } from "./styles";
+import DragAndDropList from "../../components/DragAndDropList/DragAndDropList";
 
 import { setQueue, setPreQueue } from "../../redux/musicPlayer/player-actions";
-import DragAndDropList from "../../components/DragAndDropList/DragAndDropList";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+
+import { QueueContainer, SectionTitle, SongList } from "./styles";
+import { Separation, Title } from "../../styles/formStyles";
 
 function Queue() {
   const {

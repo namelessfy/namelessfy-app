@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import * as ROUTES from "../../routes";
 

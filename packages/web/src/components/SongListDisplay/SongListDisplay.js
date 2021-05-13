@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
+
+import { isIdInList } from "../../utils/utils";
+
+import { dislikeSong, likeSong } from "../../redux/song/song-actions";
+import { songSelector } from "../../redux/song/song-selectors";
+
 import {
   SongArtist,
   SongDuration,
@@ -9,10 +15,6 @@ import {
   SongTitle,
 } from "../DragAndDropList/styles";
 import { Icon } from "../../styles/mainStyles";
-import { isIdInList } from "../../utils/utils";
-
-import { songSelector } from "../../redux/song/song-selectors";
-import { dislikeSong, likeSong } from "../../redux/song/song-actions";
 
 function toMinutes(time) {
   const min = Math.floor(time / 60);

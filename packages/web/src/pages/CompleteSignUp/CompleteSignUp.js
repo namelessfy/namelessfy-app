@@ -4,12 +4,13 @@ import { Redirect } from "react-router-dom";
 
 import EditUserForm from "../../components/EditUserForm";
 
-import { Title, Separation } from "./style";
-
 import * as ROUTES from "../../routes";
 
-import { userSelector } from "../../redux/user/user-selectors";
 import { hasUserAllInfo } from "../../utils/utils";
+
+import { userSelector } from "../../redux/user/user-selectors";
+
+import { Title, Separation } from "./style";
 
 function CompleteSignUP() {
   const { currentUser } = useSelector(userSelector);

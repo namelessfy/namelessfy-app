@@ -1,6 +1,5 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { Icon } from "../../styles/mainStyles";
 
 import {
   SongList,
@@ -10,6 +9,7 @@ import {
   SongDuration,
   Icontainer,
 } from "./styles";
+import { Icon } from "../../styles/mainStyles";
 
 function toMinutes(time) {
   const min = Math.floor(time / 60);

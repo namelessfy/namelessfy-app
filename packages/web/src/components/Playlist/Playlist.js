@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import DialogueBox from "../DialogueBox";
 
 import * as ROUTES from "../../routes";
 
-import DialogueBox from "../DialogueBox";
+import { isIdInList } from "../../utils/utils";
 
 import {
   setPlaylistInfo,
@@ -16,11 +17,8 @@ import {
   editPlaylistReset,
 } from "../../redux/playlist/playlist-actions";
 import { deleteSongReset } from "../../redux/song/song-actions";
-
-import { userSelector } from "../../redux/user/user-selectors";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
-
-import { isIdInList } from "../../utils/utils";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   PlaylistCover,
@@ -29,7 +27,6 @@ import {
   BottomContainer,
   InfoContainer,
 } from "./style";
-
 import { Icon } from "../../styles/mainStyles";
 
 function Playlist({ playlistInfo }) {

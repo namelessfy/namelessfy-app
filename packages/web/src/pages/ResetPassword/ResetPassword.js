@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
+import Loader from "../../components/Loader";
+
 import * as ROUTES from "../../routes";
+
+import {
+  sendPasswordResetEmail,
+  resetAuthState,
+} from "../../redux/auth/auth-actions";
+import { authSelector } from "../../redux/auth/auth-selectors";
 
 import {
   Button,
@@ -15,17 +23,9 @@ import {
   Separation,
   Title,
 } from "../../styles/formStyles";
-
 import { Main } from "../../styles/mainStyles";
 
 import namelessfyLogo from "../../img/namelessfyLogo.svg";
-
-import {
-  sendPasswordResetEmail,
-  resetAuthState,
-} from "../../redux/auth/auth-actions";
-import { authSelector } from "../../redux/auth/auth-selectors";
-import Loader from "../../components/Loader";
 
 function buttonText(loading, sent) {
   if (loading) {
