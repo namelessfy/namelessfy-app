@@ -46,7 +46,6 @@ function updateListById(item, list) {
 function removeFromList(item, list) {
   const newList = [...list];
   const index = newList.findIndex((element) => element._id === item._id);
-  console.log(index);
   if (index !== -1) {
     newList.splice(index, 1);
   }

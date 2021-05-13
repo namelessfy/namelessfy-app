@@ -37,7 +37,7 @@ function ProtectedRoute({ ...props }) {
     }
 
     return (
-      <Main marginBottom>
+      <Main>
         <Route {...props} />
       </Main>
     );

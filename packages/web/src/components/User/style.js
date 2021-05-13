@@ -8,8 +8,6 @@ const calculateContainerWidht4PlaylistsResponsiveBig =
   "calc(calc(100vw - 8.5rem) / 4)";
 const calculateContainerWidht4PlaylistsResponsiveNormal =
   "calc(calc(100vw - 7rem) / 4)";
-const calculateContainerWidht4PlaylistsResponsiveSmall =
-  "calc(calc(100vw - 3.5rem) / 4)";
 const calculateContainerWidht3PlaylistsResponsive =
   "calc(calc(100vw - 3rem) / 3)";
 

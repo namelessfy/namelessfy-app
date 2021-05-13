@@ -1,21 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
 
-import { Media, NavButton, NavContainer } from "./styles";
+import { NavButton, NavContainer } from "./styles";
 
 import UserList from "./UserList";
 import * as ROUTES from "../../routes";
 import { userSelector } from "../../redux/user/user-selectors";
 import { setUserView } from "../../redux/user/user-actions";
-import {
-  setAutoPlay,
-  setQueueAndCurrentSong,
-  setQueueToShuffle,
-  setShuffle,
-} from "../../redux/musicPlayer/player-actions";
-import { startListByIndex } from "../../utils/playerUtils";
+import { setQueueToShuffle } from "../../redux/musicPlayer/player-actions";
 
 function UserNavBar({ songs, playlists, favSongs, isGrid }) {
   const dispatch = useDispatch();

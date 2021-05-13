@@ -8,8 +8,6 @@ const calculateContainerWidth4SongsResponsiveBig =
   "calc(calc(100vw - 8.5rem) / 4)";
 const calculateContainerWidth4SongsResponsiveNormal =
   "calc(calc(100vw - 7rem) / 4)";
-const calculateContainerWidth4SongsResponsiveSmall =
-  "calc(calc(100vw - 3.5rem) / 4)";
 const calculateContainerWidth3SongsResponsive = "calc(calc(100vw - 3rem) / 3)";
 
 const containerWidthMenu = "120px";

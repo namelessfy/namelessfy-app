@@ -1,7 +1,6 @@
 import styled, { keyframes } from "styled-components";
 import close from "../../img/close.svg";
 import * as colors from "../../styles/colors";
-import { MAIN as mainFont } from "../../styles/fonts";
 
 const modalWidth = {
   xBig: 450,
@@ -151,7 +150,7 @@ const SongInfo = styled.div`
       align-items: center;
       width: 85%;
       margin: 0.5rem auto 1rem;
-    
+
       & > div {
         max-width: calc(100% - 50px);
       }`;

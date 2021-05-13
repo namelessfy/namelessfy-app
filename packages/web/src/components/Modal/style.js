@@ -25,7 +25,6 @@ const Background = styled.section`
   animation: ${modalIn} 0.5s ease-in-out;
 `;
 
-const modalHeight = 200; /* px */
 const modalWidth = 80; /* % */
 const buttonWidth = 100; // px
 

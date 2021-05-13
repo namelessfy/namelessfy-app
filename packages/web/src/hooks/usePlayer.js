@@ -40,7 +40,7 @@ export default function usePlayer() {
     if (currentSong) {
       setSong(new Audio(currentSong.url));
     }
-  }, [currentSong]);
+  }, [currentSong, setSong]);
 
   useEffect(() => {
     if (song) {

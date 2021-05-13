@@ -53,7 +53,7 @@ function CreatePlaylist() {
       dispatch(createPlaylistReset());
       history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
     }
-  }, [createPlaylistSuccess]);
+  }, [dispatch, history, createPlaylistSuccess, currentUser.userName]);
 
   function handleSubmit(e) {
     e.preventDefault();

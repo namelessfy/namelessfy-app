@@ -3,15 +3,6 @@ import * as colors from "../../styles/colors";
 
 import menuIcon from "../../img/menu.svg";
 import namelessfyIcon from "../../img/namelessfyLogo.svg";
-import homeIcon from "../../img/home.svg";
-import searchIcon from "../../img/search.svg";
-
-const icons = {
-  menu: menuIcon,
-  namelessfy: namelessfyIcon,
-  home: homeIcon,
-  search: searchIcon,
-};
 
 const NavbarContainer = styled.div`
   color: ${colors.WHITE};

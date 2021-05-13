@@ -5,10 +5,7 @@ import { useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
-import {
-  setSearchInput,
-  setSearchReference,
-} from "../../redux/search/search-actions";
+import { setSearchInput } from "../../redux/search/search-actions";
 import { searchSelector } from "../../redux/search/search-selectors";
 
 import { Background, Modal } from "./style";

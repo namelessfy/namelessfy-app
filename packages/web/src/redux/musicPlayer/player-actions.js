@@ -1,12 +1,5 @@
 import * as PlayerTypes from "./player-types";
 
-/*
-  - next song
-  - previous song
-  - set current song
-  - toggle shuffle
-
-*/
 export const setAutoPlay = (autoPlay) => ({
   type: PlayerTypes.SET_AUTOPLAY,
   payload: autoPlay,

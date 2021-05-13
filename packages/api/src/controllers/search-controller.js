@@ -69,15 +69,6 @@ async function getByNameFromAllCollections(req, res, next) {
         message: null,
       });
     }
-    console.log(
-      {
-        genres: limitResults(genres.data) || genres.error,
-        playlists: limitResults(playlists.data) || playlists.error,
-        tracks: limitResults(tracks.data) || tracks.error,
-        users: limitResults(users.data) || users.error,
-      },
-      noDataInAnyCollection,
-    );
     return res.status(200).send({
       data: {
         genres: limitResults(genres.data) || genres.error,

@@ -73,10 +73,6 @@ function UploadSong() {
         formData: formData,
       }),
     );
-
-    // eslint-disable-next-line spaced-comment
-    /*setTitle("");
-    setFile();*/
   }
 
   function handleSetTitle(e) {

@@ -38,7 +38,7 @@ function SelectPlaylistModal({ songId, closeModal }) {
       dispatch(addToPlaylistReset());
       closeModal();
     }
-  }, [addToPlaylistSuccess]);
+  }, [dispatch, addToPlaylistSuccess, closeModal]);
 
   function clickHandler(playlist) {
     const index = playlist.tracks.findIndex((track) => track === songId);
@@ -93,7 +93,6 @@ function SelectPlaylistModal({ songId, closeModal }) {
                   <ModalButton
                     type="button"
                     key={playlist._id}
-                    /* onClick={() => clickHandler(playlist._id)} */
                     onClick={() => clickHandler(playlist)}
                   >
                     {playlist.title}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,7 +11,6 @@ import DialogueBox from "../DialogueBox";
 import {
   setPlaylistInfo,
   deletePlaylist,
-  deletePlaylistReset,
   dislikePlaylist,
   likePlaylist,
   editPlaylistReset,
@@ -37,7 +36,7 @@ function Playlist({ playlistInfo }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { deletePlaylistSuccess, myPlaylists } = useSelector(playlistSelector);
+  const { myPlaylists } = useSelector(playlistSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -46,13 +45,6 @@ function Playlist({ playlistInfo }) {
     setDialoguePosition({ x: e.clientX, y: e.clientY });
     setIsShowingDialogue(true);
   }
-
-  /*   useEffect(() => {
-    if (deletePlaylistSuccess) {
-      dispatch(deletePlaylistReset());
-      history.push(`${ROUTES.USER_PAGE}/${currentUser.userName}`);
-    }
-  }, [deletePlaylistSuccess]); */
 
   const likeFunction = isIdInList(playlistInfo._id, myPlaylists)
     ? {
