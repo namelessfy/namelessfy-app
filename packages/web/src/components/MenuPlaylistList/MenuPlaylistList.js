@@ -14,7 +14,7 @@ function MenuPlaylistList({ playlists, title }) {
       <hr />
       <PlaylistsContainer>
         {playlists.map((playlist) => (
-          <RowPlaylist key={playlist._id} playlistInfo={playlist} />
+          <RowPlaylist key={playlist._id} info={playlist} />
         ))}
       </PlaylistsContainer>
     </Container>
