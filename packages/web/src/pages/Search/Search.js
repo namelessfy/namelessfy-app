@@ -35,7 +35,7 @@ function Search() {
     <>
       {isSearching && <Loader />}
       <Container>
-        {Object.keys(searchResults).length === 0 && (
+        {!isSearching && Object.keys(searchResults).length === 0 && (
           <Message>Sorry, no results found.</Message>
         )}
         {searchReference === null && (

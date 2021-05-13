@@ -126,8 +126,16 @@ function UploadSong() {
       </Author>
       <PlaylistInfo>
         <div>
-          <p>618 songs</p>
-          <p>1854 minutes</p>
+          <p>{playlistInfo?.tracks?.length || 0} songs</p>
+          <p>
+            {playlistInfo?.duration > 3600
+              ? `${Math.floor(
+                  playlistInfo?.duration / 3600,
+                )} hours ${Math.floor(
+                  (playlistInfo?.duration % 3600) / 60,
+                )} minutes`
+              : `${Math.floor(playlistInfo?.duration / 60) || 0} minutes`}{" "}
+          </p>
         </div>
         {playlistInfo?.author === currentUser._id ? (
           <Icon name="edit" size="small" onClick={editPlaylist} />
@@ -154,7 +162,7 @@ function UploadSong() {
       <SongsContainer>
         {playlistInfo?.tracks.map((song, index) => (
           <Song
-            key={song._id}
+            key={`${song._id}${Math.random()}`}
             songInfo={song}
             handleClick={() => {
               handlePlaySong(index);
