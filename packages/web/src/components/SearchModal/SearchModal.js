@@ -1,24 +1,25 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
 import {
   setSearchInput,
-  search,
   setSearchReference,
 } from "../../redux/search/search-actions";
 import { searchSelector } from "../../redux/search/search-selectors";
 
 import { Background, Modal } from "./style";
+import { Icon } from "../../styles/mainStyles";
 
-function SearchModal({ close }) {
+function SearchModal({ close, openDialogueBox }) {
   const location = useLocation();
   const history = useHistory();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
+  const { searchReference } = useSelector(searchSelector);
 
   function onClickHandler(e) {
     dispatch(setSearchInput(inputValue));
@@ -28,20 +29,23 @@ function SearchModal({ close }) {
     close();
   }
 
-  function changeReference(e) {
-    dispatch(setSearchReference(e.target.value));
-  }
-
   return (
     <>
       <Background onClick={close} />
       <Modal>
         <h2>Search:</h2>
-        <input
-          placeholder="Search..."
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <input placeholder="reference..." onChange={changeReference} />
+        <div>
+          <Icon name="filter" size="small" onClick={openDialogueBox} />
+          <input
+            type="text"
+            placeholder={
+              searchReference === null
+                ? "Search all..."
+                : `Search ${searchReference}s...`
+            }
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        </div>
         <button type="button" onClick={onClickHandler}>
           Go!
         </button>
@@ -52,6 +56,7 @@ function SearchModal({ close }) {
 
 SearchModal.propTypes = {
   close: PropTypes.func.isRequired,
+  openDialogueBox: PropTypes.func.isRequired,
 };
 
 export default SearchModal;

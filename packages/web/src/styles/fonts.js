@@ -1,3 +1,3 @@
-const MAIN = "Poppins";
+const MAIN = "Poppins sans-serif";
 
 export { MAIN };

@@ -4,7 +4,7 @@ const Container = styled.section`
   width: calc(100vw - 60px);
 
   @media (min-width: 600px) {
-    width: calc(500px - 60px);
+    width: calc(600px - 60px);
   }
 `;
 const PlaylistsContainer = styled.div`
@@ -23,11 +23,18 @@ const PlaylistsContainer = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 28px;
+  font-size: 24px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media (max-width: 300px) {
+    font-size: 20px;
+  }
 `;
 
 const TitleContainer = styled.div`
-  margin: 0 20px;
+  margin: 0 10px;
   margin-top: 2rem;
   display: flex;
   justify-content: space-between;

@@ -25,11 +25,11 @@ import { isIdInList } from "../../utils/utils";
 
 import { PlaylistContainer, PlaylistTitle } from "./style";
 
-function RowPlaylist({ playlistInfo }) {
+function RowPlaylist({ info }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser } = useSelector(userSelector);
-  const { deletePlaylistSuccess, myPlaylists } = useSelector(playlistSelector);
+  const { myPlaylists, playlistInfo } = useSelector(playlistSelector);
   const [isShowingDialogue, setIsShowingDialogue] = useState(false);
   const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
 
@@ -46,22 +46,22 @@ function RowPlaylist({ playlistInfo }) {
     }
   }, [deletePlaylistSuccess]); */
 
-  const likeFunction = isIdInList(playlistInfo._id, myPlaylists)
+  const likeFunction = isIdInList(info._id, myPlaylists)
     ? {
-        "Unfollow Playlist": () => dispatch(dislikePlaylist(playlistInfo._id)),
+        "Unfollow Playlist": () => dispatch(dislikePlaylist(info._id)),
       }
     : {
-        "Follow Playlist": () => dispatch(likePlaylist(playlistInfo._id)),
+        "Follow Playlist": () => dispatch(likePlaylist(info._id)),
       };
 
   const ownerFunction =
-    currentUser._id === playlistInfo.author
+    currentUser._id === info.author
       ? {
           Edit: () => {
-            dispatch(setPlaylistInfo(playlistInfo));
+            dispatch(setPlaylistInfo(info));
             history.push(ROUTES.EDIT_PLAYLIST);
           },
-          Delete: () => dispatch(deletePlaylist(playlistInfo._id)),
+          Delete: () => dispatch(deletePlaylist(info._id)),
         }
       : {
           ...likeFunction,
@@ -70,8 +70,10 @@ function RowPlaylist({ playlistInfo }) {
   function handleClick() {
     dispatch(deleteSongReset());
     dispatch(editPlaylistReset());
-    dispatch(setPlaylistInfo(null));
-    history.push(`${ROUTES.PLAYLIST}/${playlistInfo._id}`);
+    if (info._id !== playlistInfo._id) {
+      dispatch(setPlaylistInfo(null));
+    }
+    history.push(`${ROUTES.PLAYLIST}/${info._id}`);
   }
 
   const dialogueButtons = {
@@ -82,7 +84,7 @@ function RowPlaylist({ playlistInfo }) {
   return (
     <PlaylistContainer
       src={
-        playlistInfo.thumbnail ||
+        info.thumbnail ||
         "https://i.pinimg.com/originals/ee/87/15/ee871547fa4b959307a8776cd61aad6d.jpg"
       }
       onClick={handleClick}
@@ -96,13 +98,13 @@ function RowPlaylist({ playlistInfo }) {
           hideDialogue={() => setIsShowingDialogue(false)}
         />
       )}
-      <PlaylistTitle>{playlistInfo.title}</PlaylistTitle>
+      <PlaylistTitle>{info.title}</PlaylistTitle>
     </PlaylistContainer>
   );
 }
 
 RowPlaylist.propTypes = {
-  playlistInfo: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired,
 };
 
 export default RowPlaylist;
