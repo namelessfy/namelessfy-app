@@ -1,10 +1,5 @@
 import * as SongTypes from "./song-types";
-import {
-  removeFromLikedSongs,
-  addToLikedSongs,
-  updateEditSong,
-  removeFromMySongs,
-} from "../../utils/favoritesUtils";
+import { removeFromList, updateList, updateListById } from "../../utils/utils";
 
 export const SongInitialState = {
   isEditingSong: false,
@@ -42,7 +37,7 @@ const SongReducer = (state = SongInitialState, action) => {
         ...state,
         isEditingSong: false,
         editingSuccess: true,
-        mySongs: updateEditSong(action.payload, [...state.mySongs]),
+        mySongs: updateListById(action.payload, [...state.mySongs]),
       };
     }
     case SongTypes.EDIT_SONG_ERROR: {
@@ -71,10 +66,8 @@ const SongReducer = (state = SongInitialState, action) => {
         ...state,
         isdeletingSong: false,
         deletingSuccess: true,
-        mySongs: removeFromMySongs(action.payload._id, [...state.mySongs]),
-        favorites: removeFromLikedSongs(action.payload._id, [
-          ...state.favorites,
-        ]),
+        mySongs: removeFromList(action.payload._id, [...state.mySongs]),
+        favorites: removeFromList(action.payload._id, [...state.favorites]),
       };
     }
     case SongTypes.DELETE_SONG_ERROR: {
@@ -122,7 +115,7 @@ const SongReducer = (state = SongInitialState, action) => {
       return {
         ...state,
         isSettingLike: false,
-        favorites: addToLikedSongs(action.payload, [...state.favorites]),
+        favorites: updateList(action.payload, [...state.favorites]),
       };
     }
     case SongTypes.LIKE_ERROR: {
@@ -139,9 +132,7 @@ const SongReducer = (state = SongInitialState, action) => {
       };
     }
     case SongTypes.DISLIKE_SUCCESS: {
-      const newFav = removeFromLikedSongs(action.payload._id, [
-        ...state.favorites,
-      ]);
+      const newFav = removeFromList(action.payload, state.favorites);
 
       return {
         ...state,

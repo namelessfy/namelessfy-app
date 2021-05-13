@@ -65,13 +65,8 @@ async function getByNameFromAllCollections(req, res, next) {
 
     if (noDataInAnyCollection) {
       return res.status(200).send({
-        data: {
-          genres: [],
-          playlists: [],
-          tracks: [],
-          users: [],
-        },
-        message: "No items found",
+        data: {},
+        message: null,
       });
     }
     console.log(
@@ -111,7 +106,7 @@ async function getAllTrackReferences(req, res, next) {
       return res.status(503).send({ data: null, error: SERVER_ERROR_MESSAGE });
     }
     if (tracks.data.length === 0) {
-      return res.status(404).send({ data: null, error: NOT_FOUND_MESSAGE });
+      return res.status(200).send({ data: {}, error: null });
     }
 
     const trackId = tracks?.data?.map((el) => el._id);
@@ -159,6 +154,13 @@ async function getAllPlaylistReferences(req, res, next) {
       playlistOptions,
     );
 
+    if (playlists.error) {
+      return res.status(503).send({ data: null, error: SERVER_ERROR_MESSAGE });
+    }
+    if (playlists.data.length === 0) {
+      return res.status(200).send({ data: {}, error: null });
+    }
+
     const authors = playlists?.data?.map((el) => el.author);
 
     const users = await CommonStaticRepository.getAll(USER_COLLECTION, {
@@ -196,7 +198,7 @@ async function getAllGenreReferences(req, res, next) {
     }
 
     if (genres.data.length === 0) {
-      return res.status(404).send({ data: null, error: NOT_FOUND_MESSAGE });
+      return res.status(200).send({ data: {}, error: null });
     }
 
     return res.status(200).send({
@@ -223,6 +225,14 @@ async function getAllUserReferences(req, res, next) {
       USER_COLLECTION,
       userOptions,
     );
+
+    if (users.error) {
+      return res.status(503).send({ data: null, error: SERVER_ERROR_MESSAGE });
+    }
+
+    if (users.data.length === 0) {
+      return res.status(200).send({ data: {}, error: null });
+    }
 
     const ids = users?.data?.map((el) => el._id);
 

@@ -12,8 +12,6 @@ export function search(text, reference = null) {
       if (!userToken) {
         return dispatch(searchError("User token null!"));
       }
-      // const formData = new FormData();
-      // formData.append('search', text);
 
       if (reference) {
         const searchRes = await api.searchByReference(

@@ -43,6 +43,14 @@ const SongsContainer = styled.div`
 
 const Title = styled.h2`
   font-size: 24px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  @media (max-width: 300px) {
+    font-size: 20px;
+  }
 `;
 
 const TitleContainer = styled.div`

@@ -29,7 +29,7 @@ import {
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
 
-import { getSongFromList } from "../../utils/favoritesUtils";
+import { getItemFromListById } from "../../utils/utils";
 
 function EditSong() {
   const history = useHistory();
@@ -57,7 +57,7 @@ function EditSong() {
 
   useEffect(() => {
     if (id) {
-      const song = getSongFromList(id, mySongs);
+      const song = getItemFromListById(id, mySongs);
       setTitle(song.title);
       setThumbnail(song.thumbnail);
       setPreviewImage(song.thumbnail);

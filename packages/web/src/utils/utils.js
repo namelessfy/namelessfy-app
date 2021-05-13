@@ -37,13 +37,16 @@ function updateList(item, list) {
 function updateListById(item, list) {
   const newList = [...list];
   const index = newList.findIndex((element) => element._id === item._id);
-  newList[index] = item;
+  if (index !== -1) {
+    newList[index] = item;
+  }
   return newList;
 }
 
 function removeFromList(item, list) {
   const newList = [...list];
   const index = newList.findIndex((element) => element._id === item._id);
+  console.log(index);
   if (index !== -1) {
     newList.splice(index, 1);
   }
@@ -68,8 +71,8 @@ function removeFromLikedList(item, likedList) {
   return [...newList];
 }
 
-function isIdInList(id, List) {
-  const index = List.findIndex((element) => element._id === id);
+function isIdInList(id, list) {
+  const index = list.findIndex((element) => element._id === id);
   return index !== -1;
 }
 
@@ -93,6 +96,32 @@ function calcMaxPages(list, itemsPerPage) {
     : Math.floor(list.length / itemsPerPage) + 1;
 }
 
+function addUniqueInstanceInList(item, list) {
+  if (list) {
+    let lastPlayed = [...list];
+    const index = lastPlayed.findIndex((element) => element._id === item._id);
+
+    if (index !== -1) {
+      lastPlayed.splice(index, 1);
+    }
+
+    lastPlayed = [item, ...lastPlayed];
+
+    lastPlayed = lastPlayed.slice(0, 20);
+
+    return lastPlayed;
+  }
+  return [item];
+}
+
+export function getItemFromListById(id, list) {
+  const index = list.findIndex((s) => s._id === id);
+  if (index === -1) {
+    return null;
+  }
+  return list[index];
+}
+
 export {
   hasUserAllInfo,
   haveUsersSameInfo,
@@ -105,4 +134,5 @@ export {
   deleteAllInstancesFromList,
   replaceAllInstancesFromList,
   calcMaxPages,
+  addUniqueInstanceInList,
 };

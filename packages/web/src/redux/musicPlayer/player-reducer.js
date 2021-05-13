@@ -1,8 +1,8 @@
-import { addSongToLastPlayed } from "../../utils/favoritesUtils";
 import { shuffle, startListByIndex } from "../../utils/playerUtils";
 import {
   deleteAllInstancesFromList,
   replaceAllInstancesFromList,
+  addUniqueInstanceInList,
 } from "../../utils/utils";
 import * as PlayerTypes from "./player-types";
 
@@ -198,6 +198,10 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         ...state,
         queue: deleteAllInstancesFromList(action.payload, state.queue),
         preQueue: deleteAllInstancesFromList(action.payload, state.preQueue),
+        lastSongsPlayed: deleteAllInstancesFromList(
+          action.payload,
+          state.lastSongsPlayed,
+        ),
         isCurrentSongDeleted: action.payload._id === state.currentSong._id,
       };
     }
@@ -218,12 +222,16 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         queue: replaceAllInstancesFromList(song, state.queue),
         preQueue: replaceAllInstancesFromList(song, state.preQueue),
         shuffleQueue: replaceAllInstancesFromList(song, state.shuffleQueue),
+        lastSongsPlayed: replaceAllInstancesFromList(
+          song,
+          state.lastSongsPlayed,
+        ),
       };
     }
     case PlayerTypes.SET_LAST_SONG_PLAYED: {
       return {
         ...state,
-        lastSongsPlayed: addSongToLastPlayed(
+        lastSongsPlayed: addUniqueInstanceInList(
           action.payload,
           state.lastSongsPlayed,
         ),

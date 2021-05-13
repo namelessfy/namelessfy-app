@@ -24,7 +24,7 @@ import {
   likeSong,
   deleteSong,
 } from "../../redux/song/song-actions";
-import { isIdInList, isLiked } from "../../utils/favoritesUtils";
+import { isIdInList } from "../../utils/utils";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 import { playerSelector } from "../../redux/musicPlayer/player-selectors";
@@ -49,7 +49,7 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
     setIsShowingDialogue(true);
   }
 
-  const likeFunction = isLiked(songInfo._id, favorites)
+  const likeFunction = isIdInList(songInfo._id, favorites)
     ? { Dislike: () => dispatch(dislikeSong(songInfo._id)) }
     : { Like: () => dispatch(likeSong(songInfo._id)) };
 

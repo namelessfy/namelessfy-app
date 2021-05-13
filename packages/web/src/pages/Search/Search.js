@@ -8,16 +8,18 @@ import PlaylistList from "../../components/PlaylistList";
 import { search } from "../../redux/search/search-actions";
 import { searchSelector } from "../../redux/search/search-selectors";
 
-import { Container } from "./styles";
+import { Container, Message } from "./styles";
 
 function Search() {
   const dispatch = useDispatch();
   const {
     searchInput,
-    searchResults: { users, tracks, playlists } = {},
+    searchResults,
     isSearching,
     searchReference,
   } = useSelector(searchSelector);
+
+  const { users, tracks, playlists } = searchResults;
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -33,6 +35,9 @@ function Search() {
     <>
       {isSearching && <Loader />}
       <Container>
+        {Object.keys(searchResults).length === 0 && (
+          <Message>Sorry, no results found.</Message>
+        )}
         {searchReference === null && (
           <>
             {users?.length > 0 && (

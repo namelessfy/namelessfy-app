@@ -6,4 +6,10 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-export { Container };
+const Message = styled.p`
+  text-align: center;
+  font-size: xx-large;
+  margin-top: 2rem;
+`;
+
+export { Container, Message };

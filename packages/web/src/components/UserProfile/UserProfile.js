@@ -19,7 +19,7 @@ import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
 import { userSelector } from "../../redux/user/user-selectors";
-import { isIdInList } from "../../utils/favoritesUtils";
+import { isIdInList } from "../../utils/utils";
 import { followUser, unfollowUser } from "../../redux/user/user-actions";
 
 function UserProfile({
