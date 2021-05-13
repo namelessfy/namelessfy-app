@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 
 import Song from "../Song";
 import Playlist from "../Playlist";
+import SongListDisplay from "../SongListDisplay";
+import RowPlaylist from "../RowPlaylist";
 
 import {
   setQueueAndCurrentSong,
@@ -16,7 +18,7 @@ import { startListByIndex } from "../../utils/playerUtils";
 
 import { ButtonContainer, MediaContainer } from "./styles";
 
-function UserList({ button, content }) {
+function UserList({ button, content, isGrid }) {
   const dispatch = useDispatch();
   function handlePlaySong(index) {
     const song = content.elements[index];
@@ -34,35 +36,65 @@ function UserList({ button, content }) {
           <Button onClick={button.function}>{button.name}</Button>
         </ButtonContainer>
       )}
-      <MediaContainer>
+      <MediaContainer
+        isRowPlaylist={isGrid === false && content.type === "playlist"}
+      >
         {content.type === "songs" &&
-          content.elements?.map((song, index) => (
-            <Song
-              key={song._id}
-              songInfo={song}
-              handleClick={() => {
-                handlePlaySong(index);
-              }}
-            />
-          ))}
+          content.elements?.map((song, index) =>
+            isGrid ? (
+              <Song
+                key={song._id}
+                songInfo={song}
+                handleClick={() => {
+                  handlePlaySong(index);
+                }}
+              />
+            ) : (
+              <SongListDisplay
+                key={song._id}
+                songInfo={song}
+                handleClick={() => {
+                  handlePlaySong(index);
+                }}
+              />
+            ),
+          )}
         {content.type === "favs" &&
-          content.elements?.map((song, index) => (
-            <Song
-              key={song._id}
-              songInfo={song}
-              handleClick={() => {
-                handlePlaySong(index);
-              }}
-            />
-          ))}
+          content.elements?.map((song, index) =>
+            isGrid ? (
+              <Song
+                key={song._id}
+                songInfo={song}
+                handleClick={() => {
+                  handlePlaySong(index);
+                }}
+              />
+            ) : (
+              <SongListDisplay
+                key={song._id}
+                songInfo={song}
+                handleClick={() => {
+                  handlePlaySong(index);
+                }}
+              />
+            ),
+          )}
         {content.type === "playlist" &&
-          content.elements?.map((playlist, index) => (
-            <Playlist
-              key={playlist._id}
-              playlistInfo={playlist}
-              handleClick={() => {}}
-            />
-          ))}
+          content.elements?.map((playlist, index) =>
+            isGrid ? (
+              <Playlist
+                key={playlist._id}
+                playlistInfo={playlist}
+                handleClick={() => {}}
+              />
+            ) : (
+              <RowPlaylist
+                key={playlist._id}
+                info={playlist}
+                handleClick={() => {}}
+              />
+            ),
+          )}
       </MediaContainer>
     </div>
   );
@@ -71,6 +103,7 @@ function UserList({ button, content }) {
 UserList.propTypes = {
   button: PropTypes.object.isRequired,
   content: PropTypes.object.isRequired,
+  isGrid: PropTypes.bool.isRequired,
 };
 
 export default UserList;

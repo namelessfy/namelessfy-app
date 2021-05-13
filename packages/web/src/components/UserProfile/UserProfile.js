@@ -43,6 +43,7 @@ function UserProfile({
 
   function toggleGrid() {
     setIsGrid(!isGrid);
+    return isGrid;
   }
 
   function toggleFollowed() {
@@ -101,7 +102,12 @@ function UserProfile({
             />
           </ViewButton>
         </Statistics>
-        <UserNavBar songs={songs} favSongs={favorites} playlists={playlists} />
+        <UserNavBar
+          songs={songs}
+          favSongs={favorites}
+          playlists={playlists}
+          isGrid={isGrid}
+        />
       </ProfileContainer>
     </div>
   );

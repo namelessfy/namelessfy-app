@@ -56,6 +56,7 @@ function Menu({ show, close }) {
           <RowDiv>
             <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <MenuImage
+                onClick={close}
                 src={
                   User.currentUser.porfileImage ||
                   "https://usra-quantum.s3.amazonaws.com/assets/images/user-avatar-icon.png"
@@ -64,8 +65,12 @@ function Menu({ show, close }) {
             </Link>
             <Link to={`${ROUTES.USER_PAGE}/${User.currentUser.userName}`}>
               <ColumnDiv>
-                <UserNameMenu>{User.currentUser.userName}</UserNameMenu>
-                <FullName>{`${User.currentUser.firstName}  ${User.currentUser.lastName}`}</FullName>
+                <UserNameMenu onClick={close}>
+                  {User.currentUser.userName}
+                </UserNameMenu>
+                <FullName
+                  onClick={close}
+                >{`${User.currentUser.firstName}  ${User.currentUser.lastName}`}</FullName>
               </ColumnDiv>
             </Link>
           </RowDiv>
@@ -87,7 +92,7 @@ function Menu({ show, close }) {
                 />
               )}
             </ColumnDiv>
-            <ColumnDiv>
+            <ColumnDiv onClick={close}>
               {myPlaylists?.length > 0 && (
                 <MenuPlaylistList
                   playlists={myPlaylists}

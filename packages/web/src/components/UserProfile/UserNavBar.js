@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import { useHistory } from "react-router-dom";
@@ -17,7 +17,7 @@ import {
 } from "../../redux/musicPlayer/player-actions";
 import { startListByIndex } from "../../utils/playerUtils";
 
-function UserNavBar({ songs, playlists, favSongs }) {
+function UserNavBar({ songs, playlists, favSongs, isGrid }) {
   const dispatch = useDispatch();
   const { initialView } = useSelector(userSelector);
   const history = useHistory();
@@ -99,13 +99,25 @@ function UserNavBar({ songs, playlists, favSongs }) {
       </NavContainer>
 
       {initialView === "song" && (
-        <UserList button={buttonAddSong} content={songsContent} />
+        <UserList
+          button={buttonAddSong}
+          content={songsContent}
+          isGrid={isGrid}
+        />
       )}
       {initialView === "favs" && (
-        <UserList button={buttonShufflePlay} content={favsContent} />
+        <UserList
+          button={buttonShufflePlay}
+          content={favsContent}
+          isGrid={isGrid}
+        />
       )}
       {initialView === "playlist" && (
-        <UserList button={buttonAddPlayList} content={playlistContent} />
+        <UserList
+          button={buttonAddPlayList}
+          content={playlistContent}
+          isGrid={isGrid}
+        />
       )}
     </div>
   );
@@ -115,6 +127,7 @@ UserNavBar.propTypes = {
   songs: PropTypes.array.isRequired,
   favSongs: PropTypes.array.isRequired,
   playlists: PropTypes.array.isRequired,
+  isGrid: PropTypes.bool.isRequired,
 };
 
 export default UserNavBar;
