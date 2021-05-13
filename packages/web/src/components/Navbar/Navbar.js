@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useMediaQuery } from "react-responsive";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+
 import { Link, useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
 
 import {
   setSearchInput,
-  search,
   setSearchReference,
 } from "../../redux/search/search-actions";
 import SearchModal from "../SearchModal";
-import { searchSelector } from "../../redux/search/search-selectors";
 import Menu from "../Menu";
 
 import {
@@ -20,10 +19,25 @@ import {
   NamelessfyLogo,
   SearchBar,
   NavbarMobile,
-  Icon,
+  SearchContainer,
 } from "./style";
 
+import { Icon } from "../../styles/mainStyles";
+import DialogueBox from "../DialogueBox";
+import { searchSelector } from "../../redux/search/search-selectors";
+
 function Navbar() {
+  const location = useLocation();
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isShowingDialogue, setIsShowingDialogue] = useState(false);
+  const [dialoguePosition, setDialoguePosition] = useState({ x: 0, y: 0 });
+
+  const { searchReference } = useSelector(searchSelector);
+
   const isDesktop = useMediaQuery({
     query: "(min-device-width: 650px)",
   });
@@ -31,12 +45,6 @@ function Navbar() {
   const isMobile = useMediaQuery({
     query: "(max-device-width: 650px)",
   });
-
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const location = useLocation();
-  const history = useHistory();
-  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -54,45 +62,76 @@ function Navbar() {
     dispatch(setSearchInput(e.target.value));
   }
 
-  function changeReference(e) {
-    dispatch(setSearchReference(e.target.value));
+  function showDialogueBox(e) {
+    e.preventDefault();
+    setDialoguePosition({ x: e.clientX, y: e.clientY });
+    setIsShowingDialogue(true);
   }
+
+  const dialogueButtons = {
+    All: () => dispatch(setSearchReference(null)),
+    Users: () => dispatch(setSearchReference("user")),
+    Tracks: () => dispatch(setSearchReference("track")),
+    Playlists: () => dispatch(setSearchReference("playlist")),
+    Genres: () => dispatch(setSearchReference("genre")),
+  };
 
   return (
     <>
       {<Menu show={isMenuOpen} close={() => setIsMenuOpen(false)} />}
+      {isShowingDialogue && (
+        <DialogueBox
+          x={dialoguePosition.x}
+          y={dialoguePosition.y}
+          buttons={dialogueButtons}
+          hideDialogue={() => setIsShowingDialogue(false)}
+        />
+      )}
       {isDesktop && (
         <NavbarContainer>
           <ul>
             <Link to={ROUTES.HOME} onClick={closeAll}>
               <NamelessfyLogo />
             </Link>
-            <SearchBar
-              type="text"
-              placeholder="Search..."
-              onChange={onChangeHandler}
-              size="25"
-            />
-            <SearchBar
-              type="text"
-              placeholder="reference..."
-              onChange={changeReference}
-              size="10"
-            />
+            <SearchContainer>
+              <Icon name="filter" size="small" onClick={showDialogueBox} />
+              <div>
+                <SearchBar
+                  type="text"
+                  placeholder={
+                    searchReference === null
+                      ? "Search all..."
+                      : `Search ${searchReference}s...`
+                  }
+                  onChange={onChangeHandler}
+                  size="25"
+                />
+              </div>
+            </SearchContainer>
+
             <MenuLogo onClick={() => setIsMenuOpen(true)} />
           </ul>
         </NavbarContainer>
       )}
       {isMobile && (
         <>
-          {isSearchOpen && <SearchModal close={() => setIsSearchOpen(false)} />}
+          {isSearchOpen && (
+            <SearchModal
+              openDialogueBox={showDialogueBox}
+              close={() => setIsSearchOpen(false)}
+            />
+          )}
           <NavbarMobile>
             <div>
               <Link to={ROUTES.HOME} onClick={closeAll}>
-                <Icon name="home" />
+                <Icon name="home" size="normal" />
               </Link>
-              <Icon name="search" onClick={() => setIsSearchOpen(true)} />
-              <Icon name="menu" onClick={toggleMenu} />
+              <Icon
+                name="search"
+                size="normal"
+                onClick={() => setIsSearchOpen(true)}
+              />
+              <Icon name="menu" size="normal" onClick={toggleMenu} />
             </div>
           </NavbarMobile>
         </>

@@ -87,6 +87,12 @@ function replaceAllInstancesFromList(item, list) {
   return newList;
 }
 
+function calcMaxPages(list, itemsPerPage) {
+  return list.length % itemsPerPage === 0
+    ? list.length / itemsPerPage
+    : Math.floor(list.length / itemsPerPage) + 1;
+}
+
 export {
   hasUserAllInfo,
   haveUsersSameInfo,
@@ -98,4 +104,5 @@ export {
   isIdInList,
   deleteAllInstancesFromList,
   replaceAllInstancesFromList,
+  calcMaxPages,
 };
