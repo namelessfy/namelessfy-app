@@ -31,6 +31,7 @@ const buttonWidth = 100; // px
 
 const Modal = styled.div`
   position: absolute;
+  display: block;
   max-width: ${modalWidth}%;
   height: auto;
   background-color: ${colors.MAIN};
@@ -44,6 +45,7 @@ const Modal = styled.div`
     font-size: larger;
     margin: 1.5rem 10% 0.2rem;
     text-align: center;
+    white-space: normal;
   }
 
   & > div {

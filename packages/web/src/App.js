@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import * as ROUTES from "./routes";
 
@@ -32,7 +32,6 @@ function App() {
     let unsubscribeFromAuth = null;
 
     unsubscribeFromAuth = onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         dispatch(resetAuthState());
         dispatch(syncSignIn());

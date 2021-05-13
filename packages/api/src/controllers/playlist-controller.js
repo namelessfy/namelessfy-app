@@ -320,21 +320,11 @@ async function addSongToPlaylist(req, res, next) {
     const playlistOptions = {
       query: { _id: id },
       findByIdAndUpdateOptions: playlist.data,
-      populators: ["tracks"],
     };
     playlist = await CommonStaticRepository.findOneAndUpdate(
       PLAYLIST_COLLECTION,
       playlistOptions,
     );
-
-    // const playlistOptions = {
-    //   query: { _id: playlist.data._id },
-    //   populators: ["tracks"],
-    // };
-    // playlist = await CommonStaticRepository.getOne(
-    //   PLAYLIST_COLLECTION,
-    //   playlistOptions,
-    // );
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {

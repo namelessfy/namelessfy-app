@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../../components/Loader";
 import PlaylistPreview from "../../components/PlaylistPreview";
 import PlaylistList from "../../components/PlaylistList";
+import UserList from "../../components/UserList";
 
 import { search } from "../../redux/search/search-actions";
 import { searchSelector } from "../../redux/search/search-selectors";
@@ -40,9 +41,7 @@ function Search() {
         )}
         {searchReference === null && (
           <>
-            {users?.length > 0 && (
-              <PlaylistList title="Users:" playlists={users} />
-            )}
+            {users?.length > 0 && <UserList title="Users:" users={users} />}
             {playlists?.length > 0 && (
               <PlaylistList title="Playlists:" playlists={playlists} />
             )}
@@ -53,9 +52,7 @@ function Search() {
         )}
         {searchReference === "user" && (
           <>
-            {users?.length > 0 && (
-              <PlaylistList title="Users:" playlists={users} />
-            )}
+            {users?.length > 0 && <UserList title="Users:" users={users} />}
             {tracks?.length > 0 && (
               <PlaylistPreview title="Songs:" songs={tracks} />
             )}
@@ -69,9 +66,7 @@ function Search() {
             {tracks?.length > 0 && (
               <PlaylistPreview title="Songs:" songs={tracks} />
             )}
-            {users?.length > 0 && (
-              <PlaylistList title="Users:" playlists={users} />
-            )}
+            {users?.length > 0 && <UserList title="Users:" users={users} />}
             {playlists?.length > 0 && (
               <PlaylistList title="Playlists:" playlists={playlists} />
             )}
@@ -82,9 +77,7 @@ function Search() {
             {playlists?.length > 0 && (
               <PlaylistList title="Playlists:" playlists={playlists} />
             )}
-            {users?.length > 0 && (
-              <PlaylistList title="Users:" playlists={users} />
-            )}
+            {users?.length > 0 && <UserList title="Users:" users={users} />}
             {tracks?.length > 0 && (
               <PlaylistPreview title="Songs:" songs={tracks} />
             )}
