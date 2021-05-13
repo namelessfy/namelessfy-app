@@ -16,6 +16,11 @@ const SongItem = styled.li`
   background-color: ${COLORS.MAIN};
   margin: 0.5rem 0;
   justify-content: space-evenly;
+  cursor: pointer;
+  transition: transform 0.8s;
+  &:hover {
+    transform: scale(1.01);
+  }
 `;
 
 const SongTitle = styled.h3`

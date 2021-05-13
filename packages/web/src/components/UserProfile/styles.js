@@ -215,6 +215,15 @@ const MediaContainer = styled.div`
       margin-left: 0rem;
     }
   }
+
+  ${({ isRowPlaylist }) =>
+    isRowPlaylist &&
+    `flex-direction: column;
+  align-items: center;
+  & div {
+    margin-left: 0;
+  }
+  `}
 `;
 
 const Media = styled.div`
