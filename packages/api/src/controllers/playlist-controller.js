@@ -327,12 +327,11 @@ async function addSongToPlaylist(req, res, next) {
       },
     });
 
-    playlist.data.duration += addedTrack.data.duration;
+    playlist.data.duration += addedTrack.data?.duration;
 
     const playlistOptions = {
       query: { _id: id },
       findByIdAndUpdateOptions: playlist.data,
-      populators: ["tracks"],
     };
     playlist = await CommonStaticRepository.findOneAndUpdate(
       PLAYLIST_COLLECTION,

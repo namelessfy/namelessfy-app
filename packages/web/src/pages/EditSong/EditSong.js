@@ -58,10 +58,10 @@ function EditSong() {
   useEffect(() => {
     if (id) {
       const song = getSongFromList(id, mySongs);
-      setTitle(song.title);
-      setThumbnail(song.thumbnail);
-      setPreviewImage(song.thumbnail);
-      setArtists(song.artistId);
+      setTitle(song?.title);
+      setThumbnail(song?.thumbnail);
+      setPreviewImage(song?.thumbnail);
+      setArtists(song?.artistId);
     }
   }, [id]);
 

@@ -60,7 +60,7 @@ function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
       }
     : "";
 
-  console.log(songInfo);
+  /* console.log(songInfo._id); */
 
   const playFunction =
     songInfo._id === currentSong?._id ? "" : { Play: handleClick };
