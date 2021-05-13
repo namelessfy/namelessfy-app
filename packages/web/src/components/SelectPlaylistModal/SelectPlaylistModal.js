@@ -31,6 +31,7 @@ function SelectPlaylistModal({ songId, closeModal }) {
   const { myPlaylists, addToPlaylistSuccess } = useSelector(playlistSelector);
   const [isShowingConfirmPopUp, setIsShowingConfirmPopUp] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
+  const [isAddingRepeatTrack, setIsAddingRepeatTrack] = useState(false);
 
   useEffect(() => {
     if (addToPlaylistSuccess) {
@@ -40,6 +41,10 @@ function SelectPlaylistModal({ songId, closeModal }) {
   }, [addToPlaylistSuccess]);
 
   function clickHandler(playlist) {
+    const index = playlist.tracks.findIndex((track) => track === songId);
+    if (index !== -1) {
+      setIsAddingRepeatTrack(true);
+    }
     setIsShowingConfirmPopUp(true);
     setCurrentPlaylist(playlist);
   }
@@ -57,7 +62,11 @@ function SelectPlaylistModal({ songId, closeModal }) {
 
   return isShowingConfirmPopUp ? (
     <DialogueModal
-      text={`Add to playlist ${currentPlaylist.title}`}
+      text={
+        isAddingRepeatTrack
+          ? `This song already exists in ${currentPlaylist.title}. Do you want to add it again?`
+          : `Add to playlist ${currentPlaylist.title}`
+      }
       cancel={{ func: () => setIsShowingConfirmPopUp(false), title: "cancel" }}
       confirm={{
         func: () => dispatch(addToPlaylist(songId, currentPlaylist._id)),

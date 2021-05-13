@@ -281,13 +281,7 @@ async function removeTrack(req, res, next) {
     const index = playlist.data.tracks.findIndex((track) => track._id === _id);
     playlist.data.tracks.splice(index, 1);
 
-    const removedTrack = await CommonStaticRepository.getOne(TRACK_COLLECTION, {
-      query: {
-        _id: _id,
-      },
-    });
-
-    playlist.data.duration -= removedTrack.data.duration;
+    playlist.data.duration = await getPlaylistDuration(playlist.data.tracks);
 
     playlist.data.save();
 
@@ -321,32 +315,16 @@ async function addSongToPlaylist(req, res, next) {
       playlistUpdateOptions,
     );
 
-    const addedTrack = await CommonStaticRepository.getOne(TRACK_COLLECTION, {
-      query: {
-        _id: songId,
-      },
-    });
-
-    playlist.data.duration += addedTrack.data.duration;
+    playlist.data.duration = await getPlaylistDuration(playlist.data.tracks);
 
     const playlistOptions = {
       query: { _id: id },
       findByIdAndUpdateOptions: playlist.data,
-      populators: ["tracks"],
     };
     playlist = await CommonStaticRepository.findOneAndUpdate(
       PLAYLIST_COLLECTION,
       playlistOptions,
     );
-
-    // const playlistOptions = {
-    //   query: { _id: playlist.data._id },
-    //   populators: ["tracks"],
-    // };
-    // playlist = await CommonStaticRepository.getOne(
-    //   PLAYLIST_COLLECTION,
-    //   playlistOptions,
-    // );
 
     return handleResponse(res, playlist, 200, 500);
   } catch (error) {

@@ -45,7 +45,6 @@ const Background = styled.section`
   animation: ${backgroundIn} 0.5s ease-out;
   overflow: hidden;
   color: ${colors.WHITE};
-  font-family: ${mainFont};
 `;
 
 const SongPalyerCard = styled.section`
@@ -92,7 +91,6 @@ const SongPalyer = styled.section`
   left: 0;
   padding: 0 5rem;
   color: ${colors.WHITE};
-  font-family: ${mainFont};
 
   @media (min-width: 1000px) {
     left: calc(50vw - 500px);

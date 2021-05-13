@@ -91,7 +91,7 @@ const iconWidth = 30; // px
 const NavbarMobile = styled.div`
   color: ${colors.WHITE};
   background-color: ${colors.MAIN};
-  position: absolute;
+  position: fixed;
   bottom: 0;
   height: 70px;
   width: 100vw;
@@ -121,20 +121,12 @@ const NavbarMobile = styled.div`
   }
 `;
 
-const Icon = styled.button`
-  background: url("${(props) => icons[props.name]}");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  transition: opacity 0.2s ease-in-out;
-  cursor: pointer;
-  min-width: ${iconWidth}px;
-  min-height: ${iconWidth}px;
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
 
-  &:hover,
-  &:focus {
-    outline: none;
-    opacity: 0.8;
+  & > * + * {
+    margin-left: 1rem;
   }
 `;
 
@@ -144,5 +136,5 @@ export {
   NamelessfyLogo,
   SearchBar,
   NavbarMobile,
-  Icon,
+  SearchContainer,
 };

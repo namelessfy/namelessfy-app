@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import PropTypes from "prop-types";
+
+import * as ROUTES from "../../routes";
 
 import {
   UserName,
@@ -19,7 +20,7 @@ import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
 
 import { userSelector } from "../../redux/user/user-selectors";
-import { isIdInList } from "../../utils/favoritesUtils";
+import { isIdInList } from "../../utils/utils";
 import { followUser, unfollowUser } from "../../redux/user/user-actions";
 
 function UserProfile({
@@ -59,7 +60,7 @@ function UserProfile({
         <CenterContent>
           {isCurrentUser && (
             <EditButton>
-              <Link to="/edit-user">
+              <Link to={ROUTES.EDIT_USER}>
                 {" "}
                 <Icon name="edit" size="normal" />
               </Link>

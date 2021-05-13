@@ -41,27 +41,42 @@ const Modal = styled.div`
   animation: ${modalIn} 0.5s ease-in-out;
 
   & h2 {
-    font-size: x-large;
-    margin: 1.5rem 10% 0.2rem;
+    font-size: larger;
+    margin: 1.5rem 10% 1rem;
   }
 
-  & input {
+  & > div {
+    display: flex;
     width: 80%;
     margin: 0 10%;
-    height: 35px;
-    color: ${colors.DARK};
-    background-color: ${colors.SMOOTH};
-    box-shadow: inset 2px 2px 10px #000;
-    border-radius: 50px;
-    border: none;
-    outline: none;
-    padding: 0 2em;
-    font-size: large;
-    font-weight: 500;
+    justify-content: space-between;
+    align-items: center;
 
-    &::placeholder {
+    & input {
+      width: calc(100% - 30px);
+      height: 35px;
       color: ${colors.DARK};
-      opacity: 0.8;
+      background-color: ${colors.WHITE};
+      box-shadow: inset 2px 2px 10px #000;
+      border-radius: 10px;
+      border: 2px solid ${colors.MAIN};
+      outline: none;
+      padding: 0 1em;
+      font-size: large;
+      font-weight: 500;
+      overflow: hidden;
+
+      &::placeholder {
+        color: ${colors.DARK};
+        opacity: 0.8;
+      }
+
+      &:focus,
+      &:hover {
+        outline: none;
+        box-shadow: inset 2px 2px 5px #000;
+        border: 2px solid ${colors.WHITE};
+      }
     }
   }
 

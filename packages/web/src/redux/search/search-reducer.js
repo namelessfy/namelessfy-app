@@ -17,6 +17,7 @@ const SearchReducer = (state = SearchInitialState, action) => {
         isSearching: true,
         searchError: null,
         searchingSuccess: false,
+        searchResults: {},
       };
     }
     case SearchTypes.SEARCH_ERROR: {

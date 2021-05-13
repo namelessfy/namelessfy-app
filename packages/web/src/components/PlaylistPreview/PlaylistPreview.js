@@ -19,6 +19,7 @@ import {
 } from "./style";
 import { Icon } from "../../styles/mainStyles";
 import { startListByIndex } from "../../utils/playerUtils";
+import { calcMaxPages } from "../../utils/utils";
 
 function PlaylistPreview({ songs, title }) {
   const dispatch = useDispatch();
@@ -57,9 +58,10 @@ function PlaylistPreview({ songs, title }) {
   }
 
   function handlePreviousPage() {
-    if (page < songs.length / songsPerPage) {
+    const maxPages = calcMaxPages(songs, songsPerPage);
+    if (maxPages !== 1) {
       if (page === 1) {
-        setPage(Math.floor(songs.length / songsPerPage) + 1);
+        setPage(maxPages);
       } else {
         setPage(page - 1);
       }
@@ -81,10 +83,7 @@ function PlaylistPreview({ songs, title }) {
         <Title>{title}</Title>
         <Buttons>
           <Icon name="previous" onClick={handlePreviousPage} size="xSmall" />
-          {page}/
-          {songs.length % songsPerPage === 0
-            ? songs.length / songsPerPage
-            : Math.floor(songs.length / songsPerPage) + 1}
+          {page}/{calcMaxPages(songs, songsPerPage)}
           <Icon name="next" onClick={handleNextPage} size="xSmall" />
         </Buttons>
       </TitleContainer>

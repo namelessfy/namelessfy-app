@@ -13,7 +13,7 @@ const Container = styled.section`
     margin: 0 1rem;
   }
 `;
-const SongsContainer = styled.div`
+const UsersContainer = styled.div`
   width: 100%;
   display: flex;
   padding: 0 1rem;
@@ -25,7 +25,7 @@ const SongsContainer = styled.div`
     margin-left: 1.5rem;
   }
   @media (max-width: 800px) {
-    padding: 2px;
+    padding: 0;
   }
   @media (max-width: 620px) {
     & > div + div {
@@ -41,17 +41,6 @@ const SongsContainer = styled.div`
 
 const Title = styled.h2`
   font-size: 30px;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-
-  @media (max-width: 500px) {
-    font-size: 24px;
-  }
-  @media (max-width: 300px) {
-    font-size: 20px;
-  }
 `;
 
 const TitleContainer = styled.div`
@@ -72,4 +61,4 @@ const Buttons = styled.div`
   align-items: center;
 `;
 
-export { SongsContainer, Title, TitleContainer, Buttons, Container };
+export { UsersContainer, Title, TitleContainer, Buttons, Container };
