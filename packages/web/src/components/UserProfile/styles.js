@@ -161,68 +161,68 @@ const MediaContainer = styled.div`
   display: flex;
   padding: 0 1rem;
 
-  & > div {
-    margin-bottom: 1.5rem;
-  }
-
-  & > div + div {
-    margin-left: 1.5rem;
-  }
-
-  & > div:nth-child(5n + 1) {
-    margin-left: 0rem;
-  }
-  @media (max-width: 1000px) {
-    padding: 0 1.5rem;
-  }
-  @media (max-width: 800px) {
-    padding: 0 2rem;
-    & > div:nth-child(5n + 1) {
-      margin-left: 1.5rem;
-    }
-    & > div:nth-child(4n + 1) {
-      margin-left: 0rem;
-    }
-  }
-  @media (max-width: 620px) {
-    & > div + div {
-      margin-left: 1rem;
-    }
-    & > div:nth-child(5n + 1) {
-      margin-left: 1rem;
-    }
-    & > div:nth-child(4n + 1) {
-      margin-left: 0rem;
-    }
-  }
-  @media (max-width: 500px) {
-    padding: 0 1rem;
-    & > div + div {
-      margin-left: 0.5rem;
-    }
-    & > div:nth-child(5n + 1) {
-      margin-left: 0.5rem;
-    }
-    & > div:nth-child(4n + 1) {
-      margin-left: 0rem;
-    }
-  }
-  @media (max-width: 350px) {
-    & > div:nth-child(4n + 1) {
-      margin-left: 0.5rem;
-    }
-    & > div:nth-child(3n + 1) {
-      margin-left: 0rem;
-    }
-  }
-
   ${({ isRowPlaylist }) =>
     isRowPlaylist &&
     `flex-direction: column;
   align-items: center;
-  & div {
-    margin-left: 0;
+  `}
+
+  & > div {
+    margin-bottom: 1.5rem;
   }
+
+  ${({ isRowPlaylist }) =>
+    !isRowPlaylist &&
+    ` & > div + div {
+      margin-left: 1.5rem;
+    }
+  
+    & > div:nth-child(5n + 1) {
+      margin-left: 0rem;
+    }
+    @media (max-width: 1000px) {
+      padding: 0 1.5rem;
+    }
+    @media (max-width: 800px) {
+      padding: 0 2rem;
+      & > div:nth-child(5n + 1) {
+        margin-left: 1.5rem;
+      }
+      & > div:nth-child(4n + 1) {
+        margin-left: 0rem;
+      }
+    }
+    @media (max-width: 620px) {
+      & > div + div {
+        margin-left: 1rem;
+      }
+      & > div:nth-child(5n + 1) {
+        margin-left: 1rem;
+      }
+      & > div:nth-child(4n + 1) {
+        margin-left: 0rem;
+      }
+    }
+    @media (max-width: 500px) {
+      padding: 0 1rem;
+      & > div + div {
+        margin-left: 0.5rem;
+      }
+      & > div:nth-child(5n + 1) {
+        margin-left: 0.5rem;
+      }
+      & > div:nth-child(4n + 1) {
+        margin-left: 0rem;
+      }
+    }
+    @media (max-width: 350px) {
+      & > div:nth-child(4n + 1) {
+        margin-left: 0.5rem;
+      }
+      & > div:nth-child(3n + 1) {
+        margin-left: 0rem;
+      }
+    }
   `}
 `;
 
