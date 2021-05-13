@@ -24,23 +24,20 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { onAuthStateChanged } from "./services/auth";
 
 import { syncSignIn, signOut, resetAuthState } from "./redux/auth/auth-actions";
-import { authSelector } from "./redux/auth/auth-selectors";
 
 function App() {
   const dispatch = useDispatch();
-  const { isAuthenticated } = useSelector(authSelector);
 
   useEffect(() => {
     let unsubscribeFromAuth = null;
 
     unsubscribeFromAuth = onAuthStateChanged((user) => {
-      if (!isAuthenticated) {
-        if (user) {
-          /* dispatch(resetAuthState()); */
-          dispatch(syncSignIn());
-        } else {
-          dispatch(signOut());
-        }
+      console.log(user);
+      if (user) {
+        dispatch(resetAuthState());
+        dispatch(syncSignIn());
+      } else {
+        dispatch(signOut());
       }
     });
     return () => {
@@ -51,7 +48,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div className="App__container">
+    <div>
       <Switch>
         <Route path={ROUTES.LOGIN} component={Login} />
         <Route path={ROUTES.SIGN_UP} component={SignUp} />
