@@ -90,7 +90,7 @@ function UserList({ button, content, isGrid }) {
             ) : (
               <RowPlaylist
                 key={playlist._id}
-                playlistInfo={playlist}
+                info={playlist}
                 handleClick={() => {}}
               />
             ),
