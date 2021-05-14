@@ -38,6 +38,7 @@ import { deleteSongReset } from "../../redux/song/song-actions";
 import { isIdInList } from "../../utils/utils";
 import { songSelector } from "../../redux/song/song-selectors";
 import Loader from "../../components/Loader";
+import SongListDisplay from "../../components/SongListDisplay";
 
 function UploadSong() {
   const dispatch = useDispatch();
@@ -160,16 +161,26 @@ function UploadSong() {
       </TitleContainer>
       <Separation />
       <SongsContainer>
-        {playlistInfo?.tracks.map((song, index) => (
-          <Song
-            key={`${song._id}${Math.random()}`}
-            songInfo={song}
-            handleClick={() => {
-              handlePlaySong(index);
-            }}
-            contextFunctions={removeSongFromPlaylist(song._id)}
-          />
-        ))}
+        {playlistInfo?.tracks.map((song, index) =>
+          isGrid ? (
+            <Song
+              key={`${song._id}${Math.random()}`}
+              songInfo={song}
+              handleClick={() => {
+                handlePlaySong(index);
+              }}
+              contextFunctions={removeSongFromPlaylist(song._id)}
+            />
+          ) : (
+            <SongListDisplay
+              key={song._id}
+              songInfo={song}
+              handleClick={() => {
+                handlePlaySong(index);
+              }}
+            />
+          ),
+        )}
       </SongsContainer>
     </>
   );
