@@ -1,5 +1,5 @@
-import { removeFromList } from "../../utils/utils";
 import * as UserTypes from "./user-types";
+import { removeFromList } from "../../utils/utils";
 
 export const UserInitialState = {
   isEditingUser: false,
@@ -104,7 +104,6 @@ const UserReducer = (state = UserInitialState, action) => {
         user: null,
       };
     }
-
     case UserTypes.GET_FOLLOWED_USERS_REQUEST: {
       return {
         ...state,
@@ -134,7 +133,6 @@ const UserReducer = (state = UserInitialState, action) => {
         getFollowedUsersError: null,
       };
     }
-
     case UserTypes.FOLLOW_USER_REQUEST: {
       return {
         ...state,
@@ -164,7 +162,6 @@ const UserReducer = (state = UserInitialState, action) => {
         followUserError: null,
       };
     }
-
     case UserTypes.UNFOLLOW_USER_REQUEST: {
       return {
         ...state,
@@ -194,7 +191,6 @@ const UserReducer = (state = UserInitialState, action) => {
         unfollowUserError: null,
       };
     }
-
     case UserTypes.GET_OTHERS_FOLLOWED_USERS_REQUEST: {
       return {
         ...state,
@@ -225,7 +221,6 @@ const UserReducer = (state = UserInitialState, action) => {
         getOthersFollowedUsersError: null,
       };
     }
-
     default: {
       return state;
     }

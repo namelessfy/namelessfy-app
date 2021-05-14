@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Loader from "../../components/Loader";
+
+import * as ROUTES from "../../routes";
 
 import {
   editPlaylist,
@@ -13,8 +15,6 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import { setUserView } from "../../redux/user/user-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
-
-import * as ROUTES from "../../routes";
 
 import {
   Button,
@@ -28,7 +28,6 @@ import {
   CoverImage,
   CenterContent,
 } from "../../styles/formStyles";
-
 import { Icon } from "../../styles/mainStyles";
 import { PrivacityContainer } from "../CreatePlaylist/style";
 

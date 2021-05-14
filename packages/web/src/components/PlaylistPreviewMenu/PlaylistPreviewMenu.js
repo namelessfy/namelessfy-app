@@ -1,16 +1,17 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+
+import Song from "../Song";
+
+import { startListByIndex } from "../../utils/playerUtils";
 
 import {
   setQueueAndCurrentSong,
   setAutoPlay,
 } from "../../redux/musicPlayer/player-actions";
 
-import Song from "../Song";
-
 import { SongsContainer, Title, TitleContainer, Container } from "./style";
-import { startListByIndex } from "../../utils/playerUtils";
 
 function PlaylistPreviewMenu({ songs, title }) {
   const dispatch = useDispatch();

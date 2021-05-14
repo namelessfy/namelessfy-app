@@ -5,15 +5,15 @@ import PlaylistPreview from "../../components/PlaylistPreview";
 import PlaylistList from "../../components/PlaylistList";
 import Loader from "../../components/Loader";
 
+import { getFollowedUsers } from "../../redux/user/user-actions";
+import { getFavorites, getMySongs } from "../../redux/song/song-actions";
+import { getPlaylists } from "../../redux/playlist/playlist-actions";
 import { userSelector } from "../../redux/user/user-selectors";
 import { songSelector } from "../../redux/song/song-selectors";
-import { getFavorites, getMySongs } from "../../redux/song/song-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
-import { getPlaylists } from "../../redux/playlist/playlist-actions";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 import { Container } from "./style";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import { getFollowedUsers } from "../../redux/user/user-actions";
 
 function Home() {
   const dispatch = useDispatch();

@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { playerSelector } from "../redux/musicPlayer/player-selectors";
-import { songSelector } from "../redux/song/song-selectors";
+import { isIdInList } from "../utils/utils";
 
 import {
   setNextSong,
@@ -12,8 +11,8 @@ import {
   addSongToLastPlayed,
 } from "../redux/musicPlayer/player-actions";
 import { dislikeSong, likeSong } from "../redux/song/song-actions";
-
-import { isIdInList } from "../utils/utils";
+import { playerSelector } from "../redux/musicPlayer/player-selectors";
+import { songSelector } from "../redux/song/song-selectors";
 
 export default function usePlayer() {
   const dispatch = useDispatch();

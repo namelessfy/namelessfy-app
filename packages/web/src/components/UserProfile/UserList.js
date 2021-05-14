@@ -1,22 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
 
 import Song from "../Song";
 import Playlist from "../Playlist";
 import SongListDisplay from "../SongListDisplay";
 import RowPlaylist from "../RowPlaylist";
 
+import { startListByIndex } from "../../utils/playerUtils";
+
 import {
   setQueueAndCurrentSong,
   setAutoPlay,
 } from "../../redux/musicPlayer/player-actions";
 
-import { Button } from "../../styles/formStyles";
-
-import { startListByIndex } from "../../utils/playerUtils";
-
 import { ButtonContainer, MediaContainer } from "./styles";
+import { Button } from "../../styles/formStyles";
 
 function UserList({ button, content, isGrid }) {
   const dispatch = useDispatch();

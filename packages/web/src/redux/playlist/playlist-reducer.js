@@ -248,7 +248,6 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         playlistInfo: action.payload,
       };
     }
-
     case PlaylistTypes.LIKE_PLAYLIST_SUCCESS: {
       return {
         ...state,
@@ -292,7 +291,6 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isSettingDislikePlaylist: true,
       };
     }
-
     case PlaylistTypes.REMOVE_FROM_PLAYLIST_SUCCESS: {
       return {
         ...state,
@@ -391,7 +389,6 @@ const PlaylistReducer = (state = PlaylistInitialState, action) => {
         isRemoving: false,
         removeSuccess: false,
         removeError: null,
-
         isGettingUserPlaylists: false,
         getUserPlaylistsError: null,
         userPlaylists: [],

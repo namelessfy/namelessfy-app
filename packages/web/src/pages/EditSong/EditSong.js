@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams, useHistory } from "react-router-dom";
 
-import { songSelector } from "../../redux/song/song-selectors";
+import Loader from "../../components/Loader";
+
+import { getItemFromListById } from "../../utils/utils";
+
+import * as ROUTES from "../../routes";
+
 import {
   editSong,
   editSongReset,
   deleteSong,
   deleteSongReset,
 } from "../../redux/song/song-actions";
-
-import * as ROUTES from "../../routes";
-
-import Loader from "../../components/Loader";
+import { songSelector } from "../../redux/song/song-selectors";
 
 import {
   Button,
@@ -28,8 +30,6 @@ import {
   AddInput,
 } from "../../styles/formStyles";
 import { Tag, TagList, CloseButton } from "../UploadSong/style";
-
-import { getItemFromListById } from "../../utils/utils";
 
 function EditSong() {
   const history = useHistory();

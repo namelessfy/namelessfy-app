@@ -1,18 +1,18 @@
 import React from "react";
-import { Route, Redirect, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-import { authSelector } from "../../redux/auth/auth-selectors";
-import { userSelector } from "../../redux/user/user-selectors";
-
-import * as ROUTES from "../../routes";
+import { Route, Redirect, useLocation } from "react-router-dom";
 
 import MusicPlayer from "../MusicPlayer";
 import Navbar from "../Navbar";
 
-import { Main } from "../../styles/mainStyles";
+import * as ROUTES from "../../routes";
 
 import { hasUserAllInfo } from "../../utils/utils";
+
+import { authSelector } from "../../redux/auth/auth-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
+
+import { Main } from "../../styles/mainStyles";
 
 function ProtectedRoute({ ...props }) {
   const location = useLocation();

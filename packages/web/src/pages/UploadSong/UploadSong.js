@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
+import Loader from "../../components/Loader";
 import Dropzone from "../../components/Dropzone";
+
+import * as ROUTES from "../../routes";
 
 import { uploadSong, uploadSongReset } from "../../redux/song/song-actions";
 import { setUserView } from "../../redux/user/user-actions";
 import { songSelector } from "../../redux/song/song-selectors";
 import { userSelector } from "../../redux/user/user-selectors";
 
-import * as ROUTES from "../../routes";
-
+import { Tag, TagList, CloseButton } from "./style";
 import {
   Button,
   Error,
@@ -23,9 +25,6 @@ import {
   CenterContent,
   AddInput,
 } from "../../styles/formStyles";
-import { Tag, TagList, CloseButton } from "./style";
-
-import Loader from "../../components/Loader";
 
 function UploadSong() {
   const history = useHistory();

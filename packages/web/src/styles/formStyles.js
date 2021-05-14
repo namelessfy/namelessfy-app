@@ -1,5 +1,7 @@
 import styled, { keyframes } from "styled-components";
+
 import * as colors from "./colors";
+
 import addPhotoIcon from "../img/add_a_photo_black_24dp.svg";
 
 const Form = styled.form`
@@ -264,6 +266,7 @@ const Error = styled.div`
     font-size: 16px;
   }
 `;
+
 const ErrorInput = styled.div`
   font-size: 12px;
   margin-left: 0.5em;
