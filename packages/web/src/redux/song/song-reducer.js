@@ -1,5 +1,10 @@
 import * as SongTypes from "./song-types";
-import { removeFromList, updateList, updateListById } from "../../utils/utils";
+import {
+  removeFromList,
+  updateList,
+  updateListById,
+  deleteAllInstancesFromList,
+} from "../../utils/utils";
 
 export const SongInitialState = {
   isEditingSong: false,
@@ -66,8 +71,10 @@ const SongReducer = (state = SongInitialState, action) => {
         ...state,
         isdeletingSong: false,
         deletingSuccess: true,
-        mySongs: removeFromList(action.payload._id, [...state.mySongs]),
-        favorites: removeFromList(action.payload._id, [...state.favorites]),
+        mySongs: deleteAllInstancesFromList(action.payload, [...state.mySongs]),
+        favorites: deleteAllInstancesFromList(action.payload, [
+          ...state.favorites,
+        ]),
       };
     }
     case SongTypes.DELETE_SONG_ERROR: {

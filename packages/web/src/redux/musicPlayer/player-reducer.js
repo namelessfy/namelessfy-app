@@ -202,7 +202,7 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
           action.payload,
           state.lastSongsPlayed,
         ),
-        isCurrentSongDeleted: action.payload._id === state.currentSong._id,
+        isCurrentSongDeleted: action.payload._id === state.currentSong?._id,
       };
     }
 
@@ -215,10 +215,14 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
 
     case PlayerTypes.UPDATE_SONG_FROM_QUEUE: {
       const song = action.payload;
+      let curSong = state.currentSong;
+      if (curSong) {
+        curSong =
+          state.currentSong?._id === song?._id ? song : state.currentSong;
+      }
       return {
         ...state,
-        currentSong:
-          state.currentSong._id === song._id ? song : state.currentSong,
+        currentSong: curSong,
         queue: replaceAllInstancesFromList(song, state.queue),
         preQueue: replaceAllInstancesFromList(song, state.preQueue),
         shuffleQueue: replaceAllInstancesFromList(song, state.shuffleQueue),

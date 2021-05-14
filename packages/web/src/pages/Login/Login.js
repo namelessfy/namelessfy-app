@@ -26,7 +26,7 @@ import namelessfyLogo from "../../img/namelessfyLogo.svg";
 import {
   resetAuthState,
   signUpWithGoogleRequest,
-  signUpWithEmailRequest,
+  signInWithEmailRequest,
 } from "../../redux/auth/auth-actions";
 
 import { authSelector } from "../../redux/auth/auth-selectors";
@@ -48,7 +48,7 @@ function Login() {
   }
 
   function handleLoginWithEmailAndPassword(email, password) {
-    dispatch(signUpWithEmailRequest(email, password));
+    dispatch(signInWithEmailRequest(email, password));
   }
 
   if (isAuthenticated) {
@@ -110,9 +110,10 @@ function Login() {
               return (
                 <>
                   <Form
-                    onSubmit={() => {
+                    onSubmit={(e) => {
+                      e.preventDefault();
                       handleSubmit();
-                      isSubmitting(false);
+                      /* isSubmitting(false); */
                     }}
                   >
                     <Label htmlFor="email">Email</Label>
