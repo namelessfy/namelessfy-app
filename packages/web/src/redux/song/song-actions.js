@@ -1,8 +1,11 @@
-import * as SongTypes from "./song-types";
 import api from "../../api";
+
 import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
 import { getFileUrl } from "../../services/cloudinary";
+
+import * as SongTypes from "./song-types";
+
 import {
   deleteSongFromQueue,
   updateSongFromQueue,

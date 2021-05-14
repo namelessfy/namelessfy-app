@@ -1,6 +1,8 @@
-import * as SearchTypes from "./search-types";
 import api from "../../api";
+
 import * as auth from "../../services/auth";
+
+import * as SearchTypes from "./search-types";
 
 export function search(text, reference = null) {
   return async function searchThunk(dispatch) {

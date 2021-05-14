@@ -17,9 +17,9 @@ const Back = styled.section`
       z-index: 13;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out;
   `
-        : `opacity: 0; 
-      width: 10vw; 
-      z-index: -1; 
+        : `opacity: 0;
+      width: 10vw;
+      z-index: -1;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out 0.5s;`}
   }
 `;
@@ -44,8 +44,8 @@ const Background = styled.section`
       z-index: 5;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out;
   `
-      : `opacity: 0; width: 10vw; 
-      z-index: -1; 
+      : `opacity: 0; width: 10vw;
+      z-index: -1;
       transition: all 0.5s ease-in-out, z-index 0s ease-in-out 0.5s;`}
 
   @media (min-width: 650px) {

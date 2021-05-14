@@ -1,13 +1,27 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link, useHistory } from "react-router-dom";
-
-import * as ROUTES from "../../routes";
+import PropTypes from "prop-types";
 
 import DialogueBox from "../DialogueBox";
 import SelectPlaylistModal from "../SelectPlaylistModal/index";
+
+import * as ROUTES from "../../routes";
+
+import { isIdInList } from "../../utils/utils";
+
+import {
+  addSongToPreQueue,
+  resetCurrentSongDeleted,
+} from "../../redux/musicPlayer/player-actions";
+import {
+  dislikeSong,
+  likeSong,
+  deleteSong,
+} from "../../redux/song/song-actions";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   SongCover,
@@ -17,21 +31,7 @@ import {
   BottomContainer,
   InfoContainer,
 } from "./style";
-
 import { Icon } from "../../styles/mainStyles";
-import {
-  dislikeSong,
-  likeSong,
-  deleteSong,
-} from "../../redux/song/song-actions";
-import { isIdInList } from "../../utils/utils";
-import { songSelector } from "../../redux/song/song-selectors";
-import { userSelector } from "../../redux/user/user-selectors";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
-import {
-  addSongToPreQueue,
-  resetCurrentSongDeleted,
-} from "../../redux/musicPlayer/player-actions";
 
 function Song({ songInfo, handleClick, contextFunctions, isMenu }) {
   const dispatch = useDispatch();

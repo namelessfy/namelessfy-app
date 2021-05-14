@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import UserNavBar from "./UserNavBar";
+
 import * as ROUTES from "../../routes";
+
+import { isIdInList } from "../../utils/utils";
+
+import { followUser, unfollowUser } from "../../redux/user/user-actions";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   UserName,
@@ -14,14 +21,8 @@ import {
   ViewButton,
   FollowButton,
 } from "./styles";
-
 import { CenterContent } from "../../styles/formStyles";
-import UserNavBar from "./UserNavBar";
 import { Icon } from "../../styles/mainStyles";
-
-import { userSelector } from "../../redux/user/user-selectors";
-import { isIdInList } from "../../utils/utils";
-import { followUser, unfollowUser } from "../../redux/user/user-actions";
 
 function UserProfile({
   user,

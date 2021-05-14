@@ -3,8 +3,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 
 import Song from "../../components/Song";
+import Loader from "../../components/Loader";
+import SongListDisplay from "../../components/SongListDisplay";
+
+import { isIdInList } from "../../utils/utils";
+import { startListByIndex } from "../../utils/playerUtils";
 
 import * as ROUTES from "../../routes";
+
+import {
+  setAutoPlay,
+  setQueueAndCurrentSong,
+} from "../../redux/musicPlayer/player-actions";
+import {
+  dislikePlaylist,
+  likePlaylist,
+  removeFromPlaylist,
+  getOnePlaylist,
+  getOnePlaylistReset,
+} from "../../redux/playlist/playlist-actions";
+import { deleteSongReset } from "../../redux/song/song-actions";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
 
 import {
   SongsContainer,
@@ -17,28 +38,7 @@ import {
   PlaylistInfo,
 } from "./style";
 import { Icon } from "../../styles/mainStyles";
-
-import {
-  setAutoPlay,
-  setQueueAndCurrentSong,
-} from "../../redux/musicPlayer/player-actions";
-import { startListByIndex } from "../../utils/playerUtils";
 import { CenterContent } from "../../styles/formStyles";
-import { playlistSelector } from "../../redux/playlist/playlist-selectors";
-import { userSelector } from "../../redux/user/user-selectors";
-import {
-  dislikePlaylist,
-  likePlaylist,
-  removeFromPlaylist,
-  getOnePlaylist,
-  getOnePlaylistReset,
-} from "../../redux/playlist/playlist-actions";
-
-import { deleteSongReset } from "../../redux/song/song-actions";
-import { isIdInList } from "../../utils/utils";
-import { songSelector } from "../../redux/song/song-selectors";
-import Loader from "../../components/Loader";
-import SongListDisplay from "../../components/SongListDisplay";
 
 function UploadSong() {
   const dispatch = useDispatch();

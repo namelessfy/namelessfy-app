@@ -1,15 +1,18 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 
-import { signOut } from "../../redux/auth/auth-actions";
-
-import { userSelector } from "../../redux/user/user-selectors";
-import { songSelector } from "../../redux/song/song-selectors";
-import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import PlaylistPreviewMenu from "../PlaylistPreviewMenu";
+import MenuPlaylistList from "../MenuPlaylistList";
 
 import * as ROUTES from "../../routes";
+
+import { signOut } from "../../redux/auth/auth-actions";
+import { playerSelector } from "../../redux/musicPlayer/player-selectors";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   Background,
@@ -24,10 +27,6 @@ import {
 } from "./style";
 import { DeleteButton } from "../../styles/formStyles";
 import { Icon } from "../../styles/mainStyles";
-
-import PlaylistPreviewMenu from "../PlaylistPreviewMenu";
-import MenuPlaylistList from "../MenuPlaylistList";
-import { playerSelector } from "../../redux/musicPlayer/player-selectors";
 
 function Menu({ show, close }) {
   const dispatch = useDispatch();

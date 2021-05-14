@@ -3,15 +3,17 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import DialogueModal from "../Modal/Modal";
+
+import * as ROUTES from "../../routes";
 
 import {
   addToPlaylist,
   setCacheSongId,
   addToPlaylistReset,
 } from "../../redux/playlist/playlist-actions";
-
-import * as ROUTES from "../../routes";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 import {
   ModalBackground,
@@ -21,8 +23,6 @@ import {
   ModalTitle,
   ModalScroll,
 } from "./style";
-import DialogueModal from "../Modal/Modal";
-import { userSelector } from "../../redux/user/user-selectors";
 
 function SelectPlaylistModal({ songId, closeModal }) {
   const dispatch = useDispatch();

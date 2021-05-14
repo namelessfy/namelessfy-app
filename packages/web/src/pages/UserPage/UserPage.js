@@ -2,28 +2,27 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
+import Loader from "../../components/Loader";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
+import {
+  getUserPlaylists,
+  getUserPlaylistsReset,
+} from "../../redux/playlist/playlist-actions";
 import {
   getUserFavorites,
   getUserFavoritesReset,
   getUserSongs,
   getUserSongsReset,
 } from "../../redux/song/song-actions";
-import { userSelector } from "../../redux/user/user-selectors";
-import { songSelector } from "../../redux/song/song-selectors";
-import { playlistSelector } from "../../redux/playlist/playlist-selectors";
 import {
   getOthersFollowedUsers,
   getUser,
   getUserReset,
 } from "../../redux/user/user-actions";
-
-import {
-  getUserPlaylists,
-  getUserPlaylistsReset,
-} from "../../redux/playlist/playlist-actions";
-import Loader from "../../components/Loader";
+import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { songSelector } from "../../redux/song/song-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
 function UserPage() {
   const dispatch = useDispatch();
