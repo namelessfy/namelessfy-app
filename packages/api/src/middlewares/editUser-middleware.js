@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const editUserValidationSchema = Joi.object({
-  userName: Joi.string().alphanum().min(3).max(15).required(),
+  userName: Joi.string().min(3).max(15).required(),
   firstName: Joi.string().alphanum().min(3).max(15).required(),
   lastName: Joi.string().alphanum().min(3).max(15).required(),
   birthday: Joi.string().required(),
