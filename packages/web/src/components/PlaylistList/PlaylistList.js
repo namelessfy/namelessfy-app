@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { useMediaQuery } from "react-responsive";
+import PropTypes from "prop-types";
 
 import Playlist from "../Playlist";
+
+import { calcMaxPages } from "../../utils/utils";
 
 import {
   PlaylistContainer,
@@ -12,8 +14,6 @@ import {
   Container,
 } from "./style";
 import { Icon } from "../../styles/mainStyles";
-
-import { calcMaxPages } from "../../utils/utils";
 
 function PlaylistList({ playlists, title }) {
   const [page, setPage] = useState(1);

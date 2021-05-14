@@ -213,7 +213,6 @@ const SongReducer = (state = SongInitialState, action) => {
         uploadSongError: null,
       };
     }
-
     case SongTypes.GET_USER_SONGS_REQUEST: {
       return {
         ...state,
@@ -304,7 +303,6 @@ const SongReducer = (state = SongInitialState, action) => {
         isdeletingSong: false,
         deletingSuccess: false,
         deleteSongError: null,
-
         isGettingUserSongs: false,
         getUserSongsError: null,
         userSongs: [],

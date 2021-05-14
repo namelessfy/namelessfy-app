@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { useMediaQuery } from "react-responsive";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+import PropTypes from "prop-types";
+
+import Song from "../Song";
+
+import { calcMaxPages } from "../../utils/utils";
+import { startListByIndex } from "../../utils/playerUtils";
 
 import {
   setQueueAndCurrentSong,
   setAutoPlay,
 } from "../../redux/musicPlayer/player-actions";
-
-import Song from "../Song";
 
 import {
   SongsContainer,
@@ -18,8 +21,6 @@ import {
   Container,
 } from "./style";
 import { Icon } from "../../styles/mainStyles";
-import { startListByIndex } from "../../utils/playerUtils";
-import { calcMaxPages } from "../../utils/utils";
 
 function PlaylistPreview({ songs, title }) {
   const dispatch = useDispatch();

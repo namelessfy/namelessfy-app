@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 
 import usePlayer from "../../hooks/usePlayer";
 
+import * as ROUTES from "../../routes";
+
 import {
   SongPalyerCard,
   Thumbnail,
@@ -17,10 +19,7 @@ import {
   SongPalyer,
   LikeBackground,
 } from "./style";
-
 import { Icon } from "../../styles/mainStyles";
-
-import * as ROUTES from "../../routes";
 
 function MusicPlayer() {
   const history = useHistory();

@@ -1,10 +1,10 @@
-import { shuffle, startListByIndex } from "../../utils/playerUtils";
+import * as PlayerTypes from "./player-types";
 import {
   deleteAllInstancesFromList,
   replaceAllInstancesFromList,
   addUniqueInstanceInList,
 } from "../../utils/utils";
-import * as PlayerTypes from "./player-types";
+import { shuffle, startListByIndex } from "../../utils/playerUtils";
 
 export const PlayerInitialState = {
   autoPlay: false,
@@ -85,7 +85,6 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         isCurrentSongDeleted: false,
       };
     }
-
     case PlayerTypes.PREVIOUS_SONG: {
       if (state.isShuffle) {
         const list = state.isCurrentSongDeleted
@@ -140,7 +139,6 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         queue: newQueue,
       };
     }
-
     case PlayerTypes.ADD_SONG_TO_PREQUEUE: {
       if (!state.currentSong) {
         return {
@@ -166,14 +164,12 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         queue: action.payload,
       };
     }
-
     case PlayerTypes.SET_PREQUEUE: {
       return {
         ...state,
         preQueue: action.payload,
       };
     }
-
     case PlayerTypes.SET_QUEUE_AND_CURRENT_SONG: {
       if (state.isShuffle) {
         const queueShuffled = shuffle([...action.payload.queue]);
@@ -192,7 +188,6 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         currentPlaylist: action.payload.playlist,
       };
     }
-
     case PlayerTypes.DELETE_SONG_FROM_QUEUE: {
       return {
         ...state,
@@ -205,14 +200,12 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         isCurrentSongDeleted: action.payload._id === state.currentSong?._id,
       };
     }
-
     case PlayerTypes.IS_CURRENT_SONG_DELETED_RESET: {
       return {
         ...state,
         isCurrentSongDeleted: false,
       };
     }
-
     case PlayerTypes.UPDATE_SONG_FROM_QUEUE: {
       const song = action.payload;
       let curSong = state.currentSong;
@@ -241,7 +234,6 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         ),
       };
     }
-
     case PlayerTypes.SET_QUEUE_TO_SHUFFLE: {
       const songs = action.payload;
       const index = Math.floor(Math.random() * songs.length);
@@ -258,11 +250,9 @@ const PlayerReducer = (state = PlayerInitialState, action) => {
         autoPlay: true,
       };
     }
-
     case PlayerTypes.RESET_PLAYER: {
       return PlayerInitialState;
     }
-
     default: {
       return state;
     }

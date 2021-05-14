@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import Loader from "../../components/Loader";
+
+import * as ROUTES from "../../routes";
 
 import {
   createPlaylist,
@@ -11,9 +13,9 @@ import {
 } from "../../redux/playlist/playlist-actions";
 import { setUserView } from "../../redux/user/user-actions";
 import { playlistSelector } from "../../redux/playlist/playlist-selectors";
+import { userSelector } from "../../redux/user/user-selectors";
 
-import * as ROUTES from "../../routes";
-
+import { PrivacityContainer } from "./style";
 import {
   Button,
   Error,
@@ -25,10 +27,7 @@ import {
   CoverImage,
   CenterContent,
 } from "../../styles/formStyles";
-
 import { Icon } from "../../styles/mainStyles";
-import { PrivacityContainer } from "./style";
-import { userSelector } from "../../redux/user/user-selectors";
 
 function CreatePlaylist() {
   const history = useHistory();

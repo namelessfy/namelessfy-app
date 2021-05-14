@@ -1,7 +1,9 @@
-import * as PlaylistTypes from "./playlist-types";
 import api from "../../api";
+
 import * as auth from "../../services/auth";
 import { getCurrentUserToken } from "../../services/auth";
+
+import * as PlaylistTypes from "./playlist-types";
 
 export const createPlaylistRequest = () => ({
   type: PlaylistTypes.CREATE_PLAYLIST_REQUEST,

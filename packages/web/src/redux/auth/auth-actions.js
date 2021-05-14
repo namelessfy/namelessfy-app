@@ -1,6 +1,9 @@
-import * as AuthTypes from "./auth-types";
 import api from "../../api";
+
 import * as auth from "../../services/auth";
+
+import * as AuthTypes from "./auth-types";
+
 import { resetUser, setUser } from "../user/user-actions";
 import { songReset } from "../song/song-actions";
 import { playlistReset } from "../playlist/playlist-actions";

@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-
 import { Link, useLocation, useHistory } from "react-router-dom";
 
 import * as ROUTES from "../../routes";
+
+import SearchModal from "../SearchModal";
+import Menu from "../Menu";
+import DialogueBox from "../DialogueBox";
 
 import {
   setSearchInput,
   setSearchReference,
 } from "../../redux/search/search-actions";
-import SearchModal from "../SearchModal";
-import Menu from "../Menu";
+import { searchSelector } from "../../redux/search/search-selectors";
 
 import {
   NavbarContainer,
@@ -21,10 +23,7 @@ import {
   NavbarMobile,
   SearchContainer,
 } from "./style";
-
 import { Icon } from "../../styles/mainStyles";
-import DialogueBox from "../DialogueBox";
-import { searchSelector } from "../../redux/search/search-selectors";
 
 function Navbar() {
   const location = useLocation();

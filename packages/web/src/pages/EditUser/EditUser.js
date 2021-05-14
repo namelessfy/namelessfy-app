@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+
 import EditUserForm from "../../components/EditUserForm";
-import { userSelector } from "../../redux/user/user-selectors";
+
 import { haveUsersSameInfo } from "../../utils/utils";
 
 import * as ROUTES from "../../routes";
+
+import { userSelector } from "../../redux/user/user-selectors";
 
 function EditUser() {
   const history = useHistory();
