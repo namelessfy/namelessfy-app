@@ -20,7 +20,14 @@ const app = express();
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(json());
-app.use(cors({ origin: config.client.url }));
+app.use(
+  cors({
+    origin: config.client.url,
+    methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200,
+  }),
+);
 
 app.use(userRouter);
 app.use(healthRouter);
