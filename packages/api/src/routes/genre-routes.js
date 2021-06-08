@@ -2,13 +2,8 @@ const Router = require("express").Router;
 
 const { genreController } = require("../controllers");
 const { authMiddleware } = require("../middlewares");
-const {
-  create,
-  getByName,
-  getAll,
-  getByTrackName,
-  updateTracksByName,
-} = genreController;
+const { create, getByName, getAll, getByTrackName, updateTracksByName } =
+  genreController;
 
 const genreRouter = Router();
 

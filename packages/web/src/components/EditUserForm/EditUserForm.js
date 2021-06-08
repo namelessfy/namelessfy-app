@@ -20,9 +20,8 @@ import {
 } from "../../styles/formStyles";
 
 function EditUserForm() {
-  const { currentUser, editUserError, isEditingUser } = useSelector(
-    userSelector,
-  );
+  const { currentUser, editUserError, isEditingUser } =
+    useSelector(userSelector);
   const dispatch = useDispatch();
 
   const [previewImage, setPreviewImage] = useState("");

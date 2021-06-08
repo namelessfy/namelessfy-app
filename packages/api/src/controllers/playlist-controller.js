@@ -82,10 +82,8 @@ async function create(req, res, next) {
       return handleResponse(res, user, 404);
     }
 
-    const {
-      thumbnail,
-      cloudinaryThumbnailId,
-    } = await handleCloudinaryUpdateImage(res, file);
+    const { thumbnail, cloudinaryThumbnailId } =
+      await handleCloudinaryUpdateImage(res, file);
 
     const duration = await getPlaylistDuration(tracks);
 

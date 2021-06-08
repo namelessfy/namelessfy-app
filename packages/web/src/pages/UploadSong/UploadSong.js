@@ -29,9 +29,8 @@ import {
 function UploadSong() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isUploadingSong, uploadSongSuccess, uploadSongError } = useSelector(
-    songSelector,
-  );
+  const { isUploadingSong, uploadSongSuccess, uploadSongError } =
+    useSelector(songSelector);
   const { currentUser } = useSelector(userSelector);
 
   const [title, setTitle] = useState("");

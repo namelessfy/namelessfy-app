@@ -6,11 +6,8 @@ const { promisify } = require("util");
 
 const unlinkAsync = promisify(fs.unlink);
 
-const {
-  CLOUDINARY_CLOUD_NAME,
-  CLOUDINARY_API_KEY,
-  CLOUDINARY_API_SECRET,
-} = process.env;
+const { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } =
+  process.env;
 
 cloudinary.config({
   cloud_name: CLOUDINARY_CLOUD_NAME,

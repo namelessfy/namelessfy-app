@@ -34,9 +34,8 @@ import namelessfyLogo from "../../img/namelessfyLogo.svg";
 
 function Login() {
   const dispatch = useDispatch();
-  const { isSigningUp, signUpError, isAuthenticated } = useSelector(
-    authSelector,
-  );
+  const { isSigningUp, signUpError, isAuthenticated } =
+    useSelector(authSelector);
 
   useEffect(() => {
     dispatch(resetAuthState());

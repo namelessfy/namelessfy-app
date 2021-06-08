@@ -41,11 +41,8 @@ function buttonText(loading, sent) {
 
 function ResetPassword() {
   const dispatch = useDispatch();
-  const {
-    isSendingPasswordReset,
-    passwordResetError,
-    passwordResetSent,
-  } = useSelector(authSelector);
+  const { isSendingPasswordReset, passwordResetError, passwordResetSent } =
+    useSelector(authSelector);
 
   const [email, setEmail] = useState("");
 

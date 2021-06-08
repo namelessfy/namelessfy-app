@@ -13,12 +13,8 @@ import { Container, Message } from "./styles";
 
 function Search() {
   const dispatch = useDispatch();
-  const {
-    searchInput,
-    searchResults,
-    isSearching,
-    searchReference,
-  } = useSelector(searchSelector);
+  const { searchInput, searchResults, isSearching, searchReference } =
+    useSelector(searchSelector);
 
   const { users, tracks, playlists } = searchResults;
 

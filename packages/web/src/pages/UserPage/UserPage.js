@@ -42,9 +42,8 @@ function UserPage() {
     isGettingUserSongs,
     isGettingUserFavorites,
   } = useSelector(songSelector);
-  const { myPlaylists, userPlaylists, isGettingUserPlaylists } = useSelector(
-    playlistSelector,
-  );
+  const { myPlaylists, userPlaylists, isGettingUserPlaylists } =
+    useSelector(playlistSelector);
   const { userName } = useParams();
 
   useEffect(() => {

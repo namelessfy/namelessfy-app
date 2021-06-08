@@ -18,12 +18,8 @@ import { Container } from "./style";
 function Home() {
   const dispatch = useDispatch();
   const { isGettingFollowedUsers } = useSelector(userSelector);
-  const {
-    favorites,
-    mySongs,
-    isGettingFavorites,
-    isGettingMySongs,
-  } = useSelector(songSelector);
+  const { favorites, mySongs, isGettingFavorites, isGettingMySongs } =
+    useSelector(songSelector);
   const { myPlaylists, isGettingMyPlaylists } = useSelector(playlistSelector);
   const { lastSongsPlayed } = useSelector(playerSelector);
 
