@@ -24,6 +24,7 @@ app.use(helmet());
 app.use(json());
 app.use(
   cors({
+    allRoutes: true,
     origin: config.client.url,
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
