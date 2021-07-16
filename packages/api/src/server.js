@@ -4,7 +4,6 @@ const morgan = require("morgan");
 const { json } = require("body-parser");
 const cors = require("cors");
 
-const { config } = require("./config");
 const { errorMiddleware } = require("./middlewares");
 const {
   userRouter,
@@ -25,7 +24,7 @@ app.use(json());
 app.use(
   cors({
     allRoutes: true,
-    origin: config.client.url,
+    origin: "*",
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     optionsSuccessStatus: 200,
