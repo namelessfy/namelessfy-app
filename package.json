@@ -20,6 +20,7 @@
     "dev:web": "yarn workspace web run start",
     "dev:api": "yarn workspace api run dev",
     "build": "yarn workspaces run build",
+    "start": "yarn workspace api run start",
     "test:web:watch": "yarn workspace web run test:watch",
     "test:api:watch": "yarn workspace api run test:watch",
     "test:ci:all": "yarn workspaces run test:ci:all",
