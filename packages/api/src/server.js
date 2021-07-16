@@ -17,10 +17,11 @@ const {
 
 const app = express();
 
+app.options("*", cors());
+
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(json());
-app.options("*", cors());
 app.use(
   cors({
     origin: config.client.url,
