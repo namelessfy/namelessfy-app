@@ -20,7 +20,8 @@ const app = express();
 app.options(
   "*",
   cors({
-    origin: config.client.url,
+    allRoutes: true,
+    origin: "*",
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     optionsSuccessStatus: 200,
