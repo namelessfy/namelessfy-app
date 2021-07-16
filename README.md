@@ -6,6 +6,8 @@
 
 Server and Client App for the Apollofy Music Project.
 
+[Click here](https://namelessfy.netlify.app/) if you want to see the actual version of the project deployed.
+
 ## Apps
 
 - [packages/web](packages/web/README.md)
