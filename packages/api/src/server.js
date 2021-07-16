@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const { json } = require("body-parser");
 const cors = require("cors");
 
+const { config } = require("./config");
 const { errorMiddleware } = require("./middlewares");
 const {
   userRouter,
@@ -16,15 +17,22 @@ const {
 
 const app = express();
 
-app.options("*", cors());
+app.options(
+  "*",
+  cors({
+    origin: config.client.url,
+    methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    optionsSuccessStatus: 200,
+  }),
+);
 
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(json());
 app.use(
   cors({
-    allRoutes: true,
-    origin: "*",
+    origin: config.client.url,
     methods: ["GET", "PUT", "POST", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
     optionsSuccessStatus: 200,
